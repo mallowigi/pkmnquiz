@@ -3,45 +3,15 @@
   "items": [
     {
       "connectorId": "local",
-      "taskId": "local-7d5e120e-aea9-42ba-8f08-55d4f50e01d0",
-      "addedAt": "2026-05-23T17:38:45.941Z",
-      "order": 5
-    },
-    {
-      "connectorId": "local",
-      "taskId": "local-6efc3f0a-cea3-4026-9db4-7e1e2b8c01d8",
-      "addedAt": "2026-05-27T18:44:46.668Z",
-      "order": 4
-    },
-    {
-      "connectorId": "local",
-      "taskId": "local-8854371d-2d2c-4705-a910-0855b1337809",
-      "addedAt": "2026-05-30T08:45:35.342Z",
-      "order": 5
-    },
-    {
-      "connectorId": "local",
       "taskId": "local-a2c78f9a-e9f9-4023-93be-14c7341d2f10",
       "addedAt": "2026-05-31T23:15:13.173Z",
       "order": 5
     },
     {
       "connectorId": "local",
-      "taskId": "local-92ce9c80-7d32-4c59-b0f7-15831f19a1d7",
-      "addedAt": "2026-06-02T17:35:18.320Z",
-      "order": 6
-    },
-    {
-      "connectorId": "local",
       "taskId": "local-5ffd5ae5-0a09-44b3-9358-97eac09d3f08",
       "addedAt": "2026-06-02T20:42:27.681Z",
       "order": 6
-    },
-    {
-      "connectorId": "local",
-      "taskId": "local-c2904c26-e46b-4868-ac45-b06d0f5814c2",
-      "addedAt": "2026-06-03T14:36:14.424Z",
-      "order": 8
     },
     {
       "connectorId": "local",
@@ -63,24 +33,6 @@
     },
     {
       "connectorId": "local",
-      "taskId": "local-649c1f3c-a2d4-4d86-b032-d855c3124993",
-      "addedAt": "2026-06-03T17:45:01.547Z",
-      "order": 12
-    },
-    {
-      "connectorId": "local",
-      "taskId": "local-d760055a-4b5c-43f2-8842-d1c073b2c44f",
-      "addedAt": "2026-06-03T19:25:17.732Z",
-      "order": 12
-    },
-    {
-      "connectorId": "local",
-      "taskId": "local-deb232c7-e90e-40b3-9343-3fca2da9c617",
-      "addedAt": "2026-06-05T15:00:21.704Z",
-      "order": 13
-    },
-    {
-      "connectorId": "local",
       "taskId": "local-4492b7f5-64f0-4c2a-8bf1-46a62edd111e",
       "addedAt": "2026-06-06T17:21:09.393Z",
       "order": 14
@@ -96,6 +48,18 @@
       "taskId": "local-fd5121aa-36ac-40cb-95a1-e67b24257acc",
       "addedAt": "2026-06-12T20:42:41.655Z",
       "order": 12
+    },
+    {
+      "connectorId": "local",
+      "taskId": "local-bf403c51-8604-4caf-82de-b76679f40dba",
+      "addedAt": "2026-06-12T21:14:17.465Z",
+      "order": 13
+    },
+    {
+      "connectorId": "local",
+      "taskId": "local-9178a9c7-4ade-4a8e-b23c-eac9c753ea5b",
+      "addedAt": "2026-06-12T21:14:32.762Z",
+      "order": 14
     }
   ],
   "activeTask": null

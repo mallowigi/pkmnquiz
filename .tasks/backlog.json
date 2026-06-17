@@ -524,5 +524,47 @@
     "done": false,
     "createdAt": "2026-06-06T17:21:09.383Z",
     "updatedAt": "2026-06-06T17:21:09.383Z"
+  },
+  {
+    "id": "local-fd5121aa-36ac-40cb-95a1-e67b24257acc",
+    "connectorId": "local",
+    "title": "Investigate security for firebase/facebook",
+    "done": false,
+    "createdAt": "2026-06-12T20:42:41.639Z",
+    "updatedAt": "2026-06-12T20:42:41.639Z"
+  },
+  {
+    "id": "local-bf403c51-8604-4caf-82de-b76679f40dba",
+    "connectorId": "local",
+    "title": "Implement Missingno",
+    "description": "typing missingno would shuffle the grid, make pokemon pixelized more, and switch the names a bit (instead of \"Pikachu\", say Pikcahu etc)",
+    "done": false,
+    "createdAt": "2026-06-12T21:14:17.456Z",
+    "updatedAt": "2026-06-12T21:14:17.456Z"
+  },
+  {
+    "id": "local-9178a9c7-4ade-4a8e-b23c-eac9c753ea5b",
+    "connectorId": "local",
+    "title": "Implement Region shuffle",
+    "description": "Also need to find backgrounds",
+    "done": false,
+    "createdAt": "2026-06-12T21:14:32.757Z",
+    "updatedAt": "2026-06-12T21:14:32.757Z"
+  },
+  {
+    "id": "local-4a11ac53-aa2a-4dee-82a3-235c5d073eaf",
+    "connectorId": "local",
+    "title": "Add Scroll to top",
+    "done": false,
+    "createdAt": "2026-06-15T17:14:28.120Z",
+    "updatedAt": "2026-06-15T17:14:28.120Z"
+  },
+  {
+    "id": "local-392a4466-cd43-4f34-8d4d-e53a3e512da3",
+    "connectorId": "local",
+    "title": "Add the settings button in smaller resoliutions",
+    "done": false,
+    "createdAt": "2026-06-16T14:47:30.188Z",
+    "updatedAt": "2026-06-16T14:47:30.188Z"
   }
 ]

@@ -3,18 +3,16 @@ import { computed } from 'vue';
 
 import RoundedBox from '@/components/common/RoundedBox.vue';
 import SegmentButton from '@/components/common/SegmentButton.vue';
-import { useShuffles } from '@/composables/useShuffles.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
-import { useMessages } from '@/stores/useMessages.ts';
-import { useState } from '@/stores/useState.ts';
+import { useMessages } from '@/stores/useMessages.js';
+import { useState } from '@/stores/useState.js';
 import { useI18n } from 'vue-i18n';
 
 const { state, setTypeShuffle } = useState();
 const { showUserMessage } = useMessages();
 const { flowState } = useGameFlow();
-const { updateShuffles } = useShuffles();
-const { clearCurrentType } = useCurrentType();
+const { setRandomCurrentType, clearCurrentType } = useCurrentType();
 const { t } = useI18n();
 
 const applyTypeShuffle = (value: boolean) => {
@@ -27,7 +25,7 @@ const applyTypeShuffle = (value: boolean) => {
 
   setTypeShuffle(value);
   if (value) {
-    updateShuffles();
+    setRandomCurrentType();
   } else {
     clearCurrentType();
   }
