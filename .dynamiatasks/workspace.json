@@ -3,51 +3,15 @@
   "items": [
     {
       "connectorId": "local",
-      "taskId": "local-a2c78f9a-e9f9-4023-93be-14c7341d2f10",
-      "addedAt": "2026-05-31T23:15:13.173Z",
-      "order": 5
-    },
-    {
-      "connectorId": "local",
-      "taskId": "local-5ffd5ae5-0a09-44b3-9358-97eac09d3f08",
-      "addedAt": "2026-06-02T20:42:27.681Z",
-      "order": 6
-    },
-    {
-      "connectorId": "local",
-      "taskId": "local-11810608-0e00-423e-985f-36bff3a6652a",
-      "addedAt": "2026-06-03T14:38:35.279Z",
-      "order": 9
-    },
-    {
-      "connectorId": "local",
-      "taskId": "local-0f2189af-3a0d-46c5-b9d7-ede0e9350c23",
-      "addedAt": "2026-06-03T14:39:17.378Z",
-      "order": 10
-    },
-    {
-      "connectorId": "local",
       "taskId": "local-9ca7841c-a6b9-497b-aced-82dc30329802",
       "addedAt": "2026-06-03T14:40:19.755Z",
       "order": 11
     },
     {
       "connectorId": "local",
-      "taskId": "local-4492b7f5-64f0-4c2a-8bf1-46a62edd111e",
-      "addedAt": "2026-06-06T17:21:09.393Z",
-      "order": 14
-    },
-    {
-      "connectorId": "local",
       "taskId": "local-049d9c0b-6a7c-4483-9a58-9a05fe0188f9",
       "addedAt": "2026-06-12T17:24:14.080Z",
       "order": 13
-    },
-    {
-      "connectorId": "local",
-      "taskId": "local-fd5121aa-36ac-40cb-95a1-e67b24257acc",
-      "addedAt": "2026-06-12T20:42:41.655Z",
-      "order": 12
     },
     {
       "connectorId": "local",
@@ -60,6 +24,12 @@
       "taskId": "local-9178a9c7-4ade-4a8e-b23c-eac9c753ea5b",
       "addedAt": "2026-06-12T21:14:32.762Z",
       "order": 14
+    },
+    {
+      "connectorId": "local",
+      "taskId": "local-8ef5aba3-bb20-4c41-88ad-6cd05767b4f7",
+      "addedAt": "2026-06-24T20:51:50.002Z",
+      "order": 4
     }
   ],
   "activeTask": null

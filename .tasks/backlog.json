@@ -566,5 +566,166 @@
     "done": false,
     "createdAt": "2026-06-16T14:47:30.188Z",
     "updatedAt": "2026-06-16T14:47:30.188Z"
+  },
+  {
+    "id": "local-1693629e-6c23-49f8-8400-64243b903eff",
+    "connectorId": "local",
+    "title": "Save Settings",
+    "done": false,
+    "createdAt": "2026-06-18T06:25:01.895Z",
+    "updatedAt": "2026-06-18T06:25:01.895Z"
+  },
+  {
+    "id": "local-af1a36c1-d771-4f1e-ab35-f8aafd892694",
+    "connectorId": "local",
+    "title": "Add Pokemon popup on click",
+    "description": "Show some pokemon info in a sidebar on the right:\n- Species\n- Dex Number\n- Types\n- Abilities\n- Link to bulbapedia",
+    "done": false,
+    "createdAt": "2026-06-18T06:27:29.444Z",
+    "updatedAt": "2026-06-18T06:27:29.444Z"
+  },
+  {
+    "id": "local-0b91a2e9-3c64-4080-9f34-d87e0f6e4ff6",
+    "connectorId": "local",
+    "title": "Verify connect with Google in Prod",
+    "done": false,
+    "priority": "high",
+    "createdAt": "2026-06-18T18:22:34.698Z",
+    "updatedAt": "2026-06-18T18:22:34.698Z"
+  },
+  {
+    "id": "local-ecf240b0-72d1-4485-ab56-892d09336fa9",
+    "connectorId": "local",
+    "title": "Sometimes my picture is gone",
+    "done": false,
+    "createdAt": "2026-06-18T21:23:53.355Z",
+    "updatedAt": "2026-06-18T21:23:53.355Z"
+  },
+  {
+    "id": "local-974d7217-aae3-4e26-a6a2-8d8586147f53",
+    "connectorId": "local",
+    "title": "Saving indicator is relative to watermark",
+    "description": "What if watermark is hidden?",
+    "done": true,
+    "createdAt": "2026-06-19T18:33:59.755Z",
+    "updatedAt": "2026-06-19T18:35:56.629Z"
+  },
+  {
+    "id": "local-746bef26-51ea-4c04-a158-ec4b97630349",
+    "connectorId": "local",
+    "title": "Validate what we send to firebase",
+    "description": "Currently with no validation its easy to save to cloud an invalid save state. Maybe use zod or something",
+    "done": false,
+    "createdAt": "2026-06-19T18:34:49.433Z",
+    "updatedAt": "2026-06-19T18:34:49.433Z"
+  },
+  {
+    "id": "local-448c4ee0-35e5-4734-b4d4-eff0acf6f64d",
+    "connectorId": "local",
+    "title": "EndGame elapsed text is wrong",
+    "description": "Just show the elapsed time, but add the mode/gen/type etc in a summary table rather than in the text",
+    "done": false,
+    "createdAt": "2026-06-19T18:54:13.801Z",
+    "updatedAt": "2026-06-19T18:54:13.801Z"
+  },
+  {
+    "id": "local-b7f4b90a-a6a5-456b-a095-22c23c484fdb",
+    "connectorId": "local",
+    "title": "Revisit Settings",
+    "description": "Currently it is not clear what the settings do... some settings are hidden, some are visible...\n\nA preferable solution would be to display all settings at srart then hide once a pokemon is found, and then show/hide with the settings button\n\nAlso do a small animation when it happens to show the button",
+    "done": false,
+    "priority": "medium",
+    "createdAt": "2026-06-20T17:56:03.124Z",
+    "updatedAt": "2026-06-20T17:56:03.124Z"
+  },
+  {
+    "id": "local-38dd431a-d6ea-458e-9124-528d7a204f4d",
+    "connectorId": "local",
+    "title": "add a small glow for shinies and compute numShinies",
+    "done": false,
+    "createdAt": "2026-06-20T17:59:32.553Z",
+    "updatedAt": "2026-06-20T17:59:32.553Z"
+  },
+  {
+    "id": "local-451ab503-b78a-425d-8eee-5dc64dd059cd",
+    "connectorId": "local",
+    "title": "Decide on a symbol for mega and gmax",
+    "done": false,
+    "createdAt": "2026-06-20T18:20:36.027Z",
+    "updatedAt": "2026-06-20T18:20:36.027Z"
+  },
+  {
+    "id": "local-c2628b15-6f7b-46f2-9e60-a5dcf9de08fe",
+    "connectorId": "local",
+    "title": "new helpers: cry helper and initial helper",
+    "done": false,
+    "createdAt": "2026-06-20T19:36:57.755Z",
+    "updatedAt": "2026-06-20T19:36:57.755Z"
+  },
+  {
+    "id": "local-041f9c8c-fde0-4d1c-855c-b0cadf0e0d68",
+    "connectorId": "local",
+    "title": "More v-motion shenanigans",
+    "done": false,
+    "createdAt": "2026-06-23T18:46:00.902Z",
+    "updatedAt": "2026-06-23T18:46:00.902Z"
+  },
+  {
+    "id": "local-12205e40-58a5-40fa-ae72-9cb7d830912b",
+    "connectorId": "local",
+    "title": "Sign In with X and Github",
+    "done": false,
+    "createdAt": "2026-06-24T14:19:37.674Z",
+    "updatedAt": "2026-06-24T14:19:37.674Z"
+  },
+  {
+    "id": "local-fd5121aa-36ac-40cb-95a1-e67b24257acc",
+    "connectorId": "local",
+    "title": "Investigate security for firebase/facebook",
+    "done": false,
+    "createdAt": "2026-06-12T20:42:41.639Z",
+    "updatedAt": "2026-06-12T20:42:41.639Z"
+  },
+  {
+    "id": "local-bf403c51-8604-4caf-82de-b76679f40dba",
+    "connectorId": "local",
+    "title": "Implement Missingno",
+    "description": "typing missingno would shuffle the grid, make pokemon pixelized more, and switch the names a bit (instead of \"Pikachu\", say Pikcahu etc)",
+    "done": false,
+    "createdAt": "2026-06-12T21:14:17.456Z",
+    "updatedAt": "2026-06-12T21:14:17.456Z"
+  },
+  {
+    "id": "local-9178a9c7-4ade-4a8e-b23c-eac9c753ea5b",
+    "connectorId": "local",
+    "title": "Implement Region shuffle",
+    "description": "Also need to find backgrounds",
+    "done": false,
+    "createdAt": "2026-06-12T21:14:32.757Z",
+    "updatedAt": "2026-06-12T21:14:32.757Z"
+  },
+  {
+    "id": "local-4a11ac53-aa2a-4dee-82a3-235c5d073eaf",
+    "connectorId": "local",
+    "title": "Add Scroll to top",
+    "done": false,
+    "createdAt": "2026-06-15T17:14:28.120Z",
+    "updatedAt": "2026-06-15T17:14:28.120Z"
+  },
+  {
+    "id": "local-392a4466-cd43-4f34-8d4d-e53a3e512da3",
+    "connectorId": "local",
+    "title": "Add the settings button in smaller resoliutions",
+    "done": false,
+    "createdAt": "2026-06-16T14:47:30.188Z",
+    "updatedAt": "2026-06-16T14:47:30.188Z"
+  },
+  {
+    "id": "local-8ef5aba3-bb20-4c41-88ad-6cd05767b4f7",
+    "connectorId": "local",
+    "title": "new helpers: cry helper and initial helper",
+    "done": false,
+    "createdAt": "2026-06-24T20:51:49.992Z",
+    "updatedAt": "2026-06-24T20:51:49.992Z"
   }
 ]
