@@ -2,6 +2,7 @@
      width="150.000000pt" height="150.000000pt" viewBox="0 0 150.000000 150.000000"
      preserveAspectRatio="xMidYMid meet">
 
+    <circle r="75" cx="75" cy="75"  fill="black" />
     <g transform="translate(0.000000,150.000000) scale(0.100000,-0.100000)"
        fill="#3E7614" stroke="none">
         <path d="M602 1330 c-109 -29 -187 -74 -272 -160 -87 -86 -131 -163 -160 -276
