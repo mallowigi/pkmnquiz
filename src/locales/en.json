@@ -29,9 +29,10 @@
   "credits": {
     "title": "Artist and quality control credits for custom sprites:"
   },
-  "criesHotkeySet": "Cries helper {status}",
+  "criesHelperDisabled": "Cries helper is disabled. Enable it in settings to use this shortcut.",
   "criesHelperToggle": "Next Cry: press",
   "criesHelperToggleSuffix": "to hear the cry of the next Pokémon",
+  "criesHotkeySet": "Cries helper {status}",
   "criesHotkeyTooltip": "When enabled, press the {key} key to listen the cry of the next Pokemon.",
   "cycleSprites": "Cycle sprites:",
   "cycleSpritesSet": "Cycle Sprites {status}",
