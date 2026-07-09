@@ -5,6 +5,7 @@ import SettingsIcon from '@/components/common/icons/SettingsIcon.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import AutoPauseToggle from '@/components/game/settings/AutoPauseToggle.vue';
 import AutoSaveToggle from '@/components/game/settings/AutoSaveToggle.vue';
+import CriesHotkeyToggle from '@/components/game/settings/CriesHotkeyToggle.vue';
 import CycleSpritesToggle from '@/components/game/settings/CycleSpritesToggle.vue';
 import GameAbort from '@/components/game/settings/GameAbort.vue';
 import GameModeSelection from '@/components/game/settings/GameModeSelection.vue';
@@ -17,6 +18,7 @@ import SoundToggle from '@/components/game/settings/SoundToggle.vue';
 import SpellingToggle from '@/components/game/settings/SpellingToggle.vue';
 import TimerSelection from '@/components/game/settings/TimerSelection.vue';
 import TypeShuffle from '@/components/game/settings/TypeShuffle.vue';
+import BoxShuffle from '@/components/game/settings/BoxShuffle.vue';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 
 const { flowState, toggleSettings } = useGameFlow();
@@ -55,6 +57,8 @@ const openSettings = () => {
         <ModeSelection />
 
         <TypeShuffle />
+
+        <BoxShuffle />
       </div>
 
       <div class="selection-row">
@@ -63,6 +67,8 @@ const openSettings = () => {
         <SpellingToggle />
 
         <ShadowHotkeyToggle />
+
+        <CriesHotkeyToggle />
 
         <CycleSpritesToggle />
 

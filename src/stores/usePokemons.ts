@@ -115,7 +115,7 @@ export const usePokemons = defineStore('pokemons', () => {
   const { getCurrentType } = useCurrentType();
   const { settingsState } = useSettings();
   const { startTimer } = useTimer();
-  const { addShinyDiscovered } = useTouches();
+  const { addShinyDiscovered, summonedShadow } = useTouches();
   const { playShiny } = usePlaySounds();
   const { vibrate } = useVibrate();
 
@@ -283,6 +283,7 @@ export const usePokemons = defineStore('pokemons', () => {
       status.isShadowed = true;
       status.lastShadowedAt = Date.now();
       startTimer();
+      summonedShadow();
     }
   };
 
@@ -291,8 +292,17 @@ export const usePokemons = defineStore('pokemons', () => {
   };
 
   const addRandomShadow = () => {
+    const nextShadowPokemon = getRandomPokemon();
+
+    if (nextShadowPokemon) {
+      addShadow(nextShadowPokemon.baseName);
+    }
+  };
+
+  const getRandomPokemon = () => {
     let remainingArray = Array.from(remaining.value);
     const currentType = getCurrentType();
+
     if (currentType) {
       const typePokemon = pokemonMaps.types[currentType.id as Type];
       if (typePokemon) {
@@ -302,15 +312,15 @@ export const usePokemons = defineStore('pokemons', () => {
 
     if (remainingArray.length === 0) return;
 
-    let nextShadowPokemon = null;
+    let nextPokemon = null;
     let maxIterations = 100;
     let iterationCount = 0;
 
     if (state.mode === 'order') {
-      nextShadowPokemon = remainingArray[0];
+      nextPokemon = remainingArray[0];
     }
 
-    while (!nextShadowPokemon && iterationCount < maxIterations) {
+    while (!nextPokemon && iterationCount < maxIterations) {
       const randomIndex = Math.floor(Math.random() * remainingArray.length);
       const randomPokemon = remainingArray[randomIndex];
 
@@ -320,11 +330,8 @@ export const usePokemons = defineStore('pokemons', () => {
         continue;
       }
 
-      nextShadowPokemon = randomPokemon;
-    }
-
-    if (nextShadowPokemon) {
-      addShadow(nextShadowPokemon);
+      nextPokemon = randomPokemon;
+      return pokemonMaps.all.get(nextPokemon)?.[0];
     }
   };
 
@@ -630,6 +637,7 @@ export const usePokemons = defineStore('pokemons', () => {
     getLastPokemon,
     getMegaPokemon,
     getNextOrderedPokemon,
+    getRandomPokemon,
     getRandomRemainingPokemon,
     getSpecialTypePokemon,
     getStatus,

@@ -18,7 +18,6 @@ type Props = {
 export const usePokemonInput = ({ clearInput }: Props) => {
   const { state } = useState();
   const { settingsState } = useSettings();
-  const { setRandomCurrentPokemon } = usePokemons();
   const { getCurrentType, setRandomCurrentType } = useCurrentType();
   const { showUserMessage } = useMessages();
   const { endGame } = useGameFlow();
@@ -33,6 +32,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
     getNextOrderedPokemon,
     isWrongOrder,
     prefillRemaining,
+    getRandomPokemon,
   } = usePokemons();
   const { playFanfare, playFailSound, playPokemonCry } = usePlaySounds();
   const { isDebugMode } = useFeatureFlags();
@@ -53,6 +53,16 @@ export const usePokemonInput = ({ clearInput }: Props) => {
       addRandomShadow();
     } else {
       showUserMessage(t('shadowHelperDisabled'));
+    }
+    clearInput();
+  };
+
+  const activateNextCry = () => {
+    if (settingsState.withCriesHelper) {
+      const randomPokemon = getRandomPokemon();
+      playPokemonCry(randomPokemon?.dexNum ?? 0);
+    } else {
+      showUserMessage(t('criesHelperDisabled'));
     }
     clearInput();
   };
@@ -105,10 +115,6 @@ export const usePokemonInput = ({ clearInput }: Props) => {
       setRandomCurrentType();
     }
 
-    if (state.withCriesShuffle) {
-      setRandomCurrentPokemon();
-    }
-
     playPokemonCry(foundPokemon[0].dexNum);
     clearInput();
     return true;
@@ -151,6 +157,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
 
   return {
     activateCheat,
+    activateNextCry,
     activateNextShadow,
     checkInput,
   };

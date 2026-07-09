@@ -142,10 +142,16 @@ export type Touches = {
   toggledLanguage: boolean;
   toggledShadowHelper: boolean;
   toggledShinyCharm: boolean;
+  toggledCriesHelper: boolean;
+  toggledInitialsHelper: boolean;
   toggledSpelling: boolean;
   typeShuffleClicks: number;
+  boxShuffleClicks: number;
   spellingClicks: number;
   shiniesDiscovered: number;
+  summonedShadows: number;
+  summonedCries: number;
+  summonedInitials: number;
 };
 
 export type State = {
@@ -155,6 +161,7 @@ export type State = {
 
   withShadows: boolean;
   withTypeShuffle: boolean;
+  withBoxShuffle: boolean;
   withCriesShuffle: boolean;
 };
 
@@ -164,6 +171,8 @@ export type Settings = {
   autoPause: boolean;
   withCycleSprites: boolean;
   withShadowHelper: boolean;
+  withCriesHelper: boolean;
+  withInitialsHelper: boolean;
   withShinies: boolean;
   withSound: boolean;
   withSpelling: boolean;
@@ -250,6 +259,7 @@ export type SaveData = State &
   Omit<Settings, 'languages'> &
   Touches & {
     currentType: Type | null;
+    currentBox: RegionBox | null;
     gameSelectionState: GameSelectionState | null;
     gen: Gen | null;
     languages: Language[];

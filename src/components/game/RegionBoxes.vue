@@ -7,12 +7,14 @@ import PokemonSprite from '@/components/game/PokemonSprite.vue';
 import { useBoxes } from '@/composables/useBoxes.ts';
 import { boxes } from '@/data/boxes.js';
 import { specialTypes } from '@/data/specialTypes.ts';
+import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useState } from '@/stores/useState.ts';
 import type { SpecialType, RegionBox, PokemonInfo } from '@/types.ts';
 
 const { getCurrentGameModeBoxes, getSpecialBoxes } = useBoxes();
 const { getCurrentGameModeBoxPokemon, getSpecialTypePokemon, getStatus, getMegaPokemon } = usePokemons();
+const { currentBoxState } = useCurrentBox();
 const { state } = useState();
 const { t } = useI18n();
 
@@ -76,6 +78,10 @@ const isFull = (boxId: SpecialType | RegionBox) => {
   const pokemons = getBoxPokemons(boxId);
   return pokemons.every((pokemon) => getStatus(pokemon).isFound);
 };
+
+const isDimmed = (boxId: SpecialType | RegionBox) => {
+  return state.withBoxShuffle && currentBoxState.currentBox !== boxId;
+};
 </script>
 
 <template>
@@ -97,7 +103,10 @@ const isFull = (boxId: SpecialType | RegionBox) => {
         },
       }"
       class="region-box"
-      :class="{ full: isFull(box.id) }"
+      :class="{
+        full: isFull(box.id),
+        dimmed: isDimmed(box.id),
+      }"
     >
       <span class="region-name">{{ t(box.id) }}</span>
 
@@ -188,6 +197,11 @@ const isFull = (boxId: SpecialType | RegionBox) => {
 
   &.full {
     box-shadow: 0 0 0 2px var(--type-btn-color, var(--primary)) inset;
+  }
+
+  &.dimmed {
+    pointer-events: none;
+    filter: brightness(0.5) saturate(0.5);
   }
 }
 

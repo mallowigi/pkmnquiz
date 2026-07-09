@@ -2,20 +2,22 @@
 import { onStartTyping } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
-import vEllipsis from '@/directives/ellipsis.ts';
+import { useI18n } from 'vue-i18n';
 
 import TextBox from '@/components/common/TextBox.vue';
 import LastPokemon from '@/components/header/LastPokemon.vue';
+import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { usePokemonInput } from '@/composables/usePokemonInput.ts';
+import { useTranslations } from '@/composables/useTranslations.ts';
+import vEllipsis from '@/directives/ellipsis.ts';
 import { useCurrentRegion } from '@/stores/useCurrentRegion.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
+import { usePokemons } from '@/stores/usePokemons.ts';
 import { useRoomMessages } from '@/stores/useRoomMessages.ts';
 import { useState } from '@/stores/useState.ts';
-import { useI18n } from 'vue-i18n';
 import { capitalize } from '@/utils/utils.ts';
-import { useTranslations } from '@/composables/useTranslations.ts';
 
 const { state } = useState();
 const gameFlowStore = useGameFlow();
@@ -27,6 +29,8 @@ const { dialogs } = useDialogs();
 const { roomState } = useRoomMessages();
 const { t } = useI18n();
 const { getBoxTranslation, getTypeTranslation } = useTranslations();
+const { playPokemonCry } = usePlaySounds();
+const { getRandomRemainingPokemon } = usePokemons();
 
 /** Clears the input field and updates the game flow state with a null input. */
 const clearInput = () => {
@@ -34,7 +38,7 @@ const clearInput = () => {
   updateInput(null);
 };
 
-const { activateNextShadow, activateCheat, checkInput } = usePokemonInput({ clearInput });
+const { activateNextShadow, activateCheat, activateNextCry, checkInput } = usePokemonInput({ clearInput });
 
 const regionOrType = computed(() => {
   const gameMode = state.gameMode;
@@ -98,6 +102,11 @@ const handleKeydown = (e: KeyboardEvent) => {
   // Shadow helper shortcut: ',' key
   if (e.key === ',') {
     activateNextShadow();
+    return;
+  }
+
+  if (e.key === '.') {
+    activateNextCry();
     return;
   }
 

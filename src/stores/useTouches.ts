@@ -5,52 +5,74 @@ import type { Touches } from '@/types';
 
 export const useTouches = defineStore('touches', () => {
   const touchesState = reactive<Touches>({
+    shiniesDiscovered: 0,
+    spellingClicks: 0,
+    summonedCries: 0,
+    summonedInitials: 0,
+    summonedShadows: 0,
     toggledAutoPause: false,
+    toggledCriesHelper: false,
     toggledDisplayShadows: false,
+    toggledInitialsHelper: false,
     toggledLanguage: false,
     toggledShadowHelper: false,
     toggledShinyCharm: false,
     toggledSpelling: false,
     typeShuffleClicks: 0,
-    spellingClicks: 0,
-    shiniesDiscovered: 0,
   });
 
-  const toggleAutoPause = (usedAutoPause: boolean) => {
-    touchesState.toggledAutoPause = usedAutoPause;
+  const toggledAutoPause = () => {
+    touchesState.toggledAutoPause = true;
   };
 
-  const toggleDisplayShadows = (usedDisplayShadows: boolean) => {
-    touchesState.toggledDisplayShadows = usedDisplayShadows;
+  const toggledDisplayShadows = () => {
+    touchesState.toggledDisplayShadows = true;
   };
 
-  const toggleLanguage = (usedLanguage: boolean) => {
-    touchesState.toggledLanguage = usedLanguage;
+  const toggledLanguage = () => {
+    touchesState.toggledLanguage = true;
   };
 
-  const toggleShadowHelper = (usedShadowHelper: boolean) => {
-    touchesState.toggledShadowHelper = usedShadowHelper;
+  const toggledShadowHelper = () => {
+    touchesState.toggledShadowHelper = true;
   };
 
-  const toggleSpelling = (usedSpelling: boolean) => {
-    touchesState.toggledSpelling = usedSpelling;
-    if (usedSpelling) {
-      touchesState.spellingClicks += 1;
-    }
+  const toggledSpelling = () => {
+    touchesState.toggledSpelling = true;
+  };
+
+  const toggledCriesHelper = () => {
+    touchesState.toggledCriesHelper = true;
+  };
+
+  const toggledInitialsHelper = () => {
+    touchesState.toggledInitialsHelper = true;
   };
 
   const addShinyDiscovered = () => {
     touchesState.shiniesDiscovered += 1;
   };
 
-  const toggleShinyCharm = (usedShinyCharm: boolean) => {
-    touchesState.toggledShinyCharm = usedShinyCharm;
+  const toggledShinyCharm = () => {
+    touchesState.toggledShinyCharm = true;
   };
 
-  const toggleTypeShuffle = (usedTypeShuffle: boolean) => {
+  const toggledTypeShuffle = (usedTypeShuffle: boolean) => {
     if (usedTypeShuffle) {
       touchesState.typeShuffleClicks += 1;
     }
+  };
+
+  const summonedShadow = () => {
+    touchesState.summonedShadows += 1;
+  };
+
+  const summonedCry = () => {
+    touchesState.summonedCries += 1;
+  };
+
+  const summonedInitials = () => {
+    touchesState.summonedInitials += 1;
   };
 
   const setTouchesState = (touches: Partial<Touches>) => {
@@ -60,13 +82,18 @@ export const useTouches = defineStore('touches', () => {
   return {
     addShinyDiscovered,
     setTouchesState,
-    toggleAutoPause,
-    toggleDisplayShadows,
-    toggleLanguage,
-    toggleShadowHelper,
-    toggleShinyCharm,
-    toggleSpelling,
-    toggleTypeShuffle,
+    summonedCry,
+    summonedInitials,
+    summonedShadow,
+    toggledAutoPause,
+    toggledCriesHelper,
+    toggledDisplayShadows,
+    toggledInitialsHelper,
+    toggledLanguage,
+    toggledShadowHelper,
+    toggledShinyCharm,
+    toggledSpelling,
+    toggledTypeShuffle,
     touchesState,
   };
 });

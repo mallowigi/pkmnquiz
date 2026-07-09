@@ -9,6 +9,10 @@
   "autoSaveTooltip": "Sync to Cloud",
   "back": "Back",
   "bluesky": "BlueSky",
+  "boxShuffle": "Box Shuffle",
+  "boxShuffleOnlyInFullQuizTooltip": "Box Shuffle can only be toggled in Full Quiz mode",
+  "boxShuffleSet": "Box Shuffle {status}",
+  "boxShuffleTooltip": "Guess the next Pokémon of a given box",
   "bug": "Bug",
   "cancel": "Cancel",
   "changeName": "Change Nickname",
@@ -29,6 +33,11 @@
   "credits": {
     "title": "Artist and quality control credits for custom sprites:"
   },
+  "criesHelperDisabled": "Cries helper is disabled. Enable it in settings to use this shortcut.",
+  "criesHelperToggle": "Next Cry: press",
+  "criesHelperToggleSuffix": "to hear the cry of the next Pokémon",
+  "criesHotkeySet": "Cries helper {status}",
+  "criesHotkeyTooltip": "When enabled, press the {key} key to listen the cry of the next Pokemon.",
   "cycleSprites": "Cycle sprites:",
   "cycleSpritesSet": "Cycle Sprites {status}",
   "cycleSpritesTooltip": "Toggle Cycle Sprites On/Off",
@@ -253,6 +262,5 @@
   "welcome": "Welcome to the Pokémon Quiz!",
   "welcomeBack": "Welcome back, {name} !",
   "x": "X",
-
   "zh": "Chinese (Traditional)"
 }
