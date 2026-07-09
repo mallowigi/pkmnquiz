@@ -7,6 +7,9 @@ export const useTouches = defineStore('touches', () => {
   const touchesState = reactive<Touches>({
     shiniesDiscovered: 0,
     spellingClicks: 0,
+    summonedCries: 0,
+    summonedInitials: 0,
+    summonedShadows: 0,
     toggledAutoPause: false,
     toggledCriesHelper: false,
     toggledDisplayShadows: false,
@@ -60,6 +63,18 @@ export const useTouches = defineStore('touches', () => {
     }
   };
 
+  const summonedShadow = () => {
+    touchesState.summonedShadows += 1;
+  };
+
+  const summonedCry = () => {
+    touchesState.summonedCries += 1;
+  };
+
+  const summonedInitials = () => {
+    touchesState.summonedInitials += 1;
+  };
+
   const setTouchesState = (touches: Partial<Touches>) => {
     Object.assign(touchesState, touches);
   };
@@ -67,6 +82,9 @@ export const useTouches = defineStore('touches', () => {
   return {
     addShinyDiscovered,
     setTouchesState,
+    summonedCry,
+    summonedInitials,
+    summonedShadow,
     toggledAutoPause,
     toggledCriesHelper,
     toggledDisplayShadows,

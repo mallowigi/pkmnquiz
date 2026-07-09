@@ -148,6 +148,9 @@ export type Touches = {
   typeShuffleClicks: number;
   spellingClicks: number;
   shiniesDiscovered: number;
+  summonedShadows: number;
+  summonedCries: number;
+  summonedInitials: number;
 };
 
 export type State = {

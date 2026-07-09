@@ -115,7 +115,7 @@ export const usePokemons = defineStore('pokemons', () => {
   const { getCurrentType } = useCurrentType();
   const { settingsState } = useSettings();
   const { startTimer } = useTimer();
-  const { addShinyDiscovered } = useTouches();
+  const { addShinyDiscovered, summonedShadow } = useTouches();
   const { playShiny } = usePlaySounds();
   const { vibrate } = useVibrate();
 
@@ -283,6 +283,7 @@ export const usePokemons = defineStore('pokemons', () => {
       status.isShadowed = true;
       status.lastShadowedAt = Date.now();
       startTimer();
+      summonedShadow();
     }
   };
 

@@ -29,6 +29,10 @@
   "credits": {
     "title": "Artist and quality control credits for custom sprites:"
   },
+  "criesHotkeySet": "Cries helper {status}",
+  "criesHelperToggle": "Next Cry: press",
+  "criesHelperToggleSuffix": "to hear the cry of the next Pokémon",
+  "criesHotkeyTooltip": "When enabled, press the {key} key to listen the cry of the next Pokemon.",
   "cycleSprites": "Cycle sprites:",
   "cycleSpritesSet": "Cycle Sprites {status}",
   "cycleSpritesTooltip": "Toggle Cycle Sprites On/Off",
@@ -253,6 +257,5 @@
   "welcome": "Welcome to the Pokémon Quiz!",
   "welcomeBack": "Welcome back, {name} !",
   "x": "X",
-
   "zh": "Chinese (Traditional)"
 }
