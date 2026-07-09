@@ -11,7 +11,9 @@ export const useSettings = defineStore('settings', () => {
     avatar: null,
     languages: new Set<Language>(['en', 'fr', 'de', 'ko', 'ja', 'zh', 'cn']),
     name: '',
+    withCriesHelper: false,
     withCycleSprites: true,
+    withInitialsHelper: false,
     withShadowHelper: false,
     withShinies: false,
     withSound: true,
@@ -19,11 +21,13 @@ export const useSettings = defineStore('settings', () => {
   });
 
   const {
-    toggleSpelling: toggleSpellingHelper,
-    toggleShinyCharm: toggleShinyHelper,
-    toggleShadowHelper: toggleShadowsHelper,
-    toggleAutoPause: toggleAutoPauseHelper,
-    toggleLanguage: toggleLanguageHelper,
+    toggledAutoPause,
+    toggledLanguage,
+    toggledShadowHelper,
+    toggledSpelling,
+    toggledShinyCharm,
+    toggledCriesHelper,
+    toggledInitialsHelper,
   } = useTouches();
 
   const toggleLanguage = (language: Language) => {
@@ -32,11 +36,12 @@ export const useSettings = defineStore('settings', () => {
       return;
     }
     settingsState.languages.add(language);
+    toggledLanguage();
   };
 
   const setLanguages = (languages: Language[]) => {
     settingsState.languages = new Set<Language>(languages);
-    toggleLanguageHelper(!!languages?.length);
+    toggledLanguage();
   };
 
   const resetLanguages = () => {
@@ -53,17 +58,27 @@ export const useSettings = defineStore('settings', () => {
 
   const toggleShowShinies = () => {
     settingsState.withShinies = !settingsState.withShinies;
-    toggleShinyHelper(settingsState.withShinies);
+    toggledShinyCharm();
   };
 
   const toggleSpelling = () => {
     settingsState.withSpelling = !settingsState.withSpelling;
-    toggleSpellingHelper(settingsState.withSpelling);
+    toggledSpelling();
   };
 
   const toggleShadowHelper = () => {
     settingsState.withShadowHelper = !settingsState.withShadowHelper;
-    toggleShadowsHelper(settingsState.withShadowHelper);
+    toggledShadowHelper();
+  };
+
+  const toggleCriesHelper = () => {
+    settingsState.withCriesHelper = !settingsState.withCriesHelper;
+    toggledCriesHelper();
+  };
+
+  const toggleInitialsHelper = () => {
+    settingsState.withInitialsHelper = !settingsState.withInitialsHelper;
+    toggledInitialsHelper();
   };
 
   const setCycleSprites = (withCycleSprites: boolean) => {
@@ -76,7 +91,7 @@ export const useSettings = defineStore('settings', () => {
 
   const toggleAutoPause = (autoPause: boolean) => {
     settingsState.autoPause = autoPause;
-    toggleAutoPauseHelper(autoPause);
+    toggledAutoPause();
   };
 
   const setSaveToCloud = (saveToCloud: boolean) => {
@@ -98,6 +113,8 @@ export const useSettings = defineStore('settings', () => {
     setSound,
     settingsState,
     toggleAutoPause,
+    toggleCriesHelper,
+    toggleInitialsHelper,
     toggleLanguage,
     toggleShadowHelper,
     toggleShowShinies,
