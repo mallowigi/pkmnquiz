@@ -146,6 +146,7 @@ export type Touches = {
   toggledInitialsHelper: boolean;
   toggledSpelling: boolean;
   typeShuffleClicks: number;
+  boxShuffleClicks: number;
   spellingClicks: number;
   shiniesDiscovered: number;
   summonedShadows: number;
@@ -160,6 +161,7 @@ export type State = {
 
   withShadows: boolean;
   withTypeShuffle: boolean;
+  withBoxShuffle: boolean;
   withCriesShuffle: boolean;
 };
 
@@ -257,6 +259,7 @@ export type SaveData = State &
   Omit<Settings, 'languages'> &
   Touches & {
     currentType: Type | null;
+    currentBox: RegionBox | null;
     gameSelectionState: GameSelectionState | null;
     gen: Gen | null;
     languages: Language[];
