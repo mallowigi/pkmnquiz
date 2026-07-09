@@ -19,6 +19,7 @@ export const useTouches = defineStore('touches', () => {
     toggledShinyCharm: false,
     toggledSpelling: false,
     typeShuffleClicks: 0,
+    boxShuffleClicks: 0,
   });
 
   const toggledAutoPause = () => {
@@ -63,6 +64,12 @@ export const useTouches = defineStore('touches', () => {
     }
   };
 
+  const toggledBoxShuffle = (usedBoxShuffle: boolean) => {
+    if (usedBoxShuffle) {
+      touchesState.boxShuffleClicks += 1;
+    }
+  };
+
   const summonedShadow = () => {
     touchesState.summonedShadows += 1;
   };
@@ -94,6 +101,7 @@ export const useTouches = defineStore('touches', () => {
     toggledShinyCharm,
     toggledSpelling,
     toggledTypeShuffle,
+    toggledBoxShuffle,
     touchesState,
   };
 });
