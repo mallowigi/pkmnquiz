@@ -4,6 +4,7 @@ import { ref } from 'vue';
 
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useQuiz } from '@/composables/useQuiz.ts';
+import { i18n } from '@/main.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
@@ -12,10 +13,9 @@ import { usePokemons } from '@/stores/usePokemons.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useState } from '@/stores/useState.ts';
 import { useTimer } from '@/stores/useTimer.ts';
+import { useTouches } from '@/stores/useTouches.ts';
 import type { SaveData, PokemonProgress } from '@/types.ts';
 import { normalizeName } from '@/utils/utils.ts';
-import { useTouches } from '@/stores/useTouches.ts';
-import { i18n } from '@/main.ts';
 
 const ready = ref(false);
 const LOCAL_STORAGE_KEY = 'pkmn_quiz_saved_state';
@@ -293,7 +293,9 @@ export const useSavedData = () => {
       autoSync: statePayload.autoSync ?? false,
       avatar: statePayload.avatar ?? null,
       name: statePayload.name ?? null,
+      withCriesHelper: statePayload.withCriesHelper ?? false,
       withCycleSprites: statePayload.withCycleSprites ?? true,
+      withInitialsHelper: statePayload.withInitialsHelper ?? false,
       withShadowHelper: statePayload.withShadowHelper ?? false,
       withShinies: statePayload.withShinies ?? false,
       withSound: statePayload.withSound ?? true,
@@ -301,15 +303,17 @@ export const useSavedData = () => {
     });
 
     setTouchesState({
+      shiniesDiscovered: statePayload.shiniesDiscovered ?? 0,
+      spellingClicks: statePayload.spellingClicks ?? 0,
       toggledAutoPause: statePayload.toggledAutoPause ?? false,
+      toggledCriesHelper: statePayload.toggledCriesHelper ?? false,
       toggledDisplayShadows: statePayload.toggledDisplayShadows ?? false,
+      toggledInitialsHelper: statePayload.toggledInitialsHelper ?? false,
       toggledLanguage: statePayload.toggledLanguage ?? false,
       toggledShadowHelper: statePayload.toggledShadowHelper ?? false,
       toggledShinyCharm: statePayload.toggledShinyCharm ?? false,
       toggledSpelling: statePayload.toggledSpelling ?? false,
       typeShuffleClicks: statePayload.typeShuffleClicks ?? 0,
-      spellingClicks: statePayload.spellingClicks ?? 0,
-      shiniesDiscovered: statePayload.shiniesDiscovered ?? 0,
     });
 
     showUserMessage(i18n.global.t('quizLoaded'));

@@ -14,7 +14,7 @@ export const useState = defineStore('state', () => {
     withTypeShuffle: false,
   });
 
-  const { toggleDisplayShadows, toggleTypeShuffle } = useTouches();
+  const { toggledDisplayShadows, toggledTypeShuffle } = useTouches();
 
   const setGameMode = (mode: GameMode | null) => {
     state.gameMode = mode;
@@ -40,17 +40,17 @@ export const useState = defineStore('state', () => {
 
   const displayShadows = () => {
     state.withShadows = true;
-    toggleDisplayShadows(true);
+    toggledDisplayShadows();
   };
 
   const hideShadows = () => {
     state.withShadows = false;
-    toggleDisplayShadows(false);
+    toggledDisplayShadows();
   };
 
   const setTypeShuffle = (withTypeShuffle: boolean) => {
     state.withTypeShuffle = withTypeShuffle;
-    toggleTypeShuffle(withTypeShuffle);
+    toggledTypeShuffle(withTypeShuffle);
   };
 
   const setCriesShuffle = (withCriesShuffle: boolean) => {

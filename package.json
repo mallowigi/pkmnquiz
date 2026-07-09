@@ -15,28 +15,28 @@
     "@vueuse/integrations": "^14.3.0",
     "@vueuse/sound": "^2.1.3",
     "fastest-levenshtein": "^1.0.16",
-    "firebase": "^12.15.0",
+    "firebase": "^12.16.0",
     "motion-v": "^2.3.0",
     "nprogress": "^0.2.0",
     "pinia": "^3.0.4",
     "temporal-polyfill": "^1.0.1",
     "unplugin-vue-components": "^32.1.0",
-    "vue": "^3.5.38",
+    "vue": "^3.5.39",
     "vue-i18n": "^11.4.6"
   },
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "^11.2.4",
-    "@types/node": "^26.0.1",
+    "@types/node": "^26.1.1",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/tsconfig": "^0.9.1",
-    "oxfmt": "^0.56.0",
-    "oxlint": "^1.71.0",
-    "prettier": "^3.8.4",
-    "prettier-plugin-multiline-arrays": "^4.1.9",
+    "oxfmt": "^0.58.0",
+    "oxlint": "^1.73.0",
+    "prettier": "^3.9.5",
+    "prettier-plugin-multiline-arrays": "^4.1.10",
     "typescript": "^6.0.3",
-    "vite": "^8.1.0",
-    "vite-plugin-vue-devtools": "^8.1.3",
-    "vue-tsc": "^3.3.5"
+    "vite": "^8.1.4",
+    "vite-plugin-vue-devtools": "^8.1.5",
+    "vue-tsc": "^3.3.7"
   },
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

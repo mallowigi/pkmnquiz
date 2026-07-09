@@ -58,7 +58,7 @@ onUnmounted(() => {
   }
 }
 
-:deep .prompt {
+:deep(.prompt) {
   text-align: center;
   color: white;
   overflow-y: auto;
