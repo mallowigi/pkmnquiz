@@ -33,6 +33,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
     getNextOrderedPokemon,
     isWrongOrder,
     prefillRemaining,
+    pokemonState,
   } = usePokemons();
   const { playFanfare, playFailSound, playPokemonCry } = usePlaySounds();
   const { isDebugMode } = useFeatureFlags();
@@ -53,6 +54,16 @@ export const usePokemonInput = ({ clearInput }: Props) => {
       addRandomShadow();
     } else {
       showUserMessage(t('shadowHelperDisabled'));
+    }
+    clearInput();
+  };
+
+  const activateNextCry = () => {
+    if (settingsState.withCriesHelper) {
+      setRandomCurrentPokemon();
+      playPokemonCry(pokemonState.currentPokemon?.dexNum ?? 0);
+    } else {
+      showUserMessage(t('criesHelperDisabled'));
     }
     clearInput();
   };
@@ -151,6 +162,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
 
   return {
     activateCheat,
+    activateNextCry,
     activateNextShadow,
     checkInput,
   };
