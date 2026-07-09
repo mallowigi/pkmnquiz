@@ -727,5 +727,65 @@
     "done": false,
     "createdAt": "2026-06-24T20:51:49.992Z",
     "updatedAt": "2026-06-24T20:51:49.992Z"
+  },
+  {
+    "id": "local-669b28d5-6205-4167-b760-f55d8aabe339",
+    "connectorId": "local",
+    "title": "Implement sidebar on click",
+    "done": false,
+    "createdAt": "2026-06-25T14:58:26.086Z",
+    "updatedAt": "2026-06-25T14:58:26.086Z"
+  },
+  {
+    "id": "local-5928c5af-bbdd-4f24-a798-70a95c739def",
+    "connectorId": "local",
+    "title": "State communication is not great",
+    "done": false,
+    "createdAt": "2026-06-25T14:59:46.200Z",
+    "updatedAt": "2026-06-25T14:59:46.200Z"
+  },
+  {
+    "id": "local-20ed5b9c-162f-40f2-bf59-35f055cd29d8",
+    "connectorId": "local",
+    "title": "PWA/Electron",
+    "done": false,
+    "createdAt": "2026-06-25T15:00:32.983Z",
+    "updatedAt": "2026-06-25T15:00:32.983Z"
+  },
+  {
+    "id": "local-b1f504bd-8800-4239-b11b-b33b3c4cdb3a",
+    "connectorId": "local",
+    "title": "auto pause should only work on game started",
+    "description": "e.g. not on start screen, when game ended",
+    "done": false,
+    "createdAt": "2026-06-25T18:05:49.629Z",
+    "updatedAt": "2026-06-25T18:05:49.629Z"
+  },
+  {
+    "id": "local-3261855b-20d5-453d-a1a3-58069714c42a",
+    "connectorId": "local",
+    "title": "Save + Leaderboards",
+    "description": "Due to the ability to save (cloud or not), there's a chance to get spoof of leaderboards",
+    "done": false,
+    "createdAt": "2026-06-25T18:07:08.126Z",
+    "updatedAt": "2026-06-25T18:07:08.126Z"
+  },
+  {
+    "id": "local-48dab896-c4d9-476f-82f5-de26559e387d",
+    "connectorId": "local",
+    "title": "Improve leaderboards",
+    "description": "Leaderboards are a bit tricky. Right now we have the ability to set leaderboards per user and per type/gen.\n\nBut we should also have a page that showcases all leaderboards.",
+    "done": false,
+    "createdAt": "2026-06-25T18:10:00.010Z",
+    "updatedAt": "2026-06-25T18:10:00.010Z"
+  },
+  {
+    "id": "local-1a90403e-5fb1-4e35-ad4b-593f63d0ebf2",
+    "connectorId": "local",
+    "title": "Leaderboards Admin",
+    "description": "Need to be able to delete entries on the fly",
+    "done": false,
+    "createdAt": "2026-06-25T18:10:18.262Z",
+    "updatedAt": "2026-06-25T18:10:18.262Z"
   }
 ]
