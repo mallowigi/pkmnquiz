@@ -2,6 +2,7 @@ import { useTitle } from '@vueuse/core';
 
 import { gens } from '@/data/gens.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
+import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
@@ -18,6 +19,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { setGameMode, state } = useState();
   const { setDialog } = useDialogs();
   const { currentGenState, clearCurrentGen, setCurrentGen } = useCurrentGen();
+  const { clearCurrentBox } = useCurrentBox();
   const { currentTypeState, clearCurrentType, setCurrentType } = useCurrentType();
   const { resetPokemonState } = usePokemons();
   const { resetTimer } = useTimer();
@@ -55,6 +57,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     const onQuizStart = () => {
       setGameMode('full');
       clearCurrentGen();
+      clearCurrentBox();
       clearCurrentType();
       resetPokemonState();
       resetTimer();

@@ -18,6 +18,7 @@ import SoundToggle from '@/components/game/settings/SoundToggle.vue';
 import SpellingToggle from '@/components/game/settings/SpellingToggle.vue';
 import TimerSelection from '@/components/game/settings/TimerSelection.vue';
 import TypeShuffle from '@/components/game/settings/TypeShuffle.vue';
+import BoxShuffle from '@/components/game/settings/BoxShuffle.vue';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 
 const { flowState, toggleSettings } = useGameFlow();
@@ -56,6 +57,8 @@ const openSettings = () => {
         <ModeSelection />
 
         <TypeShuffle />
+
+        <BoxShuffle />
       </div>
 
       <div class="selection-row">
