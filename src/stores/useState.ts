@@ -12,9 +12,10 @@ export const useState = defineStore('state', () => {
     withCriesShuffle: false,
     withShadows: false,
     withTypeShuffle: false,
+    withBoxShuffle: false,
   });
 
-  const { toggledDisplayShadows, toggledTypeShuffle } = useTouches();
+  const { toggledDisplayShadows, toggledTypeShuffle, toggledBoxShuffle } = useTouches();
 
   const setGameMode = (mode: GameMode | null) => {
     state.gameMode = mode;
@@ -22,6 +23,7 @@ export const useState = defineStore('state', () => {
     if (mode === 'special' || mode === 'types' || mode === 'mega') {
       state.mode = 'normal';
       state.withTypeShuffle = false;
+      state.withBoxShuffle = false;
       state.withCriesShuffle = false;
     }
   };
@@ -53,6 +55,11 @@ export const useState = defineStore('state', () => {
     toggledTypeShuffle(withTypeShuffle);
   };
 
+  const setBoxShuffle = (withBoxShuffle: boolean) => {
+    state.withBoxShuffle = withBoxShuffle;
+    toggledBoxShuffle(withBoxShuffle);
+  };
+
   const setCriesShuffle = (withCriesShuffle: boolean) => {
     state.withCriesShuffle = withCriesShuffle;
   };
@@ -80,6 +87,7 @@ export const useState = defineStore('state', () => {
     setGameMode,
     setGameOver,
     setMode,
+    setBoxShuffle,
     setState,
     setTypeShuffle,
     state,

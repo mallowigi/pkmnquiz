@@ -6,6 +6,7 @@ import { useFirebase } from '@/composables/useFirebase.ts';
 import { useQuiz } from '@/composables/useQuiz.ts';
 import { i18n } from '@/main.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
+import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.ts';
@@ -74,6 +75,7 @@ export const useSavedData = () => {
     const { state } = useState();
     const { settingsState } = useSettings();
     const { currentGenState } = useCurrentGen();
+    const { currentBoxState } = useCurrentBox();
     const { currentTypeState } = useCurrentType();
     const { pokemonState } = usePokemons();
     const { timerState } = useTimer();
@@ -101,6 +103,7 @@ export const useSavedData = () => {
       ...settingsState,
       ...touchesState,
       currentType: currentTypeState.currentType,
+      currentBox: currentBoxState.currentBox,
       gameSelectionState: flowState.gameSelectionState,
       gen: currentGenState.gen,
       languages: Array.from(settingsState.languages),
@@ -162,6 +165,7 @@ export const useSavedData = () => {
   const applyState = (loadedState: SaveData) => {
     const { setState } = useState();
     const { setCurrentGen } = useCurrentGen();
+    const { setCurrentBox } = useCurrentBox();
     const { setCurrentType } = useCurrentType();
     const { resetFlowState, setFlowState } = useGameFlow();
     const { pokemonState, resetPokemonState, findPokemon } = usePokemons();
@@ -172,6 +176,7 @@ export const useSavedData = () => {
 
     const {
       currentType,
+      currentBox,
       languages,
       pokemonProgress,
       timer,
@@ -189,6 +194,9 @@ export const useSavedData = () => {
 
     // Type
     setCurrentType(currentType ?? null);
+
+    // Box
+    setCurrentBox(currentBox ?? null);
 
     // Gen
     setCurrentGen(statePayload.gen ?? null);
@@ -286,6 +294,7 @@ export const useSavedData = () => {
       withCriesShuffle: statePayload.withCriesShuffle ?? false,
       withShadows: statePayload.withShadows ?? false,
       withTypeShuffle: statePayload.withTypeShuffle ?? false,
+      withBoxShuffle: statePayload.withBoxShuffle ?? false,
     });
 
     setSettingsState({
@@ -314,6 +323,7 @@ export const useSavedData = () => {
       toggledShinyCharm: statePayload.toggledShinyCharm ?? false,
       toggledSpelling: statePayload.toggledSpelling ?? false,
       typeShuffleClicks: statePayload.typeShuffleClicks ?? 0,
+      boxShuffleClicks: statePayload.boxShuffleClicks ?? 0,
     });
 
     showUserMessage(i18n.global.t('quizLoaded'));

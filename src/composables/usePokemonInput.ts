@@ -2,12 +2,14 @@ import { useI18n } from 'vue-i18n';
 
 import { useFeatureFlags } from '@/composables/useFeatureFlags.ts';
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
+import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useState } from '@/stores/useState.ts';
+import { useShuffles } from '@/composables/useShuffles.ts';
 import type { PokemonInfo } from '@/types.ts';
 import { capitalize } from '@/utils/utils';
 
@@ -18,7 +20,9 @@ type Props = {
 export const usePokemonInput = ({ clearInput }: Props) => {
   const { state } = useState();
   const { settingsState } = useSettings();
-  const { getCurrentType, setRandomCurrentType } = useCurrentType();
+  const { getCurrentType } = useCurrentType();
+  const { currentBoxState } = useCurrentBox();
+  const { updateShuffles } = useShuffles();
   const { showUserMessage } = useMessages();
   const { endGame } = useGameFlow();
   const { t } = useI18n();
@@ -108,12 +112,22 @@ export const usePokemonInput = ({ clearInput }: Props) => {
     return false;
   };
 
+  const handleBoxShuffle = (foundPokemon: PokemonInfo[], _isPartOfAnotherPokemon: boolean) => {
+    if (!state.withBoxShuffle) return false;
+
+    const currentBox = currentBoxState.currentBox;
+
+    if (currentBox && foundPokemon[0].box !== currentBox) {
+      return notifyError(`${capitalize(foundPokemon[0].baseName)} is not in ${t(currentBox)}.`);
+    }
+
+    return false;
+  };
+
   const handleSuccess = (foundPokemon: PokemonInfo[]) => {
     addFound(foundPokemon);
 
-    if (state.withTypeShuffle) {
-      setRandomCurrentType();
-    }
+    updateShuffles();
 
     playPokemonCry(foundPokemon[0].dexNum);
     clearInput();
@@ -147,6 +161,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
       () => handleNotInCurrentGameMode(foundPokemon, isPartOfAnotherPokemon),
       () => handleWrongOrder(foundPokemon, isPartOfAnotherPokemon),
       () => handleTypeShuffle(foundPokemon, isPartOfAnotherPokemon),
+      () => handleBoxShuffle(foundPokemon, isPartOfAnotherPokemon),
       () => handleSuccess(foundPokemon),
     ];
 
