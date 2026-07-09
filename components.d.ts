@@ -25,6 +25,8 @@ declare module 'vue' {
     CountdownOverlay: typeof import('./src/components/game/CountdownOverlay.vue')['default']
     Credits: typeof import('./src/components/background/Credits.vue')['default']
     CreditsIcon: typeof import('./src/components/common/icons/CreditsIcon.vue')['default']
+    CriesHotkeyToggle: typeof import('./src/components/game/settings/CriesHotkeyToggle.vue')['default']
+    CryIcon: typeof import('./src/components/common/icons/CryIcon.vue')['default']
     CycleSpritesToggle: typeof import('./src/components/game/settings/CycleSpritesToggle.vue')['default']
     CyclingSpecial: typeof import('./src/components/start/genSelection/CyclingSpecial.vue')['default']
     CyclingSprite: typeof import('./src/components/common/CyclingSprite.vue')['default']
