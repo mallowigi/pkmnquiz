@@ -142,6 +142,8 @@ export type Touches = {
   toggledLanguage: boolean;
   toggledShadowHelper: boolean;
   toggledShinyCharm: boolean;
+  toggledCriesHelper: boolean;
+  toggledInitialsHelper: boolean;
   toggledSpelling: boolean;
   typeShuffleClicks: number;
   spellingClicks: number;
@@ -164,6 +166,8 @@ export type Settings = {
   autoPause: boolean;
   withCycleSprites: boolean;
   withShadowHelper: boolean;
+  withCriesHelper: boolean;
+  withInitialsHelper: boolean;
   withShinies: boolean;
   withSound: boolean;
   withSpelling: boolean;
