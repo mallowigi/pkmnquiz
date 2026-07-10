@@ -5,18 +5,13 @@ import { computed, capitalize, watch, useTemplateRef, nextTick } from 'vue';
 import CyclingSprite from '@/components/common/CyclingSprite.vue';
 import RevealZoomTransition from '@/components/common/transitions/RevealZoomTransition.vue';
 import LastPokemon from '@/components/header/LastPokemon.vue';
+import { useGlitchedEffect } from '@/composables/useGlitchedEffect.ts';
 import { useUnknownSprite } from '@/composables/useUnknownSprite.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { usePkmnData } from '@/stores/usePkmnStore.ts';
 import { useState } from '@/stores/useState.ts';
 import type { PokemonInfo, PokemonStatus } from '@/types.ts';
-
-const { state } = useState();
-const { flowState } = useGameFlow();
-const { data } = usePkmnData();
-const { unknownSprite } = useUnknownSprite();
-const el = useTemplateRef('el');
-const { isScrolling } = useScroll(el);
+import { glitchify } from '@/utils/utils.ts';
 
 type Props = {
   pokemon: PokemonInfo;
@@ -41,6 +36,14 @@ type DisplayedSprite = {
 
 const props = defineProps<Props>();
 
+const { state } = useState();
+const { flowState } = useGameFlow();
+const { data } = usePkmnData();
+const { unknownSprite } = useUnknownSprite();
+const { glitchStyles } = useGlitchedEffect();
+const el = useTemplateRef('el');
+const { isScrolling } = useScroll(el);
+
 const spriteData = computed<SpriteData>(() => {
   const { silhouettes, sprites, spriteCycles, shinies } = data;
   return {
@@ -59,7 +62,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
         key: 'found-cycle',
         kind: 'cycle',
         sprites: spriteData.value.spriteCycle,
-        title: capitalize(props.pokemon.baseName),
+        title: glitchify(capitalize(props.pokemon.baseName)),
       };
     }
 
@@ -68,7 +71,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
         image: spriteData.value.shiny,
         key: 'found-shiny',
         kind: 'found',
-        title: `${capitalize(props.pokemon.baseName)} (Shiny)`,
+        title: `${glitchify(capitalize(props.pokemon.baseName))} (Shiny)`,
       };
     }
 
@@ -77,7 +80,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
         image: spriteData.value.sprite,
         key: 'found-default',
         kind: 'found',
-        title: capitalize(props.pokemon.baseName),
+        title: glitchify(capitalize(props.pokemon.baseName)),
       };
     }
   }
@@ -143,7 +146,6 @@ watch(displayedSprite, (newSprite, oldSprite) => {
     :class="{ full: state.gameMode === 'full', missed: props.status.isMissed }"
     :style="{ '--sprite-delay': spriteDelay }"
   >
-    <!-- Sprite -->
     <RevealZoomTransition
       appear
       mode="out-in"
@@ -154,7 +156,7 @@ watch(displayedSprite, (newSprite, oldSprite) => {
         class="sprite"
         :class="displayedSprite.kind"
         v-tooltip:bottom="displayedSprite.title ?? null"
-        :style="{ '--bg-img': `url(${displayedSprite.image})` }"
+        :style="[{ '--bg-img': `url(${displayedSprite.image})` }, flowState.missingno ? glitchStyles : {}]"
       />
     </RevealZoomTransition>
 
@@ -164,7 +166,10 @@ watch(displayedSprite, (newSprite, oldSprite) => {
       mode="out-in"
       v-else-if="displayedSprite.sprites && !isDitto"
     >
-      <CyclingSprite :sprites="displayedSprite.sprites" />
+      <CyclingSprite
+        :sprites="displayedSprite.sprites"
+        :style="flowState.missingno ? glitchStyles : {}"
+      />
     </RevealZoomTransition>
 
     <!-- Ditto -->
@@ -173,7 +178,7 @@ watch(displayedSprite, (newSprite, oldSprite) => {
       mode="out-in"
       v-else-if="isDitto && props.status.isFound"
     >
-      <LastPokemon />
+      <LastPokemon :style="flowState.missingno ? glitchStyles : {}" />
     </RevealZoomTransition>
 
     <!-- Shadow -->
@@ -189,7 +194,7 @@ watch(displayedSprite, (newSprite, oldSprite) => {
         class="sprite"
         :class="displayedSprite.kind"
         v-tooltip:bottom="displayedSprite.title ?? null"
-        :style="{ '--bg-img': `url(${displayedSprite.image})` }"
+        :style="[{ '--bg-img': `url(${displayedSprite.image})` }, flowState.missingno ? glitchStyles : {}]"
       />
     </Transition>
 

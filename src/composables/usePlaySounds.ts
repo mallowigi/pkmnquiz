@@ -1,14 +1,23 @@
 import { useSound } from '@vueuse/sound';
 import { ref } from 'vue';
 
+import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import type { PokemonInfo } from '@/types.ts';
 
 export const usePlaySounds = () => {
   const { settingsState } = useSettings();
+  const { flowState } = useGameFlow();
   const soundFile = ref();
 
   const { play } = useSound(soundFile, { interrupt: true, volume: 0.5 });
+
+  const playbackRate = () => {
+    if (flowState.missingno) {
+      return Math.random() * (1.5 - 0.5) + 0.5; // Random playback rate between 0.5 and 1.5
+    }
+    return 1;
+  };
 
   const playFanfare = () => {
     if (!settingsState.withSound) return;
@@ -33,7 +42,9 @@ export const usePlaySounds = () => {
 
     soundFile.value = `assets/sounds/latest/${pokemonId}.ogg`;
     setTimeout(() => {
-      play();
+      play({
+        playbackRate: playbackRate(),
+      });
     }, 50);
   };
 
@@ -64,7 +75,9 @@ export const usePlaySounds = () => {
 
     soundFile.value = 'assets/sounds/missingno.mp3';
     setTimeout(() => {
-      play();
+      play({
+        playbackRate: Math.random() * (1.5 - 0.5) + 0.5, // Random playback rate between 0.5 and 1.5
+      });
     }, 50);
   };
 
