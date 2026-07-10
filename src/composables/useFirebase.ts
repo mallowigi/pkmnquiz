@@ -1,13 +1,13 @@
 import { useOnline } from '@vueuse/core';
 import { useFirestore } from '@vueuse/firebase';
 import { signInAnonymously, signOut } from 'firebase/auth';
-import { addDoc, collection, doc, getDoc, limit, orderBy, query, setDoc, where, deleteDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, limit, orderBy, query, setDoc, where, deleteDoc } from 'firebase/firestore';
 import { storeToRefs, acceptHMRUpdate, defineStore } from 'pinia';
 import { reactive } from 'vue';
 
 import { useFacebookAuth } from '@/composables/auth/useFacebookAuth.ts';
-import { useGoogleAuth } from '@/composables/auth/useGoogleAuth.ts';
 import { useGithubAuth } from '@/composables/auth/useGithubAuth.ts';
+import { useGoogleAuth } from '@/composables/auth/useGoogleAuth.ts';
 import { useXAuth } from '@/composables/auth/useXAuth.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { auth, db } from '@/firebase.ts';
@@ -74,6 +74,16 @@ export const useFirebase = defineStore('firebase', () => {
     const { getSavedState } = useSavedData();
 
     const user = auth.currentUser;
+    if (!flowState.sessionId) {
+      console.warn('No session ID, skipping');
+      return;
+    }
+
+    const previousSession = await getDoc(doc(db, 'leaderboards', flowState.sessionId!));
+    if (previousSession.exists()) {
+      console.warn('Previous session exists, skipping');
+      return;
+    }
 
     const payload: UserRecord = {
       ...getSavedState(),
@@ -89,10 +99,10 @@ export const useFirebase = defineStore('firebase', () => {
     }
 
     if (!user) {
-      await addDoc(collection(db, 'leaderboards'), payload);
+      await setDoc(doc(db, 'leaderboards', flowState.sessionId), payload);
       return;
     }
-    await setDoc(doc(db, 'leaderboards', user.uid), payload);
+    await setDoc(doc(db, 'leaderboards', flowState.sessionId), payload);
   };
 
   const saveUserState = async (data: SaveData) => {

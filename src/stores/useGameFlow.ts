@@ -4,8 +4,8 @@ import { reactive, computed } from 'vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
-import type { GameFlowState, GameSelectionState } from '@/types.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
+import type { GameFlowState, GameSelectionState } from '@/types.ts';
 
 export const useGameFlow = defineStore('gameFlow', () => {
   const { playFanfare } = usePlaySounds();
@@ -21,6 +21,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
     isSettingsOpen: false,
     isStarted: false,
     lastInput: null,
+    sessionId: null,
   });
 
   const startGame = () => {
@@ -29,6 +30,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.gameSelectionState = null;
     flowState.isGivenUp = false;
     flowState.lastInput = null;
+    flowState.sessionId = crypto.randomUUID();
   };
 
   const pauseGame = () => {

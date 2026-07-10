@@ -208,6 +208,7 @@ export type GameSelectionState = 'new' | 'gen' | 'types' | 'special' | null;
 
 export type GameFlowState = {
   gameSelectionState: GameSelectionState;
+  sessionId: string | null;
   isEnded: boolean;
   isGivenUp: boolean;
   isPaused: boolean;
@@ -258,6 +259,7 @@ export type PokemonProgress = {
 export type SaveData = State &
   Omit<Settings, 'languages'> &
   Touches & {
+    sessionId: string | null;
     currentType: Type | null;
     currentBox: RegionBox | null;
     gameSelectionState: GameSelectionState | null;

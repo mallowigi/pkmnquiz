@@ -5,8 +5,8 @@ import { ref } from 'vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useQuiz } from '@/composables/useQuiz.ts';
 import { i18n } from '@/main.ts';
-import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox.ts';
+import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.ts';
@@ -102,8 +102,8 @@ export const useSavedData = () => {
       ...state,
       ...settingsState,
       ...touchesState,
-      currentType: currentTypeState.currentType,
       currentBox: currentBoxState.currentBox,
+      currentType: currentTypeState.currentType,
       gameSelectionState: flowState.gameSelectionState,
       gen: currentGenState.gen,
       languages: Array.from(settingsState.languages),
@@ -112,6 +112,7 @@ export const useSavedData = () => {
         pokemonShadowed,
         shinyPokemon,
       },
+      sessionId: flowState.sessionId,
       timer: {
         ...timerState,
         savedAt: Date.now(),
@@ -284,6 +285,7 @@ export const useSavedData = () => {
     setFlowState({
       gameSelectionState: gameSelectionState,
       isStarted: true,
+      sessionId: statePayload.sessionId ?? crypto.randomUUID(),
     });
 
     // State
@@ -291,10 +293,10 @@ export const useSavedData = () => {
       gameMode: statePayload.gameMode ?? null,
       isDark: statePayload.isDark ?? false,
       mode: statePayload.mode ?? 'normal',
+      withBoxShuffle: statePayload.withBoxShuffle ?? false,
       withCriesShuffle: statePayload.withCriesShuffle ?? false,
       withShadows: statePayload.withShadows ?? false,
       withTypeShuffle: statePayload.withTypeShuffle ?? false,
-      withBoxShuffle: statePayload.withBoxShuffle ?? false,
     });
 
     setSettingsState({
@@ -312,6 +314,7 @@ export const useSavedData = () => {
     });
 
     setTouchesState({
+      boxShuffleClicks: statePayload.boxShuffleClicks ?? 0,
       shiniesDiscovered: statePayload.shiniesDiscovered ?? 0,
       spellingClicks: statePayload.spellingClicks ?? 0,
       toggledAutoPause: statePayload.toggledAutoPause ?? false,
@@ -323,7 +326,6 @@ export const useSavedData = () => {
       toggledShinyCharm: statePayload.toggledShinyCharm ?? false,
       toggledSpelling: statePayload.toggledSpelling ?? false,
       typeShuffleClicks: statePayload.typeShuffleClicks ?? 0,
-      boxShuffleClicks: statePayload.boxShuffleClicks ?? 0,
     });
 
     showUserMessage(i18n.global.t('quizLoaded'));
