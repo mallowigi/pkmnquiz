@@ -45,13 +45,14 @@
     - **Completed:** 1783661731556
     </details>
     <!-- github:end -->
-- [ ] PWA/Electron ##next##
+- [x] PWA/Electron ##next##
     <!-- github:start -->
     <details><summary>🔗 GitHub Integration</summary>
     
     - **Task ID:** 49
-    - **State:** Open
+    - **State:** Completed
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/49
+    - **Completed:** 1783707508774
     </details>
     <!-- github:end -->
 - [ ] AttackDex ##next##

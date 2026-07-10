@@ -83,6 +83,7 @@ watch(
       mobile: breakpoints.mobile.value,
       laptop: breakpoints.laptop.value,
       desktop: breakpoints.desktop.value,
+      missingno: flowState.missingno,
     }"
     :style="typeStyles"
   >

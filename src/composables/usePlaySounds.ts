@@ -59,9 +59,19 @@ export const usePlaySounds = () => {
     }, 50);
   };
 
+  const playMissingno = () => {
+    if (!settingsState.withSound) return;
+
+    soundFile.value = 'assets/sounds/missingno.mp3';
+    setTimeout(() => {
+      play();
+    }, 50);
+  };
+
   return {
     playFailSound,
     playFanfare,
+    playMissingno,
     playPokemonCry,
     playShiny,
   };

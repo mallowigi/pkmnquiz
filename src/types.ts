@@ -145,6 +145,7 @@ export type Touches = {
   toggledCriesHelper: boolean;
   toggledInitialsHelper: boolean;
   toggledSpelling: boolean;
+  toggledMissingno: boolean;
   typeShuffleClicks: number;
   boxShuffleClicks: number;
   spellingClicks: number;
@@ -215,6 +216,7 @@ export type GameFlowState = {
   isSettingsOpen: boolean;
   isStarted: boolean;
   lastInput: string | null;
+  missingno: boolean;
 };
 
 export type Translations = {

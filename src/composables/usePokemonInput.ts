@@ -2,6 +2,7 @@ import { useI18n } from 'vue-i18n';
 
 import { useFeatureFlags } from '@/composables/useFeatureFlags.ts';
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
+import { useShuffles } from '@/composables/useShuffles.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
@@ -9,7 +10,6 @@ import { useMessages } from '@/stores/useMessages.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useState } from '@/stores/useState.ts';
-import { useShuffles } from '@/composables/useShuffles.ts';
 import type { PokemonInfo } from '@/types.ts';
 import { capitalize } from '@/utils/utils';
 
@@ -24,7 +24,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
   const { currentBoxState } = useCurrentBox();
   const { updateShuffles } = useShuffles();
   const { showUserMessage } = useMessages();
-  const { endGame } = useGameFlow();
+  const { endGame, toggleMissingno } = useGameFlow();
   const { t } = useI18n();
   const {
     isPokemonInCurrentGameMode,
@@ -147,6 +147,12 @@ export const usePokemonInput = ({ clearInput }: Props) => {
         clearInput();
         return;
       }
+    }
+
+    if (value === 'missingno') {
+      toggleMissingno(true);
+      clearInput();
+      return;
     }
 
     const foundPokemon = findPokemon(value);

@@ -5,13 +5,15 @@ import { useFirebase } from '@/composables/useFirebase.ts';
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
+import { useTouches } from '@/stores/useTouches.ts';
 import type { GameFlowState, GameSelectionState } from '@/types.ts';
 
 export const useGameFlow = defineStore('gameFlow', () => {
-  const { playFanfare } = usePlaySounds();
+  const { playFanfare, playMissingno } = usePlaySounds();
   const { removeAutoSave } = useSavedData();
   const { createRecord } = useFirebase();
   const { showRemaining } = usePokemons();
+  const { toggledMissingno } = useTouches();
 
   const flowState = reactive<GameFlowState>({
     gameSelectionState: 'new',
@@ -21,6 +23,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
     isSettingsOpen: false,
     isStarted: false,
     lastInput: null,
+    missingno: false,
     sessionId: null,
   });
 
@@ -30,6 +33,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.gameSelectionState = null;
     flowState.isGivenUp = false;
     flowState.lastInput = null;
+    flowState.missingno = false;
     flowState.sessionId = crypto.randomUUID();
   };
 
@@ -87,6 +91,12 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.isSettingsOpen = !flowState.isSettingsOpen;
   };
 
+  const toggleMissingno = (missingno: boolean) => {
+    flowState.missingno = missingno;
+    playMissingno();
+    toggledMissingno();
+  };
+
   const isInGame = computed(() => {
     if (flowState.isEnded || flowState.isGivenUp || flowState.isPaused) return false;
     return flowState.isStarted;
@@ -103,6 +113,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
     setFlowState,
     setGameSelectionState,
     startGame,
+    toggleMissingno,
     toggleSettings,
     updateInput,
   };
