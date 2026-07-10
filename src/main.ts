@@ -23,10 +23,8 @@ import zh from '@/locales/zh.json';
 import { piniaStorePlugin } from '@/stores/piniaStorePlugin.ts';
 import { capitalize } from '@/utils/utils.ts';
 
-import { registerSW } from 'virtual:pwa-register';
 import App from './App.vue';
 
-registerSW({ immediate: true });
 
 const { savedLocale } = useSavedLocale();
 

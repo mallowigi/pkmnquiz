@@ -19,6 +19,7 @@ import GameHeader from '@/components/header/GameHeader.vue';
 import GameSelection from '@/components/start/genSelection/GameSelection.vue';
 import { TYPE_STYLE_KEYS, useTypeStyles } from '@/composables/useTypeStyles';
 import OfflineBanner from '@/OfflineBanner.vue';
+import ReloadPrompt from '@/ReloadPrompt.vue';
 import ScrollTop from '@/ScrollTop.vue';
 import { useCredits } from '@/stores/useCredits';
 import { useGameFlow } from '@/stores/useGameFlow';
@@ -86,6 +87,7 @@ watch(
     :style="typeStyles"
   >
     <OfflineBanner />
+    <ReloadPrompt />
 
     <!-- Background images -->
     <Background />

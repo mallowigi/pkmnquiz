@@ -55,7 +55,7 @@ export default defineConfig({
         start_url: '/',
         theme_color: '#8cc63f',
       },
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,ogg,json}'],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
