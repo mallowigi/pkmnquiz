@@ -22,35 +22,40 @@ export default defineConfig({
       ],
     }),
     VitePWA({
-      registerType: 'autoUpdate',
       manifest: {
-        name: 'Pokemon Vue Quiz',
-        short_name: 'PkmnVueQuiz',
+        background_color: '#111',
         description: 'A Pokémon guessing game built with Vue.js',
-        theme_color: '#8cc63f',
-        background_color: '#ffffff',
         display: 'standalone',
-        orientation: 'any',
-        start_url: '/',
-        icons: [
+        "icons": [
           {
-            src: 'icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
+            "sizes": "64x64",
+            "src": "pwa-64x64.png",
+            "type": "image/png"
           },
           {
-            src: 'icon-192x192.png',
-            sizes: '512x512',
-            type: 'image/png',
+            "sizes": "192x192",
+            "src": "pwa-192x192.png",
+            "type": "image/png"
           },
           {
-            src: 'icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-            purpose: 'any maskable',
+            "sizes": "512x512",
+            "src": "pwa-512x512.png",
+            "type": "image/png"
           },
+          {
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "maskable-icon-512x512.png",
+            "type": "image/png"
+          }
         ],
+        name: 'Pokemon Vue Quiz',
+        orientation: 'any',
+        short_name: 'PkmnVueQuiz',
+        start_url: '/',
+        theme_color: '#8cc63f',
       },
+      registerType: 'autoUpdate',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,ogg,json}'],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
