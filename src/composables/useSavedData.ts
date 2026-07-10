@@ -353,6 +353,7 @@ export const useSavedData = () => {
 
         // Parse and validate loaded state
         applyState(loadedState);
+        setReady();
       } catch (error) {
         console.error('Failed to load state: Invalid file format.', error);
         showUserMessage(i18n.global.t('failedToLoadQuizFormat'));
@@ -381,6 +382,7 @@ export const useSavedData = () => {
       }
 
       applyState(userState as SaveData);
+      setReady();
     } catch (error) {
       console.error('Failed to load cloud save: Invalid data.', error);
       showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
@@ -407,6 +409,7 @@ export const useSavedData = () => {
       }
 
       applyState(savedState);
+      setReady();
     } catch (error) {
       console.error('Failed to load autosave: Invalid data.', error);
       showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
