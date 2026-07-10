@@ -17,12 +17,12 @@
     - **Completed:** 1783661730165
     </details>
     <!-- github:end -->
-- [ ] Prevent Leaderboards Spoofing ##leaderboards,firebase##
+- [x] Prevent Leaderboards Spoofing ##leaderboards,firebase##
     <!-- github:start -->
     <details><summary>🔗 GitHub Integration</summary>
     
     - **Task ID:** 51
-    - **State:** Open
+    - **State:** Completed
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/51
     - **Completed:** 1783661731073
     </details>
