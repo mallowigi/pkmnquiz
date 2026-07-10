@@ -15,7 +15,7 @@ const { user } = useAuth(auth);
 
 <template>
   <div class="root">
-    <h1>{{ t('welcomeBack', { name: user?.displayName ?? settingsState.name }) }}</h1>
+    <h1 class="caption">{{ t('welcomeBack', { name: user?.displayName ?? settingsState.name }) }}</h1>
 
     <ProfilePic
       class="profile-avatar"
@@ -40,6 +40,10 @@ const { user } = useAuth(auth);
   align-items: center;
   justify-content: center;
   gap: 1rem;
+}
+
+.caption {
+  margin: 0;
 }
 
 .profile-avatar {

@@ -4,6 +4,7 @@ import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import SaveButtons from '@/components/background/SaveButtons.vue';
+import Spacer from '@/components/common/Spacer.vue';
 import Leaderboards from '@/components/start/Leaderboards.vue';
 import LoggedInInfo from '@/components/start/LoggedInInfo.vue';
 import LoginControls from '@/components/start/LoginControls.vue';
@@ -51,11 +52,12 @@ onMounted(() => {
       <!-- Save/Load -->
       <SaveButtons class="save-buttons" />
 
+      <Spacer />
       <!-- Leaderboards -->
-      <Leaderboards
-        class="leaderboards-table"
-        :caption="t('topGuessers', { n: 3 })"
-      />
+      <!--<Leaderboards-->
+      <!--  class="leaderboards-table"-->
+      <!--  :caption="t('topGuessers', { n: 3 })"-->
+      <!--/>-->
     </div>
   </div>
 </template>
