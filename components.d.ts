@@ -19,6 +19,7 @@ declare module 'vue' {
     BackgroundPreload: typeof import('./src/components/background/BackgroundPreload.vue')['default']
     BlueskyIcon: typeof import('./src/components/common/icons/BlueskyIcon.vue')['default']
     BoxShuffle: typeof import('./src/components/game/settings/BoxShuffle.vue')['default']
+    ChallengeModeChooser: typeof import('./src/components/start/genSelection/ChallengeModeChooser.vue')['default']
     ChangeTimerDialog: typeof import('./src/components/dialogs/ChangeTimerDialog.vue')['default']
     ChartIcon: typeof import('./src/components/common/icons/ChartIcon.vue')['default']
     CloudDownIcon: typeof import('./src/components/common/icons/CloudDownIcon.vue')['default']

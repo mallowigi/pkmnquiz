@@ -205,7 +205,7 @@ export type TimerState = {
   startTime: number | null;
 };
 
-export type GameSelectionState = 'new' | 'gen' | 'types' | 'special' | null;
+export type GameSelectionState = 'new' | 'gen' | 'types' | 'special' | null | 'challenge' | 'challengeSetup';
 
 export type GameFlowState = {
   gameSelectionState: GameSelectionState;

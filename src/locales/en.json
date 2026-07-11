@@ -15,6 +15,8 @@
   "boxShuffleTooltip": "Guess the next Pokémon of a given box",
   "bug": "Bug",
   "cancel": "Cancel",
+  "challengeMode": "Challenge Mode",
+  "challengeModeDescription": "Challenge mode. Remove all helpers, finish the game in the shortest time possible.",
   "changeName": "Change Nickname",
   "changeNameDialog": {
     "description": "Change your current nickname.",
@@ -87,6 +89,8 @@
     "sprites": "Custom & modified sprites made by {artists} ≡ as part of the {project} project."
   },
   "fr": "French",
+  "freeMode": "Free Mode",
+  "freeModeDescription": "Casual play mode. Toggle any settings, use any helpers, save your progression, etc.",
   "full": "Full Quiz",
   "fullQuiz": "Full Quiz",
   "galar": "Galar",
@@ -247,6 +251,7 @@
   "toggleSettings": "Toggle Settings",
   "topGuessers": "Top {n} Guessers",
   "topPlays": "Top {n} Plays",
+  "typeOfChallenge": "Type of Challenge:",
   "typeQuiz": "{type} Quiz",
   "typeShuffle": "Type Shuffle",
   "typeShuffleOnlyInRegularModeTooltip": "Type Shuffle can only be toggled in Regular mode",
