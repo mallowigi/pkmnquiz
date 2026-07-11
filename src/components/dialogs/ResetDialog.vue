@@ -7,16 +7,19 @@ import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow';
 import { usePokemons } from '@/stores/usePokemons';
 import { useTimer } from '@/stores/useTimer';
+import { useShuffles } from '@/composables/useShuffles.ts';
 
 const { resetFlowState, startGame } = useGameFlow();
 const { resetPokemonState } = usePokemons();
 const { resetTimer } = useTimer();
+const { updateShuffles } = useShuffles();
 const { dialogs, closeDialog } = useDialogs();
 const { t } = useI18n();
 
 const reset = () => {
   closeDialog();
   resetPokemonState();
+  updateShuffles();
   resetTimer();
   resetFlowState();
   startGame();

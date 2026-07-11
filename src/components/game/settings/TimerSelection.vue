@@ -8,10 +8,12 @@ import { useDialogs } from '@/stores/useDialogs.js';
 import { useGameFlow } from '@/stores/useGameFlow';
 import { usePokemons } from '@/stores/usePokemons';
 import { useTimer } from '@/stores/useTimer';
+import { useShuffles } from '@/composables/useShuffles.ts';
 
 const { flowState, resetFlowState, pauseGame, startGame } = useGameFlow();
 const { resetPokemonState } = usePokemons();
 const { resetTimer, setMinutes, setIsLimited, timerState } = useTimer();
+const { updateShuffles } = useShuffles();
 const { setDialog } = useDialogs();
 const { t } = useI18n();
 
@@ -26,6 +28,7 @@ const setInfinite = () => {
   setDialog('timer', () => {
     resetFlowState();
     resetPokemonState();
+    updateShuffles();
     resetTimer();
     setIsLimited(false);
     startGame();
@@ -41,6 +44,7 @@ const setFinite = () => {
   setDialog('timer', () => {
     resetFlowState();
     resetPokemonState();
+    updateShuffles();
     resetTimer();
     setIsLimited(true);
     startGame();

@@ -1,12 +1,12 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive } from 'vue';
 
+import { megaTypes } from '@/data/megaTypes.ts';
 import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { specialTypes } from '@/data/specialTypes.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useState } from '@/stores/useState';
 import type { Type } from '@/types.ts';
-import { megaTypes } from '@/data/megaTypes.ts';
 
 type CurrentTypeState = {
   currentType: Type | null;
@@ -25,7 +25,6 @@ export const useCurrentType = defineStore('currentType', () => {
 
   const clearCurrentType = () => {
     currentTypeState.currentType = null;
-    state.withTypeShuffle = false;
   };
 
   const getCurrentType = () => {

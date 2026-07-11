@@ -117,8 +117,9 @@ export const usePokemonInput = ({ clearInput }: Props) => {
     if (!state.withBoxShuffle) return false;
 
     const currentBox = currentBoxState.currentBox;
+    const boxes = new Set(foundPokemon.map((p) => p.box));
 
-    if (currentBox && foundPokemon[0].box !== currentBox) {
+    if (currentBox && !boxes.has(currentBox)) {
       return notifyError(`${capitalize(foundPokemon[0].baseName)} is not in ${t(currentBox)}.`);
     }
 

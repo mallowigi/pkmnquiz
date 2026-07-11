@@ -89,3 +89,18 @@
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/53
     </details>
     <!-- github:end -->
+- [ ] Bug: Box Mode and regions ##bug##
+    <!-- comment:start -->
+    <details><summary>Show Comment</summary>
+    
+    When in Box Shuffle mode, when a pokemon exists in multiple boxes (ex: Tauros, Groudon) but the current box is not the main one, the game cannot continue because it estimates that the main box is not the current box
+    </details>
+    <!-- comment:end -->
+    <!-- github:start -->
+    <details><summary>🔗 GitHub Integration</summary>
+    
+    - **Task ID:** 55
+    - **State:** Open
+    - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/55
+    </details>
+    <!-- github:end -->

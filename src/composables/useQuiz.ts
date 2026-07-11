@@ -9,6 +9,7 @@ import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useState } from '@/stores/useState.ts';
 import { useTimer } from '@/stores/useTimer.ts';
+import { useShuffles } from '@/composables/useShuffles.ts';
 import type { Type, Gen } from '@/types.ts';
 import { scrollToTop, capitalize } from '@/utils/utils.ts';
 
@@ -23,6 +24,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { currentTypeState, clearCurrentType, setCurrentType } = useCurrentType();
   const { resetPokemonState } = usePokemons();
   const { resetTimer } = useTimer();
+  const { updateShuffles } = useShuffles();
 
   const setTitle = () => {
     switch (state.gameMode) {
@@ -60,6 +62,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
       clearCurrentBox();
       clearCurrentType();
       resetPokemonState();
+      updateShuffles();
       resetTimer();
       startGame();
       scrollToTop();
@@ -82,6 +85,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
       clearCurrentType();
       setCurrentGen(gen);
       resetPokemonState();
+      updateShuffles();
       resetTimer();
       startGame();
       scrollToTop();
