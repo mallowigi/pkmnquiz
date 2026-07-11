@@ -49,6 +49,7 @@ const selectChallengeMode = () => {
 
         <div class="side">
           <RoundedButton
+            class="danger-btn"
             primary
             @click="selectChallengeMode"
           >

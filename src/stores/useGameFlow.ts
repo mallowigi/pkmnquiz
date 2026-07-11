@@ -107,10 +107,15 @@ export const useGameFlow = defineStore('gameFlow', () => {
     return flowState.isStarted;
   });
 
+  const isChallengeMode = computed(() => {
+    return flowState.challengeMode === 'challenge';
+  });
+
   return {
     endGame,
     flowState,
     giveUp,
+    isChallengeMode,
     isInGame,
     pauseGame,
     resetFlowState,

@@ -25,8 +25,8 @@ const LOCAL_STORAGE_NAME_KEY = 'pkmn_quiz_saved_name';
 const debouncedSaveToFirebase = useDebounceFn(
   (savedState: SaveData) => {
     const { settingsState } = useSettings();
-    const { isInGame } = storeToRefs(useGameFlow());
-    if (!settingsState.autoSync || !isInGame.value) {
+    const { isInGame, isChallengeMode } = storeToRefs(useGameFlow());
+    if (!settingsState.autoSync || !isInGame.value || isChallengeMode.value) {
       return;
     }
     const { saveUserState } = useFirebase();

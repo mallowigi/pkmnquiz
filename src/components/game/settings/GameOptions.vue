@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { AnimatePresence, motion } from 'motion-v';
+import { storeToRefs } from 'pinia';
 
 import PauseIcon from '@/components/common/icons/PauseIcon.vue';
 import SettingsIcon from '@/components/common/icons/SettingsIcon.vue';
@@ -23,6 +24,7 @@ import TypeShuffle from '@/components/game/settings/TypeShuffle.vue';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 
 const { flowState, toggleSettings, pauseGame } = useGameFlow();
+const { isChallengeMode } = storeToRefs(useGameFlow());
 
 const openSettings = () => {
   toggleSettings();
@@ -63,7 +65,7 @@ const togglePause = () => pauseGame();
     >
       <div
         class="selection-row"
-        v-if="flowState.challengeMode === 'free'"
+        v-if="!isChallengeMode"
       >
         <GameModeSelection />
 
@@ -78,7 +80,7 @@ const togglePause = () => pauseGame();
 
       <div
         class="selection-row"
-        v-if="flowState.challengeMode === 'free'"
+        v-if="!isChallengeMode"
       >
         <ShinyToggle />
 
@@ -101,7 +103,7 @@ const togglePause = () => pauseGame();
 
       <div
         class="selection-row"
-        v-if="flowState.challengeMode === 'free'"
+        v-if="!isChallengeMode"
       >
         <LanguagesSelection />
 
