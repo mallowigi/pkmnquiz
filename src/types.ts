@@ -195,6 +195,7 @@ export type PokemonProgressState = {
   lastPokemon: PokemonInfo | null;
   currentPokemon: PokemonInfo | null;
   pokemonStatuses: Map<string, PokemonStatus>;
+  shinyRate: number;
 };
 
 export type TimerState = {

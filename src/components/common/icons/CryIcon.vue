@@ -26,8 +26,4 @@ import Icon from '@/components/common/icons/Icon.vue';
   </Icon>
 </template>
 
-<style scoped>
-svg {
-  color: white;
-}
-</style>
+<style scoped></style>

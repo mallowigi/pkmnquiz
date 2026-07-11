@@ -109,11 +109,13 @@ export const usePokemons = defineStore('pokemons', () => {
     lastIndex: null,
     lastPokemon: null,
     pokemonStatuses: new Map<string, PokemonStatus>(),
+    shinyRate: 0.01,
   });
   const { state, hideShadows } = useState();
   const { getCurrentGen } = useCurrentGen();
   const { getCurrentType } = useCurrentType();
   const { settingsState } = useSettings();
+  const { flowState } = useGameFlow();
   const { startTimer } = useTimer();
   const { addShinyDiscovered, summonedShadow } = useTouches();
   const { playShiny } = usePlaySounds();
@@ -244,6 +246,19 @@ export const usePokemons = defineStore('pokemons', () => {
     });
   };
 
+  const getShinyRate = () => {
+    let rate = pokemonState.shinyRate;
+    if (settingsState.withShinies) {
+      rate *= 10;
+    }
+
+    if (flowState.challengeMode) {
+      rate *= 2;
+    }
+
+    return rate;
+  };
+
   const addFound = (pokemons: PokemonInfo[]) => {
     const { endGame } = useGameFlow();
 
@@ -257,7 +272,7 @@ export const usePokemons = defineStore('pokemons', () => {
         vibrate(300);
 
         const shinyRandom = Math.random();
-        const shinyRate = settingsState.withShinies ? 0.1 : 0.01;
+        const shinyRate = getShinyRate();
         if (shinyRandom < shinyRate) {
           status.isShiny = true;
           addShinyDiscovered();
