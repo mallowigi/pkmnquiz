@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import RoundedBox from '@/components/common/RoundedBox.vue';
 import SegmentButton from '@/components/common/SegmentButton.vue';
@@ -7,7 +8,6 @@ import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.js';
 import { useState } from '@/stores/useState.js';
-import { useI18n } from 'vue-i18n';
 
 const { state, setTypeShuffle } = useState();
 const { showUserMessage } = useMessages();
@@ -32,15 +32,15 @@ const applyTypeShuffle = (value: boolean) => {
   showUserMessage(t('typeShuffleSet', { status: value ? t('enabled') : t('disabled') }));
 };
 
-const isDisabled = computed(
-  () =>
-    flowState.isGivenUp ||
-    flowState.isEnded ||
-    state.mode !== 'normal' ||
-    state.gameMode === 'types' ||
-    state.gameMode === 'special' ||
-    state.gameMode === 'mega',
-);
+const isDisabled = computed(() => {
+  if (flowState.isGivenUp || flowState.isEnded) return true;
+
+  if (state.mode !== 'normal') return true;
+
+  if (!state.gameMode) return false;
+
+  return ['types', 'special', 'mega'].includes(state.gameMode);
+});
 </script>
 
 <template>

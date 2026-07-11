@@ -9,10 +9,10 @@ export const useState = defineStore('state', () => {
     gameMode: null,
     isDark: false,
     mode: 'normal',
+    withBoxShuffle: false,
     withCriesShuffle: false,
     withShadows: false,
     withTypeShuffle: false,
-    withBoxShuffle: false,
   });
 
   const { toggledDisplayShadows, toggledTypeShuffle, toggledBoxShuffle } = useTouches();
@@ -82,12 +82,12 @@ export const useState = defineStore('state', () => {
     displayShadows,
     hideShadows,
     resetState,
+    setBoxShuffle,
     setCriesShuffle,
     setDarkMode,
     setGameMode,
     setGameOver,
     setMode,
-    setBoxShuffle,
     setState,
     setTypeShuffle,
     state,

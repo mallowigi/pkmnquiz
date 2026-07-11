@@ -12,7 +12,7 @@ import { useState } from '@/stores/useState.ts';
 
 const { state, setBoxShuffle } = useState();
 const { showUserMessage } = useMessages();
-const { flowState } = useGameFlow();
+const { flowState, isChallengeMode } = useGameFlow();
 const { updateShuffles } = useShuffles();
 const { clearCurrentBox } = useCurrentBox();
 const { t } = useI18n();
@@ -20,8 +20,8 @@ const { t } = useI18n();
 const applyBoxShuffle = (value: boolean) => {
   if (state.withBoxShuffle === value) return;
 
-  if (state.gameMode !== 'full') {
-    showUserMessage(t('boxShuffleOnlyInFullQuizTooltip'));
+  if (state.mode !== 'normal') {
+    showUserMessage(t('boxShuffleOnlyInRegularModeTooltip'));
     return;
   }
 
@@ -34,9 +34,13 @@ const applyBoxShuffle = (value: boolean) => {
   showUserMessage(t('boxShuffleSet', { status: value ? t('enabled') : t('disabled') }));
 };
 
-const isDisabled = computed(
-  () => flowState.isGivenUp || flowState.isEnded || (flowState.challengeMode === 'free' && state.gameMode !== 'full'),
-);
+const isDisabled = computed(() => {
+  if (flowState.isGivenUp || flowState.isEnded) return true;
+
+  if (state.mode !== 'normal') return true;
+
+  return false;
+});
 </script>
 
 <template>

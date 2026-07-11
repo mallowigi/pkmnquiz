@@ -26,6 +26,8 @@ export const useCurrentBox = defineStore('currentBox', () => {
   };
 
   const setRandomCurrentBox = () => {
+    if (state.gameMode === 'gen') return;
+
     const { getRandomRemainingPokemon } = usePokemons();
     const remainingPokemon = getRandomRemainingPokemon();
     if (!remainingPokemon) return;

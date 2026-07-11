@@ -82,6 +82,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
     if (!isAlreadyFound(foundPokemon)) return false;
     if (isPartOfAnotherPokemon) return true;
 
+    // todo i18n
     return notifyError(`${capitalize(foundPokemon[0].baseName)} already named.`);
   };
 
