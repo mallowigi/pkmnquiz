@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { AnimatePresence, motion } from 'motion-v';
 
+import PauseIcon from '@/components/common/icons/PauseIcon.vue';
 import SettingsIcon from '@/components/common/icons/SettingsIcon.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import AutoPauseToggle from '@/components/game/settings/AutoPauseToggle.vue';
 import AutoSaveToggle from '@/components/game/settings/AutoSaveToggle.vue';
+import BoxShuffle from '@/components/game/settings/BoxShuffle.vue';
 import CriesHotkeyToggle from '@/components/game/settings/CriesHotkeyToggle.vue';
 import CycleSpritesToggle from '@/components/game/settings/CycleSpritesToggle.vue';
 import GameAbort from '@/components/game/settings/GameAbort.vue';
@@ -18,13 +20,15 @@ import SoundToggle from '@/components/game/settings/SoundToggle.vue';
 import SpellingToggle from '@/components/game/settings/SpellingToggle.vue';
 import TimerSelection from '@/components/game/settings/TimerSelection.vue';
 import TypeShuffle from '@/components/game/settings/TypeShuffle.vue';
-import BoxShuffle from '@/components/game/settings/BoxShuffle.vue';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 
-const { flowState, toggleSettings } = useGameFlow();
+const { flowState, toggleSettings, pauseGame } = useGameFlow();
+
 const openSettings = () => {
   toggleSettings();
 };
+
+const togglePause = () => pauseGame();
 </script>
 
 <template>
@@ -38,6 +42,14 @@ const openSettings = () => {
     >
       <SettingsIcon />
     </RoundedButton>
+
+    <!-- Pause -->
+    <RoundedButton
+      class="settings rad-br-tl"
+      @click="togglePause"
+    >
+      <PauseIcon />
+    </RoundedButton>
   </div>
 
   <AnimatePresence>
@@ -49,7 +61,10 @@ const openSettings = () => {
       :exit="{ height: 0, opacity: 0 }"
       :transition="{ duration: 0.3, ease: 'easeInOut' }"
     >
-      <div class="selection-row">
+      <div
+        class="selection-row"
+        v-if="flowState.challengeMode === 'free'"
+      >
         <GameModeSelection />
 
         <TimerSelection />
@@ -61,7 +76,10 @@ const openSettings = () => {
         <BoxShuffle />
       </div>
 
-      <div class="selection-row">
+      <div
+        class="selection-row"
+        v-if="flowState.challengeMode === 'free'"
+      >
         <ShinyToggle />
 
         <SpellingToggle />
@@ -70,16 +88,21 @@ const openSettings = () => {
 
         <CriesHotkeyToggle />
 
-        <CycleSpritesToggle />
-
-        <SoundToggle />
-
         <AutoPauseToggle />
 
         <AutoSaveToggle />
       </div>
 
       <div class="selection-row">
+        <CycleSpritesToggle />
+
+        <SoundToggle />
+      </div>
+
+      <div
+        class="selection-row"
+        v-if="flowState.challengeMode === 'free'"
+      >
         <LanguagesSelection />
 
         <MultiplayerInvite />

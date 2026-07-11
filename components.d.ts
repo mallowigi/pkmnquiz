@@ -73,6 +73,7 @@ declare module 'vue' {
     MultiplayerInvite: typeof import('./src/components/game/settings/MultiplayerInvite.vue')['default']
     NewGameButtons: typeof import('./src/components/start/NewGameButtons.vue')['default']
     Overlay: typeof import('./src/components/common/Overlay.vue')['default']
+    PauseIcon: typeof import('./src/components/common/icons/PauseIcon.vue')['default']
     PauseOverlay: typeof import('./src/components/background/PauseOverlay.vue')['default']
     PokemonCounts: typeof import('./src/components/header/PokemonCounts.vue')['default']
     PokemonInput: typeof import('./src/components/header/PokemonInput.vue')['default']
