@@ -6,22 +6,20 @@ import RoundedButton from '@/components/common/RoundedButton.vue';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 
 const { t } = useI18n();
-const { setGameSelectionState } = useGameFlow();
+const { setGameSelectionState, setChallengeMode } = useGameFlow();
 
 const breakpoints = useBreakpoints(breakpointsTailwind, {
   strategy: 'max-width',
 });
 
-const goBack = () => {
-  setGameSelectionState('new');
-};
-
 const selectFreeMode = () => {
   setGameSelectionState('gen');
+  setChallengeMode('free');
 };
 
 const selectChallengeMode = () => {
   setGameSelectionState('challengeSetup');
+  setChallengeMode('challenge');
 };
 </script>
 

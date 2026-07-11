@@ -17,6 +17,9 @@
   "cancel": "Cancel",
   "challengeMode": "Challenge Mode",
   "challengeModeDescription": "Challenge mode. Remove all helpers, finish the game in the shortest time possible.",
+  "challengeRulesExplanation": "In Challenge Mode, you won't be able to change the state in-game. Use the toggles below to customize your challenge.",
+  "challengeRulesTitle": "Challenge Rules",
+  "challengeSetup": "Challenge Mode Options",
   "changeName": "Change Nickname",
   "changeNameDialog": {
     "description": "Change your current nickname.",
@@ -169,6 +172,7 @@
   },
   "nameAllRegionPokemon": "Name all Pokémon!",
   "newGame": "New Game",
+  "next": "Next",
   "nextPokemon": "Next Pokemon: {name}",
   "normal": "Normal",
   "notFound": "Not found",
@@ -251,7 +255,7 @@
   "toggleSettings": "Toggle Settings",
   "topGuessers": "Top {n} Guessers",
   "topPlays": "Top {n} Plays",
-  "typeOfChallenge": "Type of Challenge:",
+  "typeOfChallenge": "Type of Challenge",
   "typeQuiz": "{type} Quiz",
   "typeShuffle": "Type Shuffle",
   "typeShuffleOnlyInRegularModeTooltip": "Type Shuffle can only be toggled in Regular mode",
@@ -267,5 +271,6 @@
   "welcome": "Welcome to the Pokémon Quiz!",
   "welcomeBack": "Welcome back, {name} !",
   "x": "X",
+
   "zh": "Chinese (Traditional)"
 }

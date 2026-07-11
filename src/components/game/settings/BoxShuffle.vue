@@ -35,10 +35,7 @@ const applyBoxShuffle = (value: boolean) => {
 };
 
 const isDisabled = computed(
-  () =>
-    flowState.isGivenUp ||
-    flowState.isEnded ||
-    state.gameMode !== 'full',
+  () => flowState.isGivenUp || flowState.isEnded || (flowState.challengeMode === 'free' && state.gameMode !== 'full'),
 );
 </script>
 

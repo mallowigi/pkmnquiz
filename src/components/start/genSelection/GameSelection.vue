@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+
 import Overlay from '@/components/common/Overlay.vue';
 import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
-import ChallengeModeChooser from '@/components/start/genSelection/ChallengeModeChooser.vue';
+import ChallengeModeChooser from '@/components/start/challenge/ChallengeModeChooser.vue';
+import ChallengeSetup from '@/components/start/challenge/ChallengeSetup.vue';
 import GenChooser from '@/components/start/genSelection/GenChooser.vue';
 import SpecialChooser from '@/components/start/genSelection/SpecialChooser.vue';
 import TypeChooser from '@/components/start/genSelection/TypeChooser.vue';
@@ -51,6 +53,8 @@ const close = () => {
             <h3 class="title">{{ t('hello', { name: settingsState.name }) }}</h3>
             <FadeTransition mode="out-in">
               <ChallengeModeChooser v-if="flowState.gameSelectionState === 'challenge'" />
+
+              <ChallengeSetup v-if="flowState.gameSelectionState === 'challengeSetup'" />
 
               <GenChooser v-if="flowState.gameSelectionState === 'gen'" />
 
