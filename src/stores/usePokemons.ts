@@ -115,7 +115,7 @@ export const usePokemons = defineStore('pokemons', () => {
   const { getCurrentGen } = useCurrentGen();
   const { getCurrentType } = useCurrentType();
   const { settingsState } = useSettings();
-  const { flowState } = useGameFlow();
+  const { isChallengeMode } = useGameFlow();
   const { startTimer } = useTimer();
   const { addShinyDiscovered, summonedShadow } = useTouches();
   const { playShiny } = usePlaySounds();
@@ -252,7 +252,7 @@ export const usePokemons = defineStore('pokemons', () => {
       rate *= 10;
     }
 
-    if (flowState.challengeMode) {
+    if (isChallengeMode) {
       rate *= 2;
     }
 
