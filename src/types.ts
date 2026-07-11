@@ -205,10 +205,13 @@ export type TimerState = {
   startTime: number | null;
 };
 
+export type ChallengeMode = 'free' | 'challenge';
+
 export type GameSelectionState = 'new' | 'gen' | 'types' | 'special' | null | 'challenge' | 'challengeSetup';
 
 export type GameFlowState = {
   gameSelectionState: GameSelectionState;
+  challengeMode: ChallengeMode;
   sessionId: string | null;
   isEnded: boolean;
   isGivenUp: boolean;
@@ -265,6 +268,7 @@ export type SaveData = State &
     currentType: Type | null;
     currentBox: RegionBox | null;
     gameSelectionState: GameSelectionState | null;
+    challengeMode: ChallengeMode;
     gen: Gen | null;
     languages: Language[];
     pokemonProgress: PokemonProgress;

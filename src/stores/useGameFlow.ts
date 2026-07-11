@@ -6,7 +6,7 @@ import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useTouches } from '@/stores/useTouches.ts';
-import type { GameFlowState, GameSelectionState } from '@/types.ts';
+import type { GameFlowState, GameSelectionState, ChallengeMode } from '@/types.ts';
 
 export const useGameFlow = defineStore('gameFlow', () => {
   const { playFanfare, playMissingno } = usePlaySounds();
@@ -16,6 +16,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
   const { toggledMissingno } = useTouches();
 
   const flowState = reactive<GameFlowState>({
+    challengeMode: 'free',
     gameSelectionState: 'new',
     isEnded: false,
     isGivenUp: false,
@@ -71,6 +72,10 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.lastInput = null;
   };
 
+  const setChallengeMode = (mode: ChallengeMode) => {
+    flowState.challengeMode = mode;
+  };
+
   const resetFlowState = () => {
     flowState.isEnded = false;
     flowState.isGivenUp = false;
@@ -110,6 +115,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
     pauseGame,
     resetFlowState,
     resumeGame,
+    setChallengeMode,
     setFlowState,
     setGameSelectionState,
     startGame,

@@ -102,6 +102,7 @@ export const useSavedData = () => {
       ...state,
       ...settingsState,
       ...touchesState,
+      challengeMode: flowState.challengeMode,
       currentBox: currentBoxState.currentBox,
       currentType: currentTypeState.currentType,
       gameSelectionState: flowState.gameSelectionState,
@@ -182,6 +183,7 @@ export const useSavedData = () => {
       pokemonProgress,
       timer,
       gameSelectionState,
+      challengeMode,
       version: _version,
       ...statePayload
     } = loadedState as Partial<SaveData>;
@@ -283,6 +285,7 @@ export const useSavedData = () => {
     resetFlowState();
 
     setFlowState({
+      challengeMode: challengeMode,
       gameSelectionState: gameSelectionState,
       isStarted: true,
       sessionId: statePayload.sessionId ?? crypto.randomUUID(),
