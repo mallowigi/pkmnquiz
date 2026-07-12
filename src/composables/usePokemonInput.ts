@@ -82,22 +82,21 @@ export const usePokemonInput = ({ clearInput }: Props) => {
     if (!isAlreadyFound(foundPokemon)) return false;
     if (isPartOfAnotherPokemon) return true;
 
-    // todo i18n
-    return notifyError(`${capitalize(foundPokemon[0].baseName)} already named.`);
+    return notifyError(t('alreadyNamed', { name: capitalize(foundPokemon[0].baseName) }));
   };
 
   const handleNotInCurrentGameMode = (foundPokemon: PokemonInfo[], isPartOfAnotherPokemon: boolean) => {
     if (isPokemonInCurrentGameMode(foundPokemon)) return false;
     if (isPartOfAnotherPokemon) return true;
 
-    return notifyError(`${capitalize(foundPokemon[0].baseName)} is not part of this game.`);
+    return notifyError(t('notPartOfGame', { name: capitalize(foundPokemon[0].baseName) }));
   };
 
   const handleWrongOrder = (foundPokemon: PokemonInfo[], isPartOfAnotherPokemon: boolean) => {
     if (state.mode !== 'order' || !isWrongOrder(foundPokemon)) return false;
     if (isPartOfAnotherPokemon) return true;
 
-    return notifyError(`${capitalize(foundPokemon[0].baseName)} is not the next Pokemon.`);
+    return notifyError(t('notNextPokemon', { name: capitalize(foundPokemon[0].baseName) }));
   };
 
   const handleTypeShuffle = (foundPokemon: PokemonInfo[], _isPartOfAnotherPokemon: boolean) => {
@@ -107,7 +106,12 @@ export const usePokemonInput = ({ clearInput }: Props) => {
     const types = new Set(foundPokemon.flatMap((p) => [p.primaryType, p.secondaryType]));
 
     if (currentType && !types.has(currentType.id)) {
-      return notifyError(`${capitalize(foundPokemon[0].baseName)} is not of type ${capitalize(currentType.name)}.`);
+      return notifyError(
+        t('notOfType', {
+          name: capitalize(foundPokemon[0].baseName),
+          type: capitalize(t(currentType.id)),
+        }),
+      );
     }
 
     return false;
@@ -120,7 +124,12 @@ export const usePokemonInput = ({ clearInput }: Props) => {
     const boxes = new Set(foundPokemon.map((p) => p.box));
 
     if (currentBox && !boxes.has(currentBox)) {
-      return notifyError(`${capitalize(foundPokemon[0].baseName)} is not in ${t(currentBox)}.`);
+      return notifyError(
+        t('notInBox', {
+          box: t(currentBox),
+          name: capitalize(foundPokemon[0].baseName),
+        }),
+      );
     }
 
     return false;
@@ -145,7 +154,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
 
       if (value === 'prefill') {
         prefillRemaining();
-        showUserMessage('Cheat activated: Prefilled all but one.');
+        showUserMessage(t('cheatPrefill'));
         clearInput();
         return;
       }
