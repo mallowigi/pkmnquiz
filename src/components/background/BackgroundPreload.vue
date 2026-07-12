@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import bg50 from '@/assets/background-50.svg';
-import bgDark from '@/assets/background-dark.svg';
-import bg50Grey from '@/assets/background-50-grey.svg';
-import bgDarkGrey from '@/assets/background-dark-grey.svg';
 import { computed } from 'vue';
+
+import bg50Grey from '@/assets/background-50-grey.svg';
+import bg50 from '@/assets/background-50.svg';
+import bgDarkGrey from '@/assets/background-dark-grey.svg';
+import bgDark from '@/assets/background-dark.svg';
 import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { specialTypes } from '@/data/specialTypes.ts';
 
@@ -11,7 +12,9 @@ const backgroundImages = [bg50, bgDark, bg50Grey, bgDarkGrey];
 
 const allTypeIcons = computed(() => {
   const icons = new Set<string>();
+
   Object.values(pokemonTypes).forEach((t) => icons.add(t.icon));
+
   icons.add(specialTypes.no.icon);
   return Array.from(icons);
 });
