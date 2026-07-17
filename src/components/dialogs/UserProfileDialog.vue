@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
+import ProfileDetailedStats from '@/components/dialogs/ProfileDetailedStats.vue';
 import ProfileStats from '@/components/dialogs/ProfileStats.vue';
 import ProfilePic from '@/components/header/ProfilePic.vue';
 import Leaderboards from '@/components/start/Leaderboards.vue';
@@ -41,13 +42,7 @@ const cancel = () => {
 
         <ProfileStats />
 
-        <div class="profile-records">
-          <Leaderboards
-            :caption="t('topPlays', { n: 3 })"
-            :uid="user?.uid"
-            :gameMode="null"
-          />
-        </div>
+        <ProfileDetailedStats />
       </div>
 
       <RoundedButton

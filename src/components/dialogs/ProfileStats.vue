@@ -1,30 +1,50 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import RoundedBox from '@/components/common/RoundedBox.vue';
 import { useProfile } from '@/stores/useProfile.ts';
 
 const { profileState } = useProfile();
+
+const totalWins = computed(() => {
+  const fg = profileState.finishedGames;
+  return fg.chaos + fg.normal + fg.order;
+});
 
 const { t } = useI18n();
 </script>
 
 <template>
   <div class="profile-stats">
-    <div class="stat">
-      <span class="stat-label">{{ t('plays') }}:</span>
+    <RoundedBox class="stat rad-tl">
+      <span class="stat-label">{{ t('plays') }}</span>
       <span class="stat-value">{{ profileState.plays }}</span>
-    </div>
+    </RoundedBox>
+
+    <RoundedBox class="stat rad-tr">
+      <span class="stat-label">{{ t('wins') }}</span>
+      <span class="stat-value">{{ totalWins }}</span>
+    </RoundedBox>
+
+    <RoundedBox class="stat rad-bl">
+      <span class="stat-label">{{ t('winsNoShadows') }}</span>
+      <span class="stat-value">{{ profileState.finishedGames.noShadows }}</span>
+    </RoundedBox>
+
+    <RoundedBox class="stat rad-br">
+      <span class="stat-label">{{ t('winsNoCries') }}</span>
+      <span class="stat-value">{{ profileState.finishedGames.noCries }}</span>
+    </RoundedBox>
   </div>
 </template>
 
 <style scoped>
 .profile-stats {
-  display: flex;
-  gap: 24px;
-  margin-bottom: 24px;
-  padding: 12px 24px;
-  background: var(--border);
-  border-radius: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0px;
+  margin-bottom: 12px;
 }
 
 .stat {
@@ -32,25 +52,19 @@ const { t } = useI18n();
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  max-height: initial;
 }
 
 .stat-label {
   font-size: 14px;
-  color: var(--text);
   opacity: 0.8;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .stat-value {
   font-size: 24px;
   font-weight: bold;
-  color: var(--primary);
-}
-
-.profile-records h4 {
-  margin: 0 0 12px 0;
-  color: var(--text);
-  font-size: 18px;
+  color: var(--type-btn-color, var(--primary));
 }
 </style>
