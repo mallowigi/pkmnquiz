@@ -1,15 +1,15 @@
 import { useTitle } from '@vueuse/core';
 
+import { useShuffles } from '@/composables/useShuffles.ts';
 import { gens } from '@/data/gens.ts';
-import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox.ts';
+import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useState } from '@/stores/useState.ts';
 import { useTimer } from '@/stores/useTimer.ts';
-import { useShuffles } from '@/composables/useShuffles.ts';
 import type { Type, Gen } from '@/types.ts';
 import { scrollToTop, capitalize } from '@/utils/utils.ts';
 
@@ -134,8 +134,8 @@ export const useQuiz = ({ withDialog = false } = {}) => {
         setGameMode('mega');
         break;
       default:
-        setGameMode('types');
         setCurrentType(type as Type);
+        setGameMode('types');
     }
 
     setTitle();
