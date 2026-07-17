@@ -52,6 +52,20 @@ service cloud.firestore {
       isValidPokemonProgress(data.pokemonProgress);
     }
 
+    function isValidFinishedGames(games) {
+      return games is map &&
+      isValidInt(games.full, 0) &&
+      isValidInt(games.noShadows, 0) &&
+      isValidInt(games.noCries, 0) &&
+      isValidInt(games.chaos, 0) &&
+      isValidInt(games.normal, 0) &&
+      isValidInt(games.order, 0) &&
+      isValidInt(games.special, 0) &&
+      isValidInt(games.mega, 0) &&
+      games.gen is map &&
+      games.types is map;
+    }
+
     // Rules for the 'users' collection
     // Stores the persistent save data for authenticated users
     match /users/{userId} {
@@ -66,7 +80,8 @@ service cloud.firestore {
     match /profiles/{userId} {
       allow read: if isOwner(userId);
       allow write: if isOwner(userId) &&
-      isValidInt(request.resource.data.plays, 0);
+      isValidInt(request.resource.data.plays, 0) &&
+      (!('finishedGames' in request.resource.data) || isValidFinishedGames(request.resource.data.finishedGames));
     }
 
     // Rules for the 'leaderboards' collection

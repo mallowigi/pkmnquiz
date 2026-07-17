@@ -14,7 +14,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
   const { removeAutoSave } = useSavedData();
   const { createRecord } = useFirebase();
   const { showRemaining } = usePokemons();
-  const { incrementPlays } = useProfile();
+  const { incrementPlays, updateFinishedGames } = useProfile();
   const { toggledMissingno } = useTouches();
 
   const flowState = reactive<GameFlowState>({
@@ -49,6 +49,10 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.isPaused = false;
   };
 
+  const recordWin = () => {
+    updateFinishedGames();
+  };
+
   const endGame = () => {
     flowState.isEnded = true;
     flowState.isStarted = false;
@@ -58,6 +62,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
 
     removeAutoSave();
     createRecord();
+    recordWin();
     playFanfare();
   };
 

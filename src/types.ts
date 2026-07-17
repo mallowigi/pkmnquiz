@@ -155,8 +155,22 @@ export type Touches = {
   summonedInitials: number;
 };
 
+export type FinishedGames = {
+  full: number;
+  chaos: number;
+  normal: number;
+  order: number;
+  gen: Record<Gen, number>;
+  special: number;
+  mega: number;
+  types: Record<Type, number>;
+  noShadows: number;
+  noCries: number;
+};
+
 export type Profile = {
   plays: number;
+  finishedGames: FinishedGames;
 };
 
 export type State = {
