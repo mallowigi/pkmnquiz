@@ -5,17 +5,25 @@ import { useCurrentType } from '@/stores/useCurrentType';
 import { useState } from '@/stores/useState';
 
 const { state } = useState();
-const { getCurrentTypeOrSpecial } = useCurrentType();
+const { getCurrentTypeOrSpecial, getSecondaryType } = useCurrentType();
 
 const currentType = computed(() => {
   return getCurrentTypeOrSpecial();
+});
+
+const secondaryType = computed(() => {
+  return getSecondaryType();
 });
 </script>
 
 <template>
   <div
     class="background"
-    :class="{ typed: currentType, dark: state.isDark }"
+    :class="{
+      typed: currentType,
+      'double-typed': secondaryType,
+      dark: state.isDark
+    }"
   >
     <!-- Preload background images and type icons -->
     <BackgroundPreload />
@@ -26,7 +34,7 @@ const currentType = computed(() => {
     >
       <div
         v-if="currentType"
-        :key="currentType.id"
+        :key="currentType.id + (secondaryType?.id ?? '')"
       >
         <!-- First logo -->
         <img
@@ -38,8 +46,8 @@ const currentType = computed(() => {
 
         <!-- Second logo -->
         <img
-          :alt="currentType?.name"
-          :src="`/assets/types/${currentType?.icon}.svg`"
+          :alt="secondaryType ? secondaryType.name : currentType?.name"
+          :src="`/assets/types/${secondaryType ? secondaryType.icon : currentType?.icon}.svg`"
           id="bgpattern2"
           class="bgpattern2"
         />
@@ -86,6 +94,25 @@ const currentType = computed(() => {
 
   &.typed.dark {
     background-image: url(@/assets/background-dark-grey.svg);
+  }
+
+  &.double-typed {
+    background-image: url(@/assets/background-50-grey.svg),
+      linear-gradient(
+        to bottom right,
+        var(--type-bg-color),
+        var(--type-bg-color-secondary, var(--type-bg-color))
+      );
+    background-blend-mode: hard-light, normal;
+  }
+
+  &.double-typed.dark {
+    background-image: url(@/assets/background-dark-grey.svg),
+      linear-gradient(
+        to bottom right,
+        var(--type-bg-color),
+        var(--type-bg-color-secondary, var(--type-bg-color))
+      );
   }
 }
 

@@ -54,6 +54,14 @@ export const useCurrentType = defineStore('currentType', () => {
     }
   };
 
+  const getSecondaryType = () => {
+    const gameMode = state.gameMode;
+    if (gameMode === 'special' || gameMode === 'mega') {
+      return getCurrentType();
+    }
+    return null;
+  };
+
   const setRandomCurrentType = () => {
     const { getRandomRemainingPokemon } = usePokemons();
     const remainingPokemon = getRandomRemainingPokemon();
@@ -76,6 +84,7 @@ export const useCurrentType = defineStore('currentType', () => {
     getCurrentType,
     getCurrentTypeOrSpecial,
     getMegaType,
+    getSecondaryType,
     getSpecialType,
     setCurrentType,
     setRandomCurrentType,

@@ -4,6 +4,7 @@ import { useCurrentType } from '@/stores/useCurrentType';
 
 export const TYPE_STYLE_KEYS = [
   '--type-bg-color',
+  '--type-bg-color-secondary',
   '--type-btn-color',
   '--type-dark-color',
   '--type-fg-color',
@@ -16,7 +17,7 @@ type TypeStyleKey = (typeof TYPE_STYLE_KEYS)[number];
 type TypeStyles = Partial<Record<TypeStyleKey, string>>;
 
 export const useTypeStyles = () => {
-  const { getCurrentTypeOrSpecial } = useCurrentType();
+  const { getCurrentTypeOrSpecial, getSecondaryType } = useCurrentType();
 
   return computed<TypeStyles>(() => {
     const type = getCurrentTypeOrSpecial();
@@ -24,7 +25,7 @@ export const useTypeStyles = () => {
       return {};
     }
 
-    return {
+    const styles: TypeStyles = {
       '--type-bg-color': type.bgColor,
       '--type-btn-color': type.buttonColor,
       '--type-dark-color': type.darkBgColor,
@@ -33,5 +34,12 @@ export const useTypeStyles = () => {
       '--type-light-color': type.lightBgColor,
       '--type-light-fg-color': type.lightFgColor,
     };
+
+    const secondaryType = getSecondaryType();
+    if (secondaryType) {
+      styles['--type-bg-color-secondary'] = secondaryType.bgColor;
+    }
+
+    return styles;
   });
 };
