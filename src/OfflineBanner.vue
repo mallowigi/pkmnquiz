@@ -11,7 +11,7 @@ const online = useOnline();
     class="banner"
     v-if="!online"
   >
-    {{ t }}
+    {{ t('offlineModeBanner') }}
   </div>
 </template>
 

@@ -79,6 +79,7 @@ declare module 'vue' {
     PokemonInput: typeof import('./src/components/header/PokemonInput.vue')['default']
     PokemonSprite: typeof import('./src/components/game/PokemonSprite.vue')['default']
     ProfilePic: typeof import('./src/components/header/ProfilePic.vue')['default']
+    ProfileStats: typeof import('./src/components/dialogs/ProfileStats.vue')['default']
     RegionBoxes: typeof import('./src/components/game/RegionBoxes.vue')['default']
     ResetDialog: typeof import('./src/components/dialogs/ResetDialog.vue')['default']
     RevealZoomTransition: typeof import('./src/components/common/transitions/RevealZoomTransition.vue')['default']
