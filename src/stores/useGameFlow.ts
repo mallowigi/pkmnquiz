@@ -5,6 +5,7 @@ import { useFirebase } from '@/composables/useFirebase.ts';
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
+import { useProfile } from '@/stores/useProfile.ts';
 import { useTouches } from '@/stores/useTouches.ts';
 import type { GameFlowState, GameSelectionState, ChallengeMode } from '@/types.ts';
 
@@ -13,6 +14,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
   const { removeAutoSave } = useSavedData();
   const { createRecord } = useFirebase();
   const { showRemaining } = usePokemons();
+  const { incrementPlays } = useProfile();
   const { toggledMissingno } = useTouches();
 
   const flowState = reactive<GameFlowState>({
@@ -36,6 +38,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.lastInput = null;
     flowState.missingno = false;
     flowState.sessionId = crypto.randomUUID();
+    incrementPlays();
   };
 
   const pauseGame = () => {

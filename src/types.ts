@@ -155,6 +155,10 @@ export type Touches = {
   summonedInitials: number;
 };
 
+export type Profile = {
+  plays: number;
+};
+
 export type State = {
   gameMode: GameMode | null;
   isDark: boolean;

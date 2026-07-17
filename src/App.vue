@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { usePreferredDark, useBreakpoints, useOnline } from '@vueuse/core';
+import { usePreferredDark, useBreakpoints } from '@vueuse/core';
 import { watchEffect, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 import Background from '@/components/background/Background.vue';
 import Credits from '@/components/background/Credits.vue';

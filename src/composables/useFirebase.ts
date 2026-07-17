@@ -1,6 +1,6 @@
 import { useOnline } from '@vueuse/core';
 import { useFirestore } from '@vueuse/firebase';
-import { signInAnonymously, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signInAnonymously, signOut } from 'firebase/auth';
 import { collection, doc, getDoc, limit, orderBy, query, setDoc, where, deleteDoc } from 'firebase/firestore';
 import { storeToRefs, acceptHMRUpdate, defineStore } from 'pinia';
 import { reactive } from 'vue';
@@ -15,6 +15,7 @@ import { i18n } from '@/main.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
+import { useProfile } from '@/stores/useProfile.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useTimer } from '@/stores/useTimer.ts';
 import type { UserRecord, GameMode, Gen, Type, SaveData } from '@/types.ts';
@@ -34,6 +35,15 @@ export const useFirebase = defineStore('firebase', () => {
   const { authenticateWithFacebook } = useFacebookAuth();
   const { authenticateWithX } = useXAuth();
 
+  onAuthStateChanged(auth, async (user) => {
+    const { fetchProfile, setProfileState } = useProfile();
+    if (user) {
+      await fetchProfile();
+    } else {
+      setProfileState({ plays: 0 });
+    }
+  });
+
   const firebaseState = reactive({
     isSaving: false,
   });
@@ -50,11 +60,16 @@ export const useFirebase = defineStore('firebase', () => {
 
   const authenticateAnonymously = async () => {
     checkOnline('auth');
+    const { fetchProfile } = useProfile();
 
     signInAnonymously(auth)
-      .then((result) => {
+      .then(async (result) => {
         let userName = result.user.displayName ?? 'Trainer';
         setName(userName);
+
+        // Fetch and load profile from Firebase
+        await fetchProfile();
+
         showUserMessage(i18n.global.t('welcomeBack', { name: userName }));
       })
       .catch((error) => {

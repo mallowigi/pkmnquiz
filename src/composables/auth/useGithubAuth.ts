@@ -5,15 +5,18 @@ import {
   setPersistence,
   signInWithPopup,
   updateProfile,
+  type User,
 } from 'firebase/auth';
 
 import { auth } from '@/firebase';
 import { i18n } from '@/main.ts';
 import { useMessages } from '@/stores/useMessages';
+import { useProfile } from '@/stores/useProfile';
 import { useSettings } from '@/stores/useSettings';
 
 export const useGithubAuth = () => {
   const { setName, setAvatar } = useSettings();
+  const { fetchProfile } = useProfile();
   const { showUserMessage } = useMessages();
 
   const authenticateWithGithub = async () => {
@@ -30,14 +33,13 @@ export const useGithubAuth = () => {
         signInWithPopup(auth, provider)
           .then(async (result) => {
             const user = result.user;
-            const photoURL = user.photoURL;
-
-            if (photoURL && user.photoURL !== photoURL) {
-              await updateProfile(user, { photoURL });
-            }
+            const photoURL = await fetchAvatar(user);
 
             setName(user.displayName ?? 'Trainer');
             setAvatar(photoURL);
+
+            // Fetch and load profile from Firebase
+            await fetchProfile();
           })
           .catch((error) => {
             console.error('Auth failed:', error);
@@ -49,6 +51,15 @@ export const useGithubAuth = () => {
         console.error('Persistence failed:', error);
       });
   };
+
+  async function fetchAvatar(user: User) {
+    const photoURL = user.photoURL;
+
+    if (photoURL && user.photoURL !== photoURL) {
+      await updateProfile(user, { photoURL });
+    }
+    return photoURL;
+  }
 
   return { authenticateWithGithub };
 };
