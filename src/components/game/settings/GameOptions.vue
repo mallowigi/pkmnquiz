@@ -37,21 +37,23 @@ const togglePause = () => pauseGame();
   <div class="selection-row">
     <GameAbort />
 
-    <!-- Settings -->
-    <RoundedButton
-      class="settings rad-br-tl"
-      @click="openSettings"
-    >
-      <SettingsIcon />
-    </RoundedButton>
+    <div>
+      <!-- Settings -->
+      <RoundedButton
+        class="settings rad-br-tl"
+        @click="openSettings"
+      >
+        <SettingsIcon />
+      </RoundedButton>
 
-    <!-- Pause -->
-    <RoundedButton
-      class="settings rad-br-tl"
-      @click="togglePause"
-    >
-      <PauseIcon />
-    </RoundedButton>
+      <!-- Pause -->
+      <RoundedButton
+        class="settings rad-br-tl"
+        @click="togglePause"
+      >
+        <PauseIcon />
+      </RoundedButton>
+    </div>
   </div>
 
   <AnimatePresence>

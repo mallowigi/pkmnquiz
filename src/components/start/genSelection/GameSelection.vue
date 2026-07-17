@@ -13,12 +13,16 @@ import StartScreen from '@/components/start/StartScreen.vue';
 import { useGameFlow } from '@/stores/useGameFlow.js';
 import { usePkmnData } from '@/stores/usePkmnStore.js';
 import { useSettings } from '@/stores/useSettings.js';
+import { useAuth } from '@vueuse/firebase';
+import { useFirebase } from '@/composables/useFirebase.ts';
 
 const { t } = useI18n();
 
 const { settingsState } = useSettings();
 const { flowState, setGameSelectionState } = useGameFlow();
 const { data } = usePkmnData();
+const { auth } = useFirebase();
+const { user } = useAuth(auth);
 
 const close = () => {
   if (!flowState.isStarted) {
@@ -50,7 +54,6 @@ const close = () => {
 
           <!-- Game selection -->
           <div v-else>
-            <h3 class="title">{{ t('hello', { name: settingsState.name }) }}</h3>
             <FadeTransition mode="out-in">
               <ChallengeModeChooser v-if="flowState.gameSelectionState === 'challenge'" />
 

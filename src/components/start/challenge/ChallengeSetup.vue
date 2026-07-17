@@ -81,6 +81,14 @@ const goBack = () => {
   width: 100%;
   align-items: center;
   justify-content: center;
+
+  .mobile & {
+    flex-direction: column;
+
+    > * {
+      align-self: center;
+    }
+  }
 }
 
 .actions {
