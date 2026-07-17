@@ -6,7 +6,7 @@ import { useState } from '@/stores/useState.ts';
 export const useShuffles = () => {
   const { state } = useState();
   const { setCurrentType } = useCurrentType();
-  const { setCurrentBox } = useCurrentBox();
+  const { setCurrentBox, setCurrentSpecialBox, setCurrentMegaBox } = useCurrentBox();
   const { getRandomRemainingPokemon } = usePokemons();
 
   const updateShuffles = () => {
@@ -27,6 +27,8 @@ export const useShuffles = () => {
 
     if (state.withBoxShuffle) {
       setCurrentBox(remainingPokemon.box);
+      setCurrentSpecialBox(remainingPokemon.specialType);
+      setCurrentMegaBox(remainingPokemon.box);
     }
   };
 

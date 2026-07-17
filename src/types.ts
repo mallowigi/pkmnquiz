@@ -268,6 +268,8 @@ export type SaveData = State &
     sessionId: string | null;
     currentType: Type | null;
     currentBox: RegionBox | null;
+    currentSpecialBox: SpecialType | null;
+    currentMegaBox: RegionBox | null;
     gameSelectionState: GameSelectionState | null;
     challengeMode: ChallengeMode;
     gen: Gen | null;

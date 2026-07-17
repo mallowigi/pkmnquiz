@@ -104,6 +104,8 @@ export const useSavedData = () => {
       ...touchesState,
       challengeMode: flowState.challengeMode,
       currentBox: currentBoxState.currentBox,
+      currentMegaBox: currentBoxState.currentMegaBox,
+      currentSpecialBox: currentBoxState.currentSpecialBox,
       currentType: currentTypeState.currentType,
       gameSelectionState: flowState.gameSelectionState,
       gen: currentGenState.gen,
@@ -167,7 +169,7 @@ export const useSavedData = () => {
   const applyState = (loadedState: SaveData) => {
     const { setState } = useState();
     const { setCurrentGen } = useCurrentGen();
-    const { setCurrentBox } = useCurrentBox();
+    const { setCurrentBox, setCurrentSpecialBox, setCurrentMegaBox } = useCurrentBox();
     const { setCurrentType } = useCurrentType();
     const { resetFlowState, setFlowState } = useGameFlow();
     const { pokemonState, resetPokemonState, findPokemon } = usePokemons();
@@ -179,6 +181,8 @@ export const useSavedData = () => {
     const {
       currentType,
       currentBox,
+      currentSpecialBox,
+      currentMegaBox,
       languages,
       pokemonProgress,
       timer,
@@ -200,6 +204,8 @@ export const useSavedData = () => {
 
     // Box
     setCurrentBox(currentBox ?? null);
+    setCurrentSpecialBox(currentSpecialBox ?? null);
+    setCurrentMegaBox(currentMegaBox ?? null);
 
     // Gen
     setCurrentGen(statePayload.gen ?? null);

@@ -80,7 +80,16 @@ const isFull = (boxId: SpecialType | RegionBox) => {
 };
 
 const isDimmed = (boxId: SpecialType | RegionBox) => {
-  return state.withBoxShuffle && currentBoxState.currentBox !== boxId;
+  if (!state.withBoxShuffle) return false;
+
+  switch (state.gameMode) {
+    case 'special':
+      return currentBoxState.currentSpecialBox !== boxId;
+    case 'mega':
+      return currentBoxState.currentMegaBox !== boxId;
+    default:
+      return currentBoxState.currentBox !== boxId;
+  }
 };
 </script>
 

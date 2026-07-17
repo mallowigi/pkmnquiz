@@ -10,7 +10,7 @@ import { useMessages } from '@/stores/useMessages.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useState } from '@/stores/useState.ts';
-import type { PokemonInfo } from '@/types.ts';
+import type { PokemonInfo, SpecialType, RegionBox } from '@/types.ts';
 import { capitalize } from '@/utils/utils';
 
 type Props = {
@@ -119,9 +119,23 @@ export const usePokemonInput = ({ clearInput }: Props) => {
 
   const handleBoxShuffle = (foundPokemon: PokemonInfo[], _isPartOfAnotherPokemon: boolean) => {
     if (!state.withBoxShuffle) return false;
+    let currentBox: SpecialType | RegionBox | null;
+    let boxes: Set<unknown>;
 
-    const currentBox = currentBoxState.currentBox;
-    const boxes = new Set(foundPokemon.map((p) => p.box));
+    switch (state.gameMode) {
+      case 'special':
+        currentBox = currentBoxState.currentSpecialBox;
+        boxes = new Set(foundPokemon.map((p) => p.specialType));
+        break;
+      case 'mega':
+        currentBox = currentBoxState.currentMegaBox;
+        boxes = new Set(foundPokemon.map((p) => p.box));
+        break;
+      default:
+        currentBox = currentBoxState.currentBox;
+        boxes = new Set(foundPokemon.map((p) => p.box));
+        break;
+    }
 
     if (currentBox && !boxes.has(currentBox)) {
       return notifyError(

@@ -24,9 +24,13 @@ export const useState = defineStore('state', () => {
 
     if (mode === 'special' || mode === 'types' || mode === 'mega') {
       state.mode = 'normal';
+    }
+
+    if (mode === 'types') {
       state.withTypeShuffle = false;
-      state.withCriesShuffle = false;
-    } else if (mode === 'gen') {
+    }
+
+    if (mode === 'gen') {
       state.withBoxShuffle = false;
     }
 
