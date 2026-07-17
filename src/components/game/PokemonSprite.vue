@@ -44,6 +44,16 @@ const { glitchStyles } = useGlitchedEffect();
 const el = useTemplateRef('el');
 const { isScrolling } = useScroll(el);
 
+const makeGlitchy = (text: string) => {
+  const { flowState } = useGameFlow();
+  const isGlitchy = flowState.missingno;
+
+  if (isGlitchy) {
+    return glitchify(text);
+  }
+  return text;
+};
+
 const spriteData = computed<SpriteData>(() => {
   const { silhouettes, sprites, spriteCycles, shinies } = data;
   return {
@@ -62,7 +72,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
         key: 'found-cycle',
         kind: 'cycle',
         sprites: spriteData.value.spriteCycle,
-        title: glitchify(capitalize(props.pokemon.baseName)),
+        title: makeGlitchy(capitalize(props.pokemon.baseName)),
       };
     }
 
@@ -71,7 +81,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
         image: spriteData.value.shiny,
         key: 'found-shiny',
         kind: 'found',
-        title: `${glitchify(capitalize(props.pokemon.baseName))} (Shiny)`,
+        title: `${makeGlitchy(capitalize(props.pokemon.baseName))} (Shiny)`,
       };
     }
 
@@ -80,7 +90,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
         image: spriteData.value.sprite,
         key: 'found-default',
         kind: 'found',
-        title: glitchify(capitalize(props.pokemon.baseName)),
+        title: makeGlitchy(capitalize(props.pokemon.baseName)),
       };
     }
   }
