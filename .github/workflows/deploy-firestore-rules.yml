@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Deploy Firestore Rules
-        uses: w9jds/firebase-action@v15.21.0
+        uses: w9jds/firebase-action@v15.22.3
         with:
           args: deploy --only firestore:rules firestore:indexes
         env:
