@@ -87,7 +87,8 @@ service cloud.firestore {
       );
 
       // Additional safety for update: don't allow changing ownership and validate data
-      allow update: if request.resource.data.uid == resource.data.uid && isValidLeaderboardRecord(request.resource.data);
+      allow update: if request.resource.data.uid == resource.data.uid &&
+                    isValidLeaderboardRecord(request.resource.data);
     }
 
     // Default deny for everything else
