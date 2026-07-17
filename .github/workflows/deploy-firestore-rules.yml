@@ -19,6 +19,6 @@ jobs:
       - name: Deploy Firestore Rules
         uses: w9jds/firebase-action@v15.21.0
         with:
-          args: deploy --only firestore:rules firestore:indexes
+          args: deploy --only firestore:rules,firestore:indexes
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
