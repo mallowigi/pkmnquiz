@@ -53,13 +53,6 @@ service cloud.firestore {
              isValidPokemonProgress(data.pokemonProgress);
     }
 
-    // Rules for the 'profiles' collection
-    // Stores lifetime statistics for authenticated users
-    match /profiles/{userId} {
-      allow read: if isOwner(userId);
-      allow write: if isOwner(userId) && isValidInt(request.resource.data.plays, 0);
-    }
-
     // Rules for the 'users' collection
     // Stores the persistent save data for authenticated users
     match /users/{userId} {
