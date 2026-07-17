@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useAuth } from '@vueuse/firebase';
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
+import ProfileStats from '@/components/dialogs/ProfileStats.vue';
 import ProfilePic from '@/components/header/ProfilePic.vue';
 import Leaderboards from '@/components/start/Leaderboards.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
@@ -21,14 +21,6 @@ const { t } = useI18n();
 const cancel = () => {
   closeDialog();
 };
-
-const initials = computed(() => {
-  const parts = (settingsState.name || '').trim().split(' ').slice(0, 2);
-  return parts
-    .map((p) => p[0])
-    .join('')
-    .toUpperCase();
-});
 </script>
 
 <template>
@@ -46,6 +38,8 @@ const initials = computed(() => {
         />
 
         <h3 class="profile-name">{{ settingsState.name }}</h3>
+
+        <ProfileStats />
 
         <div class="profile-records">
           <Leaderboards
@@ -110,7 +104,7 @@ const initials = computed(() => {
 
 .profile-name {
   font-size: 24px;
-  margin: 0 0 24px 0;
+  margin: 0 0 12px 0;
   color: var(--text);
 }
 
