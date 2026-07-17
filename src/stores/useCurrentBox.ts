@@ -51,9 +51,18 @@ export const useCurrentBox = defineStore('currentBox', () => {
     setCurrentMegaBox(remainingPokemon.box);
   };
 
+  const getCurrentBoxes = () => {
+    return {
+      currentBox: currentBoxState.currentBox,
+      currentMegaBox: currentBoxState.currentMegaBox,
+      currentSpecialBox: currentBoxState.currentSpecialBox,
+    };
+  };
+
   return {
     clearCurrentBox,
     currentBoxState,
+    getCurrentBoxes,
     setCurrentBox,
     setCurrentMegaBox,
     setCurrentSpecialBox,

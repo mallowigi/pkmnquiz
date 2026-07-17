@@ -6,6 +6,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive, computed } from 'vue';
 
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
+import { useCurrentBox } from '@/stores/useCurrentBox';
 import { useCurrentGen } from '@/stores/useCurrentGen';
 import { useCurrentType } from '@/stores/useCurrentType';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
@@ -114,6 +115,7 @@ export const usePokemons = defineStore('pokemons', () => {
   const { state, hideShadows } = useState();
   const { getCurrentGen } = useCurrentGen();
   const { getCurrentType } = useCurrentType();
+  const { getCurrentBoxes } = useCurrentBox();
   const { settingsState } = useSettings();
   const { isChallengeMode } = useGameFlow();
   const { startTimer } = useTimer();
@@ -317,11 +319,35 @@ export const usePokemons = defineStore('pokemons', () => {
   const getRandomPokemon = () => {
     let remainingArray = Array.from(remaining.value);
     const currentType = getCurrentType();
+    const { currentSpecialBox, currentBox } = getCurrentBoxes();
 
-    if (currentType) {
+    if (state.withTypeShuffle && currentType) {
       const typePokemon = pokemonMaps.types[currentType.id as Type];
       if (typePokemon) {
         remainingArray = remainingArray.filter((pokemon) => typePokemon.has(pokemon));
+      }
+    }
+
+    if (state.withBoxShuffle) {
+      switch (state.gameMode) {
+        case 'special':
+          const specialPokemon = pokemonMaps.special[currentSpecialBox as SpecialType];
+          if (specialPokemon) {
+            remainingArray = remainingArray.filter((pokemon) => specialPokemon.has(pokemon));
+          }
+          break;
+        case 'mega':
+          const megaPokemon = pokemonMaps.boxes[currentBox as RegionBox];
+          if (megaPokemon) {
+            remainingArray = remainingArray.filter((pokemon) => megaPokemon.has(pokemon));
+          }
+          break;
+        default:
+          const boxPokemon = pokemonMaps.boxes[currentBox as RegionBox];
+          if (boxPokemon) {
+            remainingArray = remainingArray.filter((pokemon) => boxPokemon.has(pokemon));
+          }
+          break;
       }
     }
 
