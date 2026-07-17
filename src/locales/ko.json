@@ -1,5 +1,6 @@
 {
   "alola": "알로라",
+  "appReadyOffline": "앱이 오프라인에서 사용할 준비가 되었습니다",
   "alreadyNamed": "{name}은(는) 이미 입력되었습니다.",
   "areazero": "에리어 제로 (팔데아)",
   "autoPause": "자동 일시 중지:",
@@ -32,8 +33,8 @@
     "title": "타이머를 변경하시겠습니까?"
   },
   "chaos": "혼돈",
-  "cheatPrefill": "치트 활성화: 하나를 제외하고 모두 채워졌습니다.",
   "chaosModeTooltip": "혼돈 모드: 사전 정의된 배치 없이 임의의 순서로 포켓몬을 찾기",
+  "cheatPrefill": "치트 활성화: 하나를 제외하고 모두 채워졌습니다.",
   "close": "닫기",
   "closestSpelling": "가장 가까운 철자:",
   "cn": "중국어 (간체)",
@@ -174,15 +175,16 @@
     "types": "{name}타입의 포켓몬의 이름을 모두 말해봐!"
   },
   "nameAllRegionPokemon": "모든 포켓몬의 이름을 말해봐!",
+  "newContentAvailable": "앱이 업데이트되었습니다. 새로고침 버튼을 누르거나 페이지를 새로고침해 업데이트를 적용하세요.",
   "newGame": "새 게임",
   "next": "다음",
   "nextPokemon": "다음 포켓몬: {name}",
   "normal": "노말",
+  "notFound": "찾을 수 없음",
   "notInBox": "{name}은(는) {box}에 없습니다.",
   "notNextPokemon": "{name}은(는) 다음 포켓몬이 아닙니다.",
   "notOfType": "{name}은(는) {type} 타입이 아닙니다.",
   "notPartOfGame": "{name}은(는) 이 게임의 일부가 아닙니다.",
-  "notFound": "찾을 수 없음",
   "nowSaving": "저장 중...",
   "off": "꺼짐",
   "offlineMode": "이 기능을 사용하려면 온라인 상태여야 합니다! ({feature})",
@@ -203,6 +205,7 @@
   "regionQuiz": "{region} 퀴즈",
   "regular": "일반",
   "regularModeTooltip": "일반 모드: 사전 정의된 배치를 사용하여 임의의 순서로 포켓몬을 찾기",
+  "reload": "새로고침",
   "reset": "초기화",
   "resetDialog": {
     "description": "정말로 초기화하시겠습니까?",

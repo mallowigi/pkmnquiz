@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { useRegisterSW } from 'virtual:pwa-register/vue';
+import { useI18n } from 'vue-i18n';
+
+import RoundedButton from '@/components/common/RoundedButton.vue';
 
 const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW();
+const { t } = useI18n();
 
-async function close() {
+function close() {
   offlineReady.value = false;
   needRefresh.value = false;
 }
@@ -11,54 +15,67 @@ async function close() {
 
 <template>
   <div
+    class="pwa-toast rad-bl-tr"
     v-if="offlineReady || needRefresh"
-    class="pwa-toast"
     role="alert"
+    aria-live="polite"
   >
-    <div class="message">
-      <span v-if="offlineReady"> App ready to work offline </span>
-      <span v-else> New content available, click on reload button to update. </span>
+    <p class="message">
+      <span v-if="offlineReady"> {{ t('appReadyOffline') }} </span>
+      <span v-else> {{ t('newContentAvailable') }} </span>
+    </p>
+
+    <div class="actions">
+      <RoundedButton
+        v-if="needRefresh"
+        :primary="true"
+        @click="updateServiceWorker()"
+      >
+        {{ t('reload') }}
+      </RoundedButton>
+
+      <RoundedButton @click="close">{{ t('close') }}</RoundedButton>
     </div>
-    <button
-      v-if="needRefresh"
-      @click="updateServiceWorker()"
-    >
-      Reload
-    </button>
-    <button @click="close">Close</button>
   </div>
 </template>
 
-<style>
+<style scoped>
 .pwa-toast {
   position: fixed;
   right: 0;
   bottom: 0;
   margin: 16px;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
+  padding: 16px;
+  border: 2px solid var(--type-bg-color, var(--primary));
+  color: var(--text);
+  background-color: var(--button);
+
   z-index: 100;
   text-align: left;
-  box-shadow: 3px 4px 5px 0 #8885;
-  background-color: var(--button);
-  color: var(--text);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+
+  .mobile & {
+    right: 8px;
+    left: 8px;
+    bottom: 8px;
+    margin: 0;
+    max-width: none;
+    align-items: center;
+    ta: c;
+  }
 }
-.pwa-toast .message {
-  margin-bottom: 8px;
+
+.message {
+  line-height: 1.6;
 }
-.pwa-toast button {
-  border: 1px solid var(--border);
-  outline: none;
-  margin-right: 5px;
-  border-radius: 2px;
-  padding: 3px 10px;
-  background-color: var(--button);
-  color: var(--text);
-  cursor: pointer;
-}
-.pwa-toast button:hover {
-  background-color: var(--button-hover);
-  color: var(--text-inverted);
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 </style>
