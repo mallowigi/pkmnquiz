@@ -23,7 +23,7 @@ export default defineConfig({
     }),
     VitePWA({
       manifest: {
-        background_color: '#8cc63f',
+        background_color: '#31adbb',
         description: 'A Pokémon guessing game built with Vue.js',
         display: 'standalone',
         "icons": [
@@ -51,9 +51,9 @@ export default defineConfig({
         ],
         name: 'Pokemon Vue Quiz',
         orientation: 'any',
-        short_name: 'PkmnVueQuiz',
+        short_name: 'Pkmn Quiz',
         start_url: '/',
-        theme_color: '#8cc63f',
+        theme_color: '#31adbb',
       },
       registerType: 'prompt',
       workbox: {
