@@ -237,7 +237,6 @@ export type GameFlowState = {
   isPaused: boolean;
   isSettingsOpen: boolean;
   isStarted: boolean;
-  lastInput: string | null;
   missingno: boolean;
 };
 

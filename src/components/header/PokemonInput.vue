@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 
 import TextBox from '@/components/common/TextBox.vue';
 import LastPokemon from '@/components/header/LastPokemon.vue';
-import { usePlaySounds } from '@/composables/usePlaySounds.ts';
+import { useLastInput } from '@/composables/useLastInput.ts';
 import { usePokemonInput } from '@/composables/usePokemonInput.ts';
 import { useTranslations } from '@/composables/useTranslations.ts';
 import vEllipsis from '@/directives/ellipsis.ts';
@@ -14,7 +14,6 @@ import { useCurrentRegion } from '@/stores/useCurrentRegion.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
-import { usePokemons } from '@/stores/usePokemons.ts';
 import { useRoomMessages } from '@/stores/useRoomMessages.ts';
 import { useState } from '@/stores/useState.ts';
 import { capitalize } from '@/utils/utils.ts';
@@ -22,15 +21,13 @@ import { capitalize } from '@/utils/utils.ts';
 const { state } = useState();
 const gameFlowStore = useGameFlow();
 const { flowState, isInGame } = storeToRefs(gameFlowStore);
-const { updateInput } = gameFlowStore;
+const { updateInput } = useLastInput();
 const { getCurrentRegion } = useCurrentRegion();
 const { getCurrentType } = useCurrentType();
 const { dialogs } = useDialogs();
 const { roomState } = useRoomMessages();
 const { t } = useI18n();
 const { getBoxTranslation, getTypeTranslation } = useTranslations();
-const { playPokemonCry } = usePlaySounds();
-const { getRandomRemainingPokemon } = usePokemons();
 
 /** Clears the input field and updates the game flow state with a null input. */
 const clearInput = () => {

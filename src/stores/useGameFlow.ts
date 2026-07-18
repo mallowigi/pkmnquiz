@@ -2,6 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive, computed } from 'vue';
 
 import { useFirebase } from '@/composables/useFirebase.ts';
+import { useLastInput } from '@/composables/useLastInput.ts';
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
@@ -16,6 +17,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
   const { showRemaining } = usePokemons();
   const { incrementPlays, updateFinishedGames } = useProfile();
   const { toggledMissingno } = useTouches();
+  const { resetInput } = useLastInput();
 
   const flowState = reactive<GameFlowState>({
     challengeMode: 'free',
@@ -25,7 +27,6 @@ export const useGameFlow = defineStore('gameFlow', () => {
     isPaused: false,
     isSettingsOpen: false,
     isStarted: false,
-    lastInput: null,
     missingno: false,
     sessionId: null,
   });
@@ -35,10 +36,10 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.isEnded = false;
     flowState.gameSelectionState = null;
     flowState.isGivenUp = false;
-    flowState.lastInput = null;
     flowState.missingno = false;
     flowState.sessionId = crypto.randomUUID();
     incrementPlays();
+    resetInput();
   };
 
   const pauseGame = () => {
@@ -58,26 +59,26 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.isStarted = false;
     flowState.gameSelectionState = null;
     flowState.isGivenUp = false;
-    flowState.lastInput = null;
 
     removeAutoSave();
     createRecord();
     recordWin();
     playFanfare();
+    resetInput();
   };
 
   const giveUp = () => {
     flowState.isGivenUp = true;
-    flowState.lastInput = null;
 
     createRecord();
     removeAutoSave();
     showRemaining();
+    resetInput();
   };
 
   const setGameSelectionState = (state: GameSelectionState) => {
     flowState.gameSelectionState = state;
-    flowState.lastInput = null;
+    resetInput();
   };
 
   const setChallengeMode = (mode: ChallengeMode) => {
@@ -89,15 +90,10 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.isGivenUp = false;
     flowState.isPaused = false;
     flowState.isStarted = false;
-    flowState.lastInput = null;
   };
 
   const setFlowState = (state: Partial<GameFlowState>) => {
     Object.assign(flowState, state);
-  };
-
-  const updateInput = (input: string | null) => {
-    flowState.lastInput = input;
   };
 
   const toggleSettings = () => {
@@ -134,7 +130,6 @@ export const useGameFlow = defineStore('gameFlow', () => {
     startGame,
     toggleMissingno,
     toggleSettings,
-    updateInput,
   };
 });
 

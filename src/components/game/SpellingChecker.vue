@@ -3,12 +3,12 @@ import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import RoundedBox from '@/components/common/RoundedBox.vue';
-import { useGameFlow } from '@/stores/useGameFlow.ts';
+import { useLastInput } from '@/composables/useLastInput.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { capitalize } from '@/utils/utils.ts';
 
 const { t } = useI18n();
-const { flowState } = useGameFlow();
+const { lastInput } = useLastInput();
 const { findClosestPokemon } = usePokemons();
 
 const hintShown = ref(false);
@@ -17,13 +17,13 @@ const hint = ref(t('notFound'));
 const toggle = () => {
   hintShown.value = !hintShown.value;
 
-  if (hintShown.value) {
-    hint.value = capitalize(findClosestPokemon(flowState.lastInput!) || 'not found');
+  if (hintShown.value && lastInput.value) {
+    hint.value = capitalize(findClosestPokemon(lastInput.value!) || 'not found');
   }
 };
 
 watch(
-  () => flowState.lastInput,
+  () => lastInput.value,
   () => {
     hintShown.value = false;
   },
