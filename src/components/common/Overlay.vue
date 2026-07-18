@@ -22,55 +22,6 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
-const y = ref(0);
-const dragging = ref(false);
-const contentRef = ref<HTMLElement | null>(null);
-
-useDrag(
-  ({ movement, dragging: isDragging, last, vxvy, event }) => {
-    if (props.preventClosing || !movement || !vxvy) return;
-
-    const [, my] = movement;
-    const [, vy] = vxvy;
-
-    const target = event?.target as Element;
-    const isAtTop = (el: Element): boolean => {
-      let current: Element | null = el;
-      while (current) {
-        if (current.scrollTop > 0) return false;
-        if (current === contentRef.value) break;
-        current = current.parentElement;
-      }
-      return true;
-    };
-
-    if (target && !isAtTop(target) && my > 0) return;
-
-    dragging.value = isDragging;
-    if (isDragging) {
-      y.value = Math.max(0, my);
-      if (y.value > 0 && event?.cancelable) {
-        event.preventDefault();
-      }
-    } else if (last) {
-      if (y.value > 150 || (y.value > 50 && vy > 0.5)) {
-        close();
-      }
-      y.value = 0;
-    }
-  },
-  {
-    axis: 'y',
-    domTarget: contentRef,
-    eventOptions: { passive: false },
-  },
-);
-
-const contentStyle = computed(() => ({
-  transform: `translateY(${y.value}px)`,
-  transition: dragging.value ? 'none' : 'transform 0.3s ease-out',
-}));
-
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown);
 });
@@ -85,7 +36,6 @@ onUnmounted(() => {
     <div
       ref="contentRef"
       class="overlay-wrapper"
-      :style="contentStyle"
       @click.self="close"
     >
       <slot />
