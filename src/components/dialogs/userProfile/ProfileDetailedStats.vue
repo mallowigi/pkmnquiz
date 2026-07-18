@@ -4,10 +4,8 @@ import { useI18n } from 'vue-i18n';
 import MorphTransition from '@/components/common/transitions/MorphTransition.vue';
 import ProfileStatGrid from '@/components/dialogs/userProfile/ProfileStatGrid.vue';
 import { useProfileStats } from '@/composables/useProfileStats.ts';
-import { useProfile } from '@/stores/useProfile.ts';
 
 const { t } = useI18n();
-const { profileState } = useProfile();
 const { activeTab, currentStats, tabs } = useProfileStats();
 </script>
 
@@ -45,7 +43,7 @@ const { activeTab, currentStats, tabs } = useProfileStats();
 
 .breakdown-title {
   font-size: 14px;
-  color: var(--text);
+  color: white;
   margin-bottom: 12px;
   text-align: center;
   text-transform: uppercase;

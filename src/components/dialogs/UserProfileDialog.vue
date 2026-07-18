@@ -7,7 +7,6 @@ import RoundedButton from '@/components/common/RoundedButton.vue';
 import ProfileDetailedStats from '@/components/dialogs/userProfile/ProfileDetailedStats.vue';
 import ProfileStats from '@/components/dialogs/userProfile/ProfileStats.vue';
 import ProfilePic from '@/components/header/ProfilePic.vue';
-import Leaderboards from '@/components/start/Leaderboards.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useSettings } from '@/stores/useSettings.ts';
@@ -38,7 +37,7 @@ const cancel = () => {
           :size="100"
         />
 
-        <h3 class="profile-name">{{ settingsState.name }}</h3>
+        <h3 class="profile-name">{{ user?.displayName ?? settingsState.name }}</h3>
 
         <ProfileStats />
 
@@ -100,7 +99,7 @@ const cancel = () => {
 .profile-name {
   font-size: 24px;
   margin: 0 0 12px 0;
-  color: var(--text);
+  color: white;
 }
 
 .profile-records {
@@ -112,7 +111,7 @@ const cancel = () => {
 
 .profile-records h4 {
   margin: 0 0 12px 0;
-  color: var(--text);
+  color: white;
   font-size: 18px;
 }
 
