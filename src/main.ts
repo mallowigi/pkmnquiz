@@ -1,4 +1,5 @@
 import './assets/base.css';
+import { GesturePlugin } from '@vueuse/gesture';
 import { MotionPlugin } from 'motion-v';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
@@ -41,6 +42,7 @@ const app = createApp(App);
 const pinia = createPinia();
 
 app.use(pinia);
+app.use(GesturePlugin);
 app.use(MotionPlugin, {});
 app.use(i18n);
 app.directive('tooltip', tooltip);
