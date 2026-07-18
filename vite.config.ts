@@ -23,7 +23,7 @@ export default defineConfig({
     }),
     VitePWA({
       manifest: {
-        background_color: '#111',
+        background_color: '#8cc63f',
         description: 'A Pokémon guessing game built with Vue.js',
         display: 'standalone',
         "icons": [
