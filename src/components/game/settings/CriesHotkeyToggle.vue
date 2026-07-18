@@ -1,21 +1,29 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import CryIcon from '@/components/common/icons/CryIcon.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
+import { useAppBreakpoints } from '@/composables/useAppBreakpoints.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 
 const { settingsState, toggleCriesHelper } = useSettings();
 const { showUserMessage } = useMessages();
 const { t } = useI18n();
+const { isTablet } = useAppBreakpoints();
 
 const toggle = () => {
   toggleCriesHelper();
   showUserMessage(t('criesHotkeySet', { status: settingsState.withCriesHelper ? t('enabled') : t('disabled') }));
 };
 
-const tooltipMessage = `${t('criesHotkeyTooltip', { key: '.' })}`;
+const tooltipMessage = computed(() => {
+  if (isTablet.value) {
+    return t('criesHotkeyTooltipMobile');
+  }
+  return t('criesHotkeyTooltip', { key: '.' });
+});
 </script>
 
 <template>

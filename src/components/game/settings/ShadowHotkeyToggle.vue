@@ -1,20 +1,28 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import RoundedButton from '@/components/common/RoundedButton.vue';
+import { useAppBreakpoints } from '@/composables/useAppBreakpoints.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 
 const { settingsState, toggleShadowHelper } = useSettings();
 const { showUserMessage } = useMessages();
 const { t } = useI18n();
+const { isTablet } = useAppBreakpoints();
 
 const toggle = () => {
   toggleShadowHelper();
   showUserMessage(t('shadowHelperSet', { status: settingsState.withShadowHelper ? t('enabled') : t('disabled') }));
 };
 
-const tooltipMessage = `${t('shadowHotkeyTooltip', { key: ',' })}`;
+const tooltipMessage = computed(() => {
+  if (isTablet.value) {
+    return t('shadowHotkeyTooltipMobile');
+  }
+  return t('shadowHotkeyTooltip', { key: ',' });
+});
 </script>
 
 <template>

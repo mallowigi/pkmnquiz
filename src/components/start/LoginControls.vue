@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import TextBox from '@/components/common/TextBox.vue';
 import Socials from '@/components/start/Socials.vue';
+import { useAppBreakpoints } from '@/composables/useAppBreakpoints.ts';
+import { useNameGenerator } from '@/composables/useNameGenerator.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useSettings } from '@/stores/useSettings.ts';
-import { onMounted } from 'vue';
-import { useNameGenerator } from '@/composables/useNameGenerator.ts';
-import { useBreakpoints, breakpointsTailwind } from '@vueuse/core';
 
 const { t } = useI18n();
 const { settingsState, setName } = useSettings();
@@ -16,9 +16,7 @@ const { setGameSelectionState } = useGameFlow();
 const { setReady, setSavedName, getSavedName } = useSavedData();
 const { generateName } = useNameGenerator();
 
-const breakpoints = useBreakpoints(breakpointsTailwind, {
-  strategy: 'max-width',
-});
+const { isMobile } = useAppBreakpoints();
 
 const editName = (event: Event) => {
   const target = event.target as HTMLInputElement;
@@ -43,7 +41,7 @@ onMounted(() => {
 <template>
   <div
     class="twocols"
-    :class="{ vertical: breakpoints.md.value }"
+    :class="{ vertical: isMobile }"
   >
     <!-- Socials Login -->
     <Socials />

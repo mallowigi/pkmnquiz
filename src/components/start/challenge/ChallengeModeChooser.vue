@@ -3,14 +3,13 @@ import { useBreakpoints, breakpointsTailwind } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 
 import RoundedButton from '@/components/common/RoundedButton.vue';
+import { useAppBreakpoints } from '@/composables/useAppBreakpoints.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 
 const { t } = useI18n();
 const { setGameSelectionState, setChallengeMode } = useGameFlow();
 
-const breakpoints = useBreakpoints(breakpointsTailwind, {
-  strategy: 'max-width',
-});
+const { isMobile } = useAppBreakpoints();
 
 const selectFreeMode = () => {
   setGameSelectionState('gen');
@@ -30,7 +29,7 @@ const selectChallengeMode = () => {
     <div class="top-section">
       <div
         class="twocols"
-        :class="{ vertical: breakpoints.md.value }"
+        :class="{ vertical: isMobile }"
       >
         <div class="side">
           <RoundedButton

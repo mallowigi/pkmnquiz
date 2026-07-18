@@ -16,6 +16,7 @@ import GameFooter from '@/components/footer/GameFooter.vue';
 import Game from '@/components/game/Game.vue';
 import GameHeader from '@/components/header/GameHeader.vue';
 import GameSelection from '@/components/start/genSelection/GameSelection.vue';
+import { useAppBreakpoints } from '@/composables/useAppBreakpoints.ts';
 import { TYPE_STYLE_KEYS, useTypeStyles } from '@/composables/useTypeStyles';
 import OfflineBanner from '@/OfflineBanner.vue';
 import ReloadPrompt from '@/ReloadPrompt.vue';
@@ -31,17 +32,7 @@ const { credits } = useCredits();
 const { roomState } = useRoomMessages();
 const typeStyles = useTypeStyles();
 
-const breakpoints = useBreakpoints(
-  {
-    desktop: 1320,
-    laptop: 1024,
-    mobile: 640,
-    tablet: 768,
-  },
-  {
-    strategy: 'max-width',
-  },
-);
+const { isMobile, isLaptop, isDesktop } = useAppBreakpoints();
 
 watchEffect(() => {
   if (typeof document === 'undefined') {
@@ -79,9 +70,9 @@ watch(
     class="main"
     :class="{
       dark: state.isDark,
-      mobile: breakpoints.mobile.value,
-      laptop: breakpoints.laptop.value,
-      desktop: breakpoints.desktop.value,
+      mobile: isMobile,
+      laptop: isLaptop,
+      desktop: isDesktop,
       missingno: flowState.missingno,
     }"
     :style="typeStyles"
