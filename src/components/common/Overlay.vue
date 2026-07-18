@@ -27,26 +27,29 @@ const dragging = ref(false);
 const contentRef = ref<HTMLElement | null>(null);
 
 useDrag(
-  ({ movement: [, my], dragging: isDragging, last, velocity: [, vy], event }) => {
-    if (props.preventClosing) return;
+  ({ movement, dragging: isDragging, last, vxvy, event }) => {
+    if (props.preventClosing || !movement || !vxvy) return;
 
-    const target = event.target as HTMLElement;
-    const isAtTop = (el: HTMLElement): boolean => {
-      if (el.scrollTop > 0) return false;
-      let parent = el.parentElement;
-      while (parent && parent !== contentRef.value) {
-        if (parent.scrollTop > 0) return false;
-        parent = parent.parentElement;
+    const [, my] = movement;
+    const [, vy] = vxvy;
+
+    const target = event?.target as Element;
+    const isAtTop = (el: Element): boolean => {
+      let current: Element | null = el;
+      while (current) {
+        if (current.scrollTop > 0) return false;
+        if (current === contentRef.value) break;
+        current = current.parentElement;
       }
       return true;
     };
 
-    if (!isAtTop(target) && my > 0) return;
+    if (target && !isAtTop(target) && my > 0) return;
 
     dragging.value = isDragging;
     if (isDragging) {
       y.value = Math.max(0, my);
-      if (y.value > 0 && event.cancelable) {
+      if (y.value > 0 && event?.cancelable) {
         event.preventDefault();
       }
     } else if (last) {
