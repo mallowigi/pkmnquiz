@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useDrag } from '@vueuse/gesture';
-import { onMounted, onUnmounted, ref, computed } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 
 const props = defineProps<{
   preventClosing?: boolean;
@@ -34,7 +33,6 @@ onUnmounted(() => {
 <template>
   <div :class="['overlay', $attrs.class]">
     <div
-      ref="contentRef"
       class="overlay-wrapper"
       @click.self="close"
     >

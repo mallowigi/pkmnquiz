@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import TextBox from '@/components/common/TextBox.vue';
 import LastPokemon from '@/components/header/LastPokemon.vue';
 import { useLastInput } from '@/composables/useLastInput.ts';
+import { useMultiTap } from '@/composables/useMultiTap.ts';
 import { usePokemonInput } from '@/composables/usePokemonInput.ts';
 import { useQuiz } from '@/composables/useQuiz.ts';
 import vEllipsis from '@/directives/ellipsis.ts';
@@ -34,6 +35,12 @@ const { activateNextShadow, activateCheat, activateNextCry, checkInput } = usePo
 
 const isDisabled = computed(() => {
   return !isInGame.value || dialogs.dialog !== null || roomState.roomMessage !== null;
+});
+
+const { handleTap } = useMultiTap({
+  disabled: isDisabled,
+  onDoubleTap: activateNextCry,
+  onTripleTap: activateNextShadow,
 });
 
 // Reference to the textbox
@@ -124,6 +131,7 @@ onUnmounted(() => {
   <div
     class="box rad-bl-tr"
     :class="{ shake: flowState.isStarted, disabled: isDisabled }"
+    @touchend="handleTap"
   >
     <p
       class="instruction"
