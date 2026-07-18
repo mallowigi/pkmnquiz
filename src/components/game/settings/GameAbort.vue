@@ -11,7 +11,7 @@ const { t } = useI18n();
 const { setGameSelectionState } = useGameFlow();
 
 const newGame = () => {
-  setGameSelectionState('gen');
+  setGameSelectionState('new');
 };
 
 const giveUp = () => {

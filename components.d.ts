@@ -96,6 +96,7 @@ declare module 'vue' {
     ShadowHotkeyToggle: typeof import('./src/components/game/settings/ShadowHotkeyToggle.vue')['default']
     ShadowsDialog: typeof import('./src/components/dialogs/ShadowsDialog.vue')['default']
     ShadowsToggle: typeof import('./src/components/game/settings/ShadowsToggle.vue')['default']
+    ShareSocials: typeof import('./src/components/background/ShareSocials.vue')['default']
     ShinyToggle: typeof import('./src/components/game/settings/ShinyToggle.vue')['default']
     SlideDownTransition: typeof import('./src/components/common/transitions/SlideDownTransition.vue')['default']
     SnackBar: typeof import('./src/components/background/SnackBar.vue')['default']

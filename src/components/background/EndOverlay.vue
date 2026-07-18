@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { useShare } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { Temporal } from 'temporal-polyfill';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import ShareSocials from '@/components/background/ShareSocials.vue';
 import Overlay from '@/components/common/Overlay.vue';
-import { useQuiz } from '@/composables/useQuiz.ts';
 import { useSavedLocale } from '@/composables/useSavedLocale.ts';
-import { usePageTitle } from '@/composables/useTitle.ts';
 import { donors } from '@/data/donors';
 import { useCurrentGen } from '@/stores/useCurrentGen';
 import { useCurrentType } from '@/stores/useCurrentType';
@@ -28,34 +26,6 @@ const pokemonStore = usePokemons();
 const { numFound, numShadows } = storeToRefs(pokemonStore);
 const { resetPokemonState } = pokemonStore;
 const { savedLocale } = useSavedLocale();
-const { getGameModeName } = useQuiz();
-const { getTitle } = usePageTitle();
-const { share, isSupported } = useShare();
-
-const startShare = () => {
-  const regionOrType = getGameModeName();
-
-  share({
-    text: t('endOverlay.summary2', {
-      elapsed: elapsed.value,
-      numFound: numFound.value,
-      regionOrType,
-      url: window.location.href,
-    }),
-    title: getTitle().value ?? '',
-    url: window.location.href,
-  });
-};
-
-const closeOverlay = () => {
-  clearCurrentType();
-  setCurrentGen(null);
-  resetFlowState();
-  setGameSelectionState('new');
-  resetPokemonState();
-  resetTimer();
-  setGameOver();
-};
 
 const elapsed = computed(() => {
   let elapsedTime = timerState.elapsed;
@@ -74,6 +44,16 @@ const elapsed = computed(() => {
     style: 'long',
   });
 });
+
+const closeOverlay = () => {
+  clearCurrentType();
+  setCurrentGen(null);
+  resetFlowState();
+  setGameSelectionState('new');
+  resetPokemonState();
+  resetTimer();
+  setGameOver();
+};
 </script>
 
 <template>
@@ -95,13 +75,10 @@ const elapsed = computed(() => {
         </p>
       </div>
 
-      <div
-        v-if="isSupported"
-        class="section rad-bl-tr share"
-        @click="startShare"
-      >
-        {{ t('share') }}
-      </div>
+      <ShareSocials
+        :elapsed="elapsed"
+        :numFound="numFound"
+      />
 
       <div class="section rad-bl-tr supporters">
         <p class="small">
@@ -227,10 +204,5 @@ h2 {
 
 li {
   list-style-type: none;
-}
-
-.share {
-  background: var(--button);
-  color: var(--text);
 }
 </style>
