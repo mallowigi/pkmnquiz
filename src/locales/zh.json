@@ -1,7 +1,7 @@
 {
   "alola": "阿罗拉",
-  "appReadyOffline": "應用已可離線使用",
   "alreadyNamed": "{name} 已經被命名了。",
+  "appReadyOffline": "應用已可離線使用",
   "areazero": "第零區 (帕底亞)",
   "autoPause": "自動暫停:",
   "autoPauseSet": "自動暫停 {status}",
@@ -259,6 +259,7 @@
   "switchQuizDialog": {
     "title": "切换测验？"
   },
+  "tapHint": "2× 鳴叫 · 3× 陰影",
   "thanksForPlaying": "感謝您的遊玩!",
   "timer": "計時器",
   "timerTooltip": "為遊戲設置計時器。",
@@ -267,11 +268,11 @@
   "topPlays": "前 {n} 次遊玩",
   "typeOfChallenge": "挑戰類型",
   "typeQuiz": "{type} 測驗",
+  "types": "属性",
   "typeShuffle": "隨機類型",
   "typeShuffleOnlyInRegularModeTooltip": "隨機類型只能在常規模式下啟用",
   "typeShuffleSet": "隨機類型 {status}",
   "typeShuffleTooltip": "猜猜給定類型的下一個寶可夢",
-  "types": "属性",
   "ultrabeast": "究极异兽",
   "unova": "合众",
   "upload": "上傳",

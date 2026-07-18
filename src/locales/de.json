@@ -1,7 +1,7 @@
 {
   "alola": "Alola",
-  "appReadyOffline": "Die App ist bereit, offline zu funktionieren",
   "alreadyNamed": "{name} wurde bereits benannt.",
+  "appReadyOffline": "Die App ist bereit, offline zu funktionieren",
   "areazero": "Zone Null (Paldea)",
   "autoPause": "Automatische Pause:",
   "autoPauseSet": "Automatische Pause {status}",
@@ -259,6 +259,7 @@
   "switchQuizDialog": {
     "title": "Quiz wechseln?"
   },
+  "tapHint": "2× Schrei · 3× Silhouette",
   "thanksForPlaying": "Danke fürs Spielen!",
   "timer": "Timer",
   "timerTooltip": "Stellen Sie einen Timer für das Spiel ein.",
@@ -267,11 +268,11 @@
   "topPlays": "Top {n} Spiele",
   "typeOfChallenge": "Art der Herausforderung",
   "typeQuiz": "{type}-Quiz",
+  "types": "Typen",
   "typeShuffle": "Zufallstyp",
   "typeShuffleOnlyInRegularModeTooltip": "Zufallstyp kann nur im normalen Modus aktiviert werden",
   "typeShuffleSet": "Zufallstyp {status}",
   "typeShuffleTooltip": "Rate das nächste Pokémon eines bestimmten Typs",
-  "types": "Typen",
   "ultrabeast": "Ultrabestie",
   "unova": "Einall",
   "upload": "Hochladen",

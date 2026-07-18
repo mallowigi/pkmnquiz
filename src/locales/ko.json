@@ -1,7 +1,7 @@
 {
   "alola": "알로라",
-  "appReadyOffline": "앱이 오프라인에서 사용할 준비가 되었습니다",
   "alreadyNamed": "{name}은(는) 이미 입력되었습니다.",
+  "appReadyOffline": "앱이 오프라인에서 사용할 준비가 되었습니다",
   "areazero": "에리어 제로 (팔데아)",
   "autoPause": "자동 일시 중지:",
   "autoPauseSet": "자동 일시 중지 {status}",
@@ -259,6 +259,7 @@
   "switchQuizDialog": {
     "title": "퀴즈를 변경하시겠습니까?"
   },
+  "tapHint": "2× 울음소리 · 3× 실루엣",
   "thanksForPlaying": "플레이해주셔서 감사합니다!",
   "timer": "타이머",
   "timerTooltip": "게임의 타이머를 설정합니다.",
@@ -267,11 +268,11 @@
   "topPlays": "상위 {n} 플레이",
   "typeOfChallenge": "챌린지 유형",
   "typeQuiz": "{type} 퀴즈",
+  "types": "타입",
   "typeShuffle": "랜덤 타입",
   "typeShuffleOnlyInRegularModeTooltip": "랜덤 타입은 일반 모드에서만 켤 수 있습니다",
   "typeShuffleSet": "랜덤 타입 {status}",
   "typeShuffleTooltip": "주어진 타입의 다음 포켓몬 맞추기",
-  "types": "타입",
   "ultrabeast": "울트라비스트",
   "unova": "하나",
   "upload": "업로드",

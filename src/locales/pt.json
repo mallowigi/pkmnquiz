@@ -1,7 +1,7 @@
 {
   "alola": "Alola",
-  "appReadyOffline": "O aplicativo está pronto para funcionar offline",
   "alreadyNamed": "{name} já foi nomeado.",
+  "appReadyOffline": "O aplicativo está pronto para funcionar offline",
   "areazero": "Área Zero (Paldea)",
   "autoPause": "Pausa Automática:",
   "autoPauseSet": "Pausa Automática {status}",
@@ -259,6 +259,7 @@
   "switchQuizDialog": {
     "title": "Trocar quiz?"
   },
+  "tapHint": "2× grito · 3× silhueta",
   "thanksForPlaying": "Obrigado por jogar!",
   "timer": "Cronômetro",
   "timerTooltip": "Defina um cronômetro para o jogo.",
@@ -267,11 +268,11 @@
   "topPlays": "Top {n} Partidas",
   "typeOfChallenge": "Tipo de Desafio",
   "typeQuiz": "Quiz de {type}",
+  "types": "Tipos",
   "typeShuffle": "Tipo aleatório",
   "typeShuffleOnlyInRegularModeTooltip": "O Tipo aleatório só pode ser ativado no modo normal",
   "typeShuffleSet": "Tipo aleatório {status}",
   "typeShuffleTooltip": "Adivinhe o próximo Pokémon de um certo tipo",
-  "types": "Tipos",
   "ultrabeast": "Ultrafera",
   "unova": "Unova",
   "upload": "Enviar",

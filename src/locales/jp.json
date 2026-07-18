@@ -1,7 +1,7 @@
 {
   "alola": "アローラ",
-  "appReadyOffline": "アプリはオフラインで利用する準備ができました",
   "alreadyNamed": "{name} はすでに命名されています。",
+  "appReadyOffline": "アプリはオフラインで利用する準備ができました",
   "areazero": "エリアゼロ (パルデア)",
   "autoPause": "自動一時停止:",
   "autoPauseSet": "自動一時停止 {status}",
@@ -259,6 +259,7 @@
   "switchQuizDialog": {
     "title": "クイズを切り替えますか？"
   },
+  "tapHint": "2× 鳴き声 · 3× シルエット",
   "thanksForPlaying": "プレイしてくれてありがとう!",
   "timer": "タイマー",
   "timerTooltip": "ゲーム用のタイマーを設定します。",
@@ -267,11 +268,11 @@
   "topPlays": "トップ {n} プレイ",
   "typeOfChallenge": "チャレンジの種類",
   "typeQuiz": "{type}クイズ",
+  "types": "タイプ",
   "typeShuffle": "ランダムタイプ",
   "typeShuffleOnlyInRegularModeTooltip": "ランダムタイプは通常モードでのみ切り替えることができます",
   "typeShuffleSet": "ランダムタイプ {status}",
   "typeShuffleTooltip": "与えられたタイプの次のポケモンを推測",
-  "types": "タイプ",
   "ultrabeast": "ウルトラビースト",
   "unova": "イッシュ",
   "upload": "アップロード",

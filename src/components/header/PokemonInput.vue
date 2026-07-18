@@ -37,7 +37,7 @@ const isDisabled = computed(() => {
   return !isInGame.value || dialogs.dialog !== null || roomState.roomMessage !== null;
 });
 
-const { handleTap } = useMultiTap({
+useMultiTap({
   disabled: isDisabled,
   onDoubleTap: activateNextCry,
   onTripleTap: activateNextShadow,
@@ -131,7 +131,6 @@ onUnmounted(() => {
   <div
     class="box rad-bl-tr"
     :class="{ shake: flowState.isStarted, disabled: isDisabled }"
-    @touchend="handleTap"
   >
     <p
       class="instruction"

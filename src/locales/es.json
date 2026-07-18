@@ -1,7 +1,7 @@
 {
   "alola": "Alola",
-  "appReadyOffline": "La aplicación está lista para funcionar sin conexión",
   "alreadyNamed": "{name} ya ha sido nombrado.",
+  "appReadyOffline": "La aplicación está lista para funcionar sin conexión",
   "areazero": "Área Cero (Paldea)",
   "autoPause": "Pausa Automática:",
   "autoPauseSet": "Pausa Automática {status}",
@@ -259,6 +259,7 @@
   "switchQuizDialog": {
     "title": "¿Cambiar cuestionario?"
   },
+  "tapHint": "2× grito · 3× silueta",
   "thanksForPlaying": "¡Gracias por jugar!",
   "timer": "Temporizador",
   "timerTooltip": "Establece un temporizador para el juego.",
@@ -267,11 +268,11 @@
   "topPlays": "Top {n} Partidas",
   "typeOfChallenge": "Tipo de Desafío",
   "typeQuiz": "Quiz de {type}",
+  "types": "Tipos",
   "typeShuffle": "Tipo aleatorio",
   "typeShuffleOnlyInRegularModeTooltip": "Tipo aleatorio solo se puede activar en modo normal",
   "typeShuffleSet": "Tipo aleatorio {status}",
   "typeShuffleTooltip": "Adivina el siguiente Pokémon de un cierto tipo",
-  "types": "Tipos",
   "ultrabeast": "Ultraente",
   "unova": "Teselia",
   "upload": "Subir",
