@@ -33,25 +33,10 @@ const openSettings = () => {
 };
 
 const togglePause = () => pauseGame();
-
-const containerRef = ref<HTMLElement | null>(null);
-
-useSwipe(containerRef, {
-  onSwipeEnd(_, direction) {
-    if (direction === 'up' && !flowState.isSettingsOpen) {
-      toggleSettings();
-    } else if (direction === 'down' && flowState.isSettingsOpen) {
-      toggleSettings();
-    }
-  },
-});
 </script>
 
 <template>
-  <div
-    ref="containerRef"
-    class="game-options"
-  >
+  <div class="game-options">
     <div class="selection-row">
       <GameAbort />
 
