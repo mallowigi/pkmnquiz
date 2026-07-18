@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useSwipe } from '@vueuse/core';
 import { AnimatePresence, motion } from 'motion-v';
 import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
 
 import PauseIcon from '@/components/common/icons/PauseIcon.vue';
 import SettingsIcon from '@/components/common/icons/SettingsIcon.vue';
@@ -31,91 +33,112 @@ const openSettings = () => {
 };
 
 const togglePause = () => pauseGame();
+
+const containerRef = ref<HTMLElement | null>(null);
+
+useSwipe(containerRef, {
+  onSwipeEnd(_, direction) {
+    if (direction === 'up' && !flowState.isSettingsOpen) {
+      toggleSettings();
+    } else if (direction === 'down' && flowState.isSettingsOpen) {
+      toggleSettings();
+    }
+  },
+});
 </script>
 
 <template>
-  <div class="selection-row">
-    <GameAbort />
+  <div
+    ref="containerRef"
+    class="game-options"
+  >
+    <div class="selection-row">
+      <GameAbort />
 
-    <div>
-      <!-- Settings -->
-      <RoundedButton
-        class="settings rad-br-tl"
-        @click="openSettings"
-      >
-        <SettingsIcon />
-      </RoundedButton>
+      <div>
+        <!-- Settings -->
+        <RoundedButton
+          class="settings rad-br-tl"
+          @click="openSettings"
+        >
+          <SettingsIcon />
+        </RoundedButton>
 
-      <!-- Pause -->
-      <RoundedButton
-        class="settings rad-br-tl"
-        @click="togglePause"
-      >
-        <PauseIcon />
-      </RoundedButton>
+        <!-- Pause -->
+        <RoundedButton
+          class="settings rad-br-tl"
+          @click="togglePause"
+        >
+          <PauseIcon />
+        </RoundedButton>
+      </div>
     </div>
+
+    <AnimatePresence>
+      <motion.div
+        v-if="flowState.isSettingsOpen"
+        class="options-container"
+        :initial="{ height: 0, opacity: 0 }"
+        :animate="{ height: 'auto', opacity: 1 }"
+        :exit="{ height: 0, opacity: 0 }"
+        :transition="{ duration: 0.3, ease: 'easeInOut' }"
+      >
+        <div
+          class="selection-row"
+          v-if="!isChallengeMode"
+        >
+          <GameModeSelection />
+
+          <TimerSelection />
+
+          <ModeSelection />
+
+          <TypeShuffle />
+
+          <BoxShuffle />
+        </div>
+
+        <div
+          class="selection-row"
+          v-if="!isChallengeMode"
+        >
+          <ShinyToggle />
+
+          <SpellingToggle />
+
+          <ShadowHotkeyToggle />
+
+          <CriesHotkeyToggle />
+
+          <AutoPauseToggle />
+
+          <AutoSaveToggle />
+        </div>
+
+        <div class="selection-row">
+          <CycleSpritesToggle />
+
+          <SoundToggle />
+        </div>
+
+        <div
+          class="selection-row"
+          v-if="!isChallengeMode"
+        >
+          <LanguagesSelection />
+
+          <MultiplayerInvite />
+        </div>
+      </motion.div>
+    </AnimatePresence>
   </div>
-
-  <AnimatePresence>
-    <motion.div
-      v-if="flowState.isSettingsOpen"
-      class="options-container"
-      :initial="{ height: 0, opacity: 0 }"
-      :animate="{ height: 'auto', opacity: 1 }"
-      :exit="{ height: 0, opacity: 0 }"
-      :transition="{ duration: 0.3, ease: 'easeInOut' }"
-    >
-      <div
-        class="selection-row"
-        v-if="!isChallengeMode"
-      >
-        <GameModeSelection />
-
-        <TimerSelection />
-
-        <ModeSelection />
-
-        <TypeShuffle />
-
-        <BoxShuffle />
-      </div>
-
-      <div
-        class="selection-row"
-        v-if="!isChallengeMode"
-      >
-        <ShinyToggle />
-
-        <SpellingToggle />
-
-        <ShadowHotkeyToggle />
-
-        <CriesHotkeyToggle />
-
-        <AutoPauseToggle />
-
-        <AutoSaveToggle />
-      </div>
-
-      <div class="selection-row">
-        <CycleSpritesToggle />
-
-        <SoundToggle />
-      </div>
-
-      <div
-        class="selection-row"
-        v-if="!isChallengeMode"
-      >
-        <LanguagesSelection />
-
-        <MultiplayerInvite />
-      </div>
-    </motion.div>
-  </AnimatePresence>
 </template>
 
 <style scoped>
+.game-options {
+  width: 100%;
+}
+
 .options-container {
   overflow: hidden;
 }
