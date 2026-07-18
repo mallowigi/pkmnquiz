@@ -4,8 +4,8 @@ import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
-import ProfileDetailedStats from '@/components/dialogs/ProfileDetailedStats.vue';
-import ProfileStats from '@/components/dialogs/ProfileStats.vue';
+import ProfileDetailedStats from '@/components/dialogs/userProfile/ProfileDetailedStats.vue';
+import ProfileStats from '@/components/dialogs/userProfile/ProfileStats.vue';
 import ProfilePic from '@/components/header/ProfilePic.vue';
 import Leaderboards from '@/components/start/Leaderboards.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';

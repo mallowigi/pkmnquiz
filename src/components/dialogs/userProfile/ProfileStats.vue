@@ -43,7 +43,7 @@ const { t } = useI18n();
 .profile-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0px;
+  gap: 0;
   margin-bottom: 12px;
 }
 
