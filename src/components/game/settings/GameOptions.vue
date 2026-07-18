@@ -135,10 +135,6 @@ useSwipe(containerRef, {
 </template>
 
 <style scoped>
-.game-options {
-  width: 100%;
-}
-
 .options-container {
   overflow: hidden;
 }

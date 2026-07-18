@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-
 import Overlay from '@/components/common/Overlay.vue';
 import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
 import ChallengeModeChooser from '@/components/start/challenge/ChallengeModeChooser.vue';
@@ -12,17 +10,9 @@ import Loading from '@/components/start/Loading.vue';
 import StartScreen from '@/components/start/StartScreen.vue';
 import { useGameFlow } from '@/stores/useGameFlow.js';
 import { usePkmnData } from '@/stores/usePkmnStore.js';
-import { useSettings } from '@/stores/useSettings.js';
-import { useAuth } from '@vueuse/firebase';
-import { useFirebase } from '@/composables/useFirebase.ts';
 
-const { t } = useI18n();
-
-const { settingsState } = useSettings();
 const { flowState, setGameSelectionState } = useGameFlow();
 const { data } = usePkmnData();
-const { auth } = useFirebase();
-const { user } = useAuth(auth);
 
 const close = () => {
   if (!flowState.isStarted) {
@@ -40,7 +30,7 @@ const close = () => {
         <div v-if="!flowState.isStarted">
           <img
             src="@/assets/logo.gif"
-            class="titlecard"
+            class="logo"
             alt="Logo"
           />
         </div>
@@ -73,11 +63,12 @@ const close = () => {
 </template>
 
 <style scoped>
-.titlecard {
+.logo {
   display: block;
   width: 100%;
   height: 100%;
   max-width: 600px;
+  filter: hue-rotate(80deg);
 }
 
 .prompt {
