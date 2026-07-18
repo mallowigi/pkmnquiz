@@ -7,6 +7,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./lib/tsc": {
+      "types": "./dist/lib/tsc.d.ts",
+      "import": "./dist/lib/tsc.js"
     }
   },
   "scripts": {
