@@ -1,5 +1,6 @@
 {
   "alola": "Alola",
+  "all": "All",
   "alreadyNamed": "{name} already named.",
   "appReadyOffline": "App ready to work offline",
   "areazero": "Area Zero (Paldea)",
@@ -101,6 +102,7 @@
   "full": "Full Quiz",
   "fullQuiz": "Full Quiz",
   "galar": "Galar",
+  "gameModes": "Game Modes",
   "gameOver": "Game Over!",
   "gen": "Generations",
   "ghost": "Ghost",
@@ -165,6 +167,7 @@
     "normalCaption": "Switch to regular quiz with Region Layout",
     "orderCaption": "Enforce guessing in Pokédex order"
   },
+  "modes": "Modes",
   "multiplayerInvite": "Multiplayer Invite",
   "mythical": "Mythical",
   "nameAll": {
@@ -277,10 +280,14 @@
   "unova": "Unova",
   "upload": "Upload",
   "userProfile": "User Profile",
+  "wins": "Wins",
+  "winsNoCries": "Wins (No Cries)",
+  "winsNoShadows": "Wins (No Shadows)",
   "variousArtists": "various artists",
   "water": "Water",
   "welcome": "Welcome to the Pokémon Quiz!",
   "welcomeBack": "Welcome back, {name} !",
+  "winsBreakdown": "Wins Breakdown",
   "x": "X",
   "zh": "Chinese (Traditional)"
 }

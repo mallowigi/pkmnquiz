@@ -19,10 +19,6 @@ defineProps<{
   transition: all 0.3s ease-in-out;
 }
 
-.morph-leave-active {
-  position: absolute;
-}
-
 .morph-enter-from,
 .morph-leave-to {
   opacity: 0;
