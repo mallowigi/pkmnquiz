@@ -6,7 +6,9 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
+import { useQuiz } from '@/composables/useQuiz.ts';
 import { useSavedLocale } from '@/composables/useSavedLocale.ts';
+import { usePageTitle } from '@/composables/useTitle.ts';
 import { donors } from '@/data/donors';
 import { useCurrentGen } from '@/stores/useCurrentGen';
 import { useCurrentType } from '@/stores/useCurrentType';
@@ -26,16 +28,21 @@ const pokemonStore = usePokemons();
 const { numFound, numShadows } = storeToRefs(pokemonStore);
 const { resetPokemonState } = pokemonStore;
 const { savedLocale } = useSavedLocale();
-
+const { getGameModeName } = useQuiz();
+const { getTitle } = usePageTitle();
 const { share, isSupported } = useShare();
 
 const startShare = () => {
+  const regionOrType = getGameModeName();
+
   share({
-    text: t('endOverlay.summary', {
+    text: t('endOverlay.summary2', {
       elapsed: elapsed.value,
       numFound: numFound.value,
+      regionOrType,
+      url: window.location.href,
     }),
-    title: 'Pokémon Quiz',
+    title: getTitle().value ?? '',
     url: window.location.href,
   });
 };

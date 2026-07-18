@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
 import { useFirebase } from '@/composables/useFirebase.ts';
-import { useQuiz } from '@/composables/useQuiz.ts';
+import { usePageTitle } from '@/composables/useTitle.ts';
 import { i18n } from '@/main.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
@@ -39,6 +39,7 @@ const debouncedSaveToFirebase = useDebounceFn(
 export const useSavedData = () => {
   const { showUserMessage } = useMessages();
   const { deleteUserState } = useFirebase();
+  const { setTitle } = usePageTitle();
 
   const setReady = () => {
     ready.value = true;
@@ -176,7 +177,6 @@ export const useSavedData = () => {
     const { resetTimer, setTimerState } = useTimer();
     const { setLanguages, resetLanguages, setSettingsState } = useSettings();
     const { setTouchesState } = useTouches();
-    const { setTitle } = useQuiz();
 
     const {
       currentType,

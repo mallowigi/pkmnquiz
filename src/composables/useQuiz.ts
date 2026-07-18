@@ -1,9 +1,11 @@
-import { useTitle } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
 
 import { useShuffles } from '@/composables/useShuffles.ts';
-import { gens } from '@/data/gens.ts';
+import { usePageTitle } from '@/composables/useTitle.ts';
+import { useTranslations } from '@/composables/useTranslations.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
+import { useCurrentRegion } from '@/stores/useCurrentRegion.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
@@ -13,45 +15,21 @@ import { useTimer } from '@/stores/useTimer.ts';
 import type { Type, Gen } from '@/types.ts';
 import { scrollToTop, capitalize } from '@/utils/utils.ts';
 
-export const TITLE = 'Pkmn Vue Quiz';
-
 export const useQuiz = ({ withDialog = false } = {}) => {
+  const { t } = useI18n();
   const { startGame, setGameSelectionState } = useGameFlow();
   const { setGameMode, state } = useState();
   const { setDialog } = useDialogs();
-  const { currentGenState, clearCurrentGen, setCurrentGen } = useCurrentGen();
+  const { clearCurrentGen, setCurrentGen } = useCurrentGen();
   const { clearCurrentBox } = useCurrentBox();
-  const { currentTypeState, clearCurrentType, setCurrentType } = useCurrentType();
+  const { clearCurrentType, setCurrentType } = useCurrentType();
   const { resetPokemonState } = usePokemons();
   const { resetTimer } = useTimer();
   const { updateShuffles } = useShuffles();
-
-  const setTitle = () => {
-    switch (state.gameMode) {
-      case 'full':
-        useTitle(`Full Quiz | ${TITLE}`);
-        break;
-      case 'gen':
-        const genName = gens[currentGenState.gen!]?.name || 'Unknown Gen';
-        useTitle(`${genName} Quiz | ${TITLE}`);
-        break;
-      case 'types':
-        if (currentTypeState.currentType) {
-          useTitle(`${capitalize(currentTypeState.currentType)} Type Quiz | ${TITLE}`);
-        } else {
-          useTitle(`Type Quiz | ${TITLE}`);
-        }
-        break;
-      case 'special':
-        useTitle(`Special Quiz | ${TITLE}`);
-        break;
-      case 'mega':
-        useTitle(`Mega Quiz | ${TITLE}`);
-        break;
-      default:
-        useTitle(TITLE);
-    }
-  };
+  const { getCurrentRegion } = useCurrentRegion();
+  const { getCurrentType } = useCurrentType();
+  const { getBoxTranslation, getTypeTranslation } = useTranslations();
+  const { setTitle } = usePageTitle();
 
   const setFullQuiz = () => {
     if (state.gameMode === 'full') return;
@@ -146,7 +124,29 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     scrollToTop();
   };
 
+  const getGameModeName = () => {
+    const gameMode = state.gameMode;
+
+    switch (gameMode) {
+      case 'full':
+        return capitalize(t('full'));
+      case 'gen':
+        const currentRegion = getCurrentRegion();
+        return currentRegion ? capitalize(getBoxTranslation(currentRegion.id)) : '';
+      case 'types':
+        const currentType = getCurrentType();
+        return currentType ? capitalize(getTypeTranslation(currentType?.id)) : '';
+      case 'special':
+        return capitalize(t('special'));
+      case 'mega':
+        return capitalize(t('mega'));
+      default:
+        return '';
+    }
+  };
+
   return {
+    getGameModeName,
     setFullQuiz,
     setGenQuiz,
     setTitle,

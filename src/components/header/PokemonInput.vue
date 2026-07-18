@@ -8,26 +8,21 @@ import TextBox from '@/components/common/TextBox.vue';
 import LastPokemon from '@/components/header/LastPokemon.vue';
 import { useLastInput } from '@/composables/useLastInput.ts';
 import { usePokemonInput } from '@/composables/usePokemonInput.ts';
-import { useTranslations } from '@/composables/useTranslations.ts';
+import { useQuiz } from '@/composables/useQuiz.ts';
 import vEllipsis from '@/directives/ellipsis.ts';
-import { useCurrentRegion } from '@/stores/useCurrentRegion.ts';
-import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useRoomMessages } from '@/stores/useRoomMessages.ts';
 import { useState } from '@/stores/useState.ts';
-import { capitalize } from '@/utils/utils.ts';
 
 const { state } = useState();
 const gameFlowStore = useGameFlow();
 const { flowState, isInGame } = storeToRefs(gameFlowStore);
 const { updateInput } = useLastInput();
-const { getCurrentRegion } = useCurrentRegion();
-const { getCurrentType } = useCurrentType();
 const { dialogs } = useDialogs();
 const { roomState } = useRoomMessages();
+const { getGameModeName } = useQuiz();
 const { t } = useI18n();
-const { getBoxTranslation, getTypeTranslation } = useTranslations();
 
 /** Clears the input field and updates the game flow state with a null input. */
 const clearInput = () => {
@@ -36,25 +31,6 @@ const clearInput = () => {
 };
 
 const { activateNextShadow, activateCheat, activateNextCry, checkInput } = usePokemonInput({ clearInput });
-
-const regionOrType = computed(() => {
-  const gameMode = state.gameMode;
-
-  switch (gameMode) {
-    case 'gen':
-      const currentRegion = getCurrentRegion();
-      return currentRegion ? capitalize(getBoxTranslation(currentRegion.id)) : '';
-    case 'types':
-      const currentType = getCurrentType();
-      return currentType ? capitalize(getTypeTranslation(currentType?.id)) : '';
-    case 'special':
-      return capitalize(t('special'));
-    case 'mega':
-      return capitalize(t('mega'));
-    default:
-      return '';
-  }
-});
 
 const isDisabled = computed(() => {
   return !isInGame.value || dialogs.dialog !== null || roomState.roomMessage !== null;
@@ -67,15 +43,16 @@ const textBoxRef = ref<InstanceType<typeof TextBox> | null>(null);
 const inputRef = computed(() => textBoxRef.value?.inputRef ?? null);
 
 const nameAllText = computed(() => {
+  const regionOrType = getGameModeName();
   switch (state.gameMode) {
     case 'gen':
-      return t('nameAll.gen', { name: regionOrType.value });
+      return t('nameAll.gen', { name: regionOrType });
     case 'types':
-      return t('nameAll.types', { name: regionOrType.value });
+      return t('nameAll.types', { name: regionOrType });
     case 'special':
-      return t('nameAll.special', { name: regionOrType.value });
+      return t('nameAll.special', { name: regionOrType });
     case 'mega':
-      return t('nameAll.mega', { name: regionOrType.value });
+      return t('nameAll.mega', { name: regionOrType });
     default:
       return t('nameAll.full');
   }
