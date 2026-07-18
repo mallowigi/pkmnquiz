@@ -47,6 +47,7 @@
   "criesHelperToggleSuffix": "다음 포켓몬의 울음소리를 듣기 위해",
   "criesHotkeySet": "울음소리 도움말 {status}",
   "criesHotkeyTooltip": "활성화된 경우, {key} 키를 눌러 랜덤으로 누락된 포켓몬의 울음소리를 듣습니다.",
+  "criesHotkeyTooltipMobile": "무작위로 누락된 포켓몬의 울음소리를 들으려면 아무 곳이나 두 번 탭하세요",
   "cycleSprites": "스프라이트 순환:",
   "cycleSpritesSet": "스프라이트 순환 {status}",
   "cycleSpritesTooltip": "스프라이트 순환 켜기/끄기",
@@ -228,6 +229,7 @@
   "shadowHelperToggle": " 다음 실루엣: 누르기",
   "shadowHelperToggleSuffix": "다음 실루엣을 보려면",
   "shadowHotkeyTooltip": "활성화되면 {key} 키를 눌러 임의의 포켓몬 실루엣을 표시합니다.",
+  "shadowHotkeyTooltipMobile": "무작위로 누락된 포켓몬의 실루엣을 표시하려면 아무 곳이나 세 번 탭하세요",
   "shadows": "실루엣",
   "shadowsDialog": {
     "description": "실루엣을 드러낸 뒤에는 되돌릴 수 없습니다. 계속하시겠습니까?",
@@ -259,7 +261,6 @@
   "switchQuizDialog": {
     "title": "퀴즈를 변경하시겠습니까?"
   },
-  "tapHint": "2× 울음소리 · 3× 실루엣",
   "thanksForPlaying": "플레이해주셔서 감사합니다!",
   "timer": "타이머",
   "timerTooltip": "게임의 타이머를 설정합니다.",
@@ -268,11 +269,11 @@
   "topPlays": "상위 {n} 플레이",
   "typeOfChallenge": "챌린지 유형",
   "typeQuiz": "{type} 퀴즈",
-  "types": "타입",
   "typeShuffle": "랜덤 타입",
   "typeShuffleOnlyInRegularModeTooltip": "랜덤 타입은 일반 모드에서만 켤 수 있습니다",
   "typeShuffleSet": "랜덤 타입 {status}",
   "typeShuffleTooltip": "주어진 타입의 다음 포켓몬 맞추기",
+  "types": "타입",
   "ultrabeast": "울트라비스트",
   "unova": "하나",
   "upload": "업로드",

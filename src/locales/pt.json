@@ -47,6 +47,7 @@
   "criesHelperToggleSuffix": "para ouvir o grito do próximo Pokémon",
   "criesHotkeySet": "Ajudante de gritos {status}",
   "criesHotkeyTooltip": "Quando ativado, pressione a tecla {key} para ouvir o grito de um Pokémon ausente aleatório.",
+  "criesHotkeyTooltipMobile": "Toque duas vezes em qualquer lugar para ouvir o grito de um Pokémon ausente aleatório",
   "cycleSprites": "Ciclar sprites:",
   "cycleSpritesSet": "Ciclar Sprites {status}",
   "cycleSpritesTooltip": "Ativar/Desativar Ciclagem de Sprites",
@@ -228,6 +229,7 @@
   "shadowHelperToggle": " Próxima Silhueta: pressione",
   "shadowHelperToggleSuffix": "para revelar a próxima silhueta",
   "shadowHotkeyTooltip": "Quando ativado, pressione a tecla {key} para revelar a silhueta de um Pokémon aleatoriamente.",
+  "shadowHotkeyTooltipMobile": "Toque três vezes em qualquer lugar para revelar a silhueta de um Pokémon aleatoriamente",
   "shadows": "Silhuetas",
   "shadowsDialog": {
     "description": "Você não poderá voltar atrás depois de revelar as silhuetas. Tem certeza de que deseja continuar?",
@@ -259,7 +261,6 @@
   "switchQuizDialog": {
     "title": "Trocar quiz?"
   },
-  "tapHint": "2× grito · 3× silhueta",
   "thanksForPlaying": "Obrigado por jogar!",
   "timer": "Cronômetro",
   "timerTooltip": "Defina um cronômetro para o jogo.",
@@ -268,11 +269,11 @@
   "topPlays": "Top {n} Partidas",
   "typeOfChallenge": "Tipo de Desafio",
   "typeQuiz": "Quiz de {type}",
-  "types": "Tipos",
   "typeShuffle": "Tipo aleatório",
   "typeShuffleOnlyInRegularModeTooltip": "O Tipo aleatório só pode ser ativado no modo normal",
   "typeShuffleSet": "Tipo aleatório {status}",
   "typeShuffleTooltip": "Adivinhe o próximo Pokémon de um certo tipo",
+  "types": "Tipos",
   "ultrabeast": "Ultrafera",
   "unova": "Unova",
   "upload": "Enviar",

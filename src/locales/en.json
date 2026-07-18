@@ -48,6 +48,7 @@
   "criesHelperToggleSuffix": "to hear the cry of a random missing Pokémon",
   "criesHotkeySet": "Cries helper {status}",
   "criesHotkeyTooltip": "When enabled, press the {key} key to listen the cry of a random missing Pokémon.",
+  "criesHotkeyTooltipMobile": "Double-tap anywhere to listen the cry of a random missing Pokémon",
   "cycleSprites": "Cycle sprites:",
   "cycleSpritesSet": "Cycle Sprites {status}",
   "cycleSpritesTooltip": "Toggle Cycle Sprites On/Off",
@@ -233,6 +234,7 @@
   "shadowHelperToggle": " Next Shadow: press",
   "shadowHelperToggleSuffix": "to reveal the next shadow",
   "shadowHotkeyTooltip": "When enabled, press the {key} key to reveal a random Pokémon shadow.",
+  "shadowHotkeyTooltipMobile": "Triple-tap anywhere to display the shadow of a random missing Pokémon",
   "shadows": "Shadows",
   "shadowsDialog": {
     "description": "You won’t be able to revert this decision. Are you sure you want to continue?",
@@ -264,7 +266,6 @@
   "switchQuizDialog": {
     "title": "Switch Quiz?"
   },
-  "tapHint": "2× cry · 3× shadow",
   "thanksForPlaying": "Thanks for Playing!",
   "timer": "Timer",
   "timerTooltip": "Set a timer for the game.",
@@ -273,11 +274,11 @@
   "topPlays": "Top {n} Plays",
   "typeOfChallenge": "Type of Challenge",
   "typeQuiz": "{type} Quiz",
-  "types": "Types",
   "typeShuffle": "Type Shuffle",
   "typeShuffleOnlyInRegularModeTooltip": "Type Shuffle can only be toggled in Regular mode",
   "typeShuffleSet": "Type Shuffle {status}",
   "typeShuffleTooltip": "Guess the next Pokémon of a given type",
+  "types": "Types",
   "ultrabeast": "Ultra Beast",
   "unova": "Unova",
   "upload": "Upload",

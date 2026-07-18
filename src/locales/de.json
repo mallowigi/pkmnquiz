@@ -47,6 +47,7 @@
   "criesHelperToggleSuffix": "um den Schrei des nächsten Pokémon zu hören",
   "criesHotkeySet": "Schreie-Hilfe {status}",
   "criesHotkeyTooltip": "Wenn aktiviert, drücke die {key}-Taste, um den Schrei eines zufälligen fehlenden Pokémon zu hören.",
+  "criesHotkeyTooltipMobile": "Doppeltippe an eine beliebige Stelle, um den Schrei eines zufälligen fehlenden Pokémon zu hören",
   "cycleSprites": "Sprites wechseln:",
   "cycleSpritesSet": "Sprites Wechseln {status}",
   "cycleSpritesTooltip": "Sprite-Wechsel Ein/Aus",
@@ -228,6 +229,7 @@
   "shadowHelperToggle": " Nächste Silhouette: drücke",
   "shadowHelperToggleSuffix": "um die nächste Silhouette zu enthüllen",
   "shadowHotkeyTooltip": "Wenn aktiviert, drücke die Taste {key}, um die Silhouette eines Pokémon zufällig zu enthüllen.",
+  "shadowHotkeyTooltipMobile": "Dreifachtippe an eine beliebige Stelle, um die Silhouette eines Pokémon zufällig zu enthüllen",
   "shadows": "Silhouetten",
   "shadowsDialog": {
     "description": "Du kannst nicht mehr zurück, nachdem du die Silhouetten enthüllt hast. Möchtest du wirklich fortfahren?",
@@ -259,7 +261,6 @@
   "switchQuizDialog": {
     "title": "Quiz wechseln?"
   },
-  "tapHint": "2× Schrei · 3× Silhouette",
   "thanksForPlaying": "Danke fürs Spielen!",
   "timer": "Timer",
   "timerTooltip": "Stellen Sie einen Timer für das Spiel ein.",
@@ -268,11 +269,11 @@
   "topPlays": "Top {n} Spiele",
   "typeOfChallenge": "Art der Herausforderung",
   "typeQuiz": "{type}-Quiz",
-  "types": "Typen",
   "typeShuffle": "Zufallstyp",
   "typeShuffleOnlyInRegularModeTooltip": "Zufallstyp kann nur im normalen Modus aktiviert werden",
   "typeShuffleSet": "Zufallstyp {status}",
   "typeShuffleTooltip": "Rate das nächste Pokémon eines bestimmten Typs",
+  "types": "Typen",
   "ultrabeast": "Ultrabestie",
   "unova": "Einall",
   "upload": "Hochladen",

@@ -47,6 +47,7 @@
   "criesHelperToggleSuffix": ", чтобы услышать крик следующего покемона",
   "criesHotkeySet": "Помощник по крикам {status}",
   "criesHotkeyTooltip": "Если включено, нажмите клавишу {key}, чтобы прослушать крик случайного недостающего покемона.",
+  "criesHotkeyTooltipMobile": "Дважды нажмите в любом месте, чтобы прослушать крик случайного недостающего покемона",
   "cycleSprites": "Циклирование спрайтов:",
   "cycleSpritesSet": "Циклирование Спрайтов {status}",
   "cycleSpritesTooltip": "Включить/выключить циклирование спрайтов",
@@ -228,6 +229,7 @@
   "shadowHelperToggle": " Следующий силуэт: нажмите",
   "shadowHelperToggleSuffix": "чтобы открыть следующий силуэт",
   "shadowHotkeyTooltip": "Если включено, нажмите клавишу {key}, чтобы открыть силуэт случайного Pokémon.",
+  "shadowHotkeyTooltipMobile": "Трижды нажмите в любом месте, чтобы открыть силуэт случайного Pokémon",
   "shadows": "Силуэты",
   "shadowsDialog": {
     "description": "Вы не сможете вернуться назад после открытия силуэтов. Вы уверены, что хотите продолжить?",
@@ -259,7 +261,6 @@
   "switchQuizDialog": {
     "title": "Сменить викторину?"
   },
-  "tapHint": "2× крик · 3× силуэт",
   "thanksForPlaying": "Спасибо за игру!",
   "timer": "Таймер",
   "timerTooltip": "Установите таймер для игры.",
@@ -268,11 +269,11 @@
   "topPlays": "Топ-{n} игр",
   "typeOfChallenge": "Тип испытания",
   "typeQuiz": "Квиз {type}",
-  "types": "Типы",
   "typeShuffle": "Случайный тип",
   "typeShuffleOnlyInRegularModeTooltip": "Случайный тип можно включить только в обычном режиме",
   "typeShuffleSet": "Случайный тип {status}",
   "typeShuffleTooltip": "Угадайте следующего Pokémon определённого типа",
+  "types": "Типы",
   "ultrabeast": "Ультра-зверь",
   "unova": "Юнова",
   "upload": "Загрузить",

@@ -47,6 +47,7 @@
   "criesHelperToggleSuffix": "次のポケモンの鳴き声を聞く",
   "criesHotkeySet": "鳴き声ヘルパー {status}",
   "criesHotkeyTooltip": "有効な場合、{key} キーを押してランダムな未発見のポケモンの鳴き声を聞くことができます。",
+  "criesHotkeyTooltipMobile": "任意の場所をダブルタップすると、まだ見つかっていないポケモンの鳴き声をランダムに聞くことができます",
   "cycleSprites": "スプライトをサイクル:",
   "cycleSpritesSet": "スプライトをサイクル {status}",
   "cycleSpritesTooltip": "スプライトサイクルのオン/オフを切り替え",
@@ -228,6 +229,7 @@
   "shadowHelperToggle": " 次のシルエット: 押す",
   "shadowHelperToggleSuffix": "次のシルエットを表示するには",
   "shadowHotkeyTooltip": "有効にすると、{key}キーを押してランダムにポケモンのシルエットを表示します。",
+  "shadowHotkeyTooltipMobile": "任意の場所をトリプルタップすると、まだ見つかっていないポケモンのシルエットをランダムに表示できます",
   "shadows": "シルエット",
   "shadowsDialog": {
     "description": "シルエットを表示すると元に戻せません。続行しますか？",
@@ -259,7 +261,6 @@
   "switchQuizDialog": {
     "title": "クイズを切り替えますか？"
   },
-  "tapHint": "2× 鳴き声 · 3× シルエット",
   "thanksForPlaying": "プレイしてくれてありがとう!",
   "timer": "タイマー",
   "timerTooltip": "ゲーム用のタイマーを設定します。",
@@ -268,11 +269,11 @@
   "topPlays": "トップ {n} プレイ",
   "typeOfChallenge": "チャレンジの種類",
   "typeQuiz": "{type}クイズ",
-  "types": "タイプ",
   "typeShuffle": "ランダムタイプ",
   "typeShuffleOnlyInRegularModeTooltip": "ランダムタイプは通常モードでのみ切り替えることができます",
   "typeShuffleSet": "ランダムタイプ {status}",
   "typeShuffleTooltip": "与えられたタイプの次のポケモンを推測",
+  "types": "タイプ",
   "ultrabeast": "ウルトラビースト",
   "unova": "イッシュ",
   "upload": "アップロード",

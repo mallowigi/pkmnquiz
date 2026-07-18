@@ -47,6 +47,7 @@
   "criesHelperToggleSuffix": "per ascoltare il verso del prossimo Pokémon",
   "criesHotkeySet": "Aiutante versi {status}",
   "criesHotkeyTooltip": "Quando abilitato, premi il tasto {key} per ascoltare il verso di un Pokémon mancante a caso.",
+  "criesHotkeyTooltipMobile": "Tocca due volte in un punto qualsiasi per ascoltare il verso di un Pokémon mancante a caso",
   "cycleSprites": "Cicla sprite:",
   "cycleSpritesSet": "Cicla Sprite {status}",
   "cycleSpritesTooltip": "Attiva/Disattiva Ciclo Sprite",
@@ -228,6 +229,7 @@
   "shadowHelperToggle": " Silhouette Successiva: premi",
   "shadowHelperToggleSuffix": "per rivelare la prossima silhouette",
   "shadowHotkeyTooltip": "Se abilitato, premi il tasto {key} per rivelare la silhouette di un Pokémon a caso.",
+  "shadowHotkeyTooltipMobile": "Tocca tre volte in un punto qualsiasi per rivelare la silhouette di un Pokémon a caso",
   "shadows": "Silhouette",
   "shadowsDialog": {
     "description": "Non potrai tornare indietro dopo aver rivelato le silhouette. Sei sicuro di voler continuare?",
@@ -259,7 +261,6 @@
   "switchQuizDialog": {
     "title": "Cambiare quiz?"
   },
-  "tapHint": "2× verso · 3× silhouette",
   "thanksForPlaying": "Grazie per aver giocato!",
   "timer": "Timer",
   "timerTooltip": "Imposta un timer per il gioco.",
@@ -268,11 +269,11 @@
   "topPlays": "Top {n} Partite",
   "typeOfChallenge": "Tipo di Sfida",
   "typeQuiz": "Quiz {type}",
-  "types": "Tipi",
   "typeShuffle": "Tipo casuale",
   "typeShuffleOnlyInRegularModeTooltip": "Il Tipo casuale può essere attivato solo in modalità normale",
   "typeShuffleSet": "Tipo casuale {status}",
   "typeShuffleTooltip": "Indovina il prossimo Pokémon di un certo tipo",
+  "types": "Tipi",
   "ultrabeast": "Ultracreatura",
   "unova": "Unima",
   "upload": "Carica",

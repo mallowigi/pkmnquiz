@@ -47,6 +47,7 @@
   "criesHelperToggleSuffix": "聽下一個寶可夢的鳴叫聲",
   "criesHotkeySet": "鳴叫助手 {status}",
   "criesHotkeyTooltip": "啟用後，按 {key} 鍵聽隨機缺失寶可夢的鳴叫聲。",
+  "criesHotkeyTooltipMobile": "在任意位置雙擊可聽隨機缺失寶可夢的鳴叫聲",
   "cycleSprites": "循環精靈:",
   "cycleSpritesSet": "循環精靈 {status}",
   "cycleSpritesTooltip": "切換循環精靈開/關",
@@ -228,6 +229,7 @@
   "shadowHelperToggle": " 下一個陰影: 按",
   "shadowHelperToggleSuffix": "查看下一個陰影",
   "shadowHotkeyTooltip": "啟用後，按 {key} 鍵隨機顯示寶可夢的陰影。",
+  "shadowHotkeyTooltipMobile": "在任意位置三擊可隨機顯示寶可夢的陰影",
   "shadows": "陰影",
   "shadowsDialog": {
     "description": "不重置无法撤销",
@@ -259,7 +261,6 @@
   "switchQuizDialog": {
     "title": "切换测验？"
   },
-  "tapHint": "2× 鳴叫 · 3× 陰影",
   "thanksForPlaying": "感謝您的遊玩!",
   "timer": "計時器",
   "timerTooltip": "為遊戲設置計時器。",
@@ -268,11 +269,11 @@
   "topPlays": "前 {n} 次遊玩",
   "typeOfChallenge": "挑戰類型",
   "typeQuiz": "{type} 測驗",
-  "types": "属性",
   "typeShuffle": "隨機類型",
   "typeShuffleOnlyInRegularModeTooltip": "隨機類型只能在常規模式下啟用",
   "typeShuffleSet": "隨機類型 {status}",
   "typeShuffleTooltip": "猜猜給定類型的下一個寶可夢",
+  "types": "属性",
   "ultrabeast": "究极异兽",
   "unova": "合众",
   "upload": "上傳",

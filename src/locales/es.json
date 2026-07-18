@@ -47,6 +47,7 @@
   "criesHelperToggleSuffix": "para escuchar el grito del siguiente Pokémon",
   "criesHotkeySet": "Ayudante de gritos {status}",
   "criesHotkeyTooltip": "Cuando esté activado, pulsa la tecla {key} para escuchar el grito de un Pokémon faltante al azar.",
+  "criesHotkeyTooltipMobile": "Toca dos veces en cualquier lugar para escuchar el grito de un Pokémon faltante al azar",
   "cycleSprites": "Rotar sprites:",
   "cycleSpritesSet": "Rotar Sprites {status}",
   "cycleSpritesTooltip": "Alternar Rotar Sprites Activado/Desactivado",
@@ -228,6 +229,7 @@
   "shadowHelperToggle": " Siguiente Silueta: presiona",
   "shadowHelperToggleSuffix": "para revelar la siguiente silueta",
   "shadowHotkeyTooltip": "Cuando está habilitado, presiona la tecla {key} para revelar la silueta de un Pokémon al azar.",
+  "shadowHotkeyTooltipMobile": "Toca tres veces en cualquier lugar para revelar la silueta de un Pokémon al azar",
   "shadows": "Siluetas",
   "shadowsDialog": {
     "description": "No podrás volver atrás después de revelar las siluetas. ¿Seguro que quieres continuar?",
@@ -259,7 +261,6 @@
   "switchQuizDialog": {
     "title": "¿Cambiar cuestionario?"
   },
-  "tapHint": "2× grito · 3× silueta",
   "thanksForPlaying": "¡Gracias por jugar!",
   "timer": "Temporizador",
   "timerTooltip": "Establece un temporizador para el juego.",
@@ -268,11 +269,11 @@
   "topPlays": "Top {n} Partidas",
   "typeOfChallenge": "Tipo de Desafío",
   "typeQuiz": "Quiz de {type}",
-  "types": "Tipos",
   "typeShuffle": "Tipo aleatorio",
   "typeShuffleOnlyInRegularModeTooltip": "Tipo aleatorio solo se puede activar en modo normal",
   "typeShuffleSet": "Tipo aleatorio {status}",
   "typeShuffleTooltip": "Adivina el siguiente Pokémon de un cierto tipo",
+  "types": "Tipos",
   "ultrabeast": "Ultraente",
   "unova": "Teselia",
   "upload": "Subir",
