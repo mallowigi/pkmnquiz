@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useAuth } from '@vueuse/firebase';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
@@ -7,14 +6,11 @@ import RoundedButton from '@/components/common/RoundedButton.vue';
 import ProfileDetailedStats from '@/components/dialogs/userProfile/ProfileDetailedStats.vue';
 import ProfileStats from '@/components/dialogs/userProfile/ProfileStats.vue';
 import ProfilePic from '@/components/header/ProfilePic.vue';
-import { useFirebase } from '@/composables/useFirebase.ts';
+import { useUsername } from '@/composables/useUsername.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
-import { useSettings } from '@/stores/useSettings.ts';
 
 const { closeDialog } = useDialogs();
-const { auth } = useFirebase();
-const { user } = useAuth(auth);
-const { settingsState } = useSettings();
+const { username } = useUsername();
 
 const { t } = useI18n();
 
@@ -37,7 +33,7 @@ const cancel = () => {
           :size="100"
         />
 
-        <h3 class="profile-name">{{ user?.displayName ?? settingsState.name }}</h3>
+        <h3 class="profile-name">{{ username }}</h3>
 
         <ProfileStats />
 

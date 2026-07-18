@@ -3,9 +3,11 @@ import { useAuth } from '@vueuse/firebase';
 import { computed } from 'vue';
 
 import { useFirebase } from '@/composables/useFirebase.ts';
+import { useUsername } from '@/composables/useUsername.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 
 const { settingsState } = useSettings();
+const { username } = useUsername();
 const { auth } = useFirebase();
 const { user } = useAuth(auth);
 
@@ -20,7 +22,7 @@ const toggleMenu = () => {
 };
 
 const initials = computed(() => {
-  const parts = (settingsState.name || '').trim().split(' ').slice(0, 2);
+  const parts = (username.value || '').trim().split(' ').slice(0, 2);
   return parts
     .map((p) => p[0])
     .join('')
@@ -39,7 +41,7 @@ const styles = computed(() => {
 <template>
   <div
     class="avatar"
-    v-tooltip:bottom="settingsState.name"
+    v-tooltip:bottom="username"
     :style="styles"
     :data-name="user?.photoURL ? '' : initials"
     @click="toggleMenu"

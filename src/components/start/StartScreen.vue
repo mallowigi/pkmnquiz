@@ -11,6 +11,7 @@ import LoginControls from '@/components/start/LoginControls.vue';
 import NewGameButtons from '@/components/start/NewGameButtons.vue';
 import { useFirebase } from '@/composables/useFirebase.js';
 import { useNameGenerator } from '@/composables/useNameGenerator.ts';
+import { useUsername } from '@/composables/useUsername.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { useSettings } from '@/stores/useSettings.js';
 
@@ -18,7 +19,8 @@ const { t } = useI18n();
 const { getSavedName } = useSavedData();
 const { setName } = useSettings();
 const { auth } = useFirebase();
-const { user, isAuthenticated } = useAuth(auth);
+const { isAuthenticated } = useAuth(auth);
+const { username } = useUsername();
 const { generateName } = useNameGenerator();
 
 onMounted(() => {
@@ -27,7 +29,7 @@ onMounted(() => {
   if (!isAuthenticated) {
     setName(savedName || randomName);
   } else {
-    setName(user.value?.displayName || savedName || randomName);
+    setName(username.value || savedName || randomName);
   }
 });
 </script>

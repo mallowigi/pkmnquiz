@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import { useAuth } from '@vueuse/firebase';
 import { useI18n } from 'vue-i18n';
 
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import ProfilePic from '@/components/header/ProfilePic.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
-import { useSettings } from '@/stores/useSettings.ts';
+import { useUsername } from '@/composables/useUsername.ts';
 
 const { t } = useI18n();
-const { settingsState } = useSettings();
-const { signout, auth } = useFirebase();
-const { user } = useAuth(auth);
+const { signout } = useFirebase();
+const { username } = useUsername();
 </script>
 
 <template>
   <div class="root">
-    <h1 class="caption">{{ t('welcomeBack', { name: user?.displayName ?? settingsState.name }) }}</h1>
+    <h1 class="caption">{{ t('welcomeBack', { name: username }) }}</h1>
 
     <ProfilePic
       class="profile-avatar"
