@@ -1,31 +1,38 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useSavedLocale } from '@/composables/useSavedLocale.ts';
+import { useColors } from '@/composables/useColors.ts';
+import { useSavedColor } from '@/composables/useSavedColor.ts';
 
-const { savedLocale } = useSavedLocale();
-const { locale } = useI18n();
+const { savedColor } = useSavedColor();
+const { colors } = useColors();
+const { t } = useI18n();
 
-watch(savedLocale, (val) => {
-  locale.value = val;
-});
+const currentColor = computed(() => savedColor ?? colors.blue);
 </script>
 
 <template>
-  <div class="locale-changer">
+  <div class="color-changer">
     <select
-      id="locale"
-      v-model="savedLocale"
-      class="select"
-      aria-label="Select language"
+      id="color"
+      v-model="savedColor"
+      v-tooltip:bottom="t('selectColor')"
+      class="color-select"
+      aria-label="Select color"
+      :style="{ '--accent-color': currentColor.value }"
     >
+      <button></button>
       <option
-        v-for="locale in $i18n.availableLocales"
-        :key="`locale-${locale}`"
-        :value="locale"
+        v-for="(color, key) in colors"
+        :key="`color-${color}`"
+        :value="color"
       >
-        {{ locale }}
+        <span
+          class="swatch"
+          :style="{ backgroundColor: color }"
+          >&nbsp;</span
+        >{{ t(key) }}
       </option>
     </select>
   </div>
@@ -44,30 +51,26 @@ watch(savedLocale, (val) => {
   }
 }
 
-.locale-changer {
-  align-self: baseline;
+.color-changer {
+  display: flex;
+  align-items: center;
 }
 
-.select,
-::picker(select) {
+.color-select,
+.color-select::picker(select) {
   appearance: base-select;
 }
 
-.select {
-  border: none;
-  border-radius: 4px;
-  font-size: 24px;
-  font-family: 'Roboto Condensed', sans-serif;
-  color: var(--text);
-  padding: 0 4px;
-  text-align: center;
+.color-select {
+  border: 1px solid var(--text);
+  border-radius: 50%;
   text-decoration: none;
-  font-variant: small-caps;
-  line-height: 32px;
-  height: 32px;
   outline: none;
   cursor: pointer;
   transition: background-color 0.2s;
+  background-color: var(--accent-color);
+  width: 32px;
+  height: 32px;
 
   &:hover {
     background-color: var(--type-dark-color, var(--darkPrimary));
@@ -80,7 +83,7 @@ watch(savedLocale, (val) => {
   }
 
   &::picker-icon {
-    font-size: 12px;
+    display: none;
   }
 
   option {
@@ -110,11 +113,16 @@ watch(savedLocale, (val) => {
       background-color: var(--type-dark-color, var(--darkPrimary));
       color: var(--text-inverted);
     }
+  }
 
-    &:checked {
-      background: var(--type-btn-color, var(--primary));
-      color: var(--text-inverted);
-    }
+  button {
+    appearance: none;
+    background: transparent;
+    border: none;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    padding: 0;
   }
 
   option::checkmark {
@@ -122,7 +130,7 @@ watch(savedLocale, (val) => {
   }
 }
 
-::picker(select) {
+.color-select::picker(select) {
   background: var(--button);
   border: 1px solid var(--type-btn-color, var(--primary));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -132,5 +140,13 @@ watch(savedLocale, (val) => {
   margin-top: 8px;
   transform-origin: center top;
   animation: accordion 0.2s ease-out;
+}
+
+.swatch {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
 }
 </style>

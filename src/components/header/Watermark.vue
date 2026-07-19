@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import ChartIcon from '@/components/common/icons/ChartIcon.vue';
 import CreditsIcon from '@/components/common/icons/CreditsIcon.vue';
 import AvatarMenu from '@/components/header/AvatarMenu.vue';
+import ColorChanger from '@/components/header/ColorChanger.vue';
 import LocaleChanger from '@/components/header/LocaleChanger.vue';
 import { useCredits } from '@/stores/useCredits.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
@@ -35,6 +36,8 @@ const showCredits = () => {
         @click="showCredits"
         v-tooltip:bottom="t('showCredits')"
       />
+
+      <ColorChanger class="hide-laptop" />
 
       <LocaleChanger class="hide-laptop" />
 

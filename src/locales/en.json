@@ -228,6 +228,7 @@
   "saveLoadState": "Save/Load Quiz State",
   "saveToCloudSuccess": "Successfully synced to cloud!",
   "saveToDiskTooltip": "Save to file",
+  "selectColor": "Theme Color",
   "set": "set",
   "shadowHelperDisabled": "Shadow helper is disabled. Enable it in settings to use this shortcut.",
   "shadowHelperSet": "Shadow helper {status}",

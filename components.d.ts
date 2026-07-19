@@ -25,6 +25,7 @@ declare module 'vue' {
     ChartIcon: typeof import('./src/components/common/icons/ChartIcon.vue')['default']
     CloudDownIcon: typeof import('./src/components/common/icons/CloudDownIcon.vue')['default']
     CloudUpIcon: typeof import('./src/components/common/icons/CloudUpIcon.vue')['default']
+    ColorChanger: typeof import('./src/components/header/ColorChanger.vue')['default']
     CountdownOverlay: typeof import('./src/components/game/CountdownOverlay.vue')['default']
     Credits: typeof import('./src/components/background/Credits.vue')['default']
     CreditsIcon: typeof import('./src/components/common/icons/CreditsIcon.vue')['default']
