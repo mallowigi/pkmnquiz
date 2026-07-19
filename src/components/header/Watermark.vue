@@ -7,19 +7,13 @@ import AvatarMenu from '@/components/header/AvatarMenu.vue';
 import LocaleChanger from '@/components/header/LocaleChanger.vue';
 import { useCredits } from '@/stores/useCredits.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
-import { useGameFlow } from '@/stores/useGameFlow.ts';
 
 const { setDialog } = useDialogs();
-const { toggleSettings } = useGameFlow();
 const { toggleShowCredits } = useCredits();
 const { t } = useI18n();
 
 const showLeaderBoards = () => {
   setDialog('leaderboards');
-};
-
-const clickToggleSettings = () => {
-  toggleSettings();
 };
 
 const showCredits = () => {

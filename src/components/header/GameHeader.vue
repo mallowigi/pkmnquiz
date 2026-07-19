@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import SettingsIcon from '@/components/common/icons/SettingsIcon.vue';
-import RoundedButton from '@/components/common/RoundedButton.vue';
 import DarkModeToggle from '@/components/header/DarkModeToggle.vue';
 import GameTimer from '@/components/header/GameTimer.vue';
 import PokemonCounts from '@/components/header/PokemonCounts.vue';
 import PokemonInput from '@/components/header/PokemonInput.vue';
 import Watermark from '@/components/header/Watermark.vue';
-import { useGameFlow } from '@/stores/useGameFlow.ts';
 </script>
 
 <template>

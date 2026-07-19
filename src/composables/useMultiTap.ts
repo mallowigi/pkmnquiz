@@ -8,7 +8,6 @@ interface UseMultiTapOptions {
   timeout?: number;
 }
 
-/** If a touch moves more than this many pixels, it's a scroll — ignore it. */
 const TAP_MAX_MOVE = 10;
 
 export function useMultiTap({ onDoubleTap, onTripleTap, disabled, timeout = 300 }: UseMultiTapOptions) {

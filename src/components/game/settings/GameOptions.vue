@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useSwipe } from '@vueuse/core';
 import { AnimatePresence, motion } from 'motion-v';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
 
 import PauseIcon from '@/components/common/icons/PauseIcon.vue';
 import SettingsIcon from '@/components/common/icons/SettingsIcon.vue';

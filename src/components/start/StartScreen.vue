@@ -5,14 +5,13 @@ import { useI18n } from 'vue-i18n';
 
 import SaveButtons from '@/components/background/SaveButtons.vue';
 import Spacer from '@/components/common/Spacer.vue';
-import Leaderboards from '@/components/start/Leaderboards.vue';
 import LoggedInInfo from '@/components/start/LoggedInInfo.vue';
 import LoginControls from '@/components/start/LoginControls.vue';
 import NewGameButtons from '@/components/start/NewGameButtons.vue';
 import { useFirebase } from '@/composables/useFirebase.js';
 import { useNameGenerator } from '@/composables/useNameGenerator.ts';
-import { useUsername } from '@/composables/useUsername.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
+import { useUsername } from '@/composables/useUsername.ts';
 import { useSettings } from '@/stores/useSettings.js';
 
 const { t } = useI18n();

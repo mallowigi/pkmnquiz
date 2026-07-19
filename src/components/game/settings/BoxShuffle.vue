@@ -12,7 +12,7 @@ import { useState } from '@/stores/useState.ts';
 
 const { state, setBoxShuffle } = useState();
 const { showUserMessage } = useMessages();
-const { flowState, isChallengeMode } = useGameFlow();
+const { flowState } = useGameFlow();
 const { updateShuffles } = useShuffles();
 const { clearCurrentBox } = useCurrentBox();
 const { t } = useI18n();

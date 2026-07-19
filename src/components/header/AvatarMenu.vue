@@ -7,11 +7,9 @@ import { useI18n } from 'vue-i18n';
 import ProfilePic from '@/components/header/ProfilePic.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
-import { useSettings } from '@/stores/useSettings.ts';
 
 const { auth, signout } = useFirebase();
-const { user, isAuthenticated } = useAuth(auth);
-const { settingsState } = useSettings();
+const { isAuthenticated } = useAuth(auth);
 const { setDialog } = useDialogs();
 const { t } = useI18n();
 

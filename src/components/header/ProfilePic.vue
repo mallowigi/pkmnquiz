@@ -4,9 +4,7 @@ import { computed } from 'vue';
 
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useUsername } from '@/composables/useUsername.ts';
-import { useSettings } from '@/stores/useSettings.ts';
 
-const { settingsState } = useSettings();
 const { username } = useUsername();
 const { auth } = useFirebase();
 const { user } = useAuth(auth);

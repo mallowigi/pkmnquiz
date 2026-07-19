@@ -6,8 +6,8 @@ import RegionBoxes from '@/components/game/RegionBoxes.vue';
 import GameOptions from '@/components/game/settings/GameOptions.vue';
 import SpellingChecker from '@/components/game/SpellingChecker.vue';
 import { useGameFlow } from '@/stores/useGameFlow';
-import { useState } from '@/stores/useState';
 import { useSettings } from '@/stores/useSettings.ts';
+import { useState } from '@/stores/useState';
 
 const { state } = useState();
 const { settingsState } = useSettings();
@@ -38,9 +38,5 @@ const { flowState } = useGameFlow();
   align-items: flex-start;
   flex: 1;
   margin-bottom: 1rem;
-
-  /*.mobile & {
-    overflow: hidden;
-  }*/
 }
 </style>

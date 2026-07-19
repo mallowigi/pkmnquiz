@@ -9,12 +9,6 @@ type ShareProps = {
   elapsed: string;
 };
 
-/**
- * Composable for social sharing functionality.
- *
- * @param numFound The number of Pokémon found.
- * @param elapsed The time elapsed in string format.
- */
 export const useSocialShare = () => {
   const { t } = useI18n();
   const { getGameModeName } = useQuiz();
