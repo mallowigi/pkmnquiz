@@ -13,15 +13,21 @@ const { t } = useI18n();
 const { state } = useState();
 
 const primaryColor = useCssVar('--primary', document.documentElement);
+const darkPrimaryColor = useCssVar('--darkPrimary', document.documentElement);
 
 const currentColor = computed(() => getColorByName(savedColor.value) ?? colors.blue);
 
 const accentColor = computed(() => (state.isDark ? currentColor.value.dark : currentColor.value.light));
 
-watch(savedColor, (newColor) => {
-  const color = getColorByName(newColor) ?? colors.blue;
-  primaryColor.value = state.isDark ? color.dark : color.light;
-});
+watch(
+  savedColor,
+  (newColor) => {
+    const color = getColorByName(newColor) ?? colors.blue;
+    primaryColor.value = state.isDark ? color.dark : color.light;
+    darkPrimaryColor.value = color.dark;
+  },
+  { immediate: true },
+);
 </script>
 
 <template>

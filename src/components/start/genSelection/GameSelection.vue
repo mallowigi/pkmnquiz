@@ -4,6 +4,7 @@ import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
 import ChallengeModeChooser from '@/components/start/challenge/ChallengeModeChooser.vue';
 import ChallengeSetup from '@/components/start/challenge/ChallengeSetup.vue';
 import GenChooser from '@/components/start/genSelection/GenChooser.vue';
+import Logo from '@/components/start/genSelection/Logo.vue';
 import SpecialChooser from '@/components/start/genSelection/SpecialChooser.vue';
 import TypeChooser from '@/components/start/genSelection/TypeChooser.vue';
 import Loading from '@/components/start/Loading.vue';
@@ -26,23 +27,13 @@ const close = () => {
   <Overlay @close="close">
     <FadeTransition>
       <div class="prompt">
-        <!-- Logo -->
-        <div v-if="!flowState.isStarted">
-          <img
-            src="@/assets/logo.gif"
-            class="logo"
-            alt="Logo"
-          />
-        </div>
+        <Logo />
 
         <FadeTransition mode="out-in">
-          <!-- Loader -->
           <Loading v-if="!data.isLoaded" />
 
-          <!-- New Game / Continue -->
           <StartScreen v-else-if="data.isLoaded && flowState.gameSelectionState === 'new'" />
 
-          <!-- Game selection -->
           <div v-else>
             <FadeTransition mode="out-in">
               <ChallengeModeChooser v-if="flowState.gameSelectionState === 'challenge'" />
@@ -63,14 +54,6 @@ const close = () => {
 </template>
 
 <style scoped>
-.logo {
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: 600px;
-  filter: hue-rotate(80deg);
-}
-
 .prompt {
   display: flex;
   flex-direction: column;

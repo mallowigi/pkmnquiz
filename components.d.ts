@@ -66,6 +66,7 @@ declare module 'vue' {
     LoggedInInfo: typeof import('./src/components/start/LoggedInInfo.vue')['default']
     LoginControls: typeof import('./src/components/start/LoginControls.vue')['default']
     LoginDialog: typeof import('./src/components/dialogs/LoginDialog.vue')['default']
+    Logo: typeof import('./src/components/start/genSelection/Logo.vue')['default']
     MissedNames: typeof import('./src/components/game/MissedNames.vue')['default']
     MissedNamesTransition: typeof import('./src/components/common/transitions/MissedNamesTransition.vue')['default']
     ModeDialog: typeof import('./src/components/dialogs/ModeDialog.vue')['default']
