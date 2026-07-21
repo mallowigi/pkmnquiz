@@ -144,7 +144,9 @@
     "time": "Tempo"
   },
   "leaderboardsDialog": {
-    "title": "Top 3 adivinhadores de {mode}"
+    "title": "Top 3 adivinhadores de {mode}",
+    "browseLeaderboards": "Browse Leaderboards",
+    "myRecords": "My Best Runs"
   },
   "legendary": "Lendário",
   "lightMode": "Modo Claro",

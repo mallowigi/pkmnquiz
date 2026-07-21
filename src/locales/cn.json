@@ -144,7 +144,9 @@
     "time": "时间"
   },
   "leaderboardsDialog": {
-    "title": "{mode} 猜想者前 3 名"
+    "title": "{mode} 猜想者前 3 名",
+    "browseLeaderboards": "Browse Leaderboards",
+    "myRecords": "My Best Runs"
   },
   "legendary": "传说",
   "lightMode": "浅色模式",

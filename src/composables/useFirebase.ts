@@ -18,11 +18,13 @@ import { usePokemons } from '@/stores/usePokemons.ts';
 import { useProfile } from '@/stores/useProfile.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useTimer } from '@/stores/useTimer.ts';
-import type { UserRecord, GameMode, Gen, Type, SaveData } from '@/types.ts';
+import type { UserRecord, GameMode, Gen, Mode, Type, SaveData } from '@/types.ts';
 
 type TopTrainersOptions = {
   gameMode?: GameMode | null;
   gen?: Gen | null;
+  limit?: number;
+  mode?: Mode | null;
   type?: Type | null;
   uid?: string | null;
 };
@@ -163,12 +165,16 @@ export const useFirebase = defineStore('firebase', () => {
     return null;
   };
 
-  const getTopTrainers = ({ gameMode, gen, type, uid }: TopTrainersOptions = {}) => {
+  const getTopTrainers = ({ gameMode, gen, limit: queryLimit = 3, mode, type, uid }: TopTrainersOptions = {}) => {
     checkOnline('getTopTrainers');
 
     const andCondition = [where('hasGivenUp', '==', false)];
     if (uid) {
       andCondition.push(where('uid', '==', uid));
+    }
+
+    if (mode) {
+      andCondition.push(where('mode', '==', mode));
     }
 
     if (gameMode) {
@@ -181,7 +187,7 @@ export const useFirebase = defineStore('firebase', () => {
       }
     }
 
-    const leaderBoardQuery = query(collection(db, 'leaderboards'), ...andCondition, orderBy('time', 'asc'), limit(3));
+    const leaderBoardQuery = query(collection(db, 'leaderboards'), ...andCondition, orderBy('time', 'asc'), limit(queryLimit));
 
     return useFirestore(leaderBoardQuery, [], {
       autoDispose: false,

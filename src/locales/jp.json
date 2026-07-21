@@ -144,7 +144,9 @@
     "time": "時間"
   },
   "leaderboardsDialog": {
-    "title": "{mode}の正解者トップ3"
+    "title": "{mode}の正解者トップ3",
+    "browseLeaderboards": "Browse Leaderboards",
+    "myRecords": "My Best Runs"
   },
   "legendary": "伝説",
   "lightMode": "ライトモード",

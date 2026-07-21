@@ -144,7 +144,9 @@
     "time": "Zeit"
   },
   "leaderboardsDialog": {
-    "title": "Top 3 {mode}-Rater"
+    "title": "Top 3 {mode}-Rater",
+    "browseLeaderboards": "Browse Leaderboards",
+    "myRecords": "My Best Runs"
   },
   "legendary": "Legendär",
   "lightMode": "Heller Modus",

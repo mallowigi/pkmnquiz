@@ -144,7 +144,9 @@
     "time": "시간"
   },
   "leaderboardsDialog": {
-    "title": "{mode} 맞추기 상위 3명"
+    "title": "{mode} 맞추기 상위 3명",
+    "browseLeaderboards": "Browse Leaderboards",
+    "myRecords": "My Best Runs"
   },
   "legendary": "전설",
   "lightMode": "라이트 모드",

@@ -147,6 +147,8 @@
     "time": "Time"
   },
   "leaderboardsDialog": {
+    "browseLeaderboards": "Browse Leaderboards",
+    "myRecords": "My Best Runs",
     "title": "Top 3 {mode} Guessers"
   },
   "legendary": "Legendary",

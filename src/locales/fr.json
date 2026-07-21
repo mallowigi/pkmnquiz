@@ -144,7 +144,9 @@
     "time": "Temps"
   },
   "leaderboardsDialog": {
-    "title": "Top 3 Joueurs {mode}"
+    "title": "Top 3 Joueurs {mode}",
+    "browseLeaderboards": "Browse Leaderboards",
+    "myRecords": "My Best Runs"
   },
   "legendary": "Légendaire",
   "lightMode": "Mode Jour",

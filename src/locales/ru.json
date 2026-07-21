@@ -144,7 +144,9 @@
     "time": "Время"
   },
   "leaderboardsDialog": {
-    "title": "Топ-3 угадывателей {mode}"
+    "title": "Топ-3 угадывателей {mode}",
+    "browseLeaderboards": "Browse Leaderboards",
+    "myRecords": "My Best Runs"
   },
   "legendary": "Легендарный",
   "lightMode": "Светлый режим",

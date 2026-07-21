@@ -144,7 +144,9 @@
     "time": "Tempo"
   },
   "leaderboardsDialog": {
-    "title": "Top 3 indovini di {mode}"
+    "title": "Top 3 indovini di {mode}",
+    "browseLeaderboards": "Browse Leaderboards",
+    "myRecords": "My Best Runs"
   },
   "legendary": "Leggendario",
   "lightMode": "Modalità Chiara",

@@ -5,10 +5,12 @@ import { useI18n } from 'vue-i18n';
 import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
 import { useLeaderboards } from '@/composables/useLeaderboards.ts';
 import { useTranslations } from '@/composables/useTranslations.js';
-import type { GameMode, Gen, Type } from '@/types.ts';
+import type { Mode, GameMode, Gen, Type } from '@/types.ts';
 
 const props = defineProps<{
   caption?: string;
+  limit?: number;
+  mode?: Mode | null;
   uid?: string | null;
   gameMode?: GameMode | null;
   gen?: Gen | null;
