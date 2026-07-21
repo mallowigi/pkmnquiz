@@ -3,7 +3,7 @@ import { useLocalStorage } from '@vueuse/core';
 import { useColors } from '@/composables/useColors.ts';
 
 const { colors } = useColors();
-const savedColor = useLocalStorage('pkmnQuizColor', colors.blue);
+const savedColor = useLocalStorage('pkmnQuizColor', colors.blue.name);
 
 export const useSavedColor = () => {
   return {

@@ -1,15 +1,27 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { useCssVar } from '@vueuse/core';
+import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useColors } from '@/composables/useColors.ts';
 import { useSavedColor } from '@/composables/useSavedColor.ts';
+import { useState } from '@/stores/useState.ts';
 
 const { savedColor } = useSavedColor();
-const { colors } = useColors();
+const { colors, getColorByName } = useColors();
 const { t } = useI18n();
+const { state } = useState();
 
-const currentColor = computed(() => savedColor ?? colors.blue);
+const primaryColor = useCssVar('--primary', document.documentElement);
+
+const currentColor = computed(() => getColorByName(savedColor.value) ?? colors.blue);
+
+const accentColor = computed(() => (state.isDark ? currentColor.value.dark : currentColor.value.light));
+
+watch(savedColor, (newColor) => {
+  const color = getColorByName(newColor) ?? colors.blue;
+  primaryColor.value = state.isDark ? color.dark : color.light;
+});
 </script>
 
 <template>
@@ -20,19 +32,19 @@ const currentColor = computed(() => savedColor ?? colors.blue);
       v-tooltip:bottom="t('selectColor')"
       class="color-select"
       aria-label="Select color"
-      :style="{ '--accent-color': currentColor.value }"
+      :style="{ '--accent-color': accentColor }"
     >
-      <button></button>
+      <button />
       <option
-        v-for="(color, key) in colors"
-        :key="`color-${color}`"
-        :value="color"
+        v-for="color in colors"
+        :key="color.name"
+        :value="color.name"
       >
         <span
           class="swatch"
-          :style="{ backgroundColor: color }"
+          :style="{ backgroundColor: state.isDark ? color.dark : color.light }"
           >&nbsp;</span
-        >{{ t(key) }}
+        >{{ t(color.name) }}
       </option>
     </select>
   </div>

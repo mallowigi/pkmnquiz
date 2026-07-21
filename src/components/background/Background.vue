@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+
 import BackgroundPreload from '@/components/background/BackgroundPreload.vue';
 import { useCurrentType } from '@/stores/useCurrentType';
 import { useState } from '@/stores/useState';
@@ -22,7 +23,7 @@ const secondaryType = computed(() => {
     :class="{
       typed: currentType,
       'double-typed': secondaryType,
-      dark: state.isDark
+      dark: state.isDark,
     }"
   >
     <!-- Preload background images and type icons -->
@@ -70,7 +71,8 @@ const secondaryType = computed(() => {
 }
 
 .background {
-  background-image: url(@/assets/background-50.svg);
+  background-image: url(@/assets/background-50-grey.svg);
+  background-blend-mode: hard-light;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -84,35 +86,20 @@ const secondaryType = computed(() => {
   transition: all 0.2s ease-in-out;
 
   &.dark {
-    background-image: url(@/assets/background-dark.svg);
-  }
-
-  &.typed {
-    background-image: url(@/assets/background-50-grey.svg);
-    background-blend-mode: hard-light;
-  }
-
-  &.typed.dark {
     background-image: url(@/assets/background-dark-grey.svg);
   }
 
   &.double-typed {
-    background-image: url(@/assets/background-50-grey.svg),
-      linear-gradient(
-        to bottom right,
-        var(--type-bg-color),
-        var(--type-bg-color-secondary, var(--type-bg-color))
-      );
+    background-image:
+      url(@/assets/background-50-grey.svg),
+      linear-gradient(to bottom right, var(--type-bg-color), var(--type-bg-color-secondary, var(--type-bg-color)));
     background-blend-mode: hard-light, normal;
   }
 
   &.double-typed.dark {
-    background-image: url(@/assets/background-dark-grey.svg),
-      linear-gradient(
-        to bottom right,
-        var(--type-bg-color),
-        var(--type-bg-color-secondary, var(--type-bg-color))
-      );
+    background-image:
+      url(@/assets/background-dark-grey.svg),
+      linear-gradient(to bottom right, var(--type-bg-color), var(--type-bg-color-secondary, var(--type-bg-color)));
   }
 }
 
