@@ -36,7 +36,6 @@ export const useCurrentBox = defineStore('currentBox', () => {
     currentBoxState.currentBox = null;
     currentBoxState.currentSpecialBox = null;
     currentBoxState.currentMegaBox = null;
-    state.withBoxShuffle = false;
   };
 
   const setRandomCurrentBox = () => {
