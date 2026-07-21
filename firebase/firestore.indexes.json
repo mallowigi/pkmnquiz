@@ -14,6 +14,16 @@
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "hasGivenUp", "order": "ASCENDING" },
+        { "fieldPath": "mode", "order": "ASCENDING" },
+        { "fieldPath": "time", "order": "ASCENDING" },
+        { "fieldPath": "__name__", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "leaderboards",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "hasGivenUp", "order": "ASCENDING" },
         { "fieldPath": "gameMode", "order": "ASCENDING" },
         { "fieldPath": "time", "order": "ASCENDING" },
         { "fieldPath": "__name__", "order": "ASCENDING" }
