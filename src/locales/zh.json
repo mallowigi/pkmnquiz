@@ -294,5 +294,6 @@
   "welcomeBack": "歡迎回來，{name}!",
   "x": "X",
   "yellow": "黃色",
-  "zh": "中文（繁體）"
+  "zh": "中文（繁體）",
+  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
 }

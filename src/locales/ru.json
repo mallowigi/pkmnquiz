@@ -294,5 +294,6 @@
   "welcomeBack": "Добро пожаловать, {name}!",
   "x": "X",
   "yellow": "Желтый",
-  "zh": "Китайский (Традиционный)"
+  "zh": "Китайский (Традиционный)",
+  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
 }

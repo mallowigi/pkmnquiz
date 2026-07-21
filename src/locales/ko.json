@@ -294,5 +294,6 @@
   "welcomeBack": "돌아오신 것을 환영합니다, {name}!",
   "x": "X",
   "yellow": "노란색",
-  "zh": "중국어 (정체)"
+  "zh": "중국어 (정체)",
+  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
 }

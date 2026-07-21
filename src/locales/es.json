@@ -294,5 +294,6 @@
   "welcomeBack": "¡Bienvenido de vuelta, {name}!",
   "x": "X",
   "yellow": "Amarillo",
-  "zh": "Chino (Tradicional)"
+  "zh": "Chino (Tradicional)",
+  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
 }

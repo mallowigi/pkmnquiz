@@ -40,7 +40,8 @@ service cloud.firestore {
     }
 
     function isValidLeaderboardRecord(data) {
-      return isValidString(data.name, 1, 100) &&
+      return (data.name == null || isValidString(data.name, 1, 100)) &&
+      // prevent saving debug mode wins
       isValidInt(data.time, 60) &&
       isValidInt(data.numFound, 0) &&
       isValidInt(data.numShadows, 0) &&
@@ -95,8 +96,8 @@ service cloud.firestore {
         // Validation of data integrity
         isValidLeaderboardRecord(request.resource.data) &&
         (
-          // For authenticated users: must use their UID as recordId and in data
-          (isSignedIn() && request.resource.data.uid == request.auth.uid && recordId == request.auth.uid) ||
+          // For authenticated users: UID in the payload must match the caller
+          (isSignedIn() && request.resource.data.uid == request.auth.uid) ||
           // For guests: uid must be null (recordId is auto-generated)
           (!isSignedIn() && request.resource.data.uid == null)
         )

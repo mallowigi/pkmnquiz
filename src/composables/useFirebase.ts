@@ -96,30 +96,31 @@ export const useFirebase = defineStore('firebase', () => {
       return;
     }
 
-    const previousSession = await getDoc(doc(db, 'leaderboards', flowState.sessionId!));
-    if (previousSession.exists()) {
-      console.warn('Previous session exists, skipping');
-      return;
-    }
+    try {
+      const previousSession = await getDoc(doc(db, 'leaderboards', flowState.sessionId!));
+      if (previousSession.exists()) {
+        console.warn('Previous session exists, skipping');
+        return;
+      }
 
-    const payload: UserRecord = {
-      ...getSavedState(),
-      hasGivenUp: flowState.isGivenUp,
-      numFound: numFound.value,
-      numShadows: numShadows.value,
-      time: timerState.elapsed,
-      uid: user ? user.uid : null,
-    };
+      const savedState = getSavedState();
+      const payload: UserRecord = {
+        ...savedState,
+        // Ensure name is never null in the record
+        name: savedState.name ?? user?.displayName ?? 'Trainer',
+        hasGivenUp: flowState.isGivenUp,
+        numFound: numFound.value,
+        numShadows: numShadows.value,
+        time: timerState.elapsed,
+        uid: user ? user.uid : null,
+      };
 
-    if (user?.uid) {
-      payload.id = user.uid;
-    }
-
-    if (!user) {
       await setDoc(doc(db, 'leaderboards', flowState.sessionId), payload);
-      return;
+    } catch (error) {
+      console.error('Failed to save leaderboard record:', error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      showUserMessage(i18n.global.t('leaderboardSaveFailed', { error: errorMessage }), 'error');
     }
-    await setDoc(doc(db, 'leaderboards', flowState.sessionId), payload);
   };
 
   const saveUserState = async (data: SaveData) => {
