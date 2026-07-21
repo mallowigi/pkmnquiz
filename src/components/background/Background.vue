@@ -41,16 +41,16 @@ const secondaryType = computed(() => {
         <img
           :alt="currentType?.name"
           :src="`/assets/types/${currentType?.icon}.svg`"
-          id="bgpattern"
-          class="bgpattern"
+          id="bgpattern2"
+          class="bgpattern2"
         />
 
         <!-- Second logo -->
         <img
           :alt="secondaryType ? secondaryType.name : currentType?.name"
           :src="`/assets/types/${secondaryType ? secondaryType.icon : currentType?.icon}.svg`"
-          id="bgpattern2"
-          class="bgpattern2"
+          id="bgpattern"
+          class="bgpattern"
         />
       </div>
     </Transition>
@@ -85,6 +85,16 @@ const secondaryType = computed(() => {
   z-index: -1;
   transition: all 0.2s ease-in-out;
 
+  /* Mobile-first approach */
+  background-size: 150%;
+  background-position: center bottom;
+  background-attachment: scroll;
+
+  .mobile & {
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
   &.dark {
     background-image: url(@/assets/background-dark-grey.svg);
   }
@@ -92,14 +102,14 @@ const secondaryType = computed(() => {
   &.double-typed {
     background-image:
       url(@/assets/background-50-grey.svg),
-      linear-gradient(to bottom right, var(--type-bg-color), var(--type-bg-color-secondary, var(--type-bg-color)));
+      linear-gradient(to bottom, var(--type-bg-color), var(--type-bg-color-secondary, var(--type-bg-color)));
     background-blend-mode: hard-light, normal;
   }
 
   &.double-typed.dark {
     background-image:
       url(@/assets/background-dark-grey.svg),
-      linear-gradient(to bottom right, var(--type-bg-color), var(--type-bg-color-secondary, var(--type-bg-color)));
+      linear-gradient(to bottom, var(--type-bg-color), var(--type-bg-color-secondary, var(--type-bg-color)));
   }
 }
 
