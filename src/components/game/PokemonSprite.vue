@@ -234,7 +234,7 @@ watch(displayedSprite, (newSprite, oldSprite) => {
 .sprite-swap-enter-from,
 .sprite-swap-leave-to {
   opacity: 0;
-  transform: scale(1.3);
+  transform: scale(2);
 }
 
 .container.missed > * {
@@ -248,7 +248,7 @@ watch(displayedSprite, (newSprite, oldSprite) => {
   }
   50% {
     opacity: 1;
-    transform: scale(1.4); /* Scale up past normal size */
+    transform: scale(2); /* Scale up past normal size */
   }
   75% {
     transform: scale(0.85); /* Descale below normal size */

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch, nextTick, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import RoundedBox from '@/components/common/RoundedBox.vue';
@@ -91,6 +91,36 @@ const isDimmed = (boxId: SpecialType | RegionBox) => {
       return currentBoxState.currentBox !== boxId;
   }
 };
+
+// Scrolling to active box
+const boxRefs = useTemplateRef<HTMLElement[]>('boxRefs');
+
+const activeBoxId = computed(() => {
+  if (!state.withBoxShuffle) return null;
+
+  switch (state.gameMode) {
+    case 'special':
+      return currentBoxState.currentSpecialBox;
+    case 'mega':
+      return currentBoxState.currentMegaBox;
+    default:
+      return currentBoxState.currentBox;
+  }
+});
+
+watch(activeBoxId, (newBoxId) => {
+  if (!newBoxId) return;
+
+  const index = currentBoxes.value?.findIndex((box) => box.id === newBoxId);
+  if (index === undefined || index === -1) return;
+
+  nextTick(() => {
+    boxRefs.value?.[index]?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  });
+});
 </script>
 
 <template>
@@ -119,7 +149,10 @@ const isDimmed = (boxId: SpecialType | RegionBox) => {
     >
       <span class="region-name">{{ t(box.id) }}</span>
 
-      <div class="sprite-container">
+      <div
+        class="sprite-container"
+        ref="boxRefs"
+      >
         <PokemonSprite
           v-for="(pokemon, index) in getBoxPokemons(box.id)"
           :key="pokemon.id"
