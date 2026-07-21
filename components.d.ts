@@ -58,6 +58,8 @@ declare module 'vue' {
     KofiButton: typeof import('./src/components/common/KofiButton.vue')['default']
     LanguagesSelection: typeof import('./src/components/game/settings/LanguagesSelection.vue')['default']
     LastPokemon: typeof import('./src/components/header/LastPokemon.vue')['default']
+    LeaderboardBrowser: typeof import('./src/components/dialogs/leaderboards/LeaderboardBrowser.vue')['default']
+    LeaderboardMyRecords: typeof import('./src/components/dialogs/leaderboards/LeaderboardMyRecords.vue')['default']
     Leaderboards: typeof import('./src/components/start/Leaderboards.vue')['default']
     LeaderBoardsDialog: typeof import('./src/components/dialogs/LeaderBoardsDialog.vue')['default']
     LoadIcon: typeof import('./src/components/common/icons/LoadIcon.vue')['default']

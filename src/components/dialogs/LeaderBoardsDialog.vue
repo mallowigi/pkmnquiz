@@ -1,65 +1,34 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
-import Leaderboards from '@/components/start/Leaderboards.vue';
-import { useTranslations } from '@/composables/useTranslations.ts';
-import { useCurrentGen } from '@/stores/useCurrentGen.ts';
-import { useCurrentType } from '@/stores/useCurrentType.ts';
+import LeaderboardBrowser from '@/components/dialogs/leaderboards/LeaderboardBrowser.vue';
+import LeaderboardMyRecords from '@/components/dialogs/leaderboards/LeaderboardMyRecords.vue';
 import { useDialogs } from '@/stores/useDialogs.ts';
-import { useState } from '@/stores/useState.ts';
-import { capitalize } from '@/utils/utils.ts';
 
 const { closeDialog } = useDialogs();
-const { state } = useState();
-const { currentTypeState, getCurrentType } = useCurrentType();
-const { currentGenState, getCurrentGen } = useCurrentGen();
-const { getGenTranslation, getTypeTranslation } = useTranslations();
 const { t } = useI18n();
-
-const currentGameMode = computed(() => {
-  switch (state.gameMode) {
-    case 'gen':
-      const currentGen = getCurrentGen();
-      return t('regionQuiz', {
-        region: capitalize(getGenTranslation(currentGen?.id)),
-      });
-    case 'types':
-      const currentType = getCurrentType();
-      return t('typeQuiz', {
-        type: capitalize(getTypeTranslation(currentType?.id)),
-      });
-    case 'special':
-      return t('specialQuiz');
-    case 'mega':
-      return t('megaQuiz');
-    default:
-      return t('fullQuiz');
-  }
-});
-
-const cancel = () => {
-  closeDialog();
-};
 </script>
 
 <template>
   <Overlay
     class="overlay"
-    @close="cancel"
+    @close="closeDialog"
   >
-    <div class="prompt">
-      <Leaderboards
-        :caption="t('leaderboardsDialog.title', { mode: currentGameMode })"
-        :gameMode="state.gameMode"
-        :gen="currentGenState.gen"
-        :type="currentTypeState.currentType"
-      />
+    <div class="prompt leaderboards-dialog">
+      <h2 class="dialog-title">{{ t('showLeaderBoards') }}</h2>
+
+      <div class="dialog-content">
+        <LeaderboardMyRecords />
+
+        <hr class="divider" />
+
+        <LeaderboardBrowser />
+      </div>
 
       <RoundedButton
-        @click.stop="cancel"
+        @click.stop="closeDialog"
         primary
       >
         {{ t('close') }}
@@ -68,4 +37,38 @@ const cancel = () => {
   </Overlay>
 </template>
 
-<style scoped></style>
+<style scoped>
+.leaderboards-dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 800px;
+  width: 95%;
+}
+
+.dialog-title {
+  margin: 0;
+  color: white;
+  font-size: 22px;
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-height: 70vh;
+  overflow-y: auto;
+  gap: 16px;
+  padding-right: 4px;
+}
+
+.divider {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 0;
+}
+</style>
+
