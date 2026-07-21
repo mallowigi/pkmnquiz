@@ -8,14 +8,14 @@ import { useGameFlow } from '@/stores/useGameFlow.ts';
 
 const { flowState } = useGameFlow();
 const { savedColor } = useSavedColor();
-const { getColorByName } = useColors();
+const { getColor } = useColors();
 const logoRef = useTemplateRef('logo');
 const themeFilter = useCssVar('--theme-filter', logoRef);
 
 watch(
   savedColor,
   (newColor) => {
-    const color = getColorByName(newColor) ?? getColorByName('blue');
+    const color = getColor(newColor) ?? getColor('blue');
     themeFilter.value = color?.filter;
   },
   { immediate: true },

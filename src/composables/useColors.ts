@@ -56,12 +56,12 @@ export const useColors = () => {
     },
   };
 
-  const getColorByName = (name: string): Color | undefined => {
+  const getColor = (name: string): Color | undefined => {
     return colors[name];
   };
 
   return {
     colors,
-    getColorByName,
+    getColor,
   };
 };
