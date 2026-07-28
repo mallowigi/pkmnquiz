@@ -11,7 +11,7 @@ import { capitalize } from '@/utils/utils.ts';
 const { t } = useI18n();
 const { lastInput } = useLastInput();
 const { findClosestPokemon } = usePokemons();
-const { triggerSpellChecker } = useBonus();
+const { setSpellCheckerTriggered } = useBonus();
 
 const hintShown = ref(false);
 const hint = ref(t('notFound'));
@@ -21,7 +21,7 @@ const toggle = () => {
 
   if (hintShown.value && lastInput.value) {
     hint.value = capitalize(findClosestPokemon(lastInput.value!) || 'not found');
-    triggerSpellChecker();
+    setSpellCheckerTriggered();
   }
 };
 

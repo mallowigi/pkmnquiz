@@ -24,7 +24,7 @@ const { resetTimer, timerState } = useTimer();
 const { t } = useI18n();
 
 const pokemonStore = usePokemons();
-const { state } = useBonus();
+const { bonusState } = useBonus();
 const { numFound, numShadows } = storeToRefs(pokemonStore);
 const { resetPokemonState } = pokemonStore;
 const { savedLocale } = useSavedLocale();
@@ -71,7 +71,7 @@ const closeOverlay = () => {
           {{ t('endOverlay.summary', { numFound, elapsed }) }}
         </h2>
 
-        <h3>{{ t('score') }}: {{ state.currentScore }}</h3>
+        <h3>{{ t('score') }}: {{ bonusState.currentScore }}</h3>
 
         <p v-if="numShadows > 0">
           {{ t('endOverlay.challenge') }}<br />

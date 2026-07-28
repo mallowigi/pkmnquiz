@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { usePageTitle } from '@/composables/useTitle.ts';
 import { i18n } from '@/main.ts';
+import { useBonus } from '@/stores/useBonus.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
@@ -82,6 +83,7 @@ export const useSavedData = () => {
     const { timerState } = useTimer();
     const { flowState } = useGameFlow();
     const { touchesState } = useTouches();
+    const { bonusState } = useBonus();
 
     const pokemonFound: PokemonProgress['pokemonFound'] = [];
     const pokemonShadowed: PokemonProgress['pokemonShadowed'] = [];
@@ -116,6 +118,7 @@ export const useSavedData = () => {
         pokemonShadowed,
         shinyPokemon,
       },
+      score: bonusState.currentScore,
       sessionId: flowState.sessionId,
       timer: {
         ...timerState,
@@ -177,6 +180,7 @@ export const useSavedData = () => {
     const { resetTimer, setTimerState } = useTimer();
     const { setLanguages, resetLanguages, setSettingsState } = useSettings();
     const { setTouchesState } = useTouches();
+    const { setScore } = useBonus();
 
     const {
       currentType,
@@ -188,6 +192,7 @@ export const useSavedData = () => {
       timer,
       gameSelectionState,
       challengeMode,
+      score,
       version: _version,
       ...statePayload
     } = loadedState as Partial<SaveData>;
@@ -340,6 +345,8 @@ export const useSavedData = () => {
       toggledSpelling: statePayload.toggledSpelling ?? false,
       typeShuffleClicks: statePayload.typeShuffleClicks ?? 0,
     });
+
+    setScore(score ?? 0);
 
     showUserMessage(i18n.global.t('quizLoaded'));
     setTitle();

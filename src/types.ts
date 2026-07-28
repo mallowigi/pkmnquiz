@@ -292,6 +292,7 @@ export type SaveData = State &
     gen: Gen | null;
     languages: Language[];
     pokemonProgress: PokemonProgress;
+    score: number;
     timer: TimerState;
     version: number;
   };

@@ -12,7 +12,7 @@ const { numFound } = storeToRefs(pokemonStore);
 const { getCurrentGameModePokemon } = pokemonStore;
 
 const { flowState } = useGameFlow();
-const { state } = useBonus();
+const { bonusState } = useBonus();
 const { t } = useI18n();
 
 const found = computed(() => {
@@ -39,7 +39,7 @@ const total = computed(() => {
       class="score"
     >
       <span class="score-label">{{ t('score') }}:</span>
-      <span class="highlight">{{ state.currentScore }}</span>
+      <span class="highlight">{{ bonusState.currentScore }}</span>
     </div>
   </div>
 </template>

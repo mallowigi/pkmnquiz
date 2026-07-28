@@ -2,7 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive } from 'vue';
 
 export const useBonus = defineStore('bonus', () => {
-  const state = reactive({
+  const bonusState = reactive({
     bonus: 1,
     currentScore: 0,
     spellCheckerTriggered: false,
@@ -17,56 +17,64 @@ export const useBonus = defineStore('bonus', () => {
 
   const startBonusSequence = () => {
     clearTimeouts();
-    state.bonus = 5;
+    bonusState.bonus = 5;
 
     timeouts.push(
       setTimeout(() => {
-        state.bonus = 4;
+        bonusState.bonus = 4;
       }, 3000),
     );
+
     timeouts.push(
       setTimeout(() => {
-        state.bonus = 3;
+        bonusState.bonus = 3;
       }, 7000),
     );
+
     timeouts.push(
       setTimeout(() => {
-        state.bonus = 2;
+        bonusState.bonus = 2;
       }, 15000),
     );
+
     timeouts.push(
       setTimeout(() => {
-        state.bonus = 1;
+        bonusState.bonus = 1;
       }, 30000),
     );
   };
 
   const addScore = (isShadowed: boolean) => {
-    if (state.spellCheckerTriggered || isShadowed) {
-      state.spellCheckerTriggered = false;
+    if (bonusState.spellCheckerTriggered || isShadowed) {
+      bonusState.spellCheckerTriggered = false;
       return;
     }
 
-    state.currentScore += state.bonus;
-    state.spellCheckerTriggered = false;
+    bonusState.currentScore += bonusState.bonus;
+    bonusState.spellCheckerTriggered = false;
     startBonusSequence();
   };
 
-  const triggerSpellChecker = () => {
-    state.spellCheckerTriggered = true;
+  const setScore = (score: number) => {
+    bonusState.currentScore = score;
+  };
+
+  const setSpellCheckerTriggered = () => {
+    bonusState.spellCheckerTriggered = true;
   };
 
   const resetBonus = () => {
-    state.currentScore = 0;
-    state.spellCheckerTriggered = false;
-    startBonusSequence();
+    bonusState.currentScore = 0;
+    bonusState.bonus = 1;
+    bonusState.spellCheckerTriggered = false;
   };
 
   return {
     addScore,
+    bonusState,
     resetBonus,
-    state,
-    triggerSpellChecker,
+    setScore,
+    setSpellCheckerTriggered,
   };
 });
 
