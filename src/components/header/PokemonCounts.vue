@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import FloatingText from '@/components/header/FloatingText.vue';
 import { useBonus } from '@/stores/useBonus.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
@@ -39,7 +40,9 @@ const total = computed(() => {
       class="score"
     >
       <span class="score-label">{{ t('score') }}:</span>
-      <span class="highlight">{{ bonusState.score }}</span>
+      <span class="score-value highlight">{{ bonusState.score }}</span>
+
+      <FloatingText />
     </div>
   </div>
 </template>
@@ -71,10 +74,15 @@ const total = computed(() => {
   gap: 8px;
   border-left: 1px solid var(--text);
   padding-left: 20px;
+  position: relative;
 }
 
 .score-label {
   font-weight: bold;
+}
+
+.score-value {
+  anchor-name: --score;
 }
 
 .counter {
