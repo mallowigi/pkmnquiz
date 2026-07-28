@@ -4,7 +4,7 @@ import { reactive } from 'vue';
 export const useBonus = defineStore('bonus', () => {
   const bonusState = reactive({
     bonus: 1,
-    currentScore: 0,
+    score: 0,
     spellCheckerTriggered: false,
   });
 
@@ -50,13 +50,13 @@ export const useBonus = defineStore('bonus', () => {
       return;
     }
 
-    bonusState.currentScore += bonusState.bonus;
+    bonusState.score += bonusState.bonus;
     bonusState.spellCheckerTriggered = false;
     startBonusSequence();
   };
 
   const setScore = (score: number) => {
-    bonusState.currentScore = score;
+    bonusState.score = score;
   };
 
   const setSpellCheckerTriggered = () => {
@@ -64,7 +64,7 @@ export const useBonus = defineStore('bonus', () => {
   };
 
   const resetBonus = () => {
-    bonusState.currentScore = 0;
+    bonusState.score = 0;
     bonusState.bonus = 1;
     bonusState.spellCheckerTriggered = false;
   };

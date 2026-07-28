@@ -39,7 +39,7 @@ const total = computed(() => {
       class="score"
     >
       <span class="score-label">{{ t('score') }}:</span>
-      <span class="highlight">{{ bonusState.currentScore }}</span>
+      <span class="highlight">{{ bonusState.score }}</span>
     </div>
   </div>
 </template>

@@ -118,7 +118,7 @@ export const useSavedData = () => {
         pokemonShadowed,
         shinyPokemon,
       },
-      score: bonusState.currentScore,
+      score: bonusState.score,
       sessionId: flowState.sessionId,
       timer: {
         ...timerState,

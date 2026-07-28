@@ -71,7 +71,7 @@ const closeOverlay = () => {
           {{ t('endOverlay.summary', { numFound, elapsed }) }}
         </h2>
 
-        <h3>{{ t('score') }}: {{ bonusState.currentScore }}</h3>
+        <h3>{{ t('score') }}: {{ bonusState.score }}</h3>
 
         <p v-if="numShadows > 0">
           {{ t('endOverlay.challenge') }}<br />

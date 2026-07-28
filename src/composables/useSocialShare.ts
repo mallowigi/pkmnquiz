@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 
 import { useQuiz } from '@/composables/useQuiz.ts';
 import { usePageTitle } from '@/composables/useTitle.ts';
+import { useBonus } from '@/stores/useBonus.ts';
 
 type ShareProps = {
   numFound: number;
@@ -13,14 +14,16 @@ export const useSocialShare = () => {
   const { t } = useI18n();
   const { getGameModeName } = useQuiz();
   const { getTitle } = usePageTitle();
+  const { bonusState } = useBonus();
   const { share, isSupported } = useShare();
 
   const getShareText = ({ elapsed, numFound }: ShareProps) => {
     const regionOrType = getGameModeName();
-    return t('endOverlay.summary2', {
+    return t('endOverlay.shareText', {
       elapsed,
       numFound,
       regionOrType,
+      score: bonusState.score,
       url: window.location.href,
     });
   };
