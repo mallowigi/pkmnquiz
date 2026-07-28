@@ -6,6 +6,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive, computed } from 'vue';
 
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
+import { useBonus } from '@/stores/useBonus.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox';
 import { useCurrentGen } from '@/stores/useCurrentGen';
 import { useCurrentType } from '@/stores/useCurrentType';
@@ -122,6 +123,7 @@ export const usePokemons = defineStore('pokemons', () => {
   const { addShinyDiscovered, summonedShadow } = useTouches();
   const { playShiny } = usePlaySounds();
   const { vibrate } = useVibrate();
+  const { addScore } = useBonus();
 
   const numFound = computed(() => {
     const currentGameModePokemon = getCurrentGameModePokemon();
@@ -269,6 +271,7 @@ export const usePokemons = defineStore('pokemons', () => {
       const status = pokemonState.pokemonStatuses.get(normalizedPokemon);
 
       if (status && !status.isFound) {
+        addScore(status.isShadowed);
         status.isFound = true;
         status.lastFoundAt = Date.now();
         vibrate(300);
