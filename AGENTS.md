@@ -46,3 +46,7 @@ This document provides essential context and patterns to help AI agents be produ
 - **Version Control**: Use Git for version control. Follow a branching strategy (e.g., feature branches) and use meaningful commit messages.
 - **Code Formatting**: Use consistent code formatting with tools like Prettier. Configure Prettier to enforce your team's coding style and integrate it with your editor for automatic formatting on save.
 - **Code Review**: Conduct regular code reviews to ensure code quality, consistency, and adherence to coding standards. Use tools like Code Climate or SonarQube for automated code review and analysis.
+
+## 🌐 Localization & Internationalization
+
+Maintain localized JSON files in `src/locales/`. For detailed instructions, scripts, and workflows, refer to the **localization** skill.

@@ -27,8 +27,15 @@ files.forEach(file => {
   let untranslated = [];
 
   for (const key in enNodes) {
-    if (localeNodes[key] === enNodes[key] && enNodes[key].length > 3) {
-       // Strings with length <= 3 might be symbols or codes like "X", "min", "zh"
+    const val = localeNodes[key];
+    const enVal = enNodes[key];
+    const brandAndRegions = [
+      'Alola', 'Galar', 'Hisui', 'Hoenn', 'Johto', 'Kalos', 'Kanto', 'Paldea', 'Sinnoh', 'Unova',
+      'Facebook', 'GitHub', 'Google', 'Pokémon GO', 'BlueSky', 'Mega', 'X'
+    ];
+    const isException = brandAndRegions.includes(enVal) || ['min', 'zh'].includes(enVal);
+    
+    if (val && (val === enVal && !isException) || (typeof val === 'string' && val.startsWith('__MISSING_TRANSLATION__:'))) {
        untranslated.push(key);
     }
   }

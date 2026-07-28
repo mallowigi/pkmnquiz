@@ -35,10 +35,12 @@ files.forEach(file => {
     }
 
     // Check for "Mega" in English but not in Locale
-    if (enVal.toLowerCase().includes('mega') && !locVal.toLowerCase().includes('mega')) {
-      // Special case: "Mega" might be translated to something else, but in this app it seems to be "Mega" or "Méga" or "超級" etc.
-      // But let's check if the English one has "Special or Mega" while the local one only has "Special"
-      if (enVal.toLowerCase().includes('special or mega') && !locVal.toLowerCase().includes('mega')) {
+    const megaTerms = ['mega', 'méga', '超级', '超級', 'メガ', '메가', 'мега'];
+    const hasMegaInEn = enVal.toLowerCase().includes('mega');
+    const hasMegaInLoc = megaTerms.some(term => locVal.toLowerCase().includes(term));
+
+    if (hasMegaInEn && !hasMegaInLoc) {
+      if (enVal.toLowerCase().includes('special or mega') && !hasMegaInLoc) {
          toUpdate.push({ key, reason: 'OUTDATED (Mega)', enVal, locVal });
       }
     }

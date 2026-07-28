@@ -9,7 +9,10 @@
     "preview": "vite preview",
     "indexes": "firebase deploy --only firestore:indexes",
     "rules": "firebase deploy --only firestore:rules",
-    "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/favicon.svg"
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/favicon.svg",
+    "locales:check": "node scripts/check_missing.js",
+    "locales:sync": "node scripts/sync_translations.js",
+    "locales:audit": "node scripts/audit_translations.js"
   },
   "dependencies": {
     "@vueuse/components": "^14.3.0",
