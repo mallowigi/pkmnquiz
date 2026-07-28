@@ -1,4 +1,5 @@
 {
+  "all": "전체",
   "alola": "알로라",
   "alreadyNamed": "{name}은(는) 이미 입력되었습니다.",
   "appReadyOffline": "앱이 오프라인에서 사용할 준비가 되었습니다",
@@ -73,7 +74,8 @@
     "projectInfo2": "광고 없이 프로젝트를 계속 유지하고 싶습니다.",
     "projectInfo3": "게임을 즐기고 계시고 지원하고 싶으시다면 Ko-Fi를 통해 지원해 주세요:",
     "shadowsUsed": "사용된 그림자: {numShadows}",
-    "share": "Share",
+    "share": "공유",
+    "shareText": "{regionOrType} 퀴즈에서 {elapsed} 만에 {numFound}마리의 포켓몬 이름을 맞히셨습니다! 점수: {score}점.\n\n더 잘할 수 있을 것 같나요? 포켓몬 퀴즈를 확인하고 제 점수를 깨보세요! {url}",
     "summary": "{elapsed} 만에 {numFound}마리의 포켓몬 이름을 맞히셨습니다!",
     "supporters": "후원자:",
     "wellDone": "잘하셨습니다!"
@@ -103,6 +105,7 @@
   "full": "전체 퀴즈",
   "fullQuiz": "전체 퀴즈",
   "galar": "가라르",
+  "gameModes": "게임 모드",
   "gameOver": "게임 오버!",
   "gen": "세대",
   "ghost": "고스트",
@@ -114,8 +117,8 @@
   },
   "gmax": "거다이맥스",
   "google": "Google",
-  "gray": "회색",
   "grass": "풀",
+  "gray": "회색",
   "green": "초록색",
   "ground": "땅",
   "hello": "안녕하세요, {name}",
@@ -134,6 +137,7 @@
   "ko": "한국어",
   "languageSet": "{lang} 언어 {status}",
   "languagesTooltip": "다른 언어로 포켓몬 맞추기",
+  "leaderboardSaveFailed": "리더보드 기록 저장 실패: {error}",
   "leaderboards": {
     "gameMode": "게임 모드",
     "genType": "세대/타입",
@@ -144,9 +148,9 @@
     "time": "시간"
   },
   "leaderboardsDialog": {
-    "title": "{mode} 맞추기 상위 3명",
-    "browseLeaderboards": "Browse Leaderboards",
-    "myRecords": "My Best Runs"
+    "browseLeaderboards": "리더보드 탐색",
+    "myRecords": "나의 최고 기록",
+    "title": "{mode} 맞추기 상위 3명"
   },
   "legendary": "전설",
   "lightMode": "라이트 모드",
@@ -161,7 +165,7 @@
   "min": "분",
   "missedNames": "놓친 이름:",
   "mode": "모드",
-  "modeCannotChangeInSpecialModeTooltip": "스페셜 모드에서는 순서를 변경할 수 없습니다",
+  "modeCannotChangeInSpecialModeTooltip": "스페셜 또는 메가 모드에서는 순서를 변경할 수 없습니다",
   "modeCannotChangeInTypesModeTooltip": "타입 모드에서는 순서를 변경할 수 없습니다",
   "modeCannotChangeWithCriesShuffleTooltip": "타입 모드이거나 울음소리 셔플이 활성화된 경우 순서를 변경할 수 없습니다",
   "modeCannotChangeWithTypeShuffleTooltip": "타입 모드 또는 랜덤 타입이 활성화된 경우 순서를 변경할 수 없습니다",
@@ -171,6 +175,7 @@
     "normalCaption": "지역 레이아웃을 사용하는 일반 퀴즈로 전환",
     "orderCaption": "도감 순서대로 추측하기 강제"
   },
+  "modes": "모드",
   "multiplayerInvite": "멀티플레이어 초대",
   "mythical": "환상",
   "nameAll": {
@@ -197,18 +202,19 @@
   "offlineModeAuthenticate": "인증하려면 온라인 상태여야 합니다",
   "offlineModeBanner": "현재 오프라인 상태입니다. 일부 온라인 기능(인증, 동기화, 리더보드 등)은 이 상태에서 사용할 수 없습니다.",
   "on": "켜짐",
-  "orange": "주황색",
   "or": "또는",
+  "orange": "주황색",
   "order": "질서",
   "paldea": "팔데아",
   "paradox": "패러독스",
   "paused": "일시 중지됨",
   "pink": "분홍색",
+  "plays": "플레이 횟수",
   "poison": "독",
   "pokemongo": "포켓몬 GO",
   "psychic": "에스퍼",
-  "purple": "보라색",
   "pt": "포르투갈어",
+  "purple": "보라색",
   "quiz": "퀴즈",
   "quizLoaded": "퀴즈가 성공적으로 로드되었습니다!",
   "red": "빨간색",
@@ -232,6 +238,7 @@
   "saveLoadState": "퀴즈 상태 저장/로드",
   "saveToCloudSuccess": "클라우드 동기화 성공!",
   "saveToDiskTooltip": "파일에 저장",
+  "score": "점수",
   "selectColor": "테마 색상",
   "set": "설정",
   "shadowHelperDisabled": "실루엣 도우미가 비활성화되어 있습니다. 이 단축키를 사용하려면 설정에서 활성화하세요.",
@@ -292,8 +299,11 @@
   "water": "물",
   "welcome": "포켓몬 퀴즈에 오신 것을 환영합니다!",
   "welcomeBack": "돌아오신 것을 환영합니다, {name}!",
+  "wins": "승리",
+  "winsBreakdown": "승리 분석",
+  "winsNoCries": "승리 (울음소리 없음)",
+  "winsNoShadows": "승리 (실루엣 없음)",
   "x": "X",
   "yellow": "노란색",
-  "zh": "중국어 (정체)",
-  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
+  "zh": "중국어 (정체)"
 }

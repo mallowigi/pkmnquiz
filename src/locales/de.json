@@ -1,4 +1,5 @@
 {
+  "all": "Alle",
   "alola": "Alola",
   "alreadyNamed": "{name} wurde bereits benannt.",
   "appReadyOffline": "Die App ist bereit, offline zu funktionieren",
@@ -74,6 +75,7 @@
     "projectInfo3": "Wenn dir das Spiel gefällt und du es unterstützen möchtest, kannst du dies über Ko-Fi tun:",
     "shadowsUsed": "{numShadows} Schatten verwendet",
     "share": "Teilen",
+    "shareText": "Ich habe {numFound} Pokémon in {elapsed} beim {regionOrType}-Quiz benannt! Meine Punktzahl: {score}.\n\nGlaubst du, du bist besser? Schau dir das Pokémon-Quiz an und versuche, meine Punktzahl zu schlagen! {url}",
     "summary": "Du hast {numFound} Pokémon in {elapsed} benannt!",
     "supporters": "Unterstützer:",
     "wellDone": "Gut gemacht!"
@@ -103,6 +105,7 @@
   "full": "Vollständiges Quiz",
   "fullQuiz": "Vollständiges Quiz",
   "galar": "Galar",
+  "gameModes": "Spielmodi",
   "gameOver": "Spiel Vorbei!",
   "gen": "Generationen",
   "ghost": "Geist",
@@ -114,8 +117,8 @@
   },
   "gmax": "Gigadynamax",
   "google": "Google",
-  "gray": "Grau",
   "grass": "Pflanze",
+  "gray": "Grau",
   "green": "Grün",
   "ground": "Boden",
   "hello": "Hallo, {name}",
@@ -134,6 +137,7 @@
   "ko": "Koreanisch",
   "languageSet": "{lang}-Sprache {status}",
   "languagesTooltip": "Rate Pokémon in anderen Sprachen",
+  "leaderboardSaveFailed": "Fehler beim Speichern des Bestenlisten-Eintrags: {error}",
   "leaderboards": {
     "gameMode": "Spielmodus",
     "genType": "Gen/Typ",
@@ -144,9 +148,9 @@
     "time": "Zeit"
   },
   "leaderboardsDialog": {
-    "title": "Top 3 {mode}-Rater",
-    "browseLeaderboards": "Browse Leaderboards",
-    "myRecords": "My Best Runs"
+    "browseLeaderboards": "Bestenlisten durchsuchen",
+    "myRecords": "Meine Bestleistungen",
+    "title": "Top 3 {mode}-Rater"
   },
   "legendary": "Legendär",
   "lightMode": "Heller Modus",
@@ -161,7 +165,7 @@
   "min": "min",
   "missedNames": "Fehlende Namen:",
   "mode": "Modus",
-  "modeCannotChangeInSpecialModeTooltip": "Die Reihenfolge kann im Spezialmodus nicht geändert werden",
+  "modeCannotChangeInSpecialModeTooltip": "Die Reihenfolge kann im Spezial- oder Mega-Modus nicht geändert werden",
   "modeCannotChangeInTypesModeTooltip": "Die Reihenfolge kann im Typenmodus nicht geändert werden",
   "modeCannotChangeWithCriesShuffleTooltip": "Die Reihenfolge kann im Typ-Modus nicht geändert werden oder wenn Cries Shuffle aktiviert ist",
   "modeCannotChangeWithTypeShuffleTooltip": "Die Reihenfolge kann im Typenmodus oder bei aktiviertem Zufallstyp nicht geändert werden",
@@ -171,6 +175,7 @@
     "normalCaption": "Zum regulären Quiz mit Regions-Layout wechseln",
     "orderCaption": "Raten in Pokédex-Reihenfolge erzwingen"
   },
+  "modes": "Modi",
   "multiplayerInvite": "Multiplayer-Einladung",
   "mythical": "Mysteriös",
   "nameAll": {
@@ -197,18 +202,19 @@
   "offlineModeAuthenticate": "Du musst online sein, um dich zu authentifizieren",
   "offlineModeBanner": "Du bist derzeit offline. Einige der Online-Funktionen (Authentifizierung, Synchronisierung, Bestenlisten...) werden in diesem Zustand nicht verfügbar sein.",
   "on": "An",
-  "orange": "Orange",
   "or": "ODER",
+  "orange": "Orange",
   "order": "Ordnung",
   "paldea": "Paldea",
   "paradox": "Paradox",
   "paused": "Pausiert",
   "pink": "Rosa",
+  "plays": "Spiele",
   "poison": "Gift",
   "pokemongo": "Pokémon GO",
   "psychic": "Psycho",
-  "purple": "Lila",
   "pt": "Portugiesisch",
+  "purple": "Lila",
   "quiz": "Quiz",
   "quizLoaded": "Quiz erfolgreich geladen!",
   "red": "Rot",
@@ -232,6 +238,7 @@
   "saveLoadState": "Quiz-Status speichern/laden",
   "saveToCloudSuccess": "Erfolgreich mit der Cloud synchronisiert!",
   "saveToDiskTooltip": "In Datei speichern",
+  "score": "Punktzahl",
   "selectColor": "Design-Farbe",
   "set": "setzen",
   "shadowHelperDisabled": "Die Silhouettenhilfe ist deaktiviert. Aktivieren Sie sie in den Einstellungen, um diese Verknüpfung zu verwenden.",
@@ -292,8 +299,11 @@
   "water": "Wasser",
   "welcome": "Willkommen zum Pokémon-Quiz!",
   "welcomeBack": "Willkommen zurück, {name}!",
+  "wins": "Siege",
+  "winsBreakdown": "Sieg-Übersicht",
+  "winsNoCries": "Siege (ohne Schreie)",
+  "winsNoShadows": "Siege (ohne Silhouetten)",
   "x": "X",
   "yellow": "Gelb",
-  "zh": "Chinesisch (Traditionell)",
-  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
+  "zh": "Chinesisch (Traditionell)"
 }

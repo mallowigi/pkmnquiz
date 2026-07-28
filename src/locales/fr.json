@@ -1,4 +1,5 @@
 {
+  "all": "Tous",
   "alola": "Alola",
   "alreadyNamed": "{name} est déjà nommé.",
   "appReadyOffline": "L'application est prête à fonctionner hors ligne",
@@ -74,6 +75,7 @@
     "projectInfo3": "Si vous aimez jouer et que vous voulez nous soutenir, vous pouvez le faire via Ko-Fi:",
     "shadowsUsed": "{numShadows} ombres utilisées",
     "share": "Partager",
+    "shareText": "J'ai nommé {numFound} Pokémon en {elapsed} sur le Quiz {regionOrType} ! Mon score : {score}.\n\nVous pensez pouvoir faire mieux ? Essayez le Pokémon Quiz et tentez de battre mon score ! {url}",
     "summary": "Vous avez nommé {numFound} Pokémon en {elapsed} !",
     "supporters": "Contributeurs:",
     "wellDone": "Bien joué!"
@@ -103,6 +105,7 @@
   "full": "Quiz Entier",
   "fullQuiz": "Quiz Entier",
   "galar": "Galar",
+  "gameModes": "Modes de Jeu",
   "gameOver": "Partie Terminée!",
   "gen": "Générations",
   "ghost": "Spectre",
@@ -114,8 +117,8 @@
   },
   "gmax": "Gigamax",
   "google": "Google",
-  "gray": "Gris",
   "grass": "Plante",
+  "gray": "Gris",
   "green": "Vert",
   "ground": "Sol",
   "hello": "Bonjour, {name}",
@@ -134,6 +137,7 @@
   "ko": "Coréen",
   "languageSet": "{lang} {status}",
   "languagesTooltip": "Devinez les Pokémon dans leurs autres langues",
+  "leaderboardSaveFailed": "Échec de l'enregistrement du record au classement : {error}",
   "leaderboards": {
     "gameMode": "Mode de jeu",
     "genType": "Gén/Type",
@@ -144,9 +148,9 @@
     "time": "Temps"
   },
   "leaderboardsDialog": {
-    "title": "Top 3 Joueurs {mode}",
-    "browseLeaderboards": "Browse Leaderboards",
-    "myRecords": "My Best Runs"
+    "browseLeaderboards": "Parcourir les classements",
+    "myRecords": "Mes records",
+    "title": "Top 3 Joueurs {mode}"
   },
   "legendary": "Légendaire",
   "lightMode": "Mode Jour",
@@ -161,7 +165,7 @@
   "min": "min",
   "missedNames": "Noms manqués:",
   "mode": "Mode",
-  "modeCannotChangeInSpecialModeTooltip": "L'ordre ne peut pas être changé en mode Spécial",
+  "modeCannotChangeInSpecialModeTooltip": "L'ordre ne peut pas être changé en mode Spécial ou Méga",
   "modeCannotChangeInTypesModeTooltip": "L'ordre ne peut pas être changé en mode Types",
   "modeCannotChangeWithCriesShuffleTooltip": "Lordre ne peut pas être changé en mode Types ou lorsque le mélange de cris est activé",
   "modeCannotChangeWithTypeShuffleTooltip": "L'ordre ne peut pas être changé en mode Types ou en mode Type Aleatoire",
@@ -171,6 +175,7 @@
     "normalCaption": "Activer le mode Normal (ordre prédéfini)",
     "orderCaption": "Activer le mode Ordre du Pokédex"
   },
+  "modes": "Modes",
   "multiplayerInvite": "Invitation Multijoueur",
   "mythical": "Fabuleux",
   "nameAll": {
@@ -197,18 +202,19 @@
   "offlineModeAuthenticate": "Vous devez être en ligne pour vous authentifier",
   "offlineModeBanner": "Vous êtes actuellement hors ligne. Certaines fonctionnalités en ligne (authentification, synchronisation, classements...) ne seront pas disponibles dans cet état.",
   "on": "Activé",
-  "orange": "Orange",
   "or": "OU",
+  "orange": "Orange",
   "order": "Ordre",
   "paldea": "Paldea",
   "paradox": "Paradoxe",
   "paused": "En pause",
   "pink": "Rose",
+  "plays": "Parties jouées",
   "poison": "Poison",
   "pokemongo": "Pokémon GO",
   "psychic": "Psy",
-  "purple": "Violet",
   "pt": "Portugais",
+  "purple": "Violet",
   "quiz": "Quiz",
   "quizLoaded": "Quiz chargé avec succès!",
   "red": "Rouge",
@@ -232,6 +238,7 @@
   "saveLoadState": "Sauvegarder/Charger Partie",
   "saveToCloudSuccess": "Synchronisation réussie avec le cloud !",
   "saveToDiskTooltip": "Enregistrer sur le disque",
+  "score": "Score",
   "selectColor": "Couleur du Thème",
   "set": "définir",
   "shadowHelperDisabled": "L'Aide-Silhouette est désactivée. Activez-la dans les paramètres pour utiliser le raccourci.",
@@ -256,7 +263,6 @@
   "signout": "Se déconnecter",
   "silhouette": "Silhouette",
   "sinnoh": "Sinnoh",
-  "score": "Score",
   "sound": "Son",
   "soundSet": "Sons {status}",
   "soundTooltip": "Activer/Désactiver les sons",
@@ -293,8 +299,11 @@
   "water": "Eau",
   "welcome": "Bienvenue sur le Quiz Pokémon!",
   "welcomeBack": "Bienvenue, {name}!",
+  "wins": "Victoires",
+  "winsBreakdown": "Détails des victoires",
+  "winsNoCries": "Victoires (sans cris)",
+  "winsNoShadows": "Victoires (sans ombres)",
   "x": "X",
   "yellow": "Jaune",
-  "zh": "Chinois (Traditionnel)",
-  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
+  "zh": "Chinois (Traditionnel)"
 }

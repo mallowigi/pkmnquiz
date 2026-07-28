@@ -1,4 +1,5 @@
 {
+  "all": "全部",
   "alola": "阿罗拉",
   "alreadyNamed": "{name} 已经被命名了。",
   "appReadyOffline": "应用已可离线使用",
@@ -73,7 +74,8 @@
     "projectInfo2": "我们希望保持它的生命力且无广告。",
     "projectInfo3": "如果您喜欢玩并想支持它，可以通过 Ko-Fi 进行支持：",
     "shadowsUsed": "使用了 {numShadows} 个阴影",
-    "share": "Share",
+    "share": "分享",
+    "shareText": "我在 {regionOrType} 测验中在 {elapsed} 内命名了 {numFound} 个宝可梦！我的分数：{score}。\n\n觉得你能做得更好吗？快来挑战宝可梦测验，尝试打破我的纪录吧！ {url}",
     "summary": "你在 {elapsed} 内命名了 {numFound} 个宝可梦！",
     "supporters": "支持者：",
     "wellDone": "做得好！"
@@ -103,6 +105,7 @@
   "full": "完整测验",
   "fullQuiz": "完整测验",
   "galar": "伽勒尔",
+  "gameModes": "游戏模式",
   "gameOver": "游戏结束!",
   "gen": "世代",
   "ghost": "幽灵",
@@ -114,8 +117,8 @@
   },
   "gmax": "极巨",
   "google": "Google",
-  "gray": "灰色",
   "grass": "草",
+  "gray": "灰色",
   "green": "绿色",
   "ground": "地面",
   "hello": "你好，{name}",
@@ -134,6 +137,7 @@
   "ko": "韩语",
   "languageSet": "{lang}语言 {status}",
   "languagesTooltip": "用其他语言猜测宝可梦",
+  "leaderboardSaveFailed": "保存排行榜记录失败：{error}",
   "leaderboards": {
     "gameMode": "游戏模式",
     "genType": "世代/属性",
@@ -144,9 +148,9 @@
     "time": "时间"
   },
   "leaderboardsDialog": {
-    "title": "{mode} 猜想者前 3 名",
-    "browseLeaderboards": "Browse Leaderboards",
-    "myRecords": "My Best Runs"
+    "browseLeaderboards": "浏览排行榜",
+    "myRecords": "我的最佳记录",
+    "title": "{mode} 猜想者前 3 名"
   },
   "legendary": "传说",
   "lightMode": "浅色模式",
@@ -161,7 +165,7 @@
   "min": "分钟",
   "missedNames": "错过的名字:",
   "mode": "模式",
-  "modeCannotChangeInSpecialModeTooltip": "在特殊模式中无法更改顺序",
+  "modeCannotChangeInSpecialModeTooltip": "在特殊或超级模式中无法更改顺序",
   "modeCannotChangeInTypesModeTooltip": "在属性模式中无法更改顺序",
   "modeCannotChangeWithCriesShuffleTooltip": "在属性模式下或启用叫声洗牌时，无法更改顺序",
   "modeCannotChangeWithTypeShuffleTooltip": "在属性模式或启用随机类型时无法更改顺序",
@@ -171,6 +175,7 @@
     "normalCaption": "切换到带有区域布局的常规测验",
     "orderCaption": "强制按宝可梦图鉴顺序猜测"
   },
+  "modes": "模式",
   "multiplayerInvite": "多人游戏邀请",
   "mythical": "幻",
   "nameAll": {
@@ -197,18 +202,19 @@
   "offlineModeAuthenticate": "您必须在线才能进行身份验证",
   "offlineModeBanner": "您目前处于离线状态。某些在线功能（身份验证、同步、排行榜...）在此状态下将无法使用。",
   "on": "开启",
-  "orange": "橙色",
   "or": "或",
+  "orange": "橙色",
   "order": "秩序",
   "paldea": "帕尔迪亚",
   "paradox": "悖论",
-  "pink": "粉色",
   "paused": "已暂停",
+  "pink": "粉色",
+  "plays": "游玩次数",
   "poison": "毒",
   "pokemongo": "Pokémon GO",
   "psychic": "超能力",
-  "purple": "紫色",
   "pt": "葡萄牙语",
+  "purple": "紫色",
   "quiz": "测验",
   "quizLoaded": "测验加载成功！",
   "red": "红色",
@@ -232,6 +238,7 @@
   "saveLoadState": "保存/加载测验状态",
   "saveToCloudSuccess": "已成功同步到云端！",
   "saveToDiskTooltip": "保存到文件",
+  "score": "分数",
   "selectColor": "主题颜色",
   "set": "设置",
   "shadowHelperDisabled": "阴影助手已禁用。在设置中启用它以使用此快捷方式。",
@@ -292,8 +299,11 @@
   "water": "水",
   "welcome": "欢迎来到宝可梦问卷！",
   "welcomeBack": "欢迎回来，{name}!",
+  "wins": "胜场",
+  "winsBreakdown": "胜场明细",
+  "winsNoCries": "胜场（无鸣叫）",
+  "winsNoShadows": "胜场（无影子）",
   "x": "X",
   "yellow": "黄色",
-  "zh": "中文（繁体）",
-  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
+  "zh": "中文（繁体）"
 }

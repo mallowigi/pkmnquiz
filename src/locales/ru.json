@@ -1,4 +1,5 @@
 {
+  "all": "Все",
   "alola": "Ало́ла",
   "alreadyNamed": "{name} уже назван.",
   "appReadyOffline": "Приложение готово к работе в офлайн-режиме",
@@ -73,7 +74,8 @@
     "projectInfo2": "Мы хотим сохранить его живым и без рекламы.",
     "projectInfo3": "Если вам нравится играть и вы хотите поддержать нас, это можно сделать через Ko-Fi:",
     "shadowsUsed": "использовано теней: {numShadows}",
-    "share": "Share",
+    "share": "Поделиться",
+    "shareText": "Я назвал {numFound} Покемонов за {elapsed} в викторине {regionOrType}! Мой счет: {score}.\n\nДумаете, вы сможете лучше? Загляните в Pokémon Quiz и попробуйте побить мой рекорд! {url}",
     "summary": "Вы назвали {numFound} Покемонов за {elapsed}!",
     "supporters": "Помощники:",
     "wellDone": "Отлично!"
@@ -103,6 +105,7 @@
   "full": "Полный Квиз",
   "fullQuiz": "Полный Квиз",
   "galar": "Галар",
+  "gameModes": "Игровые Режимы",
   "gameOver": "Игра окончена!",
   "gen": "Поколения",
   "ghost": "Призрак",
@@ -114,8 +117,8 @@
   },
   "gmax": "Гигантамакс",
   "google": "Google",
-  "gray": "Серый",
   "grass": "Трава",
+  "gray": "Серый",
   "green": "Зеленый",
   "ground": "Земля",
   "hello": "Привет, {name}",
@@ -134,6 +137,7 @@
   "ko": "Корейский",
   "languageSet": "{lang} язык {status}",
   "languagesTooltip": "Угадайте Pokémon на других языках",
+  "leaderboardSaveFailed": "Не удалось сохранить результат в таблице лидеров: {error}",
   "leaderboards": {
     "gameMode": "Игровой режим",
     "genType": "Пок/Тип",
@@ -144,9 +148,9 @@
     "time": "Время"
   },
   "leaderboardsDialog": {
-    "title": "Топ-3 угадывателей {mode}",
-    "browseLeaderboards": "Browse Leaderboards",
-    "myRecords": "My Best Runs"
+    "browseLeaderboards": "Посмотреть таблицы лидеров",
+    "myRecords": "Мои рекорды",
+    "title": "Топ-3 угадывателей {mode}"
   },
   "legendary": "Легендарный",
   "lightMode": "Светлый режим",
@@ -161,7 +165,7 @@
   "min": "мин",
   "missedNames": "Пропущенные имена:",
   "mode": "Режим",
-  "modeCannotChangeInSpecialModeTooltip": "Порядок нельзя изменить в режиме Специальный",
+  "modeCannotChangeInSpecialModeTooltip": "Порядок нельзя изменить в Специальном или Мега режиме",
   "modeCannotChangeInTypesModeTooltip": "Порядок нельзя изменить в режиме Типы",
   "modeCannotChangeWithCriesShuffleTooltip": "Порядок нельзя изменить в режиме Types или если включена перетасовка криков",
   "modeCannotChangeWithTypeShuffleTooltip": "Порядок нельзя изменить в режиме Типы или в режиме Случайный тип",
@@ -171,6 +175,7 @@
     "normalCaption": "Переключиться на обычную викторину с макетом региона",
     "orderCaption": "Принудительное угадывание в порядке Покедекса"
   },
+  "modes": "Режимы",
   "multiplayerInvite": "Приглашение в мультиплеер",
   "mythical": "Мифический",
   "nameAll": {
@@ -197,18 +202,19 @@
   "offlineModeAuthenticate": "Вы должны быть в сети для авторизации",
   "offlineModeBanner": "Вы сейчас не в сети. Некоторые онлайн-функции (авторизация, синхронизация, таблицы лидеров...) будут недоступны в этом состоянии.",
   "on": "Вкл",
-  "orange": "Оранжевый",
   "or": "ИЛИ",
+  "orange": "Оранжевый",
   "order": "Порядок",
   "paldea": "Палдея",
   "paradox": "Парадокс",
   "paused": "Приостановлено",
   "pink": "Розовый",
+  "plays": "Игр",
   "poison": "Яд",
   "pokemongo": "Pokémon GO",
   "psychic": "Психический",
-  "purple": "Фиолетовый",
   "pt": "Португальский",
+  "purple": "Фиолетовый",
   "quiz": "Квиз",
   "quizLoaded": "Викторина успешно загружена!",
   "red": "Красный",
@@ -232,6 +238,7 @@
   "saveLoadState": "Сохранить/загрузить состояние Квиза",
   "saveToCloudSuccess": "Успешно синхронизировано с облаком!",
   "saveToDiskTooltip": "Сохранить в файл",
+  "score": "Счет",
   "selectColor": "Цвет темы",
   "set": "задать",
   "shadowHelperDisabled": "Помощник силуэтов отключён. Включите его в настройках, чтобы использовать это сочетание.",
@@ -292,8 +299,11 @@
   "water": "Вода",
   "welcome": "Добро пожаловать в Викторину Покемонов!",
   "welcomeBack": "Добро пожаловать, {name}!",
+  "wins": "Побед",
+  "winsBreakdown": "Детализация побед",
+  "winsNoCries": "Побед (без криков)",
+  "winsNoShadows": "Побед (без теней)",
   "x": "X",
   "yellow": "Желтый",
-  "zh": "Китайский (Традиционный)",
-  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
+  "zh": "Китайский (Традиционный)"
 }

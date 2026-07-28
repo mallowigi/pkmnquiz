@@ -1,4 +1,5 @@
 {
+  "all": "すべて",
   "alola": "アローラ",
   "alreadyNamed": "{name} はすでに命名されています。",
   "appReadyOffline": "アプリはオフラインで利用する準備ができました",
@@ -73,7 +74,8 @@
     "projectInfo2": "広告なしで存続させたいと考えています。",
     "projectInfo3": "楽しんでいただけて、サポートしたい場合は Ko-Fi からお願いします：",
     "shadowsUsed": "シルエット使用数: {numShadows}",
-    "share": "Share",
+    "share": "共有",
+    "shareText": "{regionOrType}クイズで {numFound} 匹のポケモンを {elapsed} で答えました！スコア: {score}。\n\nもっとうまくできると思いますか？ポケモンのクイズをチェックして、私のスコアを破ってみてください！ {url}",
     "summary": "{elapsed} で {numFound} 匹のポケモンを答えました！",
     "supporters": "サポーター:",
     "wellDone": "よくできました！"
@@ -103,6 +105,7 @@
   "full": "フルクイズ",
   "fullQuiz": "フルクイズ",
   "galar": "ガラル",
+  "gameModes": "ゲームモード",
   "gameOver": "ゲームオーバー!",
   "gen": "世代",
   "ghost": "ゴースト",
@@ -114,8 +117,8 @@
   },
   "gmax": "キョダイ",
   "google": "Google",
-  "gray": "グレー",
   "grass": "くさ",
+  "gray": "グレー",
   "green": "緑",
   "ground": "じめん",
   "hello": "こんにちは、{name}",
@@ -134,6 +137,7 @@
   "ko": "韓国語",
   "languageSet": "{lang}言語 {status}",
   "languagesTooltip": "他の言語でポケモンを推測",
+  "leaderboardSaveFailed": "リーダーボードの記録の保存に失敗しました: {error}",
   "leaderboards": {
     "gameMode": "ゲームモード",
     "genType": "世代/タイプ",
@@ -144,9 +148,9 @@
     "time": "時間"
   },
   "leaderboardsDialog": {
-    "title": "{mode}の正解者トップ3",
-    "browseLeaderboards": "Browse Leaderboards",
-    "myRecords": "My Best Runs"
+    "browseLeaderboards": "リーダーボードを見る",
+    "myRecords": "自己ベスト",
+    "title": "{mode}の正解者トップ3"
   },
   "legendary": "伝説",
   "lightMode": "ライトモード",
@@ -161,7 +165,7 @@
   "min": "分",
   "missedNames": "逃した名前:",
   "mode": "モード",
-  "modeCannotChangeInSpecialModeTooltip": "スペシャルモードでは順序を変更できません",
+  "modeCannotChangeInSpecialModeTooltip": "スペシャルモードまたはメガモードでは順序を変更できません",
   "modeCannotChangeInTypesModeTooltip": "タイプモードでは順序を変更できません",
   "modeCannotChangeWithCriesShuffleTooltip": "タイプモードまたは鳴き声シャッフルが有効な場合、順序は変更できません",
   "modeCannotChangeWithTypeShuffleTooltip": "タイプモードまたはランダムタイプ有効時は順序を変更できません",
@@ -171,6 +175,7 @@
     "normalCaption": "地域レイアウトの通常のクイズに切り替える",
     "orderCaption": "ポケモン図鑑順に推測することを強制する"
   },
+  "modes": "モード",
   "multiplayerInvite": "マルチプレイヤー招待",
   "mythical": "幻",
   "nameAll": {
@@ -197,18 +202,19 @@
   "offlineModeAuthenticate": "認証するにはオンラインである必要があります",
   "offlineModeBanner": "現在オフラインです。一部のオンライン機能（認証、同期、リーダーボードなど）はこの状態では利用できません。",
   "on": "オン",
-  "orange": "オレンジ",
   "or": "または",
+  "orange": "オレンジ",
   "order": "秩序",
   "paldea": "パルデア",
   "paradox": "パラドックス",
   "paused": "一時停止中",
   "pink": "ピンク",
+  "plays": "プレイ回数",
   "poison": "どく",
   "pokemongo": "Pokémon GO",
   "psychic": "エスパー",
-  "purple": "紫",
   "pt": "ポルトガル語",
+  "purple": "紫",
   "quiz": "クイズ",
   "quizLoaded": "クイズが正常に読み込まれました！",
   "red": "赤",
@@ -232,6 +238,7 @@
   "saveLoadState": "クイズ状態を保存/読み込む",
   "saveToCloudSuccess": "クラウドとの同期に成功しました！",
   "saveToDiskTooltip": "ファイルに保存",
+  "score": "スコア",
   "selectColor": "テーマカラー",
   "set": "設定",
   "shadowHelperDisabled": "シルエットヘルパーは無効です。このショートカットを使用するには、設定で有効にしてください。",
@@ -292,8 +299,11 @@
   "water": "みず",
   "welcome": "ポケモンクイズへようこそ！",
   "welcomeBack": "おかえりなさい、{name}!",
+  "wins": "勝利数",
+  "winsBreakdown": "勝利内訳",
+  "winsNoCries": "勝利 (鳴き声なし)",
+  "winsNoShadows": "勝利 (シルエットなし)",
   "x": "X",
   "yellow": "黄色",
-  "zh": "中国語（繁体字）",
-  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
+  "zh": "中国語（繁体字）"
 }

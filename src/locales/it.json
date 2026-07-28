@@ -1,4 +1,5 @@
 {
+  "all": "Tutti",
   "alola": "Alola",
   "alreadyNamed": "{name} è già stato nominato.",
   "appReadyOffline": "L'app è pronta per funzionare offline",
@@ -74,6 +75,7 @@
     "projectInfo3": "Se ti diverti a giocare e vuoi sostenerlo, puoi farlo tramite Ko-Fi:",
     "shadowsUsed": "{numShadows} ombre usate",
     "share": "Condividi",
+    "shareText": "Ho indovinato {numFound} Pokémon in {elapsed} nel Quiz di {regionOrType}! Il mio punteggio: {score}.\n\nPensi di poter fare di meglio? Prova il Pokémon Quiz e cerca di battere il mio punteggio! {url}",
     "summary": "Hai indovinato {numFound} Pokémon in {elapsed}!",
     "supporters": "Sostenitori:",
     "wellDone": "Ben fatto!"
@@ -103,6 +105,7 @@
   "full": "Quiz Completo",
   "fullQuiz": "Quiz Completo",
   "galar": "Galar",
+  "gameModes": "Modalità di gioco",
   "gameOver": "Gioco Finito!",
   "gen": "Generazioni",
   "ghost": "Spettro",
@@ -114,8 +117,8 @@
   },
   "gmax": "Gigamax",
   "google": "Google",
-  "gray": "Grigio",
   "grass": "Erba",
+  "gray": "Grigio",
   "green": "Verde",
   "ground": "Terra",
   "hello": "Ciao, {name}",
@@ -134,6 +137,7 @@
   "ko": "Coreano",
   "languageSet": "Lingua {lang} {status}",
   "languagesTooltip": "Indovina Pokémon in altre lingue",
+  "leaderboardSaveFailed": "Impossibile salvare il record in classifica: {error}",
   "leaderboards": {
     "gameMode": "Modalità di gioco",
     "genType": "Gen/Tipo",
@@ -144,9 +148,9 @@
     "time": "Tempo"
   },
   "leaderboardsDialog": {
-    "title": "Top 3 indovini di {mode}",
-    "browseLeaderboards": "Browse Leaderboards",
-    "myRecords": "My Best Runs"
+    "browseLeaderboards": "Sfoglia le classifiche",
+    "myRecords": "I miei record",
+    "title": "Top 3 indovini di {mode}"
   },
   "legendary": "Leggendario",
   "lightMode": "Modalità Chiara",
@@ -161,7 +165,7 @@
   "min": "min",
   "missedNames": "Nomi mancanti:",
   "mode": "Modalità",
-  "modeCannotChangeInSpecialModeTooltip": "L'ordine non può essere modificato in modalità Speciale",
+  "modeCannotChangeInSpecialModeTooltip": "L'ordine non può essere modificato in modalità Speciale o Mega",
   "modeCannotChangeInTypesModeTooltip": "L'ordine non può essere modificato in modalità Tipi",
   "modeCannotChangeWithCriesShuffleTooltip": "Lordine non può essere modificato in modalità Tipi o quando il mescolamento dei gridi è abilitato",
   "modeCannotChangeWithTypeShuffleTooltip": "L'ordine non può essere modificato in modalità Tipi o in modalità Tipo casuale",
@@ -171,6 +175,7 @@
     "normalCaption": "Passa al quiz normale con il layout regionale",
     "orderCaption": "Forza l'indovinare in ordine di Pokédex"
   },
+  "modes": "Modes",
   "multiplayerInvite": "Invito Multiplayer",
   "mythical": "Misterioso",
   "nameAll": {
@@ -197,18 +202,19 @@
   "offlineModeAuthenticate": "Devi essere online per autenticarti",
   "offlineModeBanner": "Al momento sei offline. Alcune delle funzionalità online (autenticazione, sincronizzazione, classifiche...) non saranno disponibili in questo stato.",
   "on": "Acceso",
-  "orange": "Arancione",
   "or": "O",
+  "orange": "Arancione",
   "order": "Ordine",
   "paldea": "Paldea",
   "paradox": "Paradosso",
   "paused": "In pausa",
   "pink": "Rosa",
+  "plays": "Partite",
   "poison": "Veleno",
   "pokemongo": "Pokémon GO",
   "psychic": "Psico",
-  "purple": "Viola",
   "pt": "Portoghese",
+  "purple": "Viola",
   "quiz": "Quiz",
   "quizLoaded": "Quiz caricato con successo!",
   "red": "Rosso",
@@ -232,6 +238,7 @@
   "saveLoadState": "Salva/Carica Stato Quiz",
   "saveToCloudSuccess": "Sincronizzato con successo sul cloud!",
   "saveToDiskTooltip": "Salva su file",
+  "score": "Punteggio",
   "selectColor": "Colore del Tema",
   "set": "impostare",
   "shadowHelperDisabled": "L'aiuto silhouette è disabilitato. Abilitalo nelle impostazioni per utilizzare questo collegamento.",
@@ -292,8 +299,11 @@
   "water": "Acqua",
   "welcome": "Benvenuto nel Quiz Pokémon!",
   "welcomeBack": "Bentornato, {name}!",
+  "wins": "Vittorie",
+  "winsBreakdown": "Dettaglio vittorie",
+  "winsNoCries": "Vittorie (senza versi)",
+  "winsNoShadows": "Vittorie (senza silhouette)",
   "x": "X",
   "yellow": "Giallo",
-  "zh": "Cinese (Tradizionale)",
-  "leaderboardSaveFailed": "Failed to save leaderboard record: {error}"
+  "zh": "Cinese (Tradizionale)"
 }
