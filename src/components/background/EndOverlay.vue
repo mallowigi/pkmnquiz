@@ -8,6 +8,7 @@ import ShareSocials from '@/components/background/ShareSocials.vue';
 import Overlay from '@/components/common/Overlay.vue';
 import { useSavedLocale } from '@/composables/useSavedLocale.ts';
 import { donors } from '@/data/donors';
+import { useBonus } from '@/stores/useBonus.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen';
 import { useCurrentType } from '@/stores/useCurrentType';
 import { useGameFlow } from '@/stores/useGameFlow';
@@ -23,6 +24,7 @@ const { resetTimer, timerState } = useTimer();
 const { t } = useI18n();
 
 const pokemonStore = usePokemons();
+const { state } = useBonus();
 const { numFound, numShadows } = storeToRefs(pokemonStore);
 const { resetPokemonState } = pokemonStore;
 const { savedLocale } = useSavedLocale();
@@ -68,6 +70,8 @@ const closeOverlay = () => {
         <h2>
           {{ t('endOverlay.summary', { numFound, elapsed }) }}
         </h2>
+
+        <h3>{{ t('score') }}: {{ state.currentScore }}</h3>
 
         <p v-if="numShadows > 0">
           {{ t('endOverlay.challenge') }}<br />

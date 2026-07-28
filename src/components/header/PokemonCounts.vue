@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+import { useBonus } from '@/stores/useBonus.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 
@@ -10,6 +12,8 @@ const { numFound } = storeToRefs(pokemonStore);
 const { getCurrentGameModePokemon } = pokemonStore;
 
 const { flowState } = useGameFlow();
+const { state } = useBonus();
+const { t } = useI18n();
 
 const found = computed(() => {
   if (!flowState.isStarted) return '--';
@@ -26,7 +30,17 @@ const total = computed(() => {
 
 <template>
   <div class="box rad-bl-tr counter">
-    <span class="highlight">{{ found }}</span> / {{ total }}
+    <div class="counts">
+      <span class="highlight">{{ found }}</span> / {{ total }}
+    </div>
+
+    <div
+      v-if="flowState.isStarted"
+      class="score"
+    >
+      <span class="score-label">{{ t('score') }}:</span>
+      <span class="highlight">{{ state.currentScore }}</span>
+    </div>
   </div>
 </template>
 
@@ -40,9 +54,27 @@ const total = computed(() => {
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.counts {
+  display: flex;
+  flex-direction: row;
   gap: 8px;
+}
+
+.score {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  border-left: 1px solid var(--text);
+  padding-left: 20px;
+}
+
+.score-label {
+  font-weight: bold;
 }
 
 .counter {
