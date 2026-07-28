@@ -1,18 +1,19 @@
-- [ ] Implement Profile Sidebar
+- [x] Implement Profile Sidebar
     <!-- github:start -->
     <details><summary>🔗 GitHub Integration</summary>
     
     - **Task ID:** 46
-    - **State:** Open
+    - **State:** Completed
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/46
+    - **Completed:** 1785266377200
     </details>
     <!-- github:end -->
-- [ ] Missingno
+- [x] Missingno
     <!-- github:start -->
     <details><summary>🔗 GitHub Integration</summary>
     
     - **Task ID:** 52
-    - **State:** Open
+    - **State:** Completed
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/52
     - **Completed:** 1783661730165
     </details>
@@ -89,7 +90,7 @@
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/53
     </details>
     <!-- github:end -->
-- [ ] Bug: Box Mode and regions ##bug##
+- [x] Bug: Box Mode and regions ##bug##
     <!-- comment:start -->
     <details><summary>Show Comment</summary>
     
@@ -100,7 +101,8 @@
     <details><summary>🔗 GitHub Integration</summary>
     
     - **Task ID:** 55
-    - **State:** Open
+    - **State:** Completed
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/55
+    - **Completed:** 1785266403397
     </details>
     <!-- github:end -->

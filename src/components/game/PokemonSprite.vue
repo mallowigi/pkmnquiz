@@ -30,7 +30,7 @@ type DisplayedSprite = {
   image: string;
   sprites?: readonly string[];
   key: string;
-  kind: 'found' | 'shadowed' | 'cycle' | 'unknown';
+  kind: 'found' | 'found shiny' | 'shadowed' | 'cycle' | 'unknown';
   title: string | null;
 };
 
@@ -80,7 +80,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
       return {
         image: spriteData.value.shiny,
         key: 'found-shiny',
-        kind: 'found',
+        kind: 'found shiny',
         title: `${makeGlitchy(capitalize(props.pokemon.baseName))} (Shiny)`,
       };
     }
@@ -259,6 +259,15 @@ watch(displayedSprite, (newSprite, oldSprite) => {
   }
 }
 
+@keyframes pulse-drop-glow {
+  from {
+    filter: drop-shadow(0 0 2px var(--primary));
+  }
+  to {
+    filter: drop-shadow(0 0 8px var(--primary));
+  }
+}
+
 .sprite {
   --bg-img: none;
   width: 28px;
@@ -277,6 +286,12 @@ watch(displayedSprite, (newSprite, oldSprite) => {
     &:hover {
       transform: scale(2);
       z-index: 10;
+    }
+
+    &.shiny {
+      animation:
+        appear 1.5s ease-in-out backwards,
+        pulse-drop-glow 1s ease-in-out infinite alternate;
     }
   }
 
