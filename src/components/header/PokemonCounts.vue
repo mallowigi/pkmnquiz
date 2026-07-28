@@ -93,5 +93,8 @@ const total = computed(() => {
 .highlight {
   color: var(--text-inverted);
   text-shadow: 0 0 5px var(--text);
+  color: white;
+  text-decoration-style: dashed;
+  text-decoration-color: rgba(0, 0, 0, 0.5);
 }
 </style>
