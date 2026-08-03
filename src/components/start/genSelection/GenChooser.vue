@@ -155,7 +155,18 @@ const startQuiz = (gens: Set<Gen>) => {
   }
 
   &.active {
-    opacity: 0.7;
+    top: 4px; /* Matches the shadow height above */
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Shadow disappears as it hits the floor */
+    filter: brightness(0.5);
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit; /* Keeps your leaf shape */
+      box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+    }
   }
 
   &.disabled {
