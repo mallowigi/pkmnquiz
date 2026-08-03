@@ -21,7 +21,7 @@ export const useCurrentType = defineStore('currentType', () => {
     shuffledType: null,
   });
 
-  let randomTypeInterval = 0;
+  let nextTypeIndex = 0;
 
   const toggleType = (type: Type) => {
     if (currentTypeState.currentTypes.has(type)) {
@@ -58,8 +58,8 @@ export const useCurrentType = defineStore('currentType', () => {
     const types = getCurrentTypes();
     if (types.length === 0) return null;
 
-    const nextType = types[randomTypeInterval];
-    randomTypeInterval = (randomTypeInterval + 1) % types.length;
+    const nextType = types[nextTypeIndex];
+    nextTypeIndex = (nextTypeIndex + 1) % types.length;
     return nextType;
   };
 
@@ -113,6 +113,7 @@ export const useCurrentType = defineStore('currentType', () => {
     getCurrentTypeOrSpecial,
     getCurrentTypes,
     getMegaType,
+    getNextType,
     getSecondaryType,
     getShuffledType,
     getSpecialType,

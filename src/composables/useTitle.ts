@@ -17,20 +17,27 @@ export const usePageTitle = () => {
 
   const setTitle = () => {
     const { state } = useState();
-    const { currentGenState } = useCurrentGen();
-    const { currentTypeState } = useCurrentType();
+    const { getNextGen } = useCurrentGen();
+    const { getNextType } = useCurrentType();
 
     switch (state.gameMode) {
       case 'full':
         useTitle(`Full Quiz | ${TITLE}`);
         break;
       case 'gen':
-        const genName = gens[currentGenState.gen!]?.name || 'Unknown Gen';
-        useTitle(`${genName} Quiz | ${TITLE}`);
+        const nextGen = getNextGen();
+
+        if (nextGen) {
+          useTitle(`${capitalize(gens[nextGen.id].name)} Quiz | ${TITLE}`);
+        } else {
+          useTitle(`Generation Quiz | ${TITLE}`);
+        }
         break;
       case 'types':
-        if (currentTypeState.shuffledType) {
-          useTitle(`${capitalize(currentTypeState.shuffledType)} Type Quiz | ${TITLE}`);
+        const nextType = getNextType();
+
+        if (nextType) {
+          useTitle(`${capitalize(nextType.name)} Type Quiz | ${TITLE}`);
         } else {
           useTitle(`Type Quiz | ${TITLE}`);
         }

@@ -97,8 +97,8 @@ export const useProfile = defineStore('profile', () => {
 
   const updateFinishedGames = () => {
     const { state } = useState();
-    const { currentGenState } = useCurrentGen();
-    const { currentTypeState } = useCurrentType();
+    const { getCurrentGens } = useCurrentGen();
+    const { getCurrentTypes } = useCurrentType();
 
     const { gameMode, withShadows, withCriesShuffle, mode } = state;
 
@@ -122,10 +122,18 @@ export const useProfile = defineStore('profile', () => {
     // Increment finished games based on game mode and current state
     if (gameMode === 'full') {
       profileState.finishedGames.full += 1;
-    } else if (gameMode === 'gen' && currentGenState.gen) {
-      profileState.finishedGames.gen[currentGenState.gen] += 1;
-    } else if (gameMode === 'types' && currentTypeState.shuffledType) {
-      profileState.finishedGames.types[currentTypeState.shuffledType] += 1;
+    } else if (gameMode === 'gen') {
+      const gens = getCurrentGens();
+
+      gens?.forEach((genInfo) => {
+        profileState.finishedGames.gen[genInfo.id] += 1;
+      });
+    } else if (gameMode === 'types' && getCurrentTypes()) {
+      const types = getCurrentTypes();
+
+      types?.forEach((typeInfo) => {
+        profileState.finishedGames.types[typeInfo.id] += 1;
+      });
     } else if (gameMode === 'special') {
       profileState.finishedGames.special += 1;
     } else if (gameMode === 'mega') {

@@ -13,6 +13,8 @@ export const useCurrentGen = defineStore('currentGen', () => {
     gens: new Set(),
   });
 
+  let nextGenIndex = 0;
+
   const toggleGen = (gen: Gen) => {
     if (currentGenState.gens.has(gen)) {
       currentGenState.gens.delete(gen);
@@ -32,6 +34,14 @@ export const useCurrentGen = defineStore('currentGen', () => {
     return Array.from(currentGens).map((gen) => gens[gen]);
   };
 
+  const getNextGen = (): GenerationInfo | null => {
+    const nextGen = Array.from(currentGenState.gens)[nextGenIndex];
+    if (!nextGen) return null;
+
+    nextGenIndex = (nextGenIndex + 1) % currentGenState.gens.size;
+    return gens[nextGen];
+  };
+
   const clearCurrentGens = () => {
     currentGenState.gens.clear();
   };
@@ -40,6 +50,7 @@ export const useCurrentGen = defineStore('currentGen', () => {
     clearCurrentGens,
     currentGenState,
     getCurrentGens,
+    getNextGen,
     setCurrentGens,
     toggleGen,
   };
