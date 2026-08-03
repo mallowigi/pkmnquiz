@@ -12,7 +12,7 @@ import { useState } from '@/stores/useState.js';
 const { state, setTypeShuffle } = useState();
 const { showUserMessage } = useMessages();
 const { flowState } = useGameFlow();
-const { setRandomCurrentType, clearCurrentType } = useCurrentType();
+const { setRandomCurrentType, clearCurrentTypes } = useCurrentType();
 const { t } = useI18n();
 
 const applyTypeShuffle = (value: boolean) => {
@@ -27,7 +27,7 @@ const applyTypeShuffle = (value: boolean) => {
   if (value) {
     setRandomCurrentType();
   } else {
-    clearCurrentType();
+    clearCurrentTypes();
   }
   showUserMessage(t('typeShuffleSet', { status: value ? t('enabled') : t('disabled') }));
 };

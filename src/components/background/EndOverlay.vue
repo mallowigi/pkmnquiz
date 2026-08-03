@@ -18,7 +18,7 @@ import { useTimer } from '@/stores/useTimer';
 
 const { setGameOver } = useState();
 const { setCurrentGens } = useCurrentGen();
-const { clearCurrentType } = useCurrentType();
+const { clearCurrentTypes } = useCurrentType();
 const { resetFlowState, setGameSelectionState } = useGameFlow();
 const { resetTimer, timerState } = useTimer();
 const { t } = useI18n();
@@ -48,7 +48,7 @@ const elapsed = computed(() => {
 });
 
 const closeOverlay = () => {
-  clearCurrentType();
+  clearCurrentTypes();
   setCurrentGens([]);
   resetFlowState();
   setGameSelectionState('new');

@@ -7,15 +7,15 @@ import { useState } from '@/stores/useState.ts';
 
 export const useBoxes = () => {
   const { state } = useState();
-  const { currentGenState } = useCurrentGen();
+  const { getCurrentGens } = useCurrentGen();
   const { data } = usePkmnData();
-  const { getCurrentType } = useCurrentType();
+  const { getCurrentTypes } = useCurrentType();
 
   const getCurrentGenBoxes = () => {
-    const currentGen = currentGenState.gen;
-    if (!currentGen) return [];
+    const currentGens = getCurrentGens();
+    if (!currentGens) return [];
 
-    return gens[currentGen].boxes;
+    return currentGens.map((gen) => gens[gen.id].boxes).flat();
   };
 
   const getAllBoxes = () => {
@@ -23,13 +23,13 @@ export const useBoxes = () => {
   };
 
   const getCurrentTypeBoxes = () => {
-    const currentType = getCurrentType();
-    if (!currentType) return [];
+    const currentTypes = getCurrentTypes();
+    if (!currentTypes) return [];
 
     return getAllBoxes().filter((box) => {
       return data.pokemon?.some((pkmn) => {
         const types = [pkmn.primaryType, pkmn.secondaryType].filter(Boolean);
-        return pkmn.box === box && types.includes(currentType.id);
+        return pkmn.box === box && types.some((type) => currentTypes.some((currentType) => currentType.id === type));
       });
     });
   };
