@@ -110,6 +110,7 @@ export const useSavedData = () => {
       currentMegaBox: currentBoxState.currentMegaBox,
       currentSpecialBox: currentBoxState.currentSpecialBox,
       currentType: currentTypeState.currentType,
+      currentTypes: Array.from(currentTypeState.currentTypes),
       gameSelectionState: flowState.gameSelectionState,
       gens: Array.from(currentGenState.gens),
       languages: Array.from(settingsState.languages),
@@ -174,7 +175,8 @@ export const useSavedData = () => {
     const { setState } = useState();
     const { setCurrentGens } = useCurrentGen();
     const { setCurrentBox, setCurrentSpecialBox, setCurrentMegaBox } = useCurrentBox();
-    const { setCurrentType } = useCurrentType();
+    const { setCurrentTypes } = useCurrentType();
+    const { setShuffledType } = useCurrentType();
     const { resetFlowState, setFlowState } = useGameFlow();
     const { pokemonState, resetPokemonState, findPokemon } = usePokemons();
     const { resetTimer, setTimerState } = useTimer();
@@ -183,6 +185,7 @@ export const useSavedData = () => {
     const { setScore } = useBonus();
 
     const {
+      currentTypes,
       currentType,
       currentBox,
       currentSpecialBox,
@@ -205,7 +208,8 @@ export const useSavedData = () => {
     setLanguages(languages ?? []);
 
     // Type
-    setCurrentType(currentType ?? null);
+    setCurrentTypes(currentTypes ?? []);
+    setShuffledType(currentType ?? null);
 
     // Box
     setCurrentBox(currentBox ?? null);

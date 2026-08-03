@@ -22,12 +22,12 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { setDialog } = useDialogs();
   const { clearCurrentGens, setCurrentGens } = useCurrentGen();
   const { clearCurrentBox } = useCurrentBox();
-  const { clearCurrentType, setCurrentType } = useCurrentType();
+  const { clearCurrentTypes, setCurrentTypes } = useCurrentType();
   const { resetPokemonState } = usePokemons();
   const { resetTimer } = useTimer();
   const { updateShuffles } = useShuffles();
   const { getCurrentRegions } = useCurrentRegion();
-  const { getCurrentType } = useCurrentType();
+  const { getCurrentTypes } = useCurrentType();
   const { getBoxTranslation, getTypeTranslation } = useTranslations();
   const { setTitle } = usePageTitle();
 
@@ -40,7 +40,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
       setGameMode('full');
       clearCurrentGens();
       clearCurrentBox();
-      clearCurrentType();
+      clearCurrentTypes();
       resetPokemonState();
       updateShuffles();
       resetTimer();
@@ -62,7 +62,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const setGenQuiz = (gens: Gen[]) => {
     const onQuizStart = () => {
       setGameMode('gen');
-      clearCurrentType();
+      clearCurrentTypes();
       setCurrentGens(gens);
       resetPokemonState();
       updateShuffles();
@@ -85,7 +85,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const setTypeQuiz = () => {
     const onQuizStart = () => {
       clearCurrentGens();
-      clearCurrentType();
+      clearCurrentTypes();
       resetPokemonState();
       resetTimer();
       setGameSelectionState('types');
@@ -104,7 +104,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
 
   const setTypeOrSpecial = (type: string) => {
     clearCurrentGens();
-    clearCurrentType();
+    clearCurrentTypes();
 
     switch (type) {
       case 'special':
@@ -114,7 +114,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
         setGameMode('mega');
         break;
       default:
-        setCurrentType(type as Type);
+        setCurrentTypes([type as Type]);
         setGameMode('types');
     }
 
@@ -136,6 +136,16 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     return capitalize(getBoxTranslation(randomRegion.id));
   };
 
+  const getTypeGameModeName = () => {
+    const currentTypes = getCurrentTypes();
+    if (currentTypes.length === 0) return '';
+
+    // Cycle through the types to get a different name each time
+    const randomType = currentTypes[randomNameInterval] ?? currentTypes[0];
+    randomNameInterval = (randomNameInterval + 1) % currentTypes.length;
+    return capitalize(getTypeTranslation(randomType.id));
+  };
+
   const getGameModeName = () => {
     const gameMode = state.gameMode;
 
@@ -145,8 +155,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
       case 'gen':
         return getRegionGameModeName();
       case 'types':
-        const currentType = getCurrentType();
-        return currentType ? capitalize(getTypeTranslation(currentType?.id)) : '';
+        return getTypeGameModeName();
       case 'special':
         return capitalize(t('special'));
       case 'mega':

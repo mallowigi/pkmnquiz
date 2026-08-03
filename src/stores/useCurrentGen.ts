@@ -33,7 +33,7 @@ export const useCurrentGen = defineStore('currentGen', () => {
   };
 
   const clearCurrentGens = () => {
-    currentGenState.gens = new Set();
+    currentGenState.gens.clear();
   };
 
   return {

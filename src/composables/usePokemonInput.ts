@@ -20,7 +20,7 @@ type Props = {
 export const usePokemonInput = ({ clearInput }: Props) => {
   const { state } = useState();
   const { settingsState } = useSettings();
-  const { getCurrentType } = useCurrentType();
+  const { getShuffledType } = useCurrentType();
   const { currentBoxState } = useCurrentBox();
   const { updateShuffles } = useShuffles();
   const { showUserMessage } = useMessages();
@@ -102,7 +102,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
   const handleTypeShuffle = (foundPokemon: PokemonInfo[], _isPartOfAnotherPokemon: boolean) => {
     if (!state.withTypeShuffle) return false;
 
-    const currentType = getCurrentType();
+    const currentType = getShuffledType();
     const types = new Set(foundPokemon.flatMap((p) => [p.primaryType, p.secondaryType]));
 
     if (currentType && !types.has(currentType.id)) {
