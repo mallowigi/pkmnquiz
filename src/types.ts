@@ -283,6 +283,7 @@ export type SaveData = State &
   Omit<Settings, 'languages'> &
   Touches & {
     sessionId: string | null;
+    currentType: Type | null;
     currentTypes: Type[] | null;
     currentBox: RegionBox | null;
     currentSpecialBox: SpecialType | null;

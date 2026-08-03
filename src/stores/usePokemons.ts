@@ -115,7 +115,7 @@ export const usePokemons = defineStore('pokemons', () => {
   });
   const { state, hideShadows } = useState();
   const { getCurrentGens } = useCurrentGen();
-  const { getCurrentType } = useCurrentType();
+  const { getShuffledType, getCurrentTypes } = useCurrentType();
   const { getCurrentBoxes } = useCurrentBox();
   const { settingsState } = useSettings();
   const { isChallengeMode } = useGameFlow();
@@ -321,7 +321,7 @@ export const usePokemons = defineStore('pokemons', () => {
 
   const getRandomPokemon = () => {
     let remainingArray = Array.from(remaining.value);
-    const currentType = getCurrentType();
+    const currentType = getShuffledType();
     const { currentSpecialBox, currentBox } = getCurrentBoxes();
 
     if (state.withTypeShuffle && currentType) {
@@ -436,14 +436,16 @@ export const usePokemons = defineStore('pokemons', () => {
     return pokemonMaps.boxes[boxId] ?? new Map();
   };
 
-  const getTypedBoxPokemon = (typeId: Type, boxId: RegionBox): Map<string, PokemonInfo[]> => {
+  const getTypedBoxPokemon = (types: Type[], boxId: RegionBox): Map<string, PokemonInfo[]> => {
     const boxPokemon = pokemonMaps.boxes[boxId];
     if (!boxPokemon) return new Map();
 
     const result = new Map<string, PokemonInfo[]>();
 
     for (const [key, pokemons] of boxPokemon) {
-      const filtered = pokemons.filter((p) => p.primaryType === typeId || p.secondaryType === typeId);
+      const filtered = pokemons.filter(
+        (p) => types.includes(p.primaryType) || (p.secondaryType && types.includes(p.secondaryType)),
+      );
       if (filtered.length > 0) {
         result.set(key, filtered);
       }
@@ -474,10 +476,20 @@ export const usePokemons = defineStore('pokemons', () => {
   };
 
   const getCurrentTypePokemon = (): Map<string, PokemonInfo[]> => {
-    const currentType = getCurrentType();
-    if (!currentType) return new Map();
+    const currentTypes = getCurrentTypes();
+    if (!currentTypes) return new Map();
 
-    return getTypePokemon(currentType.id as Type);
+    return currentTypes
+      .map((type) => getTypePokemon(type.id as Type))
+      .reduce((acc, map) => {
+        for (const [key, pokemons] of map) {
+          if (!acc.has(key)) {
+            acc.set(key, []);
+          }
+          acc.get(key)?.push(...pokemons);
+        }
+        return acc;
+      }, new Map<string, PokemonInfo[]>());
   };
 
   const getSpecialTypePokemon = (specialTypeId?: SpecialType): Map<string, PokemonInfo[]> => {
@@ -535,12 +547,17 @@ export const usePokemons = defineStore('pokemons', () => {
         return getGenPokemon(boxId);
       }
       case 'types': {
-        const typeId = getCurrentType()?.id;
-        if (!typeId) {
+        const types = getCurrentTypes();
+        if (!types || types.length === 0) {
           return getGenPokemon(boxId);
         }
 
-        return getTypedBoxPokemon(typeId, boxId);
+        const typeIds = types.map((type) => type.id);
+        if (!typeIds || typeIds.length === 0) {
+          return getGenPokemon(boxId);
+        }
+
+        return getTypedBoxPokemon(typeIds, boxId);
       }
       case 'mega':
         return getMegaPokemon(boxId);
@@ -560,11 +577,11 @@ export const usePokemons = defineStore('pokemons', () => {
           return currentGens ? currentGens.some((gen) => gen?.boxes.includes(pokemon.box)) : false;
         }
         case 'types': {
-          const currentType = getCurrentType();
-          if (!currentType) return false;
+          const currentTypes = getCurrentTypes();
+          if (!currentTypes || currentTypes.length === 0) return false;
 
           const types = [pokemon.primaryType, pokemon.secondaryType].filter(Boolean);
-          return types.includes(currentType.id);
+          return types.some((type) => currentTypes.some((currentType) => currentType.id === type));
         }
         case 'special':
           return pokemon.specialType !== undefined && pokemon.specialType !== 'no';

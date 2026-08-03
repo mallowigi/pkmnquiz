@@ -6,10 +6,11 @@ import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { specialTypes } from '@/data/specialTypes.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useState } from '@/stores/useState';
-import type { Type } from '@/types.ts';
+import type { Type, TypeInfo, SpecialTypeInfo, MegaTypeInfo } from '@/types.ts';
 
 type CurrentTypeState = {
   currentType: Type | null;
+  currentTypes: Set<Type>;
 };
 
 export const useCurrentType = defineStore('currentType', () => {
@@ -17,32 +18,52 @@ export const useCurrentType = defineStore('currentType', () => {
 
   const currentTypeState = reactive<CurrentTypeState>({
     currentType: null,
+    currentTypes: new Set(),
   });
 
-  const setCurrentType = (type: Type | null) => {
+  let randomTypeInterval = 0;
+
+  const setShuffledType = (type: Type | null) => {
     currentTypeState.currentType = type;
   };
 
-  const clearCurrentType = () => {
-    currentTypeState.currentType = null;
+  const setCurrentTypes = (types: Type[]) => {
+    currentTypeState.currentTypes = new Set(types);
   };
 
-  const getCurrentType = () => {
+  const clearCurrentTypes = () => {
+    currentTypeState.currentTypes.clear();
+  };
+
+  const getShuffledType = (): TypeInfo | null => {
     if (!currentTypeState.currentType) return null;
 
     const foundType = pokemonTypes[currentTypeState.currentType];
     return foundType ?? null;
   };
 
-  const getSpecialType = () => {
+  const getCurrentTypes = (): TypeInfo[] => {
+    return Array.from(currentTypeState.currentTypes).map((type) => pokemonTypes[type]);
+  };
+
+  const getNextType = (): TypeInfo | null => {
+    const types = getCurrentTypes();
+    if (types.length === 0) return null;
+
+    const nextType = types[randomTypeInterval];
+    randomTypeInterval = (randomTypeInterval + 1) % types.length;
+    return nextType;
+  };
+
+  const getSpecialType = (): SpecialTypeInfo => {
     return specialTypes.no;
   };
 
-  const getMegaType = () => {
+  const getMegaType = (): MegaTypeInfo => {
     return megaTypes.mega;
   };
 
-  const getCurrentTypeOrSpecial = () => {
+  const getCurrentTypeOrSpecial = (): TypeInfo | SpecialTypeInfo | MegaTypeInfo | null => {
     const gameMode = state.gameMode;
     switch (gameMode) {
       case 'special':
@@ -50,14 +71,14 @@ export const useCurrentType = defineStore('currentType', () => {
       case 'mega':
         return getMegaType();
       default:
-        return getCurrentType();
+        return getNextType();
     }
   };
 
-  const getSecondaryType = () => {
+  const getSecondaryType = (): TypeInfo | null => {
     const gameMode = state.gameMode;
     if (gameMode === 'special' || gameMode === 'mega') {
-      return getCurrentType();
+      return getNextType();
     }
     return null;
   };
@@ -70,24 +91,26 @@ export const useCurrentType = defineStore('currentType', () => {
     let randomType;
     if (!remainingPokemon.secondaryType) {
       randomType = remainingPokemon.primaryType;
-      setCurrentType(randomType);
+      setShuffledType(randomType);
       return;
     }
 
     randomType = Math.random() < 0.5 ? remainingPokemon.primaryType : remainingPokemon.secondaryType;
-    setCurrentType(randomType);
+    setShuffledType(randomType);
   };
 
   return {
-    clearCurrentType,
+    clearCurrentTypes,
     currentTypeState,
-    getCurrentType,
     getCurrentTypeOrSpecial,
+    getCurrentTypes,
     getMegaType,
     getSecondaryType,
+    getShuffledType,
     getSpecialType,
-    setCurrentType,
+    setCurrentTypes,
     setRandomCurrentType,
+    setShuffledType,
   };
 });
 
