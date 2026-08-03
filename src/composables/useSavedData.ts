@@ -109,7 +109,7 @@ export const useSavedData = () => {
       currentBox: currentBoxState.currentBox,
       currentMegaBox: currentBoxState.currentMegaBox,
       currentSpecialBox: currentBoxState.currentSpecialBox,
-      currentType: currentTypeState.currentType,
+      currentType: currentTypeState.shuffledType,
       currentTypes: Array.from(currentTypeState.currentTypes),
       gameSelectionState: flowState.gameSelectionState,
       gens: Array.from(currentGenState.gens),

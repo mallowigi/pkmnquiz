@@ -124,8 +124,8 @@ export const useProfile = defineStore('profile', () => {
       profileState.finishedGames.full += 1;
     } else if (gameMode === 'gen' && currentGenState.gen) {
       profileState.finishedGames.gen[currentGenState.gen] += 1;
-    } else if (gameMode === 'types' && currentTypeState.currentType) {
-      profileState.finishedGames.types[currentTypeState.currentType] += 1;
+    } else if (gameMode === 'types' && currentTypeState.shuffledType) {
+      profileState.finishedGames.types[currentTypeState.shuffledType] += 1;
     } else if (gameMode === 'special') {
       profileState.finishedGames.special += 1;
     } else if (gameMode === 'mega') {

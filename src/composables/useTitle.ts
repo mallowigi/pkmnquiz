@@ -29,8 +29,8 @@ export const usePageTitle = () => {
         useTitle(`${genName} Quiz | ${TITLE}`);
         break;
       case 'types':
-        if (currentTypeState.currentType) {
-          useTitle(`${capitalize(currentTypeState.currentType)} Type Quiz | ${TITLE}`);
+        if (currentTypeState.shuffledType) {
+          useTitle(`${capitalize(currentTypeState.shuffledType)} Type Quiz | ${TITLE}`);
         } else {
           useTitle(`Type Quiz | ${TITLE}`);
         }

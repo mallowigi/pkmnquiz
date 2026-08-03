@@ -9,7 +9,7 @@ import { useState } from '@/stores/useState';
 import type { Type, TypeInfo, SpecialTypeInfo, MegaTypeInfo } from '@/types.ts';
 
 type CurrentTypeState = {
-  currentType: Type | null;
+  shuffledType: Type | null;
   currentTypes: Set<Type>;
 };
 
@@ -17,14 +17,22 @@ export const useCurrentType = defineStore('currentType', () => {
   const { state } = useState();
 
   const currentTypeState = reactive<CurrentTypeState>({
-    currentType: null,
     currentTypes: new Set(),
+    shuffledType: null,
   });
 
   let randomTypeInterval = 0;
 
+  const toggleType = (type: Type) => {
+    if (currentTypeState.currentTypes.has(type)) {
+      currentTypeState.currentTypes.delete(type);
+    } else {
+      currentTypeState.currentTypes.add(type);
+    }
+  };
+
   const setShuffledType = (type: Type | null) => {
-    currentTypeState.currentType = type;
+    currentTypeState.shuffledType = type;
   };
 
   const setCurrentTypes = (types: Type[]) => {
@@ -36,9 +44,9 @@ export const useCurrentType = defineStore('currentType', () => {
   };
 
   const getShuffledType = (): TypeInfo | null => {
-    if (!currentTypeState.currentType) return null;
+    if (!currentTypeState.shuffledType) return null;
 
-    const foundType = pokemonTypes[currentTypeState.currentType];
+    const foundType = pokemonTypes[currentTypeState.shuffledType];
     return foundType ?? null;
   };
 
@@ -111,6 +119,7 @@ export const useCurrentType = defineStore('currentType', () => {
     setCurrentTypes,
     setRandomCurrentType,
     setShuffledType,
+    toggleType,
   };
 });
 
