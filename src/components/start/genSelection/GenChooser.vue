@@ -1,14 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import RoundedButton from '@/components/common/RoundedButton.vue';
+import CyclingSpecial from '@/components/start/genSelection/CyclingSpecial.vue';
 import CyclingStarters from '@/components/start/genSelection/CyclingStarters.vue';
 import CyclingType from '@/components/start/genSelection/CyclingType.vue';
 import { useQuiz } from '@/composables/useQuiz.js';
 import { gens } from '@/data/gens';
-import type { Gen } from '@/types.js';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
-import RoundedButton from '@/components/common/RoundedButton.vue';
-import CyclingSpecial from '@/components/start/genSelection/CyclingSpecial.vue';
+import type { Gen } from '@/types.js';
+
+const activeGens = ref<Set<Gen>>(new Set());
 
 const { t } = useI18n();
 const { setGameSelectionState } = useGameFlow();
@@ -21,6 +24,18 @@ const goBack = () => {
 
 const openSpecialChooser = () => {
   setGameSelectionState('special');
+};
+
+const toggleGen = (gen: Gen) => {
+  if (activeGens.value.has(gen)) {
+    activeGens.value.delete(gen);
+  } else {
+    activeGens.value.add(gen);
+  }
+};
+
+const startQuiz = (gens: Set<Gen>) => {
+  setGenQuiz(Array.from(gens));
 };
 </script>
 
@@ -43,8 +58,13 @@ const openSpecialChooser = () => {
       <div
         class="cell rad-bl"
         v-for="(gen, id, i) in gens"
-        :class="{ 'rad-bl': i % 3 === 0, rad: i % 3 === 1, 'rad-tr': i % 3 === 2 }"
-        @click="setGenQuiz(id as Gen)"
+        :class="{
+          'rad-bl': i % 3 === 0,
+          rad: i % 3 === 1,
+          'rad-tr': i % 3 === 2,
+          active: activeGens.has(gen.id),
+        }"
+        @click="toggleGen(gen.id)"
         :style="{ '--gen-color': gen.color }"
         :key="id"
       >
@@ -74,6 +94,16 @@ const openSpecialChooser = () => {
         class="cell cell-type rad-tr"
         @click="openSpecialChooser"
       />
+
+      <div></div>
+      <RoundedButton
+        :disabled="activeGens.size === 0"
+        class="cell rad"
+        @click="startQuiz(activeGens)"
+      >
+        <div class="type-name">{{ t('startQuiz') }}</div>
+      </RoundedButton>
+      <div></div>
     </div>
   </div>
 </template>
@@ -122,6 +152,15 @@ const openSpecialChooser = () => {
     font-size: 16px;
     min-width: 60px;
     min-height: 64px;
+  }
+
+  &.active {
+    opacity: 0.7;
+  }
+
+  &.disabled {
+    opacity: 0;
+    pointer-events: none;
   }
 }
 
