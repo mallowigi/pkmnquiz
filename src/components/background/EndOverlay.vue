@@ -17,7 +17,7 @@ import { useState } from '@/stores/useState';
 import { useTimer } from '@/stores/useTimer';
 
 const { setGameOver } = useState();
-const { setCurrentGen } = useCurrentGen();
+const { setCurrentGens } = useCurrentGen();
 const { clearCurrentType } = useCurrentType();
 const { resetFlowState, setGameSelectionState } = useGameFlow();
 const { resetTimer, timerState } = useTimer();
@@ -49,7 +49,7 @@ const elapsed = computed(() => {
 
 const closeOverlay = () => {
   clearCurrentType();
-  setCurrentGen(null);
+  setCurrentGens([]);
   resetFlowState();
   setGameSelectionState('new');
   resetPokemonState();

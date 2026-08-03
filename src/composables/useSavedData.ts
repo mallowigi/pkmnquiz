@@ -111,7 +111,7 @@ export const useSavedData = () => {
       currentSpecialBox: currentBoxState.currentSpecialBox,
       currentType: currentTypeState.currentType,
       gameSelectionState: flowState.gameSelectionState,
-      gen: currentGenState.gen,
+      gens: Array.from(currentGenState.gens),
       languages: Array.from(settingsState.languages),
       pokemonProgress: {
         pokemonFound,
@@ -172,7 +172,7 @@ export const useSavedData = () => {
 
   const applyState = (loadedState: SaveData) => {
     const { setState } = useState();
-    const { setCurrentGen } = useCurrentGen();
+    const { setCurrentGens } = useCurrentGen();
     const { setCurrentBox, setCurrentSpecialBox, setCurrentMegaBox } = useCurrentBox();
     const { setCurrentType } = useCurrentType();
     const { resetFlowState, setFlowState } = useGameFlow();
@@ -213,7 +213,7 @@ export const useSavedData = () => {
     setCurrentMegaBox(currentMegaBox ?? null);
 
     // Gen
-    setCurrentGen(statePayload.gen ?? null);
+    setCurrentGens(statePayload.gens ?? []);
 
     // Pokemon progress
     resetPokemonState();

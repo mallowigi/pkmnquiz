@@ -114,7 +114,7 @@ export const usePokemons = defineStore('pokemons', () => {
     shinyRate: 0.01,
   });
   const { state, hideShadows } = useState();
-  const { getCurrentGen } = useCurrentGen();
+  const { getCurrentGens } = useCurrentGen();
   const { getCurrentType } = useCurrentType();
   const { getCurrentBoxes } = useCurrentBox();
   const { settingsState } = useSettings();
@@ -453,8 +453,8 @@ export const usePokemons = defineStore('pokemons', () => {
   };
 
   const getCurrentGenPokemon = (): Map<string, PokemonInfo[]> => {
-    const currentGen = getCurrentGen();
-    const currentGenBoxes = currentGen?.boxes ?? [];
+    const currentGens = getCurrentGens();
+    const currentGenBoxes = currentGens?.map((gen) => gen?.boxes ?? []).flat() ?? [];
     const result = new Map<string, PokemonInfo[]>();
 
     for (const boxId of currentGenBoxes) {
@@ -556,8 +556,8 @@ export const usePokemons = defineStore('pokemons', () => {
       const gameMode = state.gameMode;
       switch (gameMode) {
         case 'gen': {
-          const currentGen = getCurrentGen();
-          return currentGen ? currentGen.boxes.includes(pokemon.box) : false;
+          const currentGens = getCurrentGens();
+          return currentGens ? currentGens.some((gen) => gen?.boxes.includes(pokemon.box)) : false;
         }
         case 'types': {
           const currentType = getCurrentType();

@@ -289,7 +289,7 @@ export type SaveData = State &
     currentMegaBox: RegionBox | null;
     gameSelectionState: GameSelectionState | null;
     challengeMode: ChallengeMode;
-    gen: Gen | null;
+    gens: Gen[] | null;
     languages: Language[];
     pokemonProgress: PokemonProgress;
     score: number;

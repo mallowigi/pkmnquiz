@@ -1,38 +1,47 @@
-import { reactive } from 'vue';
 import { defineStore, acceptHMRUpdate } from 'pinia';
+import { reactive } from 'vue';
 
 import { gens } from '@/data/gens';
-import type { Gen } from '@/types.ts';
+import type { Gen, GenerationInfo } from '@/types.ts';
 
 type CurrentGenState = {
-  gen: Gen | null;
+  gens: Set<Gen>;
 };
 
 export const useCurrentGen = defineStore('currentGen', () => {
   const currentGenState = reactive<CurrentGenState>({
-    gen: null,
+    gens: new Set(),
   });
 
-  const setCurrentGen = (gen: Gen | null) => {
-    currentGenState.gen = gen;
+  const toggleGen = (gen: Gen) => {
+    if (currentGenState.gens.has(gen)) {
+      currentGenState.gens.delete(gen);
+    } else {
+      currentGenState.gens.add(gen);
+    }
   };
 
-  const getCurrentGen = () => {
-    const currentGen = currentGenState.gen;
-    if (!currentGen) return null;
-
-    return gens[currentGen];
+  const setCurrentGens = (gens: Gen[]) => {
+    currentGenState.gens = new Set(gens);
   };
 
-  const clearCurrentGen = () => {
-    currentGenState.gen = null;
+  const getCurrentGens = (): GenerationInfo[] | null => {
+    const currentGens = currentGenState.gens;
+    if (!currentGens || currentGens.size === 0) return null;
+
+    return Array.from(currentGens).map((gen) => gens[gen]);
+  };
+
+  const clearCurrentGens = () => {
+    currentGenState.gens = new Set();
   };
 
   return {
-    clearCurrentGen,
+    clearCurrentGens,
     currentGenState,
-    getCurrentGen,
-    setCurrentGen,
+    getCurrentGens,
+    setCurrentGens,
+    toggleGen,
   };
 });
 

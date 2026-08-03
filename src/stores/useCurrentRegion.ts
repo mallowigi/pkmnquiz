@@ -1,26 +1,32 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
+
 import { boxes } from '@/data/boxes';
 import { useCurrentGen } from '@/stores/useCurrentGen';
+import type { RegionBoxInfo } from '@/types.ts';
 
 export const useCurrentRegion = defineStore('currentRegion', () => {
-  const { getCurrentGen } = useCurrentGen();
+  const { getCurrentGens } = useCurrentGen();
 
-  const getCurrentRegion = () => {
-    const currentGen = getCurrentGen();
-    if (!currentGen) {
-      return;
+  const getCurrentRegions = (): RegionBoxInfo[] => {
+    const currentGens = getCurrentGens();
+    if (!currentGens) {
+      return [];
     }
 
-    const firstBox = currentGen.boxes?.[0];
-    if (!firstBox) {
-      return;
-    }
+    const regions = currentGens.map((gen) => {
+      const firstBox = gen.boxes?.[0];
+      if (!firstBox) {
+        return null;
+      }
 
-    return boxes[firstBox];
+      return boxes[firstBox];
+    });
+
+    return regions.filter((region) => region !== null);
   };
 
   return {
-    getCurrentRegion,
+    getCurrentRegions,
   };
 });
 
