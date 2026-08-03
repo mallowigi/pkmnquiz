@@ -102,6 +102,30 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     onQuizStart();
   };
 
+  const setTypesQuiz = (types: Type[]) => {
+    const onQuizStart = () => {
+      clearCurrentGens();
+      clearCurrentTypes();
+      setCurrentTypes(types);
+      setGameMode('types');
+      resetPokemonState();
+      updateShuffles();
+      resetTimer();
+      startGame();
+      scrollToTop();
+      setTitle();
+    };
+
+    if (withDialog) {
+      setDialog('switchQuiz', () => {
+        onQuizStart();
+      });
+      return;
+    }
+
+    onQuizStart();
+  };
+
   const setTypeOrSpecial = (type: string) => {
     clearCurrentGens();
     clearCurrentTypes();
@@ -172,5 +196,6 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     setTitle,
     setTypeOrSpecial,
     setTypeQuiz,
+    setTypesQuiz,
   };
 };

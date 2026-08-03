@@ -8,14 +8,14 @@ import { useTranslations } from '@/composables/useTranslations.js';
 import { typesList } from '@/data/pokemonTypes';
 import { useCurrentType } from '@/stores/useCurrentType';
 import { useGameFlow } from '@/stores/useGameFlow.js';
-import type { Gen, Type } from '@/types.ts';
+import type { Type } from '@/types.ts';
 
 const activeTypes = ref<Set<Type>>(new Set());
 
 const { setGameSelectionState } = useGameFlow();
 const { getSpecialType } = useCurrentType();
-const { setTypeOrSpecial } = useQuiz();
-const { getTypeTranslation, getSpecialTypeTranslation } = useTranslations();
+const { setTypesQuiz } = useQuiz();
+const { getTypeTranslation } = useTranslations();
 const { t } = useI18n();
 
 const specialType = computed(() => getSpecialType());
@@ -33,7 +33,7 @@ const toggleType = (type: Type) => {
 };
 
 const startQuiz = (types: Set<Type>) => {
-  // setTypeOrSpecial(Array.from(types));
+  setTypesQuiz(Array.from(types));
 };
 </script>
 
