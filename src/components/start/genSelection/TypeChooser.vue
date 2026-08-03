@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import RoundedButton from '@/components/common/RoundedButton.vue';
@@ -8,6 +8,9 @@ import { useTranslations } from '@/composables/useTranslations.js';
 import { typesList } from '@/data/pokemonTypes';
 import { useCurrentType } from '@/stores/useCurrentType';
 import { useGameFlow } from '@/stores/useGameFlow.js';
+import type { Gen, Type } from '@/types.ts';
+
+const activeTypes = ref<Set<Type>>(new Set());
 
 const { setGameSelectionState } = useGameFlow();
 const { getSpecialType } = useCurrentType();
@@ -20,52 +23,110 @@ const specialType = computed(() => getSpecialType());
 const goBack = () => {
   setGameSelectionState('gen');
 };
+
+const toggleType = (type: Type) => {
+  if (activeTypes.value.has(type)) {
+    activeTypes.value.delete(type);
+  } else {
+    activeTypes.value.add(type);
+  }
+};
+
+const startQuiz = (types: Set<Type>) => {
+  // setTypeOrSpecial(Array.from(types));
+};
 </script>
 
 <template>
-  <div class="type-grid">
-    <!--Types -->
-    <RoundedButton
-      v-for="typeMeta in typesList"
-      :key="typeMeta.id"
-      class="button-type"
-      @click="setTypeOrSpecial(typeMeta.id)"
-      :style="{ '--bgColor': typeMeta.bgColor, '--fgColor': typeMeta.fgColor }"
-    >
-      <img
-        :src="`/assets/types/${typeMeta.icon}.svg`"
-        :alt="typeMeta.name"
-        class="symbol"
-      />
-      <div hidden>{{ typeMeta.symbol }}</div>
-      <div class="type-name">{{ getTypeTranslation(typeMeta.id) }}</div>
-    </RoundedButton>
+  <div class="container">
+    <div class="type-grid">
+      <!--Types -->
+      <RoundedButton
+        v-for="typeMeta in typesList"
+        :key="typeMeta.id"
+        class="button-type"
+        :class="{
+          active: activeTypes.has(typeMeta.id),
+        }"
+        @click="toggleType(typeMeta.id)"
+        :style="{ '--bgColor': typeMeta.bgColor, '--fgColor': typeMeta.fgColor }"
+      >
+        <img
+          :src="`/assets/types/${typeMeta.icon}.svg`"
+          :alt="typeMeta.name"
+          class="symbol"
+        />
+        <div hidden>{{ typeMeta.symbol }}</div>
+        <div class="type-name">{{ getTypeTranslation(typeMeta.id) }}</div>
+      </RoundedButton>
 
-    <!-- Special -->
-    <RoundedButton
-      class="button-type button-special"
-      @click="setTypeOrSpecial('special')"
-      :style="{ '--bgColor': specialType.bgColor, '--fgColor': specialType.fgColor }"
-    >
-      <img
-        :src="`/assets/types/${specialType.icon}.svg`"
-        :alt="specialType.name"
-        class="symbol"
-      />
-      <div class="type-name">{{ getSpecialTypeTranslation(specialType.id) }}</div>
-    </RoundedButton>
+      <div class="button-special"></div>
+      <RoundedButton
+        class="button-type button-back"
+        @click="goBack"
+        :style="{ '--bgColor': '#111', '--fgColor': '#fff' }"
+      >
+        <div class="type-name">{{ t('back') }}</div>
+      </RoundedButton>
+      <div></div>
+    </div>
 
     <RoundedButton
-      class="button-type button-back"
-      @click="goBack"
-      :style="{ '--bgColor': '#111', '--fgColor': '#fff' }"
+      :disabled="activeTypes.size === 0"
+      class="cell rad-bl-tr large-btn"
+      @click="startQuiz(activeTypes)"
     >
-      <div class="type-name">{{ t('back') }}</div>
+      <div>{{ t('startQuiz') }}</div>
     </RoundedButton>
   </div>
 </template>
 
 <style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+.cell {
+  background: var(--primary);
+  color: var(--text);
+  padding: 16px 20px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 30px;
+  line-height: 30px;
+  font-size: 18px;
+  min-width: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  .mobile & {
+    padding: 8px;
+    font-size: 16px;
+    min-width: 60px;
+    min-height: 64px;
+  }
+
+  &.active {
+    opacity: 0.7;
+  }
+
+  &.disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
 .type-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

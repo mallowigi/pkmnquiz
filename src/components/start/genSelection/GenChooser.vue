@@ -94,17 +94,15 @@ const startQuiz = (gens: Set<Gen>) => {
         class="cell cell-type rad-tr"
         @click="openSpecialChooser"
       />
-
-      <div></div>
-      <RoundedButton
-        :disabled="activeGens.size === 0"
-        class="cell rad"
-        @click="startQuiz(activeGens)"
-      >
-        <div class="type-name">{{ t('startQuiz') }}</div>
-      </RoundedButton>
-      <div></div>
     </div>
+
+    <RoundedButton
+      :disabled="activeGens.size === 0"
+      class="cell rad-bl-tr large-btn"
+      @click="startQuiz(activeGens)"
+    >
+      <div class="type-name">{{ t('startQuiz') }}</div>
+    </RoundedButton>
   </div>
 </template>
 
@@ -112,6 +110,8 @@ const startQuiz = (gens: Set<Gen>) => {
 .container {
   display: flex;
   justify-content: center;
+  gap: 2rem;
+  flex-direction: column;
 }
 
 .gens-grid {
