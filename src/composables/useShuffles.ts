@@ -26,9 +26,9 @@ export const useShuffles = () => {
     }
 
     if (state.withBoxShuffle) {
-      setCurrentBox(remainingPokemon.box);
-      setCurrentSpecialBox(remainingPokemon.specialType);
-      setCurrentMegaBox(remainingPokemon.box);
+      setCurrentBox(remainingPokemon.box ?? null);
+      setCurrentSpecialBox(remainingPokemon.specialType ?? null);
+      setCurrentMegaBox(remainingPokemon.box ?? null);
     }
   };
 

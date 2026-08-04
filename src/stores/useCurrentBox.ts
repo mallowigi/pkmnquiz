@@ -45,9 +45,9 @@ export const useCurrentBox = defineStore('currentBox', () => {
     const remainingPokemon = getRandomRemainingPokemon();
     if (!remainingPokemon) return;
 
-    setCurrentBox(remainingPokemon.box);
-    setCurrentSpecialBox(remainingPokemon.specialType);
-    setCurrentMegaBox(remainingPokemon.box);
+    setCurrentBox(remainingPokemon.box ?? null);
+    setCurrentSpecialBox(remainingPokemon.specialType ?? null);
+    setCurrentMegaBox(remainingPokemon.box ?? null);
   };
 
   const getCurrentBoxes = () => {
