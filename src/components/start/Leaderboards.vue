@@ -53,6 +53,7 @@ const subType = (user: DocumentData): string => {
               <tr>
                 <th>#</th>
                 <th>{{ t('leaderboards.name') }}</th>
+                <th>{{ t('score') }}</th>
                 <th>{{ t('leaderboards.time') }}</th>
                 <th>{{ t('leaderboards.gameMode') }}</th>
                 <th>{{ t('leaderboards.genType') }}</th>
@@ -67,6 +68,7 @@ const subType = (user: DocumentData): string => {
               >
                 <td class="rank">{{ index + 1 }}</td>
                 <td class="run-name">{{ user.name }}</td>
+                <td class="run-score">{{ user.score }}</td>
                 <td class="run-time">{{ formatTime(user.time) }}</td>
                 <td>{{ t(user.gameMode === 'full' ? 'fullQuiz' : user.gameMode) }}</td>
                 <td>{{ t(subType(user)) }}</td>
@@ -97,6 +99,7 @@ const subType = (user: DocumentData): string => {
   align-items: center;
   width: 100%;
   margin-top: 20px;
+  min-height: 200px;
 }
 
 .table-container {
@@ -140,7 +143,7 @@ const subType = (user: DocumentData): string => {
   }
 
   & tbody tr:nth-of-type(even) {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -149,11 +152,28 @@ const subType = (user: DocumentData): string => {
   color: var(--type-btn-color, var(--primary));
 }
 
+.run-score {
+  font-weight: 700;
+  animation: pulse 2s infinite;
+}
+
 .no-records {
   padding: 20px;
   filter: brightness(0.5);
   p {
     color: var(--type-fg-color, var(--text));
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.6;
   }
 }
 

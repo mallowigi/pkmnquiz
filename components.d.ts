@@ -116,6 +116,7 @@ declare module 'vue' {
     SpellingToggle: typeof import('./src/components/game/settings/SpellingToggle.vue')['default']
     StartScreen: typeof import('./src/components/start/StartScreen.vue')['default']
     SwitchQuizDialog: typeof import('./src/components/dialogs/SwitchQuizDialog.vue')['default']
+    TableSkeleton: typeof import('./src/components/start/TableSkeleton.vue')['default']
     TextBox: typeof import('./src/components/common/TextBox.vue')['default']
     TimerSelection: typeof import('./src/components/game/settings/TimerSelection.vue')['default']
     Tooltip: typeof import('./src/components/background/Tooltip.vue')['default']
