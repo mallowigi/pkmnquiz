@@ -8,6 +8,7 @@ import { useBoxes } from '@/composables/useBoxes.ts';
 import { boxes } from '@/data/boxes.js';
 import { specialTypes } from '@/data/specialTypes.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox.ts';
+import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useState } from '@/stores/useState.ts';
 import type { SpecialType, RegionBox, PokemonInfo } from '@/types.ts';
@@ -15,6 +16,7 @@ import type { SpecialType, RegionBox, PokemonInfo } from '@/types.ts';
 const { getCurrentGameModeBoxes, getSpecialBoxes } = useBoxes();
 const { getCurrentGameModeBoxPokemon, getSpecialTypePokemon, getStatus, getMegaPokemon } = usePokemons();
 const { currentBoxState } = useCurrentBox();
+const { currentGenState } = useCurrentGen();
 const { state } = useState();
 const { t } = useI18n();
 
@@ -126,7 +128,7 @@ watch(activeBoxId, (newBoxId) => {
 <template>
   <div
     class="region-boxes"
-    :class="state.gameMode"
+    :class="[state.gameMode, { 'multi-gen': state.gameMode === 'gen' && currentGenState.gens.size > 1 }]"
   >
     <RoundedBox
       v-for="(box, index) in currentBoxes"
@@ -210,6 +212,11 @@ watch(activeBoxId, (newBoxId) => {
     --num-cols: 1;
     --sprite-width: 64px;
     --text-padding: 10px;
+
+    &.multi-gen {
+      --max-width: 100%;
+      --num-cols: 2;
+    }
   }
 
   .laptop & {

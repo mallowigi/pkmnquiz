@@ -20,7 +20,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { startGame, setGameSelectionState } = useGameFlow();
   const { setGameMode, state } = useState();
   const { setDialog } = useDialogs();
-  const { currentGenState, clearCurrentGens, setCurrentGens } = useCurrentGen();
+  const { clearCurrentGens, setCurrentGens, getNextGen } = useCurrentGen();
   const { clearCurrentBox } = useCurrentBox();
   const { clearCurrentTypes, setCurrentTypes, getNextType } = useCurrentType();
   const { resetPokemonState } = usePokemons();
@@ -152,8 +152,11 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     const currentRegions = getCurrentRegions();
     if (currentRegions.length === 0) return '';
 
-    const region = currentRegions[currentGenState.nextGenIndex] ?? currentRegions[0];
-    return capitalize(getBoxTranslation(region.id));
+    const nextGen = getNextGen();
+    if (!nextGen) return '';
+
+    const region = currentRegions.find((r) => nextGen.boxes.includes(r.id));
+    return capitalize(getBoxTranslation(region?.id));
   };
 
   const getTypeGameModeName = () => {
