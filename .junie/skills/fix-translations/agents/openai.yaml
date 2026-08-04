@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fix Translations"
+  short_description: "Identify and fix missing or outdated translations across all languages"
+  default_prompt: "Fix all missing translations in the locale files."
