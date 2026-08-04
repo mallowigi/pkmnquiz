@@ -106,9 +106,8 @@ export const useFirebase = defineStore('firebase', () => {
       const savedState = getSavedState();
       const payload: UserRecord = {
         ...savedState,
-        // Ensure name is never null in the record
-        name: savedState.name ?? user?.displayName ?? 'Trainer',
         hasGivenUp: flowState.isGivenUp,
+        name: user?.displayName ?? savedState.name ?? 'Unknown Trainer',
         numFound: numFound.value,
         numShadows: numShadows.value,
         time: timerState.elapsed,
@@ -201,9 +200,14 @@ export const useFirebase = defineStore('firebase', () => {
       }
     }
 
-    const leaderBoardQuery = query(collection(db, 'leaderboards'), ...andCondition, orderBy('time', 'asc'), limit(queryLimit));
+    const leaderBoardQuery = query(
+      collection(db, 'leaderboards'),
+      ...andCondition,
+      orderBy('time', 'asc'),
+      limit(queryLimit),
+    );
 
-    return useFirestore(leaderBoardQuery, [], {
+    return useFirestore(leaderBoardQuery, undefined, {
       autoDispose: false,
       errorHandler: (error) => showErrorMessage(error, 'Firestore error'),
     });

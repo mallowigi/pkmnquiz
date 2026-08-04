@@ -46,7 +46,7 @@ const subType = (user: DocumentData): string => {
       <Suspense>
         <div
           class="table-container"
-          v-if="topTrainers?.length > 0"
+          v-if="(topTrainers?.length ?? 0) > 0"
         >
           <table class="leaderboard-table">
             <thead>
