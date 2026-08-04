@@ -324,6 +324,8 @@ export const useSavedData = () => {
       name: statePayload.name ?? null,
       withCriesHelper: statePayload.withCriesHelper ?? false,
       withCycleSprites: statePayload.withCycleSprites ?? true,
+      withCycleTypes: statePayload.withCycleTypes ?? true,
+      withCycleRegions: statePayload.withCycleRegions ?? true,
       withInitialsHelper: statePayload.withInitialsHelper ?? false,
       withShadowHelper: statePayload.withShadowHelper ?? false,
       withShinies: statePayload.withShinies ?? false,
