@@ -12,10 +12,11 @@ export const useSettings = defineStore('settings', () => {
     languages: new Set<Language>(['en', 'fr', 'de', 'ko', 'ja', 'zh', 'cn']),
     name: '',
     withCriesHelper: false,
+    withCycleRegions: true,
     withCycleSprites: true,
     withCycleTypes: true,
-    withCycleRegions: true,
     withInitialsHelper: false,
+    withScrollIntoView: true,
     withShadowHelper: false,
     withShinies: false,
     withSound: true,
@@ -95,6 +96,10 @@ export const useSettings = defineStore('settings', () => {
     settingsState.withCycleRegions = withCycleRegions;
   };
 
+  const setScrollIntoView = (withScrollIntoView: boolean) => {
+    settingsState.withScrollIntoView = withScrollIntoView;
+  };
+
   const setSound = (withSound: boolean) => {
     settingsState.withSound = withSound;
   };
@@ -115,12 +120,13 @@ export const useSettings = defineStore('settings', () => {
   return {
     resetLanguages,
     setAvatar,
+    setCycleRegions,
     setCycleSprites,
     setCycleTypes,
-    setCycleRegions,
     setLanguages,
     setName,
     setSaveToCloud,
+    setScrollIntoView,
     setSettingsState,
     setSound,
     settingsState,

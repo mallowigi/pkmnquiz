@@ -98,6 +98,7 @@ declare module 'vue' {
     SaveButtons: typeof import('./src/components/background/SaveButtons.vue')['default']
     SaveIcon: typeof import('./src/components/common/icons/SaveIcon.vue')['default']
     SavingIndicator: typeof import('./src/components/background/SavingIndicator.vue')['default']
+    ScrollIntoViewToggle: typeof import('./src/components/game/settings/ScrollIntoViewToggle.vue')['default']
     SegmentButton: typeof import('./src/components/common/SegmentButton.vue')['default']
     SettingsIcon: typeof import('./src/components/common/icons/SettingsIcon.vue')['default']
     ShadowHotkeyToggle: typeof import('./src/components/game/settings/ShadowHotkeyToggle.vue')['default']

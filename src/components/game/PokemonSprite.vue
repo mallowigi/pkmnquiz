@@ -10,6 +10,7 @@ import { useUnknownSprite } from '@/composables/useUnknownSprite.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { usePkmnData } from '@/stores/usePkmnStore.ts';
 import { useState } from '@/stores/useState.ts';
+import { useSettings } from '@/stores/useSettings.ts';
 import type { PokemonInfo, PokemonStatus } from '@/types.ts';
 import { glitchify } from '@/utils/utils.ts';
 
@@ -37,6 +38,7 @@ type DisplayedSprite = {
 const props = defineProps<Props>();
 
 const { state } = useState();
+const { settingsState } = useSettings();
 const { flowState } = useGameFlow();
 const { data } = usePkmnData();
 const { unknownSprite } = useUnknownSprite();
@@ -66,7 +68,7 @@ const spriteData = computed<SpriteData>(() => {
 
 const displayedSprite = computed<DisplayedSprite>(() => {
   if (props.status.isFound) {
-    if (spriteData.value.spriteCycle.length) {
+    if (spriteData.value.spriteCycle.length && settingsState.withCycleSprites) {
       return {
         image: spriteData.value.spriteCycle[0],
         key: 'found-cycle',
@@ -130,8 +132,8 @@ const isDitto = computed(() => {
 watch(displayedSprite, (newSprite, oldSprite) => {
   if (newSprite.kind === 'unknown' || newSprite.kind === oldSprite?.kind) return;
 
-  // Do not scroll if already scrolling
-  if (isScrolling.value) return;
+  // Do not scroll if already scrolling or if scrollIntoView is disabled
+  if (isScrolling.value || !settingsState.withScrollIntoView) return;
 
   // Lock scrolling for a bit to allow smooth scroll to finish and prevent jitter
   isScrolling.value = true;

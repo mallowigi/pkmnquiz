@@ -12,6 +12,7 @@ import CriesHotkeyToggle from '@/components/game/settings/CriesHotkeyToggle.vue'
 import CycleRegionsToggle from '@/components/game/settings/CycleRegionsToggle.vue';
 import CycleSpritesToggle from '@/components/game/settings/CycleSpritesToggle.vue';
 import CycleTypesToggle from '@/components/game/settings/CycleTypesToggle.vue';
+import ScrollIntoViewToggle from '@/components/game/settings/ScrollIntoViewToggle.vue';
 import GameAbort from '@/components/game/settings/GameAbort.vue';
 import GameModeSelection from '@/components/game/settings/GameModeSelection.vue';
 import LanguagesSelection from '@/components/game/settings/LanguagesSelection.vue';
@@ -106,6 +107,8 @@ const togglePause = () => pauseGame();
           <CycleTypesToggle />
 
           <CycleRegionsToggle />
+
+          <ScrollIntoViewToggle />
 
           <SoundToggle />
         </div>

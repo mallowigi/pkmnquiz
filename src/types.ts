@@ -197,6 +197,7 @@ export type Settings = {
   withShinies: boolean;
   withSound: boolean;
   withSpelling: boolean;
+  withScrollIntoView: boolean;
   languages: Set<Language>;
   autoSync: boolean;
 };
