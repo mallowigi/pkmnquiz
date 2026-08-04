@@ -5,6 +5,7 @@ import { reactive } from 'vue';
 import { auth, db } from '@/firebase.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
+import { useMessages } from '@/stores/useMessages.ts';
 import { useState } from '@/stores/useState.ts';
 import type { FinishedGames, Profile } from '@/types';
 
@@ -56,15 +57,21 @@ export const useProfile = defineStore('profile', () => {
     plays: 0,
   });
 
+  const { showErrorMessage } = useMessages();
+
   const fetchProfile = async () => {
     const user = auth.currentUser;
     if (!user) return;
 
-    const docRef = doc(db, 'profiles', user.uid);
-    const docSnap = await getDoc(docRef);
+    try {
+      const docRef = doc(db, 'profiles', user.uid);
+      const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      setProfileState(docSnap.data() as Profile);
+      if (docSnap.exists()) {
+        setProfileState(docSnap.data() as Profile);
+      }
+    } catch (error) {
+      showErrorMessage(error, 'Failed to fetch profile');
     }
   };
 
@@ -72,7 +79,11 @@ export const useProfile = defineStore('profile', () => {
     const user = auth.currentUser;
     if (!user) return;
 
-    await setDoc(doc(db, 'profiles', user.uid), stats, { merge: true });
+    try {
+      await setDoc(doc(db, 'profiles', user.uid), stats, { merge: true });
+    } catch (error) {
+      showErrorMessage(error, 'Failed to save profile');
+    }
   };
 
   const incrementPlays = () => {

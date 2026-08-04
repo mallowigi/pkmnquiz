@@ -31,7 +31,7 @@ type TopTrainersOptions = {
 
 export const useFirebase = defineStore('firebase', () => {
   const { setName, setAvatar } = useSettings();
-  const { showUserMessage } = useMessages();
+  const { showUserMessage, showErrorMessage } = useMessages();
   const { authenticateWithGoogle } = useGoogleAuth();
   const { authenticateWithGithub } = useGithubAuth();
   const { authenticateWithFacebook } = useFacebookAuth();
@@ -139,7 +139,12 @@ export const useFirebase = defineStore('firebase', () => {
       saveTimeout = null;
     }, 3000);
 
-    await setDoc(doc(db, 'users', user.uid), data);
+    try {
+      await setDoc(doc(db, 'users', user.uid), data);
+    } catch (error) {
+      firebaseState.isSaving = false;
+      showErrorMessage(error, 'Failed to save user state');
+    }
   };
 
   const deleteUserState = async () => {
@@ -148,7 +153,11 @@ export const useFirebase = defineStore('firebase', () => {
     const user = auth.currentUser;
     if (!user) return;
 
-    await deleteDoc(doc(db, 'users', user.uid));
+    try {
+      await deleteDoc(doc(db, 'users', user.uid));
+    } catch (error) {
+      showErrorMessage(error, 'Failed to delete user state');
+    }
   };
 
   const loadUserState = async () => {
@@ -158,10 +167,14 @@ export const useFirebase = defineStore('firebase', () => {
     if (!user) return;
 
     const docRef = doc(db, 'users', user.uid);
-    const docSnap = await getDoc(docRef);
+    try {
+      const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      return docSnap.data();
+      if (docSnap.exists()) {
+        return docSnap.data();
+      }
+    } catch (error) {
+      showErrorMessage(error, 'Failed to load user state');
     }
     return null;
   };
@@ -192,7 +205,7 @@ export const useFirebase = defineStore('firebase', () => {
 
     return useFirestore(leaderBoardQuery, [], {
       autoDispose: false,
-      errorHandler: (error) => console.error('Firestore error:', error),
+      errorHandler: (error) => showErrorMessage(error, 'Firestore error'),
     });
   };
 

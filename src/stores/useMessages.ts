@@ -1,6 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive } from 'vue';
 
+import { i18n } from '@/main.ts';
 import type { Message, MessageType } from '@/types.ts';
 
 interface MessagesState {
@@ -28,8 +29,20 @@ export const useMessages = defineStore('messages', () => {
     state.messages = [];
   };
 
+  /**
+   * Logs an error to the console (preserving debugging context) and surfaces it
+   * to the user as an error notification, so failures that would otherwise only
+   * appear in the console (e.g. Firebase errors) are not missed.
+   */
+  const showErrorMessage = (error: unknown, context = 'Firebase error') => {
+    console.error(`${context}:`, error);
+    const detail = error instanceof Error ? error.message : String(error);
+    showUserMessage(i18n.global.t('firebaseError', { error: detail }), 'error');
+  };
+
   return {
     clearMessages,
+    showErrorMessage,
     showUserMessage,
     state,
   };

@@ -17,7 +17,7 @@ import { useSettings } from '@/stores/useSettings';
 export const useGoogleAuth = () => {
   const { setName, setAvatar } = useSettings();
   const { fetchProfile } = useProfile();
-  const { showUserMessage } = useMessages();
+  const { showUserMessage, showErrorMessage } = useMessages();
 
   const authenticateWithGoogle = async () => {
     const online = useOnline();
@@ -47,7 +47,7 @@ export const useGoogleAuth = () => {
           });
       })
       .catch((error) => {
-        console.error('Persistence failed:', error);
+        showErrorMessage(error, 'Persistence failed');
       });
   };
 

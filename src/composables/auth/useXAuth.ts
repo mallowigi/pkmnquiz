@@ -17,7 +17,7 @@ import { useSettings } from '@/stores/useSettings';
 export const useXAuth = () => {
   const { setName, setAvatar } = useSettings();
   const { fetchProfile } = useProfile();
-  const { showUserMessage } = useMessages();
+  const { showUserMessage, showErrorMessage } = useMessages();
 
   const authenticateWithX = async () => {
     const online = useOnline();
@@ -48,7 +48,7 @@ export const useXAuth = () => {
           });
       })
       .catch((error) => {
-        console.error('Persistence failed:', error);
+        showErrorMessage(error, 'Persistence failed');
       });
   };
 
