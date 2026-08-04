@@ -9,7 +9,9 @@ import AutoPauseToggle from '@/components/game/settings/AutoPauseToggle.vue';
 import AutoSaveToggle from '@/components/game/settings/AutoSaveToggle.vue';
 import BoxShuffle from '@/components/game/settings/BoxShuffle.vue';
 import CriesHotkeyToggle from '@/components/game/settings/CriesHotkeyToggle.vue';
+import CycleRegionsToggle from '@/components/game/settings/CycleRegionsToggle.vue';
 import CycleSpritesToggle from '@/components/game/settings/CycleSpritesToggle.vue';
+import CycleTypesToggle from '@/components/game/settings/CycleTypesToggle.vue';
 import GameAbort from '@/components/game/settings/GameAbort.vue';
 import GameModeSelection from '@/components/game/settings/GameModeSelection.vue';
 import LanguagesSelection from '@/components/game/settings/LanguagesSelection.vue';
@@ -100,6 +102,10 @@ const togglePause = () => pauseGame();
 
         <div class="selection-row">
           <CycleSpritesToggle />
+
+          <CycleTypesToggle />
+
+          <CycleRegionsToggle />
 
           <SoundToggle />
         </div>

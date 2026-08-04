@@ -88,6 +88,11 @@ const total = computed(() => {
 .counter {
   padding-left: 30px;
   padding-right: 30px;
+
+  .mobile & {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }
 
 .highlight {
