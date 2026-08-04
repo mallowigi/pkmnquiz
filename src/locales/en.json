@@ -84,6 +84,7 @@
   "es": "Spanish",
   "exit": "Exit",
   "facebook": "Facebook",
+  "firebaseError": "Firebase error: {error}",
   "failedToLoadQuizFormat": "Failed to load quiz: Invalid file format",
   "failedToLoadQuizInvalid": "Failed to load autosave: Invalid data.",
   "failedToLoadQuizVersion": "Unsupported save version.",
