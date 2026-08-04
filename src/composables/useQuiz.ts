@@ -1,5 +1,3 @@
-import { useI18n } from 'vue-i18n';
-
 import { useShuffles } from '@/composables/useShuffles.ts';
 import { usePageTitle } from '@/composables/useTitle.ts';
 import { useTranslations } from '@/composables/useTranslations.ts';
@@ -16,7 +14,6 @@ import type { Type, Gen } from '@/types.ts';
 import { scrollToTop, capitalize } from '@/utils/utils.ts';
 
 export const useQuiz = ({ withDialog = false } = {}) => {
-  const { t } = useI18n();
   const { startGame, setGameSelectionState } = useGameFlow();
   const { setGameMode, state } = useState();
   const { setDialog } = useDialogs();
@@ -28,7 +25,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { updateShuffles } = useShuffles();
   const { getCurrentRegions } = useCurrentRegion();
   const { getCurrentTypes } = useCurrentType();
-  const { getBoxTranslation, getTypeTranslation } = useTranslations();
+  const { getBoxTranslation, getGameModeTranslation, getTypeTranslation } = useTranslations();
   const { setTitle } = usePageTitle();
 
   const setFullQuiz = () => {
@@ -173,15 +170,15 @@ export const useQuiz = ({ withDialog = false } = {}) => {
 
     switch (gameMode) {
       case 'full':
-        return capitalize(t('full'));
+        return capitalize(getGameModeTranslation('full'));
       case 'gen':
         return getRegionGameModeName();
       case 'types':
         return getTypeGameModeName();
       case 'special':
-        return capitalize(t('special'));
+        return capitalize(getGameModeTranslation('special'));
       case 'mega':
-        return capitalize(t('mega'));
+        return capitalize(getGameModeTranslation('mega'));
       default:
         return '';
     }
