@@ -20,9 +20,9 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { startGame, setGameSelectionState } = useGameFlow();
   const { setGameMode, state } = useState();
   const { setDialog } = useDialogs();
-  const { clearCurrentGens, setCurrentGens } = useCurrentGen();
+  const { currentGenState, clearCurrentGens, setCurrentGens } = useCurrentGen();
   const { clearCurrentBox } = useCurrentBox();
-  const { clearCurrentTypes, setCurrentTypes } = useCurrentType();
+  const { clearCurrentTypes, setCurrentTypes, getNextType } = useCurrentType();
   const { resetPokemonState } = usePokemons();
   const { resetTimer } = useTimer();
   const { updateShuffles } = useShuffles();
@@ -30,8 +30,6 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { getCurrentTypes } = useCurrentType();
   const { getBoxTranslation, getTypeTranslation } = useTranslations();
   const { setTitle } = usePageTitle();
-
-  let randomNameInterval = 0;
 
   const setFullQuiz = () => {
     if (state.gameMode === 'full') return;
@@ -154,20 +152,17 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     const currentRegions = getCurrentRegions();
     if (currentRegions.length === 0) return '';
 
-    // Cycle through the regions to get a different name each time
-    const randomRegion = currentRegions[randomNameInterval] ?? currentRegions[0];
-    randomNameInterval = (randomNameInterval + 1) % currentRegions.length;
-    return capitalize(getBoxTranslation(randomRegion.id));
+    const region = currentRegions[currentGenState.nextGenIndex] ?? currentRegions[0];
+    return capitalize(getBoxTranslation(region.id));
   };
 
   const getTypeGameModeName = () => {
     const currentTypes = getCurrentTypes();
     if (currentTypes.length === 0) return '';
 
-    // Cycle through the types to get a different name each time
-    const randomType = currentTypes[randomNameInterval] ?? currentTypes[0];
-    randomNameInterval = (randomNameInterval + 1) % currentTypes.length;
-    return capitalize(getTypeTranslation(randomType.id));
+    const type = getNextType();
+    if (!type) return '';
+    return capitalize(getTypeTranslation(type.id));
   };
 
   const getGameModeName = () => {

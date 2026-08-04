@@ -1,6 +1,8 @@
+import { useIntervalFn } from '@vueuse/core';
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
+import { usePageTitle } from '@/composables/useTitle';
 import { gens } from '@/data/gens';
 import type { Gen, GenerationInfo } from '@/types.ts';
 
@@ -9,11 +11,32 @@ type CurrentGenState = {
 };
 
 export const useCurrentGen = defineStore('currentGen', () => {
+  const { setTitle } = usePageTitle();
+
   const currentGenState = reactive<CurrentGenState>({
     gens: new Set(),
   });
 
-  let nextGenIndex = 0;
+  const nextGenIndex = ref(0);
+  const nextGen = ref<Gen | null>(null);
+
+  // Cycle types of the currentTypes on an interval
+  const { pause, resume } = useIntervalFn(() => {
+    const gens = Array.from(currentGenState.gens);
+    if (gens.length > 0) {
+      nextGenIndex.value = (nextGenIndex.value + 1) % gens.length;
+      nextGen.value = gens[nextGenIndex.value];
+      setTitle();
+    }
+  }, 15000);
+
+  const startGenCycle = () => {
+    resume();
+  };
+
+  const stopGenCycle = () => {
+    pause();
+  };
 
   const toggleGen = (gen: Gen) => {
     if (currentGenState.gens.has(gen)) {
@@ -25,6 +48,8 @@ export const useCurrentGen = defineStore('currentGen', () => {
 
   const setCurrentGens = (gens: Gen[]) => {
     currentGenState.gens = new Set(gens);
+    nextGenIndex.value = 0;
+    nextGen.value = gens[nextGenIndex.value];
   };
 
   const getCurrentGens = (): GenerationInfo[] | null => {
@@ -35,10 +60,10 @@ export const useCurrentGen = defineStore('currentGen', () => {
   };
 
   const getNextGen = (): GenerationInfo | null => {
-    const nextGen = Array.from(currentGenState.gens)[nextGenIndex];
-    if (!nextGen) return null;
+    const currentGens = Array.from(currentGenState.gens);
+    if (currentGens.length === 0) return null;
 
-    nextGenIndex = (nextGenIndex + 1) % currentGenState.gens.size;
+    const nextGen = currentGens[nextGenIndex.value % currentGens.length];
     return gens[nextGen];
   };
 
@@ -52,6 +77,8 @@ export const useCurrentGen = defineStore('currentGen', () => {
     getCurrentGens,
     getNextGen,
     setCurrentGens,
+    startGenCycle,
+    stopGenCycle,
     toggleGen,
   };
 });

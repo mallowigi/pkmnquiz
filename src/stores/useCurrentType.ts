@@ -1,6 +1,8 @@
+import { useIntervalFn } from '@vueuse/core';
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
+import { usePageTitle } from '@/composables/useTitle.ts';
 import { megaTypes } from '@/data/megaTypes.ts';
 import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { specialTypes } from '@/data/specialTypes.ts';
@@ -15,13 +17,33 @@ type CurrentTypeState = {
 
 export const useCurrentType = defineStore('currentType', () => {
   const { state } = useState();
+  const { setTitle } = usePageTitle();
 
   const currentTypeState = reactive<CurrentTypeState>({
     currentTypes: new Set(),
     shuffledType: null,
   });
 
-  let nextTypeIndex = 0;
+  const nextTypeIndex = ref(0);
+  const nextType = ref<Type | null>(null);
+
+  // Cycle types of the currentTypes on an interval
+  const { pause, resume } = useIntervalFn(() => {
+    const types = Array.from(currentTypeState.currentTypes);
+    if (types.length > 0) {
+      nextTypeIndex.value = (nextTypeIndex.value + 1) % types.length;
+      nextType.value = types[nextTypeIndex.value];
+      setTitle();
+    }
+  }, 15000);
+
+  const startTypeCycle = () => {
+    resume();
+  };
+
+  const stopTypeCycle = () => {
+    pause();
+  };
 
   const toggleType = (type: Type) => {
     if (currentTypeState.currentTypes.has(type)) {
@@ -37,6 +59,8 @@ export const useCurrentType = defineStore('currentType', () => {
 
   const setCurrentTypes = (types: Type[]) => {
     currentTypeState.currentTypes = new Set(types);
+    nextTypeIndex.value = 0;
+    nextType.value = types[nextTypeIndex.value];
   };
 
   const clearCurrentTypes = () => {
@@ -58,9 +82,7 @@ export const useCurrentType = defineStore('currentType', () => {
     const types = getCurrentTypes();
     if (types.length === 0) return null;
 
-    const nextType = types[nextTypeIndex];
-    nextTypeIndex = (nextTypeIndex + 1) % types.length;
-    return nextType;
+    return types[nextTypeIndex.value % types.length];
   };
 
   const getSpecialType = (): SpecialTypeInfo => {
@@ -73,6 +95,11 @@ export const useCurrentType = defineStore('currentType', () => {
 
   const getCurrentTypeOrSpecial = (): TypeInfo | SpecialTypeInfo | MegaTypeInfo | null => {
     const gameMode = state.gameMode;
+
+    if (state.withTypeShuffle) {
+      return getShuffledType();
+    }
+
     switch (gameMode) {
       case 'special':
         return getSpecialType();
@@ -120,6 +147,8 @@ export const useCurrentType = defineStore('currentType', () => {
     setCurrentTypes,
     setRandomCurrentType,
     setShuffledType,
+    startTypeCycle,
+    stopTypeCycle,
     toggleType,
   };
 });
