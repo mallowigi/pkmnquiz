@@ -149,6 +149,8 @@ export const useTranslations = () => {
         return t('full');
       case 'gen':
         return t('gen');
+      case 'mega':
+        return t('mega');
       case 'special':
         return t('special');
       case 'types':
