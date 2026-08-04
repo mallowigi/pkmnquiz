@@ -6,6 +6,7 @@ import { usePageTitle } from '@/composables/useTitle.ts';
 import { megaTypes } from '@/data/megaTypes.ts';
 import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { specialTypes } from '@/data/specialTypes.ts';
+import { useSettings } from '@/stores/useSettings.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useState } from '@/stores/useState';
 import type { Type, TypeInfo, SpecialTypeInfo, MegaTypeInfo } from '@/types.ts';
@@ -18,6 +19,7 @@ type CurrentTypeState = {
 export const useCurrentType = defineStore('currentType', () => {
   const { state } = useState();
   const { setTitle } = usePageTitle();
+  const { settingsState } = useSettings();
 
   const currentTypeState = reactive<CurrentTypeState>({
     currentTypes: new Set(),
@@ -29,6 +31,8 @@ export const useCurrentType = defineStore('currentType', () => {
 
   // Cycle types of the currentTypes on an interval
   const { pause, resume } = useIntervalFn(() => {
+    if (!settingsState.withCycleTypes) return;
+
     const types = Array.from(currentTypeState.currentTypes);
     if (types.length > 0) {
       nextTypeIndex.value = (nextTypeIndex.value + 1) % types.length;
@@ -38,7 +42,9 @@ export const useCurrentType = defineStore('currentType', () => {
   }, 15000);
 
   const startTypeCycle = () => {
-    resume();
+    if (settingsState.withCycleTypes) {
+      resume();
+    }
   };
 
   const stopTypeCycle = () => {

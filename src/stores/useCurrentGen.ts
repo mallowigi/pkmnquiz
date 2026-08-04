@@ -4,6 +4,7 @@ import { reactive, ref } from 'vue';
 
 import { usePageTitle } from '@/composables/useTitle';
 import { gens } from '@/data/gens';
+import { useSettings } from '@/stores/useSettings.ts';
 import type { Gen, GenerationInfo } from '@/types.ts';
 
 type CurrentGenState = {
@@ -12,6 +13,7 @@ type CurrentGenState = {
 
 export const useCurrentGen = defineStore('currentGen', () => {
   const { setTitle } = usePageTitle();
+  const { settingsState } = useSettings();
 
   const currentGenState = reactive<CurrentGenState>({
     gens: new Set(),
@@ -22,6 +24,8 @@ export const useCurrentGen = defineStore('currentGen', () => {
 
   // Cycle types of the currentTypes on an interval
   const { pause, resume } = useIntervalFn(() => {
+    if (!settingsState.withCycleRegions) return;
+
     const gens = Array.from(currentGenState.gens);
     if (gens.length > 0) {
       nextGenIndex.value = (nextGenIndex.value + 1) % gens.length;
@@ -31,7 +35,9 @@ export const useCurrentGen = defineStore('currentGen', () => {
   }, 15000);
 
   const startGenCycle = () => {
-    resume();
+    if (settingsState.withCycleRegions) {
+      resume();
+    }
   };
 
   const stopGenCycle = () => {

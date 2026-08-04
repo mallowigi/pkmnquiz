@@ -189,6 +189,8 @@ export type Settings = {
   avatar: string | null;
   autoPause: boolean;
   withCycleSprites: boolean;
+  withCycleTypes: boolean;
+  withCycleRegions: boolean;
   withShadowHelper: boolean;
   withCriesHelper: boolean;
   withInitialsHelper: boolean;

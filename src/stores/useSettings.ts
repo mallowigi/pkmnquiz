@@ -13,6 +13,8 @@ export const useSettings = defineStore('settings', () => {
     name: '',
     withCriesHelper: false,
     withCycleSprites: true,
+    withCycleTypes: true,
+    withCycleRegions: true,
     withInitialsHelper: false,
     withShadowHelper: false,
     withShinies: false,
@@ -85,6 +87,14 @@ export const useSettings = defineStore('settings', () => {
     settingsState.withCycleSprites = withCycleSprites;
   };
 
+  const setCycleTypes = (withCycleTypes: boolean) => {
+    settingsState.withCycleTypes = withCycleTypes;
+  };
+
+  const setCycleRegions = (withCycleRegions: boolean) => {
+    settingsState.withCycleRegions = withCycleRegions;
+  };
+
   const setSound = (withSound: boolean) => {
     settingsState.withSound = withSound;
   };
@@ -106,6 +116,8 @@ export const useSettings = defineStore('settings', () => {
     resetLanguages,
     setAvatar,
     setCycleSprites,
+    setCycleTypes,
+    setCycleRegions,
     setLanguages,
     setName,
     setSaveToCloud,
