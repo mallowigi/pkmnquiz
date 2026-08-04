@@ -1,7 +1,7 @@
 import { useOnline } from '@vueuse/core';
 import { useFirestore } from '@vueuse/firebase';
 import { onAuthStateChanged, signInAnonymously, signOut } from 'firebase/auth';
-import { collection, doc, getDoc, limit, orderBy, query, setDoc, where, deleteDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, setDoc, where, deleteDoc } from 'firebase/firestore';
 import { storeToRefs, acceptHMRUpdate, defineStore } from 'pinia';
 import { reactive } from 'vue';
 
@@ -178,8 +178,8 @@ export const useFirebase = defineStore('firebase', () => {
     return null;
   };
 
-  const getTopTrainers = ({ gameMode, gen, limit: queryLimit = 3, mode, type, uid }: TopTrainersOptions = {}) => {
-    checkOnline('getTopTrainers');
+  const prepareQuery = ({ uid, mode, gameMode, gen, type, limit: queryLimit }: TopTrainersOptions) => {
+    checkOnline('getTopTrainersAsync');
 
     const andCondition = [where('hasGivenUp', '==', false)];
     if (uid) {
@@ -200,17 +200,50 @@ export const useFirebase = defineStore('firebase', () => {
       }
     }
 
-    const leaderBoardQuery = query(
+    return query(
       collection(db, 'leaderboards'),
       ...andCondition,
       orderBy('time', 'asc'),
-      limit(queryLimit),
+      limit(queryLimit ?? 0)
     );
+  };
+
+  const getTopTrainers = ({ gameMode, gen, limit: queryLimit = 3, mode, type, uid }: TopTrainersOptions = {}) => {
+   const leaderBoardQuery = prepareQuery({
+      gameMode: gameMode,
+      gen: gen,
+      limit: queryLimit,
+      mode: mode,
+      type: type,
+      uid: uid,
+    })
 
     return useFirestore(leaderBoardQuery, undefined, {
       autoDispose: false,
       errorHandler: (error) => showErrorMessage(error, 'Firestore error'),
     });
+  };
+
+  const getTopTrainersAsync = async ({ gameMode, gen, limit = 3, mode, type, uid, }: TopTrainersOptions = {}) => {
+    const leaderBoardQuery = prepareQuery({
+      gameMode: gameMode,
+      gen: gen,
+      limit: limit,
+      mode: mode,
+      type: type,
+      uid: uid,
+    });
+
+    try {
+      const snapshot = await getDocs(leaderBoardQuery);
+      return snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+    } catch (error) {
+      showErrorMessage(error, 'Firestore error');
+      throw error;
+    }
   };
 
   const signout = async () => {
@@ -242,6 +275,7 @@ export const useFirebase = defineStore('firebase', () => {
     deleteUserState,
     firebaseState,
     getTopTrainers,
+    getTopTrainersAsync,
     loadUserState,
     saveUserState,
     signout,

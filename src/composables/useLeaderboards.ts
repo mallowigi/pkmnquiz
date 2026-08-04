@@ -11,7 +11,7 @@ type LeaderboardsProps = {
 };
 
 export const useLeaderboards = () => {
-  const { getTopTrainers } = useFirebase();
+  const { getTopTrainers, getTopTrainersAsync } = useFirebase();
 
   const getLeaderboards = (props: LeaderboardsProps) => {
     const { gameMode, gen, limit, mode, type, uid } = props;
@@ -26,7 +26,21 @@ export const useLeaderboards = () => {
     });
   };
 
+  const getLeaderboardsAsync = async (props: LeaderboardsProps) => {
+    const { gameMode, gen, limit, mode, type, uid } = props;
+
+    return getTopTrainersAsync({
+      gameMode,
+      gen,
+      limit,
+      mode,
+      type,
+      uid,
+    });
+  };
+
   return {
     getLeaderboards,
+    getLeaderboardsAsync,
   };
 };
