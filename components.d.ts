@@ -109,6 +109,7 @@ declare module 'vue' {
     ShareSocials: typeof import('./src/components/background/ShareSocials.vue')['default']
     ShinyToggle: typeof import('./src/components/game/settings/ShinyToggle.vue')['default']
     SkeletonTable: typeof import('./src/components/start/SkeletonTable.vue')['default']
+    SkipIcon: typeof import('./src/components/common/icons/SkipIcon.vue')['default']
     SlideDownTransition: typeof import('./src/components/common/transitions/SlideDownTransition.vue')['default']
     SnackBar: typeof import('./src/components/background/SnackBar.vue')['default']
     Socials: typeof import('./src/components/start/Socials.vue')['default']

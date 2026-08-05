@@ -13,6 +13,7 @@ import { useCurrentGen } from '@/stores/useCurrentGen';
 import { useCurrentType } from '@/stores/useCurrentType';
 import { useGameFlow } from '@/stores/useGameFlow';
 import { usePokemons } from '@/stores/usePokemons';
+import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState';
 import { useTimer } from '@/stores/useTimer';
 
@@ -21,6 +22,8 @@ const { setCurrentGens } = useCurrentGen();
 const { clearCurrentTypes } = useCurrentType();
 const { resetFlowState, setGameSelectionState } = useGameFlow();
 const { resetTimer, timerState } = useTimer();
+const { resetBonus } = useBonus();
+const { resetSkips } = useSkips();
 const { t } = useI18n();
 
 const pokemonStore = usePokemons();
@@ -54,6 +57,8 @@ const closeOverlay = () => {
   setGameSelectionState('new');
   resetPokemonState();
   resetTimer();
+  resetBonus();
+  resetSkips();
   setGameOver();
 };
 </script>
