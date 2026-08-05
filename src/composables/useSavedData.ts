@@ -26,8 +26,8 @@ const LOCAL_STORAGE_NAME_KEY = 'pkmn_quiz_saved_name';
 const debouncedSaveToFirebase = useDebounceFn(
   (savedState: SaveData) => {
     const { settingsState } = useSettings();
-    const { isInGame, isChallengeMode } = storeToRefs(useGameFlow());
-    if (!settingsState.autoSync || !isInGame.value || isChallengeMode.value) {
+    const { isInGame } = storeToRefs(useGameFlow());
+    if (!settingsState.autoSync || !isInGame.value) {
       return;
     }
     const { saveUserState } = useFirebase();
@@ -323,15 +323,15 @@ export const useSavedData = () => {
       avatar: statePayload.avatar ?? null,
       name: statePayload.name ?? null,
       withCriesHelper: statePayload.withCriesHelper ?? false,
+      withCycleRegions: statePayload.withCycleRegions ?? true,
       withCycleSprites: statePayload.withCycleSprites ?? true,
       withCycleTypes: statePayload.withCycleTypes ?? true,
-      withCycleRegions: statePayload.withCycleRegions ?? true,
       withInitialsHelper: statePayload.withInitialsHelper ?? false,
+      withScrollIntoView: statePayload.withScrollIntoView ?? true,
       withShadowHelper: statePayload.withShadowHelper ?? false,
       withShinies: statePayload.withShinies ?? false,
       withSound: statePayload.withSound ?? true,
       withSpelling: statePayload.withSpelling ?? false,
-      withScrollIntoView: statePayload.withScrollIntoView ?? true,
     });
 
     setTouchesState({
