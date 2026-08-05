@@ -36,12 +36,12 @@
     Do you have a plan on how to tackle this issue?
     </details>
     <!-- ai_dialog:end -->
-- [ ] Multiplayer ##next##
+- [x] Multiplayer ##next##
     <!-- github:start -->
     <details><summary>🔗 GitHub Integration</summary>
     
     - **Task ID:** 50
-    - **State:** Open
+    - **State:** Completed
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/50
     - **Completed:** 1783661731556
     </details>
@@ -56,16 +56,17 @@
     - **Completed:** 1783707508774
     </details>
     <!-- github:end -->
-- [ ] AttackDex ##next##
+- [x] AttackDex ##next##
     <!-- github:start -->
     <details><summary>🔗 GitHub Integration</summary>
     
     - **Task ID:** 48
-    - **State:** Open
+    - **State:** Completed
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/48
+    - **Completed:** 1785909698169
     </details>
     <!-- github:end -->
-- [ ] Leaderboards Admin ##admin,leaderboards##
+- [x] Leaderboards Admin ##admin,leaderboards##
     <!-- comment:start -->
     <details><summary>Show Comment</summary>
     
@@ -76,18 +77,19 @@
     <details><summary>🔗 GitHub Integration</summary>
     
     - **Task ID:** 47
-    - **State:** Open
+    - **State:** Completed
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/47
     - **Completed:** 1783661734344
     </details>
     <!-- github:end -->
-- [ ] Leaderboard Stats ##next,leaderboards##
+- [x] Leaderboard Stats ##next,leaderboards##
     <!-- github:start -->
     <details><summary>🔗 GitHub Integration</summary>
     
     - **Task ID:** 53
-    - **State:** Open
+    - **State:** Completed
     - **GitHub URL:** https://github.com/mallowigi/pkmnvuequiz/issues/53
+    - **Completed:** 1785909702775
     </details>
     <!-- github:end -->
 - [x] Bug: Box Mode and regions ##bug##

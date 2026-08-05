@@ -79,7 +79,6 @@ declare module 'vue' {
     ModeSelection: typeof import('./src/components/game/settings/ModeSelection.vue')['default']
     MorphTransition: typeof import('./src/components/common/transitions/MorphTransition.vue')['default']
     MultiplayerInvite: typeof import('./src/components/game/settings/MultiplayerInvite.vue')['default']
-    NewComponent: typeof import('./src/components/start/NewComponent.vue')['default']
     NewGameButtons: typeof import('./src/components/start/NewGameButtons.vue')['default']
     Overlay: typeof import('./src/components/common/Overlay.vue')['default']
     PauseIcon: typeof import('./src/components/common/icons/PauseIcon.vue')['default']
