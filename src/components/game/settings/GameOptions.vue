@@ -2,11 +2,14 @@
 import { AnimatePresence, motion } from 'motion-v';
 import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import PauseIcon from '@/components/common/icons/PauseIcon.vue';
 import SettingsIcon from '@/components/common/icons/SettingsIcon.vue';
 import SkipIcon from '@/components/common/icons/SkipIcon.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
+import RevealZoomTransition from '@/components/common/transitions/RevealZoomTransition.vue';
+import ZoomTransition from '@/components/common/transitions/ZoomTransition.vue';
 import AutoPauseToggle from '@/components/game/settings/AutoPauseToggle.vue';
 import AutoSaveToggle from '@/components/game/settings/AutoSaveToggle.vue';
 import BoxShuffle from '@/components/game/settings/BoxShuffle.vue';
@@ -29,29 +32,24 @@ import TypeShuffle from '@/components/game/settings/TypeShuffle.vue';
 import { useShuffles } from '@/composables/useShuffles.ts';
 import { useBonus } from '@/stores/useBonus.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
+import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.ts';
 
+const { t } = useI18n();
 const { flowState, toggleSettings, pauseGame } = useGameFlow();
 const { isChallengeMode } = storeToRefs(useGameFlow());
 const { updateShuffles } = useShuffles();
 const { state } = useState();
-const { bonusState } = useBonus();
+const { skipsState, useSkip } = useSkips();
 
-const skips = ref(0);
+const canSkip = computed(() => {
+  if (!state.withBoxShuffle && !state.withTypeShuffle && !state.withCriesShuffle) return false;
 
-const isShuffleMode = computed(() => {
-  if (!skips.value && isChallengeMode.value) return false;
+  const numSkips = skipsState.skips;
+  if (numSkips > 0) return true;
 
-  return state.withBoxShuffle || state.withTypeShuffle || state.withCriesShuffle;
+  return !isChallengeMode.value;
 });
-
-watch(
-  () => bonusState.score,
-  (newScore) => {
-    skips.value = newScore;
-  },
-  { immediate: true },
-);
 
 const openSettings = () => {
   toggleSettings();
@@ -60,6 +58,7 @@ const openSettings = () => {
 const togglePause = () => pauseGame();
 
 const skipPokemon = () => {
+  useSkip();
   updateShuffles();
 };
 </script>
@@ -73,6 +72,7 @@ const skipPokemon = () => {
         <!-- Settings -->
         <RoundedButton
           class="settings rad-br-tl"
+          v-tooltip:top="t('toggleSettings')"
           @click="openSettings"
         >
           <SettingsIcon />
@@ -81,19 +81,24 @@ const skipPokemon = () => {
         <!-- Pause -->
         <RoundedButton
           class="settings rad-br-tl"
+          v-tooltip:top="t('pause')"
           @click="togglePause"
         >
           <PauseIcon />
         </RoundedButton>
 
         <!-- Skip -->
-        <RoundedButton
-          class="settings rad-br-tl"
-          @click="skipPokemon"
-          v-if="isShuffleMode"
-        >
-          <SkipIcon />
-        </RoundedButton>
+        <RevealZoomTransition>
+          <RoundedButton
+            class="settings rad-br-tl"
+            @click="skipPokemon"
+            v-tooltip:top="t('skip', { count: skipsState.skips })"
+            v-if="canSkip"
+          >
+            <SkipIcon />
+            <span class="skip-count">{{ skipsState.skips }}</span>
+          </RoundedButton>
+        </RevealZoomTransition>
       </div>
     </div>
 
@@ -181,10 +186,21 @@ const skipPokemon = () => {
 
 .settings {
   min-width: 0;
+  position: relative;
 
   * {
     color: var(--text);
     stroke: var(--text);
   }
+}
+
+.skip-count {
+  position: absolute;
+  top: -8px;
+  right: -2px;
+  color: var(--text);
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 4px;
 }
 </style>
