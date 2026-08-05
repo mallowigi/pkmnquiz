@@ -1,24 +1,26 @@
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
+import vue from '@vitejs/plugin-vue';
+import MotionResolver from 'motion-v/resolver';
 import { fileURLToPath, URL } from 'node:url';
+import Components from 'unplugin-vue-components/vite';
 
 import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import vueDevTools from 'vite-plugin-vue-devtools';
-import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
-import Components from 'unplugin-vue-components/vite';
-import MotionResolver from 'motion-v/resolver';
 import { VitePWA } from 'vite-plugin-pwa';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
 // https://vite.dev/config/
 export default defineConfig({
+  css: {
+    transformer: 'postcss',
+  },
   plugins: [
     vue(),
     vueDevTools(),
-    VueI18nPlugin({
-    }),
+    VueI18nPlugin({}),
     Components({
       dts: true,
       resolvers: [
-        MotionResolver()
+        MotionResolver(),
       ],
     }),
     VitePWA({
@@ -26,28 +28,28 @@ export default defineConfig({
         background_color: '#31adbb',
         description: 'A Pokémon guessing game built with Vue.js',
         display: 'standalone',
-        "icons": [
+        icons: [
           {
-            "sizes": "64x64",
-            "src": "pwa-64x64.png",
-            "type": "image/png"
+            sizes: '64x64',
+            src: 'pwa-64x64.png',
+            type: 'image/png',
           },
           {
-            "sizes": "192x192",
-            "src": "pwa-192x192.png",
-            "type": "image/png"
+            sizes: '192x192',
+            src: 'pwa-192x192.png',
+            type: 'image/png',
           },
           {
-            "sizes": "512x512",
-            "src": "pwa-512x512.png",
-            "type": "image/png"
+            sizes: '512x512',
+            src: 'pwa-512x512.png',
+            type: 'image/png',
           },
           {
-            "purpose": "maskable",
-            "sizes": "512x512",
-            "src": "maskable-icon-512x512.png",
-            "type": "image/png"
-          }
+            purpose: 'maskable',
+            sizes: '512x512',
+            src: 'maskable-icon-512x512.png',
+            type: 'image/png',
+          },
         ],
         name: 'Pokemon Vue Quiz',
         orientation: 'any',
