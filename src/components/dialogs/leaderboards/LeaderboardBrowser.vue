@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 
 import MorphTransition from '@/components/common/transitions/MorphTransition.vue';
-import Leaderboards from '@/components/start/Leaderboards.vue';
+import Leaderboards from '@/components/start/leaderboards/Leaderboards.vue';
 import { useLeaderboardBrowser } from '@/composables/useLeaderboardBrowser.ts';
 
 const { t } = useI18n();

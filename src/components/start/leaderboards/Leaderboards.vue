@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import LeaderboardTable from '@/components/start/LeaderboardTable.vue';
-import SkeletonTable from '@/components/start/SkeletonTable.vue';
+import LeaderboardTable from '@/components/start/leaderboards/LeaderboardTable.vue';
+import SkeletonTable from '@/components/start/leaderboards/SkeletonTable.vue';
 import type { TopTrainer } from '@/types.ts';
 
 const props = defineProps<TopTrainer>();

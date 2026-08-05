@@ -3,7 +3,7 @@ import type { DocumentData } from 'firebase/firestore';
 import { useI18n } from 'vue-i18n';
 
 import { useLeaderboards } from '@/composables/useLeaderboards.ts';
-import { useTranslations } from '@/composables/useTranslations.js';
+import { useTranslations } from '@/composables/useTranslations.ts';
 import type { Mode, GameMode, Gen, Type, TopTrainer } from '@/types.ts';
 
 const props = defineProps<TopTrainer>();

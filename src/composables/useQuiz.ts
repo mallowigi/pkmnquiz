@@ -152,6 +152,8 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     setTitle();
     resetPokemonState();
     resetTimer();
+    resetBonus();
+    resetSkips();
     setGameSelectionState(null);
     startGame();
     scrollToTop();

@@ -2,7 +2,7 @@
 import { useAuth } from '@vueuse/firebase';
 import { useI18n } from 'vue-i18n';
 
-import Leaderboards from '@/components/start/Leaderboards.vue';
+import Leaderboards from '@/components/start/leaderboards/Leaderboards.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 
 const { auth } = useFirebase();
