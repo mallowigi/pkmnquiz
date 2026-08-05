@@ -13,6 +13,7 @@ import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useSettings } from '@/stores/useSettings.ts';
+import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.ts';
 import { useTimer } from '@/stores/useTimer.ts';
 import { useTouches } from '@/stores/useTouches.ts';
@@ -84,6 +85,7 @@ export const useSavedData = () => {
     const { flowState } = useGameFlow();
     const { touchesState } = useTouches();
     const { bonusState } = useBonus();
+    const { skipsState } = useSkips();
 
     const pokemonFound: PokemonProgress['pokemonFound'] = [];
     const pokemonShadowed: PokemonProgress['pokemonShadowed'] = [];
@@ -121,6 +123,8 @@ export const useSavedData = () => {
       },
       score: bonusState.score,
       sessionId: flowState.sessionId,
+      skipScore: skipsState.skipScore,
+      skips: skipsState.skips,
       timer: {
         ...timerState,
         savedAt: Date.now(),
@@ -183,6 +187,7 @@ export const useSavedData = () => {
     const { setLanguages, resetLanguages, setSettingsState } = useSettings();
     const { setTouchesState } = useTouches();
     const { setScore } = useBonus();
+    const { setSkips } = useSkips();
 
     const {
       currentTypes,
@@ -196,6 +201,8 @@ export const useSavedData = () => {
       gameSelectionState,
       challengeMode,
       score,
+      skipScore,
+      skips,
       version: _version,
       ...statePayload
     } = loadedState as Partial<SaveData>;
@@ -353,7 +360,12 @@ export const useSavedData = () => {
       typeShuffleClicks: statePayload.typeShuffleClicks ?? 0,
     });
 
+    // Bonus and Skips
     setScore(score ?? 0);
+    setSkips({
+      skipScore: skipScore ?? 0,
+      skips: skips ?? 0,
+    });
 
     showUserMessage(i18n.global.t('quizLoaded'));
     setTitle();

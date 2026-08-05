@@ -173,6 +173,17 @@ export type Profile = {
   finishedGames: FinishedGames;
 };
 
+export type Bonus = {
+  bonus: number;
+  score: number;
+  spellCheckerTriggered: boolean;
+};
+
+export type Skips = {
+  skipScore: number;
+  skips: number;
+};
+
 export type State = {
   gameMode: GameMode | null;
   isDark: boolean;
@@ -297,6 +308,8 @@ export type SaveData = State &
     languages: Language[];
     pokemonProgress: PokemonProgress;
     score: number;
+    skips: number;
+    skipScore: number;
     timer: TimerState;
     version: number;
   };

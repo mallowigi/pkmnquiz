@@ -1,8 +1,11 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive } from 'vue';
 
+import { useSkips } from '@/stores/useSkips.ts';
+import type { Bonus } from '@/types.ts';
+
 export const useBonus = defineStore('bonus', () => {
-  const bonusState = reactive({
+  const bonusState = reactive<Bonus>({
     bonus: 1,
     score: 0,
     spellCheckerTriggered: false,
@@ -45,6 +48,7 @@ export const useBonus = defineStore('bonus', () => {
   };
 
   const addScore = (isShadowed: boolean) => {
+    const { addSkipScore } = useSkips();
     if (bonusState.spellCheckerTriggered || isShadowed) {
       bonusState.spellCheckerTriggered = false;
       return;
@@ -52,6 +56,7 @@ export const useBonus = defineStore('bonus', () => {
 
     bonusState.score += bonusState.bonus;
     bonusState.spellCheckerTriggered = false;
+    addSkipScore(bonusState.bonus);
     startBonusSequence();
   };
 
