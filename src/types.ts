@@ -333,3 +333,5 @@ export const availableLanguages = ['en', 'cn', 'de', 'es', 'fr', 'it', 'jp', 'ko
 export type TopTrainer = UserRecord & {
   id: string;
 };
+
+export type PokemonDetails = PokemonInfo & {};
