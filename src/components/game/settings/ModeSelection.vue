@@ -4,23 +4,17 @@ import { useI18n } from 'vue-i18n';
 
 import RoundedBox from '@/components/common/RoundedBox.vue';
 import SegmentButton from '@/components/common/SegmentButton.vue';
-import { useBonus } from '@/stores/useBonus.ts';
+import { useQuiz } from '@/composables/useQuiz.ts';
 import { useDialogs } from '@/stores/useDialogs.js';
 import { useGameFlow } from '@/stores/useGameFlow.js';
-import { usePokemons } from '@/stores/usePokemons.ts';
-import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.js';
-import { useTimer } from '@/stores/useTimer.ts';
 import type { Mode } from '@/types.js';
 import { scrollToTop } from '@/utils/utils.ts';
 
 const { state, setMode } = useState();
 const { flowState } = useGameFlow();
 const { setDialog } = useDialogs();
-const { resetPokemonState } = usePokemons();
-const { resetTimer } = useTimer();
-const { resetBonus } = useBonus();
-const { resetSkips } = useSkips();
+const { resetQuiz } = useQuiz();
 const { t } = useI18n();
 
 const applyMode = (mode: Mode) => {
@@ -32,10 +26,7 @@ const applyMode = (mode: Mode) => {
   }
   setDialog(mode, () => {
     setMode(mode);
-    resetPokemonState();
-    resetTimer();
-    resetBonus();
-    resetSkips();
+    resetQuiz();
     scrollToTop();
   });
 };

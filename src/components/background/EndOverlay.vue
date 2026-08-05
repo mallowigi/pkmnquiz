@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 
 import ShareSocials from '@/components/background/ShareSocials.vue';
 import Overlay from '@/components/common/Overlay.vue';
+import { useQuiz } from '@/composables/useQuiz.ts';
 import { useSavedLocale } from '@/composables/useSavedLocale.ts';
 import { donors } from '@/data/donors';
 import { useBonus } from '@/stores/useBonus.ts';
@@ -13,23 +14,20 @@ import { useCurrentGen } from '@/stores/useCurrentGen';
 import { useCurrentType } from '@/stores/useCurrentType';
 import { useGameFlow } from '@/stores/useGameFlow';
 import { usePokemons } from '@/stores/usePokemons';
-import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState';
 import { useTimer } from '@/stores/useTimer';
 
 const { setGameOver } = useState();
 const { setCurrentGens } = useCurrentGen();
 const { clearCurrentTypes } = useCurrentType();
-const { resetFlowState, setGameSelectionState } = useGameFlow();
-const { resetTimer, timerState } = useTimer();
-const { resetBonus } = useBonus();
-const { resetSkips } = useSkips();
+const { setGameSelectionState } = useGameFlow();
+const { timerState } = useTimer();
 const { t } = useI18n();
 
+const { resetQuiz } = useQuiz();
 const pokemonStore = usePokemons();
 const { bonusState } = useBonus();
 const { numFound, numShadows } = storeToRefs(pokemonStore);
-const { resetPokemonState } = pokemonStore;
 const { savedLocale } = useSavedLocale();
 
 const elapsed = computed(() => {
@@ -53,12 +51,8 @@ const elapsed = computed(() => {
 const closeOverlay = () => {
   clearCurrentTypes();
   setCurrentGens([]);
-  resetFlowState();
   setGameSelectionState('new');
-  resetPokemonState();
-  resetTimer();
-  resetBonus();
-  resetSkips();
+  resetQuiz();
   setGameOver();
 };
 </script>

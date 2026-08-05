@@ -16,7 +16,7 @@ import type { Type, Gen } from '@/types.ts';
 import { scrollToTop, capitalize } from '@/utils/utils.ts';
 
 export const useQuiz = ({ withDialog = false } = {}) => {
-  const { startGame, setGameSelectionState } = useGameFlow();
+  const { startGame, resetFlowState, setGameSelectionState } = useGameFlow();
   const { setGameMode, state } = useState();
   const { setDialog } = useDialogs();
   const { clearCurrentGens, setCurrentGens, getNextGen } = useCurrentGen();
@@ -32,6 +32,14 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { getBoxTranslation, getGameModeTranslation, getTypeTranslation } = useTranslations();
   const { setTitle } = usePageTitle();
 
+  const resetQuiz = () => {
+    resetPokemonState();
+    resetTimer();
+    resetBonus();
+    resetSkips();
+    resetFlowState();
+  };
+
   const setFullQuiz = () => {
     if (state.gameMode === 'full') return;
 
@@ -40,11 +48,8 @@ export const useQuiz = ({ withDialog = false } = {}) => {
       clearCurrentGens();
       clearCurrentBox();
       clearCurrentTypes();
-      resetPokemonState();
+      resetQuiz();
       updateShuffles();
-      resetTimer();
-      resetBonus();
-      resetSkips();
       startGame();
       scrollToTop();
       setTitle();
@@ -65,11 +70,8 @@ export const useQuiz = ({ withDialog = false } = {}) => {
       setGameMode('gen');
       clearCurrentTypes();
       setCurrentGens(gens);
-      resetPokemonState();
+      resetQuiz();
       updateShuffles();
-      resetTimer();
-      resetBonus();
-      resetSkips();
       startGame();
       scrollToTop();
       setTitle();
@@ -89,10 +91,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     const onQuizStart = () => {
       clearCurrentGens();
       clearCurrentTypes();
-      resetPokemonState();
-      resetTimer();
-      resetBonus();
-      resetSkips();
+      resetQuiz();
       setGameSelectionState('types');
       scrollToTop();
     };
@@ -113,11 +112,8 @@ export const useQuiz = ({ withDialog = false } = {}) => {
       clearCurrentTypes();
       setCurrentTypes(types);
       setGameMode('types');
-      resetPokemonState();
+      resetQuiz();
       updateShuffles();
-      resetTimer();
-      resetBonus();
-      resetSkips();
       startGame();
       scrollToTop();
       setTitle();
@@ -150,10 +146,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     }
 
     setTitle();
-    resetPokemonState();
-    resetTimer();
-    resetBonus();
-    resetSkips();
+    resetQuiz();
     setGameSelectionState(null);
     startGame();
     scrollToTop();
@@ -200,6 +193,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
 
   return {
     getGameModeName,
+    resetQuiz,
     setFullQuiz,
     setGenQuiz,
     setTitle,

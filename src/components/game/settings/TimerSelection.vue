@@ -4,19 +4,15 @@ import { useI18n } from 'vue-i18n';
 
 import RoundedBox from '@/components/common/RoundedBox.vue';
 import SegmentButton from '@/components/common/SegmentButton.vue';
+import { useQuiz } from '@/composables/useQuiz.ts';
 import { useShuffles } from '@/composables/useShuffles.ts';
-import { useBonus } from '@/stores/useBonus.ts';
 import { useDialogs } from '@/stores/useDialogs.js';
 import { useGameFlow } from '@/stores/useGameFlow';
-import { usePokemons } from '@/stores/usePokemons';
-import { useSkips } from '@/stores/useSkips.ts';
 import { useTimer } from '@/stores/useTimer';
 
-const { flowState, resetFlowState, pauseGame, startGame } = useGameFlow();
-const { resetPokemonState } = usePokemons();
-const { resetTimer, setMinutes, setIsLimited, timerState } = useTimer();
-const { resetBonus } = useBonus();
-const { resetSkips } = useSkips();
+const { flowState, pauseGame, startGame } = useGameFlow();
+const { setMinutes, setIsLimited, timerState } = useTimer();
+const { resetQuiz } = useQuiz();
 const { updateShuffles } = useShuffles();
 const { setDialog } = useDialogs();
 const { t } = useI18n();
@@ -30,12 +26,8 @@ const setInfinite = () => {
   }
 
   setDialog('timer', () => {
-    resetFlowState();
-    resetPokemonState();
+    resetQuiz();
     updateShuffles();
-    resetTimer();
-    resetBonus();
-    resetSkips();
     setIsLimited(false);
     startGame();
   });
@@ -48,12 +40,8 @@ const setFinite = () => {
   }
 
   setDialog('timer', () => {
-    resetFlowState();
-    resetPokemonState();
+    resetQuiz();
     updateShuffles();
-    resetTimer();
-    resetBonus();
-    resetSkips();
     setIsLimited(true);
     startGame();
   });

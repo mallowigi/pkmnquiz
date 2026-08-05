@@ -3,31 +3,21 @@ import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
+import { useQuiz } from '@/composables/useQuiz.ts';
 import { useShuffles } from '@/composables/useShuffles.ts';
-import { useBonus } from '@/stores/useBonus.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow';
-import { usePokemons } from '@/stores/usePokemons';
-import { useSkips } from '@/stores/useSkips.ts';
-import { useTimer } from '@/stores/useTimer';
 
-const { resetFlowState, startGame } = useGameFlow();
-const { resetPokemonState } = usePokemons();
-const { resetTimer } = useTimer();
-const { resetBonus } = useBonus();
-const { resetSkips } = useSkips();
+const { startGame } = useGameFlow();
+const { resetQuiz } = useQuiz();
 const { updateShuffles } = useShuffles();
 const { dialogs, closeDialog } = useDialogs();
 const { t } = useI18n();
 
 const reset = () => {
   closeDialog();
-  resetPokemonState();
+  resetQuiz();
   updateShuffles();
-  resetTimer();
-  resetBonus();
-  resetSkips();
-  resetFlowState();
   startGame();
 
   if (dialogs.callback) {
