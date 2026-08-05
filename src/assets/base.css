@@ -102,7 +102,7 @@
   color: black;
 }
 
-::search-text:current {
+::highlight(current) {
   background: var(--type-bg-color, var(--darkPrimary));
   color: white;
 }
