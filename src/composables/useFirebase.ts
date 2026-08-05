@@ -1,7 +1,19 @@
 import { useOnline } from '@vueuse/core';
 import { useFirestore } from '@vueuse/firebase';
 import { onAuthStateChanged, signInAnonymously, signOut } from 'firebase/auth';
-import { collection, doc, getDoc, getDocs, limit, orderBy, query, setDoc, where, deleteDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  setDoc,
+  where,
+  deleteDoc,
+  Query,
+} from 'firebase/firestore';
 import { storeToRefs, acceptHMRUpdate, defineStore } from 'pinia';
 import { reactive } from 'vue';
 
@@ -18,7 +30,7 @@ import { usePokemons } from '@/stores/usePokemons.ts';
 import { useProfile } from '@/stores/useProfile.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useTimer } from '@/stores/useTimer.ts';
-import type { UserRecord, GameMode, Gen, Mode, Type, SaveData } from '@/types.ts';
+import type { UserRecord, GameMode, Gen, Mode, Type, SaveData, TopTrainer } from '@/types.ts';
 
 type TopTrainersOptions = {
   gameMode?: GameMode | null;
@@ -178,7 +190,7 @@ export const useFirebase = defineStore('firebase', () => {
     return null;
   };
 
-  const prepareQuery = ({ uid, mode, gameMode, gen, type, limit: queryLimit }: TopTrainersOptions) => {
+  const prepareTopTrainersQuery = ({ uid, mode, gameMode, gen, type, limit: queryLimit }: TopTrainersOptions) => {
     checkOnline('getTopTrainersAsync');
 
     const andCondition = [where('hasGivenUp', '==', false)];
@@ -200,32 +212,27 @@ export const useFirebase = defineStore('firebase', () => {
       }
     }
 
-    return query(
-      collection(db, 'leaderboards'),
-      ...andCondition,
-      orderBy('time', 'asc'),
-      limit(queryLimit ?? 0)
-    );
+    return query(collection(db, 'leaderboards'), ...andCondition, orderBy('time', 'asc'), limit(queryLimit ?? 0));
   };
 
   const getTopTrainers = ({ gameMode, gen, limit: queryLimit = 3, mode, type, uid }: TopTrainersOptions = {}) => {
-   const leaderBoardQuery = prepareQuery({
+    const leaderBoardQuery = prepareTopTrainersQuery({
       gameMode: gameMode,
       gen: gen,
       limit: queryLimit,
       mode: mode,
       type: type,
       uid: uid,
-    })
+    });
 
-    return useFirestore(leaderBoardQuery, undefined, {
+    return useFirestore<TopTrainer>(leaderBoardQuery as Query<TopTrainer>, undefined, {
       autoDispose: false,
       errorHandler: (error) => showErrorMessage(error, 'Firestore error'),
     });
   };
 
-  const getTopTrainersAsync = async ({ gameMode, gen, limit = 3, mode, type, uid, }: TopTrainersOptions = {}) => {
-    const leaderBoardQuery = prepareQuery({
+  const getTopTrainersAsync = async ({ gameMode, gen, limit = 3, mode, type, uid }: TopTrainersOptions = {}) => {
+    const leaderBoardQuery = prepareTopTrainersQuery({
       gameMode: gameMode,
       gen: gen,
       limit: limit,
@@ -236,10 +243,13 @@ export const useFirebase = defineStore('firebase', () => {
 
     try {
       const snapshot = await getDocs(leaderBoardQuery);
-      return snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      return snapshot.docs.map(
+        (doc) =>
+          ({
+            ...doc.data(),
+            id: doc.id,
+          }) as TopTrainer,
+      );
     } catch (error) {
       showErrorMessage(error, 'Firestore error');
       throw error;

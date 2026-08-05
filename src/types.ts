@@ -316,3 +316,7 @@ export interface UserRecord extends DocumentData, SaveData {
 }
 
 export const availableLanguages = ['en', 'cn', 'de', 'es', 'fr', 'it', 'jp', 'ko', 'pt', 'ru', 'zh'];
+
+export type TopTrainer = UserRecord & {
+  id: string;
+};
