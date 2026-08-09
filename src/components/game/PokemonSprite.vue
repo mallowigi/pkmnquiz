@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useScroll } from '@vueuse/core';
-import { computed, capitalize, watch, useTemplateRef, nextTick } from 'vue';
+import { computed, capitalize, watch, useTemplateRef, nextTick, ref } from 'vue';
 
 import CyclingSprite from '@/components/common/CyclingSprite.vue';
 import RevealZoomTransition from '@/components/common/transitions/RevealZoomTransition.vue';
@@ -8,9 +8,10 @@ import LastPokemon from '@/components/header/LastPokemon.vue';
 import { useGlitchedEffect } from '@/composables/useGlitchedEffect.ts';
 import { useUnknownSprite } from '@/composables/useUnknownSprite.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
+import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 import { usePkmnData } from '@/stores/usePkmnStore.ts';
-import { useState } from '@/stores/useState.ts';
 import { useSettings } from '@/stores/useSettings.ts';
+import { useState } from '@/stores/useState.ts';
 import type { PokemonInfo, PokemonStatus } from '@/types.ts';
 import { glitchify } from '@/utils/utils.ts';
 
@@ -43,6 +44,8 @@ const { flowState } = useGameFlow();
 const { data } = usePkmnData();
 const { unknownSprite } = useUnknownSprite();
 const { glitchStyles } = useGlitchedEffect();
+const { displayPokemonDetails } = usePkmnDetails();
+
 const el = useTemplateRef('el');
 const { isScrolling } = useScroll(el);
 
@@ -129,6 +132,12 @@ const isDitto = computed(() => {
   return props.pokemon.baseName === 'ditto';
 });
 
+const onClick = async () => {
+  if (!props.status.isFound || props.status.isShadowed) return;
+
+  displayPokemonDetails(props.pokemon.id);
+};
+
 watch(displayedSprite, (newSprite, oldSprite) => {
   if (newSprite.kind === 'unknown' || newSprite.kind === oldSprite?.kind) return;
 
@@ -165,6 +174,7 @@ watch(displayedSprite, (newSprite, oldSprite) => {
     >
       <div
         :key="displayedSprite.key"
+        @click="onClick"
         class="sprite"
         :class="displayedSprite.kind"
         v-tooltip:bottom="displayedSprite.title ?? null"

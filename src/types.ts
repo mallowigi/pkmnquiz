@@ -1,5 +1,6 @@
 import { type User } from 'firebase/auth';
 import type { DocumentData } from 'firebase/firestore';
+import type { Pokemon } from 'pokenode-ts';
 
 export type Dialog =
   | 'changeName'
@@ -334,4 +335,4 @@ export type TopTrainer = UserRecord & {
   id: string;
 };
 
-export type PokemonDetails = PokemonInfo & {};
+export type PokemonDetails = Pokemon & {};

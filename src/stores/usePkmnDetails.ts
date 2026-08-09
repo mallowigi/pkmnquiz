@@ -1,54 +1,60 @@
-import { useFetch } from '@vueuse/core';
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { reactive, ref } from 'vue';
+import { PokemonClient } from 'pokenode-ts';
+import { reactive } from 'vue';
 
 import type { PokemonDetails } from '@/types.ts';
 
 interface PkmnDetails {
+  currentPokemon: PokemonDetails | null;
   detailsMap: Map<string, PokemonDetails>;
+  error: string | null;
   isOpen: boolean;
 }
 
 export const usePkmnDetails = defineStore('pkmnDetails', () => {
   const pkmnDetailsState = reactive<PkmnDetails>({
+    currentPokemon: null,
     detailsMap: new Map<string, PokemonDetails>(),
+    error: null,
     isOpen: false,
   });
 
-  const POKEAPI_URL = 'https://pokeapi.co/api/v2';
-
-  const pokemonUrl = ref(`${POKEAPI_URL}/pokemon/`);
-  // const pokemonSpeciesUrl = ref(`${POKEAPI_URL}/pokemon-species/`);
-
-  const pokemonFetcher = useFetch(pokemonUrl, { immediate: false });
-  // const pokemonSpeciesFetcher = useFetch(pokemonSpeciesUrl, { immediate: false, refetch: true });
+  const api = new PokemonClient();
 
   const setOpen = (isOpen: boolean) => {
     pkmnDetailsState.isOpen = isOpen;
   };
 
-  const getDetails = (id: string) => {
-    return pkmnDetailsState.detailsMap.get(id);
+  const fetchPokemon = async (id: string) => {
+    const response = await api.getPokemonByName(id);
+    if (response) {
+      pkmnDetailsState.detailsMap.set(id, response);
+    }
+    return response;
   };
 
-  const fetchPokemon = (id: string) => {
-    return useFetch(`${POKEAPI_URL}/pokemon/${id}`, {
-      afterFetch: (response) => {
-        console.log('Fetched Pokemon Data:', response.data);
-        // Need to parse the API though
-        pkmnDetailsState.detailsMap.set(id, response.data);
-        return response;
-      },
-      immediate: false,
-    });
+  const displayPokemonDetails = async (id: string) => {
+    const details = pkmnDetailsState.detailsMap.get(id);
+
+    if (details) {
+      pkmnDetailsState.currentPokemon = details;
+      setOpen(true);
+      return;
+    }
+
+    const fetchedDetails = await fetchPokemon(id);
+    if (fetchedDetails) {
+      pkmnDetailsState.currentPokemon = fetchedDetails;
+      setOpen(true);
+      return;
+    } else {
+      pkmnDetailsState.error = `Failed to fetch details for Pokémon with ID: ${id}`;
+    }
   };
 
   return {
-    fetchPokemon,
-    getDetails,
+    displayPokemonDetails,
     pkmnDetailsState,
-    pokemonFetcher,
-    setOpen,
   };
 });
 
