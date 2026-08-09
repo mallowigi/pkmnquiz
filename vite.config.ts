@@ -14,7 +14,14 @@ export default defineConfig({
     transformer: 'postcss',
   },
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          // Prevents warnings for the new <selectedcontent> tag
+          isCustomElement: (tag) => ['selectedcontent'].includes(tag)
+        }
+      }
+    }),
     vueDevTools(),
     VueI18nPlugin({}),
     Components({
