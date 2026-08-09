@@ -1,0 +1,409 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
+import SlideInRightTransition from '@/components/common/transitions/SlideInRightTransition.vue';
+import { pokemonTypes } from '@/data/pokemonTypes.ts';
+import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
+
+const { pkmnDetailsState, closeDetails } = usePkmnDetails();
+const { t } = useI18n();
+
+const getStatPercentage = (value: number) => {
+  return Math.min(100, (value / 255) * 100);
+};
+
+const formatValue = (value: number, unit: string) => {
+  return `${value}${unit}`;
+};
+
+const getTypeStyle = (type: string) => {
+  const typeInfo = pokemonTypes[type as keyof typeof pokemonTypes];
+  if (!typeInfo) return {};
+  return {
+    backgroundColor: typeInfo.bgColor,
+    color: typeInfo.fgColor,
+  };
+};
+</script>
+
+<template>
+  <SlideInRightTransition>
+    <div
+      v-if="pkmnDetailsState.isOpen"
+      class="details-pane-overlay"
+      @click.self="closeDetails"
+    >
+      <aside
+        class="details-pane"
+        v-if="pkmnDetailsState.currentPokemon"
+      >
+        <button
+          class="close-btn"
+          @click="closeDetails"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
+        <div class="pane-header">
+          <div class="artwork-container">
+            <img
+              :src="pkmnDetailsState.currentPokemon.artwork"
+              :alt="pkmnDetailsState.currentPokemon.baseName"
+              class="artwork"
+            />
+          </div>
+          <div class="basic-info">
+            <span class="dex-num">#{{ String(pkmnDetailsState.currentPokemon.dexNum).padStart(3, '0') }}</span>
+            <h2 class="name">{{ pkmnDetailsState.currentPokemon.baseName }}</h2>
+            <div class="types">
+              <span
+                v-for="type in [
+                  pkmnDetailsState.currentPokemon.primaryType,
+                  pkmnDetailsState.currentPokemon.secondaryType,
+                ].filter(Boolean)"
+                :key="type"
+                class="type-badge"
+                :style="getTypeStyle(type!)"
+              >
+                {{ t(type!) }}
+              </span>
+            </div>
+            <p class="species">{{ pkmnDetailsState.currentPokemon.species }}</p>
+          </div>
+        </div>
+
+        <div class="pane-content">
+          <section class="description">
+            <p>{{ pkmnDetailsState.currentPokemon.description }}</p>
+          </section>
+
+          <section class="details-grid">
+            <div class="detail-item">
+              <span class="label">{{ t('height') }}</span>
+              <span class="value">{{ formatValue(pkmnDetailsState.currentPokemon.height, 'm') }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">{{ t('weight') }}</span>
+              <span class="value">{{ formatValue(pkmnDetailsState.currentPokemon.weight, 'kg') }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">{{ t('abilities') }}</span>
+              <span class="value">{{ pkmnDetailsState.currentPokemon.abilities.join(', ') }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">{{ t('catchRate') }}</span>
+              <span class="value">{{ pkmnDetailsState.currentPokemon.catchRate }}</span>
+            </div>
+          </section>
+
+          <section class="stats-section">
+            <h3>{{ t('stats') }}</h3>
+            <div
+              v-for="(value, stat) in pkmnDetailsState.currentPokemon.stats"
+              :key="stat"
+              class="stat-row"
+            >
+              <span class="stat-label">{{ t(stat) }}</span>
+              <span class="stat-value">{{ value }}</span>
+              <div class="stat-bar-container">
+                <div
+                  class="stat-bar"
+                  :style="{ width: getStatPercentage(value) + '%', backgroundColor: 'var(--primary)' }"
+                ></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="gender-section">
+            <h3>{{ t('genderRatio') }}</h3>
+            <div
+              v-if="pkmnDetailsState.currentPokemon.genderRatio === 'genderless'"
+              class="genderless"
+            >
+              {{ t('genderless') }}
+            </div>
+            <div
+              v-else
+              class="gender-bar-container"
+            >
+              <div
+                class="gender-bar male"
+                :style="{ width: pkmnDetailsState.currentPokemon.genderRatio.male + '%' }"
+              >
+                <span v-if="pkmnDetailsState.currentPokemon.genderRatio.male > 0"
+                  >{{ pkmnDetailsState.currentPokemon.genderRatio.male }}% ♂</span
+                >
+              </div>
+              <div
+                class="gender-bar female"
+                :style="{ width: pkmnDetailsState.currentPokemon.genderRatio.female + '%' }"
+              >
+                <span v-if="pkmnDetailsState.currentPokemon.genderRatio.female > 0"
+                  >{{ pkmnDetailsState.currentPokemon.genderRatio.female }}% ♀</span
+                >
+              </div>
+            </div>
+          </section>
+        </div>
+      </aside>
+
+      <aside
+        v-else-if="pkmnDetailsState.loading"
+        class="details-pane loading"
+      >
+        <div class="loader"></div>
+        <p>Loading details...</p>
+      </aside>
+
+      <aside
+        v-else-if="pkmnDetailsState.error"
+        class="details-pane error"
+      >
+        <button
+          class="close-btn"
+          @click="closeDetails"
+          aria-label="Close"
+        >
+          ×
+        </button>
+        <p>{{ pkmnDetailsState.error }}</p>
+      </aside>
+    </div>
+  </SlideInRightTransition>
+</template>
+
+<style scoped>
+.details-pane-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.details-pane {
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  background-color: var(--button);
+  color: var(--text);
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  border-left: 2px solid var(--primary);
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text);
+  cursor: pointer;
+  z-index: 10;
+  line-height: 1;
+}
+
+.pane-header {
+  padding: 2rem 1.5rem 1rem;
+  text-align: center;
+  background: linear-gradient(to bottom, var(--primary) 0%, transparent 100%);
+  background-size: 100% 150px;
+  background-repeat: no-repeat;
+}
+
+.artwork-container {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artwork {
+  max-width: 100%;
+  max-height: 100%;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+}
+
+.name {
+  margin: 0.5rem 0;
+  text-transform: capitalize;
+  font-size: 1.8rem;
+}
+
+.dex-num {
+  font-family: monospace;
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+.types {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.type-badge {
+  padding: 0.2rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.species {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.pane-content {
+  padding: 1rem 1.5rem 2rem;
+}
+
+.description {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.value {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.stats-section,
+.gender-section {
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  border-bottom: 1px solid var(--primary);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  gap: 0.5rem;
+}
+
+.stat-label {
+  width: 60px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  width: 30px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.stat-bar-container {
+  flex-grow: 1;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.stat-bar {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.gender-bar-container {
+  display: flex;
+  height: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.gender-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.male {
+  background-color: #4a90e2;
+}
+
+.female {
+  background-color: #e91e63;
+}
+
+.genderless {
+  text-align: center;
+  font-style: italic;
+}
+
+.loading,
+.error {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.loader {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .details-pane {
+    max-width: 100%;
+  }
+}
+</style>

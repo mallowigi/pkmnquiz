@@ -14,6 +14,7 @@ import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
 import Dialogs from '@/components/dialogs/Dialogs.vue';
 import GameFooter from '@/components/footer/GameFooter.vue';
 import Game from '@/components/game/Game.vue';
+import PokemonDetailsPane from '@/components/game/PokemonDetailsPane.vue';
 import GameHeader from '@/components/header/GameHeader.vue';
 import GameSelection from '@/components/start/genSelection/GameSelection.vue';
 import { useAppBreakpoints } from '@/composables/useAppBreakpoints.ts';
@@ -127,6 +128,9 @@ watch(
 
     <!-- Scroll Top -->
     <ScrollTop />
+
+    <!-- Details Pane -->
+    <PokemonDetailsPane />
   </main>
 </template>
 
