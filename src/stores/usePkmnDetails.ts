@@ -1,6 +1,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { PokemonClient, type Pokemon, type PokemonSpecies } from 'pokenode-ts';
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { usePokemons } from '@/stores/usePokemons.ts';
 import type { PokemonDetails, PokemonInfo } from '@/types.ts';
@@ -14,6 +15,7 @@ interface PkmnDetails {
 }
 
 export const usePkmnDetails = defineStore('pkmnDetails', () => {
+  const { locale } = useI18n();
   const pkmnDetailsState = reactive<PkmnDetails>({
     currentPokemon: null,
     detailsMap: new Map<string, PokemonDetails>(),
@@ -23,6 +25,25 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
   });
 
   const api = new PokemonClient();
+
+  watch(locale, () => {
+    pkmnDetailsState.detailsMap.clear();
+  });
+
+  const getLanguageCode = (lang: string) => {
+    switch (lang) {
+      case 'jp':
+        return 'ja';
+      case 'zh':
+        return 'zh-Hant';
+      case 'cn':
+        return 'zh-Hans';
+      case 'pt':
+        return 'pt-BR';
+      default:
+        return lang;
+    }
+  };
 
   const convertStats = (stats: Pokemon['stats']): PokemonDetails['stats'] => {
     return stats.reduce(
@@ -56,12 +77,30 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
   };
 
   const fetchDescription = (speciesData: PokemonSpecies): string => {
-    // todo use current language
-    const descriptionEntry = speciesData.flavor_text_entries.find((entry) => entry.language.name === 'en');
+    const lang = getLanguageCode(locale.value);
+    const descriptionEntry =
+      speciesData.flavor_text_entries.find((entry) => entry.language.name === lang) ??
+      speciesData.flavor_text_entries.find((entry) => entry.language.name === 'en');
     return descriptionEntry ? descriptionEntry.flavor_text.replace(/\f/g, ' ') : '';
   };
 
-  const computeGenderRatio = (speciesData: PokemonSpecies) =>
+  const fetchSpecies = (speciesData: PokemonSpecies): string => {
+    const lang = getLanguageCode(locale.value);
+    const speciesEntry =
+      speciesData.genera.find((entry) => entry.language.name === lang) ??
+      speciesData.genera.find((entry) => entry.language.name === 'en');
+    return speciesEntry ? speciesEntry.genus : '';
+  };
+
+  const fetchName = (speciesData: PokemonSpecies): string => {
+    const lang = getLanguageCode(locale.value);
+    const nameEntry =
+      speciesData.names.find((entry) => entry.language.name === lang) ??
+      speciesData.names.find((entry) => entry.language.name === 'en');
+    return nameEntry ? nameEntry.name : '';
+  };
+
+  const fetchGenderRatio = (speciesData: PokemonSpecies) =>
     speciesData.gender_rate === -1
       ? 'genderless'
       : {
@@ -75,6 +114,10 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
     return (isShiny ? artwork?.front_shiny : artwork?.front_default) ?? artwork?.front_default ?? '';
   };
 
+  const getAbilities = (pokemonData: Pokemon): string[] => {
+    return pokemonData.abilities.map((a) => a.ability.name);
+  };
+
   const buildResponse = (
     pokemonData: Pokemon,
     speciesData: PokemonSpecies,
@@ -86,15 +129,18 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
 
     const pokemonStats = convertStats(pokemonData.stats);
     const description = fetchDescription(speciesData);
-    const species = speciesData.genera.find((g) => g.language.name === 'en')?.genus ?? '';
-    const abilities = pokemonData.abilities.map((a) => a.ability.name);
-    const genderRatio: PokemonDetails['genderRatio'] = computeGenderRatio(speciesData);
+    const species = fetchSpecies(speciesData);
+    const name = fetchName(speciesData);
+
+    const abilities = getAbilities(pokemonData);
+    const genderRatio = fetchGenderRatio(speciesData);
     const artwork = getArtwork(pokemonData, isShiny);
 
     return {
       ...internalInfo,
       abilities,
       artwork,
+      baseName: name,
       catchRate: speciesData.capture_rate,
       description,
       genderRatio,
