@@ -5,6 +5,7 @@ import Overlay from '@/components/common/Overlay.vue';
 import MorphTransition from '@/components/common/transitions/MorphTransition.vue';
 import SlideInRightTransition from '@/components/common/transitions/SlideInRightTransition.vue';
 import Artwork from '@/components/game/pokemonInfo/Artwork.vue';
+import BasicInfo from '@/components/game/pokemonInfo/BasicInfo.vue';
 import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 
@@ -44,26 +45,11 @@ const getTypeStyle = (type: string) => {
             class="details-pane-contents"
             v-if="pkmnDetailsState.currentPokemon"
           >
+            <!-- Pokemon Artwork -->
             <Artwork />
-            <!--    <div class="basic-info">-->
-            <!--      <span class="dex-num">#{{ String(pkmnDetailsState.currentPokemon.dexNum).padStart(3, '0') }}</span>-->
-            <!--      <h2 class="name">{{ pkmnDetailsState.currentPokemon.baseName }}</h2>-->
-            <!--      <div class="types">-->
-            <!--        <span-->
-            <!--          v-for="type in [-->
-            <!--            pkmnDetailsState.currentPokemon.primaryType,-->
-            <!--            pkmnDetailsState.currentPokemon.secondaryType,-->
-            <!--          ].filter(Boolean)"-->
-            <!--          :key="type"-->
-            <!--          class="type-badge"-->
-            <!--          :style="getTypeStyle(type!)"-->
-            <!--        >-->
-            <!--          {{ t(type!) }}-->
-            <!--        </span>-->
-            <!--      </div>-->
-            <!--      <p class="species">{{ pkmnDetailsState.currentPokemon.species }}</p>-->
-            <!--    </div>-->
-            <!--  </div>-->
+
+            <!-- Name, Description, Types and Species -->
+            <BasicInfo />
 
             <!--  <div class="pane-content">-->
             <!--    <section class="description">-->
@@ -203,13 +189,24 @@ const getTypeStyle = (type: string) => {
   min-width: 300px;
   height: 100vh;
   color: var(--text);
-  background: var(--button);
   box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   position: relative;
   border-left: 2px solid var(--type-btn-color, var(--primary));
+
+  background-image: url(@/assets/background-50-grey.svg);
+  background-blend-mode: hard-light;
+  background-repeat: no-repeat;
+  background-size: 100vw;
+  background-position: right bottom;
+  background-attachment: scroll;
+  background-color: var(--type-bg-color, var(--primary));
+
+  .dark & {
+    background-image: url(@/assets/background-dark-grey.svg);
+  }
 
   &:has(.loading),
   &:has(.error) {
@@ -253,38 +250,6 @@ const getTypeStyle = (type: string) => {
   cursor: pointer;
   z-index: 10;
   line-height: 1;
-}
-
-.name {
-  margin: 0.5rem 0;
-  text-transform: capitalize;
-  font-size: 1.8rem;
-}
-
-.dex-num {
-  font-family: monospace;
-  font-size: 1.2rem;
-  opacity: 0.7;
-}
-
-.types {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-bottom: 0.5rem;
-}
-
-.type-badge {
-  padding: 0.2rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-.species {
-  font-style: italic;
-  opacity: 0.8;
 }
 
 .pane-content {
