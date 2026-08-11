@@ -44,22 +44,15 @@ const getTypeStyle = (type: string) => {
             class="details-pane-contents"
             v-if="pkmnDetailsState.currentPokemon"
           >
-            <button
-              class="close-btn"
-              @click="closeDetails"
-              aria-label="Close"
-            >
-              ×
-            </button>
-
-            <!--  <div class="pane-header">-->
-            <!--    <div class="artwork-container">-->
-            <!--      <img-->
-            <!--        :src="pkmnDetailsState.currentPokemon.artwork"-->
-            <!--        :alt="pkmnDetailsState.currentPokemon.baseName"-->
-            <!--        class="artwork"-->
-            <!--      />-->
-            <!--    </div>-->
+            <div class="pane-header">
+              <div class="artwork-container">
+                <img
+                  :src="pkmnDetailsState.currentPokemon.artwork"
+                  :alt="pkmnDetailsState.currentPokemon.baseName"
+                  class="artwork"
+                />
+              </div>
+            </div>
             <!--    <div class="basic-info">-->
             <!--      <span class="dex-num">#{{ String(pkmnDetailsState.currentPokemon.dexNum).padStart(3, '0') }}</span>-->
             <!--      <h2 class="name">{{ pkmnDetailsState.currentPokemon.baseName }}</h2>-->
@@ -152,7 +145,6 @@ const getTypeStyle = (type: string) => {
             <!--        </div>-->
             <!--      </div>-->
             <!--    </section>-->
-            <!--  </div>-->
             <!--</aside>-->
 
             <!--<aside-->
@@ -192,6 +184,14 @@ const getTypeStyle = (type: string) => {
             <p>{{ pkmnDetailsState.error }}</p>
           </div>
         </MorphTransition>
+
+        <button
+          class="close-btn"
+          @click="closeDetails"
+          aria-label="Close"
+        >
+          ×
+        </button>
       </aside>
     </SlideInRightTransition>
   </Overlay>
@@ -214,6 +214,14 @@ const getTypeStyle = (type: string) => {
   overflow-y: auto;
   position: relative;
   border-left: 2px solid var(--primary);
+}
+
+.loading,
+.error {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
 }
 
 .close-btn {
@@ -390,14 +398,6 @@ h3 {
 .genderless {
   text-align: center;
   font-style: italic;
-}
-
-.loading,
-.error {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem;
 }
 
 .loader {

@@ -84,7 +84,7 @@ declare module 'vue' {
     PauseIcon: typeof import('./src/components/common/icons/PauseIcon.vue')['default']
     PauseOverlay: typeof import('./src/components/background/PauseOverlay.vue')['default']
     PokemonCounts: typeof import('./src/components/header/PokemonCounts.vue')['default']
-    PokemonDetailsPane: typeof import('./src/components/game/PokemonDetailsPane.vue')['default']
+    PokemonDetailsPane: typeof import('./src/components/game/pokemonInfo/PokemonDetailsPane.vue')['default']
     PokemonInput: typeof import('./src/components/header/PokemonInput.vue')['default']
     PokemonSprite: typeof import('./src/components/game/PokemonSprite.vue')['default']
     ProfileDetailedStats: typeof import('./src/components/dialogs/userProfile/ProfileDetailedStats.vue')['default']
