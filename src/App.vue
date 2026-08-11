@@ -11,6 +11,7 @@ import SavingIndicator from '@/components/background/SavingIndicator.vue';
 import SnackBar from '@/components/background/SnackBar.vue';
 import Tooltip from '@/components/background/Tooltip.vue';
 import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
+import SlideInRightTransition from '@/components/common/transitions/SlideInRightTransition.vue';
 import Dialogs from '@/components/dialogs/Dialogs.vue';
 import GameFooter from '@/components/footer/GameFooter.vue';
 import Game from '@/components/game/Game.vue';
@@ -24,6 +25,7 @@ import ReloadPrompt from '@/ReloadPrompt.vue';
 import ScrollTop from '@/ScrollTop.vue';
 import { useCredits } from '@/stores/useCredits';
 import { useGameFlow } from '@/stores/useGameFlow';
+import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 import { useRoomMessages } from '@/stores/useRoomMessages';
 import { useState } from '@/stores/useState';
 
@@ -32,6 +34,7 @@ const { flowState } = useGameFlow();
 const { credits } = useCredits();
 const { roomState } = useRoomMessages();
 const typeStyles = useTypeStyles();
+const { pkmnDetailsState } = usePkmnDetails();
 
 const { isMobile, isLaptop, isDesktop } = useAppBreakpoints();
 
@@ -130,7 +133,7 @@ watch(
     <ScrollTop />
 
     <!-- Details Pane -->
-    <PokemonDetailsPane />
+    <PokemonDetailsPane v-if="pkmnDetailsState.isOpen" />
   </main>
 </template>
 

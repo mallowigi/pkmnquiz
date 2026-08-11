@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 
+import Overlay from '@/components/common/Overlay.vue';
+import MorphTransition from '@/components/common/transitions/MorphTransition.vue';
+import SlideDownTransition from '@/components/common/transitions/SlideDownTransition.vue';
 import SlideInRightTransition from '@/components/common/transitions/SlideInRightTransition.vue';
 import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
@@ -27,170 +30,182 @@ const getTypeStyle = (type: string) => {
 </script>
 
 <template>
-  <SlideInRightTransition>
-    <div
-      v-if="pkmnDetailsState.isOpen"
-      class="details-pane-overlay"
-      @click.self="closeDetails"
-    >
+  <Overlay
+    class="overlay"
+    @close="closeDetails"
+  >
+    <SlideInRightTransition>
       <aside
         class="details-pane"
-        v-if="pkmnDetailsState.currentPokemon"
+        v-if="pkmnDetailsState.isOpen"
       >
-        <button
-          class="close-btn"
-          @click="closeDetails"
-          aria-label="Close"
-        >
-          ×
-        </button>
+        <MorphTransition>
+          <div
+            class="details-pane-contents"
+            v-if="pkmnDetailsState.currentPokemon"
+          >
+            <button
+              class="close-btn"
+              @click="closeDetails"
+              aria-label="Close"
+            >
+              ×
+            </button>
 
-        <div class="pane-header">
-          <div class="artwork-container">
-            <img
-              :src="pkmnDetailsState.currentPokemon.artwork"
-              :alt="pkmnDetailsState.currentPokemon.baseName"
-              class="artwork"
-            />
+            <!--  <div class="pane-header">-->
+            <!--    <div class="artwork-container">-->
+            <!--      <img-->
+            <!--        :src="pkmnDetailsState.currentPokemon.artwork"-->
+            <!--        :alt="pkmnDetailsState.currentPokemon.baseName"-->
+            <!--        class="artwork"-->
+            <!--      />-->
+            <!--    </div>-->
+            <!--    <div class="basic-info">-->
+            <!--      <span class="dex-num">#{{ String(pkmnDetailsState.currentPokemon.dexNum).padStart(3, '0') }}</span>-->
+            <!--      <h2 class="name">{{ pkmnDetailsState.currentPokemon.baseName }}</h2>-->
+            <!--      <div class="types">-->
+            <!--        <span-->
+            <!--          v-for="type in [-->
+            <!--            pkmnDetailsState.currentPokemon.primaryType,-->
+            <!--            pkmnDetailsState.currentPokemon.secondaryType,-->
+            <!--          ].filter(Boolean)"-->
+            <!--          :key="type"-->
+            <!--          class="type-badge"-->
+            <!--          :style="getTypeStyle(type!)"-->
+            <!--        >-->
+            <!--          {{ t(type!) }}-->
+            <!--        </span>-->
+            <!--      </div>-->
+            <!--      <p class="species">{{ pkmnDetailsState.currentPokemon.species }}</p>-->
+            <!--    </div>-->
+            <!--  </div>-->
+
+            <!--  <div class="pane-content">-->
+            <!--    <section class="description">-->
+            <!--      <p>{{ pkmnDetailsState.currentPokemon.description }}</p>-->
+            <!--    </section>-->
+
+            <!--    <section class="details-grid">-->
+            <!--      <div class="detail-item">-->
+            <!--        <span class="label">{{ t('height') }}</span>-->
+            <!--        <span class="value">{{ formatValue(pkmnDetailsState.currentPokemon.height, 'm') }}</span>-->
+            <!--      </div>-->
+            <!--      <div class="detail-item">-->
+            <!--        <span class="label">{{ t('weight') }}</span>-->
+            <!--        <span class="value">{{ formatValue(pkmnDetailsState.currentPokemon.weight, 'kg') }}</span>-->
+            <!--      </div>-->
+            <!--      <div class="detail-item">-->
+            <!--        <span class="label">{{ t('abilities') }}</span>-->
+            <!--        <span class="value">{{ pkmnDetailsState.currentPokemon.abilities.join(', ') }}</span>-->
+            <!--      </div>-->
+            <!--      <div class="detail-item">-->
+            <!--        <span class="label">{{ t('catchRate') }}</span>-->
+            <!--        <span class="value">{{ pkmnDetailsState.currentPokemon.catchRate }}</span>-->
+            <!--      </div>-->
+            <!--    </section>-->
+
+            <!--    <section class="stats-section">-->
+            <!--      <h3>{{ t('stats') }}</h3>-->
+            <!--      <div-->
+            <!--        v-for="(value, stat) in pkmnDetailsState.currentPokemon.stats"-->
+            <!--        :key="stat"-->
+            <!--        class="stat-row"-->
+            <!--      >-->
+            <!--        <span class="stat-label">{{ t(stat) }}</span>-->
+            <!--        <span class="stat-value">{{ value }}</span>-->
+            <!--        <div class="stat-bar-container">-->
+            <!--          <div-->
+            <!--            class="stat-bar"-->
+            <!--            :style="{ width: getStatPercentage(value) + '%', backgroundColor: 'var(&#45;&#45;primary)' }"-->
+            <!--          ></div>-->
+            <!--        </div>-->
+            <!--      </div>-->
+            <!--    </section>-->
+
+            <!--    <section class="gender-section">-->
+            <!--      <h3>{{ t('genderRatio') }}</h3>-->
+            <!--      <div-->
+            <!--        v-if="pkmnDetailsState.currentPokemon.genderRatio === 'genderless'"-->
+            <!--        class="genderless"-->
+            <!--      >-->
+            <!--        {{ t('genderless') }}-->
+            <!--      </div>-->
+            <!--      <div-->
+            <!--        v-else-->
+            <!--        class="gender-bar-container"-->
+            <!--      >-->
+            <!--        <div-->
+            <!--          class="gender-bar male"-->
+            <!--          :style="{ width: pkmnDetailsState.currentPokemon.genderRatio.male + '%' }"-->
+            <!--        >-->
+            <!--          <span v-if="pkmnDetailsState.currentPokemon.genderRatio.male > 0"-->
+            <!--            >{{ pkmnDetailsState.currentPokemon.genderRatio.male }}% ♂</span-->
+            <!--          >-->
+            <!--        </div>-->
+            <!--        <div-->
+            <!--          class="gender-bar female"-->
+            <!--          :style="{ width: pkmnDetailsState.currentPokemon.genderRatio.female + '%' }"-->
+            <!--        >-->
+            <!--          <span v-if="pkmnDetailsState.currentPokemon.genderRatio.female > 0"-->
+            <!--            >{{ pkmnDetailsState.currentPokemon.genderRatio.female }}% ♀</span-->
+            <!--          >-->
+            <!--        </div>-->
+            <!--      </div>-->
+            <!--    </section>-->
+            <!--  </div>-->
+            <!--</aside>-->
+
+            <!--<aside-->
+            <!--  v-else-if="pkmnDetailsState.loading"-->
+            <!--  class="details-pane loading"-->
+            <!--&gt;-->
+            <!--  <div class="loader"></div>-->
+            <!--  <p>Loading details...</p>-->
+            <!--</aside>-->
+
+            <!--<aside-->
+            <!--  v-else-if="pkmnDetailsState.error"-->
+            <!--  class="details-pane error"-->
+            <!--&gt;-->
+            <!--  <button-->
+            <!--    class="close-btn"-->
+            <!--    @click="closeDetails"-->
+            <!--    aria-label="Close"-->
+            <!--  >-->
+            <!--    ×-->
+            <!--  </button>-->
+            <!--  <p>{{ pkmnDetailsState.error }}</p>-->
           </div>
-          <div class="basic-info">
-            <span class="dex-num">#{{ String(pkmnDetailsState.currentPokemon.dexNum).padStart(3, '0') }}</span>
-            <h2 class="name">{{ pkmnDetailsState.currentPokemon.baseName }}</h2>
-            <div class="types">
-              <span
-                v-for="type in [
-                  pkmnDetailsState.currentPokemon.primaryType,
-                  pkmnDetailsState.currentPokemon.secondaryType,
-                ].filter(Boolean)"
-                :key="type"
-                class="type-badge"
-                :style="getTypeStyle(type!)"
-              >
-                {{ t(type!) }}
-              </span>
-            </div>
-            <p class="species">{{ pkmnDetailsState.currentPokemon.species }}</p>
+
+          <div
+            class="details-pane-contents loading"
+            v-if="pkmnDetailsState.loading"
+          >
+            <div class="loader"></div>
+            <p>Loading details...</p>
           </div>
-        </div>
 
-        <div class="pane-content">
-          <section class="description">
-            <p>{{ pkmnDetailsState.currentPokemon.description }}</p>
-          </section>
-
-          <section class="details-grid">
-            <div class="detail-item">
-              <span class="label">{{ t('height') }}</span>
-              <span class="value">{{ formatValue(pkmnDetailsState.currentPokemon.height, 'm') }}</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">{{ t('weight') }}</span>
-              <span class="value">{{ formatValue(pkmnDetailsState.currentPokemon.weight, 'kg') }}</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">{{ t('abilities') }}</span>
-              <span class="value">{{ pkmnDetailsState.currentPokemon.abilities.join(', ') }}</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">{{ t('catchRate') }}</span>
-              <span class="value">{{ pkmnDetailsState.currentPokemon.catchRate }}</span>
-            </div>
-          </section>
-
-          <section class="stats-section">
-            <h3>{{ t('stats') }}</h3>
-            <div
-              v-for="(value, stat) in pkmnDetailsState.currentPokemon.stats"
-              :key="stat"
-              class="stat-row"
-            >
-              <span class="stat-label">{{ t(stat) }}</span>
-              <span class="stat-value">{{ value }}</span>
-              <div class="stat-bar-container">
-                <div
-                  class="stat-bar"
-                  :style="{ width: getStatPercentage(value) + '%', backgroundColor: 'var(--primary)' }"
-                ></div>
-              </div>
-            </div>
-          </section>
-
-          <section class="gender-section">
-            <h3>{{ t('genderRatio') }}</h3>
-            <div
-              v-if="pkmnDetailsState.currentPokemon.genderRatio === 'genderless'"
-              class="genderless"
-            >
-              {{ t('genderless') }}
-            </div>
-            <div
-              v-else
-              class="gender-bar-container"
-            >
-              <div
-                class="gender-bar male"
-                :style="{ width: pkmnDetailsState.currentPokemon.genderRatio.male + '%' }"
-              >
-                <span v-if="pkmnDetailsState.currentPokemon.genderRatio.male > 0"
-                  >{{ pkmnDetailsState.currentPokemon.genderRatio.male }}% ♂</span
-                >
-              </div>
-              <div
-                class="gender-bar female"
-                :style="{ width: pkmnDetailsState.currentPokemon.genderRatio.female + '%' }"
-              >
-                <span v-if="pkmnDetailsState.currentPokemon.genderRatio.female > 0"
-                  >{{ pkmnDetailsState.currentPokemon.genderRatio.female }}% ♀</span
-                >
-              </div>
-            </div>
-          </section>
-        </div>
+          <div
+            class="details-pane-contents error"
+            v-if="pkmnDetailsState.error"
+          >
+            <p>{{ pkmnDetailsState.error }}</p>
+          </div>
+        </MorphTransition>
       </aside>
-
-      <aside
-        v-else-if="pkmnDetailsState.loading"
-        class="details-pane loading"
-      >
-        <div class="loader"></div>
-        <p>Loading details...</p>
-      </aside>
-
-      <aside
-        v-else-if="pkmnDetailsState.error"
-        class="details-pane error"
-      >
-        <button
-          class="close-btn"
-          @click="closeDetails"
-          aria-label="Close"
-        >
-          ×
-        </button>
-        <p>{{ pkmnDetailsState.error }}</p>
-      </aside>
-    </div>
-  </SlideInRightTransition>
+    </SlideInRightTransition>
+  </Overlay>
 </template>
 
 <style scoped>
-.details-pane-overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-  display: flex;
+:deep(.overlay-wrapper) {
   justify-content: flex-end;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
 }
 
 .details-pane {
-  width: 100%;
   max-width: 400px;
-  height: 100%;
+  min-width: 300px;
+  height: 100vh;
   background-color: var(--button);
   color: var(--text);
   box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);

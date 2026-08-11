@@ -136,10 +136,10 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
     const details = pkmnDetailsState.detailsMap.get(id);
 
     pkmnDetailsState.error = null;
+    pkmnDetailsState.isOpen = true;
 
     if (details) {
       pkmnDetailsState.currentPokemon = details;
-      pkmnDetailsState.isOpen = true;
       return;
     }
 
@@ -147,7 +147,6 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
       pkmnDetailsState.loading = true;
       const fetchedDetails = await fetchPokemon(id);
       pkmnDetailsState.currentPokemon = fetchedDetails;
-      pkmnDetailsState.isOpen = true;
     } catch (e) {
       pkmnDetailsState.error = `Failed to fetch details for Pokémon with ID: ${id}. Error: ${e instanceof Error ? e.message : String(e)}`;
     } finally {
