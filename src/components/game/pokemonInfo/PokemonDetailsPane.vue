@@ -209,7 +209,7 @@ const getTypeStyle = (type: string) => {
   flex-direction: column;
   overflow-y: auto;
   position: relative;
-  border-left: 2px solid var(--primary);
+  border-left: 2px solid var(--type-btn-color, var(--primary));
 
   &:has(.loading),
   &:has(.error) {
@@ -227,7 +227,7 @@ const getTypeStyle = (type: string) => {
 
 .loader {
   border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: var(--primary);
+  border-left-color: var(--type-btn-color, var(--primary));
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -239,12 +239,6 @@ const getTypeStyle = (type: string) => {
 @keyframes spin {
   to {
     transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 480px) {
-  .details-pane {
-    max-width: 100%;
   }
 }
 

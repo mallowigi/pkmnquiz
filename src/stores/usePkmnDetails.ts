@@ -69,21 +69,32 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
           male: ((8 - speciesData.gender_rate) / 8) * 100,
         };
 
+  const getArtwork = (pokemonData: Pokemon, isShiny: boolean) => {
+    const artwork = pokemonData.sprites.other?.['official-artwork'];
+    // @ts-ignore
+    return (isShiny ? artwork?.front_shiny : artwork?.front_default) ?? artwork?.front_default ?? '';
+  };
+
   const buildResponse = (
     pokemonData: Pokemon,
     speciesData: PokemonSpecies,
     internalInfo: PokemonInfo,
   ): PokemonDetails => {
+    const { getStatus } = usePokemons();
+    const status = getStatus(internalInfo);
+    const isShiny = status.isShiny;
+
     const pokemonStats = convertStats(pokemonData.stats);
     const description = fetchDescription(speciesData);
     const species = speciesData.genera.find((g) => g.language.name === 'en')?.genus ?? '';
     const abilities = pokemonData.abilities.map((a) => a.ability.name);
     const genderRatio: PokemonDetails['genderRatio'] = computeGenderRatio(speciesData);
+    const artwork = getArtwork(pokemonData, isShiny);
 
     return {
       ...internalInfo,
       abilities,
-      artwork: pokemonData.sprites.other?.['official-artwork'].front_default ?? '',
+      artwork,
       catchRate: speciesData.capture_rate,
       description,
       genderRatio,
