@@ -22,7 +22,7 @@ const getStatPercentage = (value: number) => {
     class="overlay"
     @close="closeDetails"
   >
-    <SlideInRightTransition>
+    <SlideInRightTransition mode="in-out">
       <aside
         class="details-pane"
         v-if="pkmnDetailsState.isOpen"
@@ -38,6 +38,7 @@ const getStatPercentage = (value: number) => {
             <!-- Name, Description, Types and Species -->
             <BasicInfo />
 
+            <!-- Profile: Weight, Height, Abilities -->
             <Profile />
 
             <!--    <section class="stats-section">-->
@@ -89,27 +90,6 @@ const getStatPercentage = (value: number) => {
             <!--      </div>-->
             <!--    </section>-->
             <!--</aside>-->
-
-            <!--<aside-->
-            <!--  v-else-if="pkmnDetailsState.loading"-->
-            <!--  class="details-pane loading"-->
-            <!--&gt;-->
-            <!--  <div class="loader"></div>-->
-            <!--  <p>Loading details...</p>-->
-            <!--</aside>-->
-
-            <!--<aside-->
-            <!--  v-else-if="pkmnDetailsState.error"-->
-            <!--  class="details-pane error"-->
-            <!--&gt;-->
-            <!--  <button-->
-            <!--    class="close-btn"-->
-            <!--    @click="closeDetails"-->
-            <!--    aria-label="Close"-->
-            <!--  >-->
-            <!--    ×-->
-            <!--  </button>-->
-            <!--  <p>{{ pkmnDetailsState.error }}</p>-->
           </div>
 
           <div
@@ -117,7 +97,7 @@ const getStatPercentage = (value: number) => {
             v-if="pkmnDetailsState.loading"
           >
             <div class="loader"></div>
-            <p>Loading details...</p>
+            <p>{{ t('loadingDetails') }}</p>
           </div>
 
           <div
