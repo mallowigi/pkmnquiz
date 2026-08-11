@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
@@ -12,17 +13,37 @@ import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 const { pkmnDetailsState, closeDetails } = usePkmnDetails();
 const { t } = useI18n();
 
+const isVisible = ref(pkmnDetailsState.isOpen);
+
+watch(
+  () => pkmnDetailsState.isOpen,
+  (isOpen) => {
+    if (isOpen) {
+      isVisible.value = true;
+    }
+  },
+);
+
+const onAfterLeave = () => {
+  isVisible.value = false;
+};
+
 const getStatPercentage = (value: number) => {
   return Math.min(100, (value / 255) * 100);
 };
 </script>
 
 <template>
-  <Overlay
-    class="overlay"
-    @close="closeDetails"
-  >
-    <SlideInRightTransition mode="in-out">
+  <div v-if="isVisible">
+    <Overlay
+      v-if="pkmnDetailsState.isOpen"
+      class="overlay"
+      @close="closeDetails"
+    />
+    <SlideInRightTransition
+      mode="in-out"
+      @after-leave="onAfterLeave"
+    >
       <aside
         class="details-pane"
         v-if="pkmnDetailsState.isOpen"
@@ -117,7 +138,7 @@ const getStatPercentage = (value: number) => {
         </button>
       </aside>
     </SlideInRightTransition>
-  </Overlay>
+  </div>
 </template>
 
 <style scoped>
@@ -130,15 +151,18 @@ const getStatPercentage = (value: number) => {
 }
 
 .details-pane {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 5;
   max-width: 400px;
-  min-width: 300px;
+  min-width: 400px;
   height: 100vh;
   color: var(--text);
   box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  position: relative;
   border-left: 2px solid var(--type-btn-color, var(--primary));
 
   background-image: url(@/assets/background-50-grey.svg);

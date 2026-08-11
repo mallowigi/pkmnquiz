@@ -132,7 +132,7 @@ watch(
     <ScrollTop />
 
     <!-- Details Pane -->
-    <PokemonDetailsPane v-if="pkmnDetailsState.isOpen" />
+    <PokemonDetailsPane />
   </main>
 </template>
 

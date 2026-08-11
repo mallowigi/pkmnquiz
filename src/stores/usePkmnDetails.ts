@@ -154,7 +154,6 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
 
   const closeDetails = () => {
     pkmnDetailsState.isOpen = false;
-    pkmnDetailsState.currentPokemon = null;
   };
 
   const fetchAbilityDetails = async (abilities: PokemonAbility[]) => {
@@ -220,6 +219,7 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
     const details = pkmnDetailsState.detailsMap.get(id);
 
     pkmnDetailsState.error = null;
+    pkmnDetailsState.currentPokemon = null;
     pkmnDetailsState.isOpen = true;
 
     if (details) {
