@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
@@ -11,15 +10,6 @@ import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 
 const { pkmnDetailsState, closeDetails } = usePkmnDetails();
 const { t } = useI18n();
-
-const typeInfos = computed(() => {
-  const primaryType = pkmnDetailsState.currentPokemon?.primaryType;
-  const secondaryType = pkmnDetailsState.currentPokemon?.secondaryType;
-
-  return [primaryType, secondaryType].map((type) => {
-    return pokemonTypes[type as keyof typeof pokemonTypes];
-  });
-});
 
 const getStatPercentage = (value: number) => {
   return Math.min(100, (value / 255) * 100);
@@ -48,10 +38,6 @@ const getTypeStyle = (type: string) => {
       <aside
         class="details-pane"
         v-if="pkmnDetailsState.isOpen"
-        :style="{
-          '--primary-type': typeInfos[0]?.bgColor ?? 'var(--primary)',
-          '--secondary-type': typeInfos[1]?.bgColor ?? 'var(--primary)',
-        }"
       >
         <MorphTransition mode="out-in">
           <div
@@ -217,18 +203,13 @@ const getTypeStyle = (type: string) => {
   min-width: 300px;
   height: 100vh;
   color: var(--text);
+  background: var(--button);
   box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   position: relative;
   border-left: 2px solid var(--primary);
-
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--primary-type) 70%, black 30%) 0%,
-    color-mix(in srgb, var(--secondary-type) 70%, black 30%) 100%
-  );
 
   &:has(.loading),
   &:has(.error) {

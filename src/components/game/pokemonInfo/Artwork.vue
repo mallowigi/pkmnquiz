@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 
+import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 
 const { pkmnDetailsState } = usePkmnDetails();
+
+const typeInfos = computed(() => {
+  const primaryType = pkmnDetailsState.currentPokemon?.primaryType;
+  const secondaryType = pkmnDetailsState.currentPokemon?.secondaryType;
+
+  return [primaryType, secondaryType].map((type) => {
+    return pokemonTypes[type as keyof typeof pokemonTypes];
+  });
+});
 </script>
 
 <template>
@@ -11,26 +21,46 @@ const { pkmnDetailsState } = usePkmnDetails();
     class="pane-header"
     v-if="pkmnDetailsState.currentPokemon"
   >
-    <div class="artwork-container">
-      <img
-        :src="pkmnDetailsState.currentPokemon.artwork"
-        :alt="pkmnDetailsState.currentPokemon.baseName"
-        class="artwork"
-      />
+    <div
+      class="artwork-gradient rad-br-tl"
+      :style="{
+        '--primary-type': typeInfos[0]?.bgColor ?? 'var(--primary)',
+        '--secondary-type': typeInfos[1]?.bgColor ?? typeInfos[0]?.bgColor ?? 'var(--primary)',
+        '--type-btn-color': typeInfos[0]?.buttonColor ?? 'var(--primary)',
+      }"
+    >
+      <div class="artwork-container">
+        <img
+          :src="pkmnDetailsState.currentPokemon.artwork"
+          :alt="pkmnDetailsState.currentPokemon.baseName"
+          class="artwork"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
 .pane-header {
-  padding: 2rem 1.5rem 1rem;
+  padding: 4rem 1.5rem 1rem;
   text-align: center;
+}
+
+.artwork-gradient {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary-type) 40%, var(--button)) 0%,
+    color-mix(in srgb, var(--secondary-type) 40%, var(--button)) 100%
+  );
+  border: 3px solid var(--type-btn-color, var(--primary));
+  padding: 1.5rem;
+  display: inline-block;
+  margin: 0 auto 1rem;
 }
 
 .artwork-container {
   width: 200px;
   height: 200px;
-  margin: 0 auto 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
