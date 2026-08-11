@@ -42,6 +42,9 @@ const styles = usePokemonTypesStyles(currentPokemon);
         {{ t(pkmnDetailsState.currentPokemon.secondaryType) }}
       </span>
     </div>
+
+    <!--  Description -->
+    <p class="description">{{ pkmnDetailsState.currentPokemon.description }}</p>
   </div>
 </template>
 
@@ -51,7 +54,8 @@ const styles = usePokemonTypesStyles(currentPokemon);
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 1em;
+  gap: 0.5em;
+  margin: 0 1em;
 }
 
 .dex-num {
@@ -102,5 +106,16 @@ const styles = usePokemonTypesStyles(currentPokemon);
       background-color: var(--secondary-type-dark);
     }
   }
+}
+
+.description {
+  max-width: 400px;
+  opacity: 0.9;
+  line-height: 1.5;
+  min-height: 4.5em;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
