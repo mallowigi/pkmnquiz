@@ -1,10 +1,11 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { PokemonClient, type Pokemon, type PokemonSpecies } from 'pokenode-ts';
+import { PokemonClient, type Pokemon, type PokemonSpecies, type PokemonAbility } from 'pokenode-ts';
 import { reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { usePokemons } from '@/stores/usePokemons.ts';
-import type { PokemonDetails, PokemonInfo } from '@/types.ts';
+import type { PokemonDetails, PokemonInfo, AbilityInfo } from '@/types.ts';
+import { abilityUrl } from '@/utils/utils.ts';
 
 interface PkmnDetails {
   currentPokemon: PokemonDetails | null;
@@ -114,15 +115,17 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
     return (isShiny ? artwork?.front_shiny : artwork?.front_default) ?? artwork?.front_default ?? '';
   };
 
-  const getAbilities = (pokemonData: Pokemon): string[] => {
-    return pokemonData.abilities.map((a) => a.ability.name);
-  };
-
-  const buildResponse = (
-    pokemonData: Pokemon,
-    speciesData: PokemonSpecies,
-    internalInfo: PokemonInfo,
-  ): PokemonDetails => {
+  const buildResponse = ({
+    pokemonData,
+    speciesData,
+    internalInfo,
+    abilitiesData,
+  }: {
+    pokemonData: Pokemon;
+    speciesData: PokemonSpecies;
+    internalInfo: PokemonInfo;
+    abilitiesData: AbilityInfo[];
+  }): PokemonDetails => {
     const { getStatus } = usePokemons();
     const status = getStatus(internalInfo);
     const isShiny = status.isShiny;
@@ -131,14 +134,12 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
     const description = fetchDescription(speciesData);
     const species = fetchSpecies(speciesData);
     const name = fetchName(speciesData);
-
-    const abilities = getAbilities(pokemonData);
     const genderRatio = fetchGenderRatio(speciesData);
     const artwork = getArtwork(pokemonData, isShiny);
 
     return {
       ...internalInfo,
-      abilities,
+      abilities: abilitiesData,
       artwork,
       baseName: name,
       catchRate: speciesData.capture_rate,
@@ -154,6 +155,24 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
   const closeDetails = () => {
     pkmnDetailsState.isOpen = false;
     pkmnDetailsState.currentPokemon = null;
+  };
+
+  const fetchAbilityDetails = async (abilities: PokemonAbility[]) => {
+    const lang = getLanguageCode(locale.value);
+
+    return await Promise.all(
+      abilities.map(async (ability) => {
+        const abilityResponse = await api.getAbilityByName(ability.ability.name);
+        const abilityEntry =
+          abilityResponse.effect_entries.find((entry) => entry.language.name === lang) ??
+          abilityResponse.effect_entries.find((entry) => entry.language.name === 'en');
+        return {
+          effect: abilityEntry?.effect ?? '',
+          name: abilityResponse.name,
+          url: abilityUrl(abilityResponse.name),
+        };
+      }),
+    );
   };
 
   const fetchPokemon = async (id: string) => {
@@ -180,7 +199,15 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
       // 3. Fetch specific pokemon details for that variety
       const pokemonResponse = await api.getPokemonByName(pokemonName);
 
-      const response = buildResponse(pokemonResponse, speciesResponse, internalInfo);
+      // 4. Fetch abilities and other details from the species data
+      const abilitiesResponse = await fetchAbilityDetails(pokemonResponse.abilities);
+
+      const response = buildResponse({
+        abilitiesData: abilitiesResponse,
+        internalInfo,
+        pokemonData: pokemonResponse,
+        speciesData: speciesResponse,
+      });
       pkmnDetailsState.detailsMap.set(id, response);
       return response;
     } catch (e) {

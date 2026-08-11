@@ -89,6 +89,7 @@ declare module 'vue' {
     PokemonDetailsPane: typeof import('./src/components/game/pokemonInfo/PokemonDetailsPane.vue')['default']
     PokemonInput: typeof import('./src/components/header/PokemonInput.vue')['default']
     PokemonSprite: typeof import('./src/components/game/PokemonSprite.vue')['default']
+    Profile: typeof import('./src/components/game/pokemonInfo/Profile.vue')['default']
     ProfileDetailedStats: typeof import('./src/components/dialogs/userProfile/ProfileDetailedStats.vue')['default']
     ProfilePic: typeof import('./src/components/header/ProfilePic.vue')['default']
     ProfileStatGrid: typeof import('./src/components/dialogs/userProfile/ProfileStatGrid.vue')['default']

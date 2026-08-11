@@ -7,6 +7,7 @@ import { usePokemonTypesStyles } from '@/composables/usePokemonTypesStyles.ts';
 import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 import type { Type } from '@/types.ts';
+import { pokemonUrl } from '@/utils/utils.ts';
 
 const { t } = useI18n();
 const { pkmnDetailsState } = usePkmnDetails();
@@ -17,7 +18,7 @@ const styles = usePokemonTypesStyles(currentPokemon);
 
 <template>
   <RoundedBox
-    class="basic-info"
+    class="box"
     v-if="pkmnDetailsState.currentPokemon"
     :style="styles"
   >
@@ -27,7 +28,7 @@ const styles = usePokemonTypesStyles(currentPokemon);
     <!-- Name -->
     <h2 class="name">
       <a
-        :href="`https://bulbapedia.bulbagarden.net/wiki/${pkmnDetailsState.currentPokemon.baseName}_(Pokémon)`"
+        :href="pokemonUrl(pkmnDetailsState.currentPokemon.baseName)"
         target="_blank"
         rel="noopener noreferrer"
         >{{ pkmnDetailsState.currentPokemon.baseName }}</a
@@ -57,16 +58,6 @@ const styles = usePokemonTypesStyles(currentPokemon);
 </template>
 
 <style scoped>
-.basic-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 0.5em;
-  margin: 0 1em;
-  max-height: initial;
-}
-
 .dex-num {
   font-family: monospace;
   font-size: 1.2rem;
@@ -75,7 +66,7 @@ const styles = usePokemonTypesStyles(currentPokemon);
 
 .name {
   font-family: 'DynaPuff', system-ui;
-  margin: 0.5rem 0;
+  margin: 0;
   text-transform: capitalize;
   font-weight: 500;
   font-size: 1.8rem;

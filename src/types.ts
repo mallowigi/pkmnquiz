@@ -334,6 +334,12 @@ export type TopTrainer = UserRecord & {
   id: string;
 };
 
+export type AbilityInfo = {
+  effect: string;
+  name: string;
+  url: string;
+};
+
 export type PokemonDetails = PokemonInfo & {
   artwork: string;
   height: number;
@@ -341,7 +347,7 @@ export type PokemonDetails = PokemonInfo & {
   catchRate: number;
   description: string;
   species: string;
-  abilities: string[];
+  abilities: AbilityInfo[];
   genderRatio:
     | {
         male: number;

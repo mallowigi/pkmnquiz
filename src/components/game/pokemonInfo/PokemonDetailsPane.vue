@@ -6,7 +6,7 @@ import MorphTransition from '@/components/common/transitions/MorphTransition.vue
 import SlideInRightTransition from '@/components/common/transitions/SlideInRightTransition.vue';
 import Artwork from '@/components/game/pokemonInfo/Artwork.vue';
 import BasicInfo from '@/components/game/pokemonInfo/BasicInfo.vue';
-import { pokemonTypes } from '@/data/pokemonTypes.ts';
+import Profile from '@/components/game/pokemonInfo/Profile.vue';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 
 const { pkmnDetailsState, closeDetails } = usePkmnDetails();
@@ -14,19 +14,6 @@ const { t } = useI18n();
 
 const getStatPercentage = (value: number) => {
   return Math.min(100, (value / 255) * 100);
-};
-
-const formatValue = (value: number, unit: string) => {
-  return `${value}${unit}`;
-};
-
-const getTypeStyle = (type: string) => {
-  const typeInfo = pokemonTypes[type as keyof typeof pokemonTypes];
-  if (!typeInfo) return {};
-  return {
-    backgroundColor: typeInfo.bgColor,
-    color: typeInfo.fgColor,
-  };
 };
 </script>
 
@@ -51,29 +38,7 @@ const getTypeStyle = (type: string) => {
             <!-- Name, Description, Types and Species -->
             <BasicInfo />
 
-            <!--  <div class="pane-content">-->
-            <!--    <section class="description">-->
-            <!--      <p>{{ pkmnDetailsState.currentPokemon.description }}</p>-->
-            <!--    </section>-->
-
-            <!--    <section class="details-grid">-->
-            <!--      <div class="detail-item">-->
-            <!--        <span class="label">{{ t('height') }}</span>-->
-            <!--        <span class="value">{{ formatValue(pkmnDetailsState.currentPokemon.height, 'm') }}</span>-->
-            <!--      </div>-->
-            <!--      <div class="detail-item">-->
-            <!--        <span class="label">{{ t('weight') }}</span>-->
-            <!--        <span class="value">{{ formatValue(pkmnDetailsState.currentPokemon.weight, 'kg') }}</span>-->
-            <!--      </div>-->
-            <!--      <div class="detail-item">-->
-            <!--        <span class="label">{{ t('abilities') }}</span>-->
-            <!--        <span class="value">{{ pkmnDetailsState.currentPokemon.abilities.join(', ') }}</span>-->
-            <!--      </div>-->
-            <!--      <div class="detail-item">-->
-            <!--        <span class="label">{{ t('catchRate') }}</span>-->
-            <!--        <span class="value">{{ pkmnDetailsState.currentPokemon.catchRate }}</span>-->
-            <!--      </div>-->
-            <!--    </section>-->
+            <Profile />
 
             <!--    <section class="stats-section">-->
             <!--      <h3>{{ t('stats') }}</h3>-->
@@ -222,6 +187,25 @@ const getTypeStyle = (type: string) => {
   }
 }
 
+.details-pane-contents {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  gap: 1rem;
+}
+
+:deep(.box) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
+  gap: 0.5em;
+  margin: 0 1em;
+  max-height: initial;
+  align-self: stretch;
+}
+
 .loader {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-left-color: var(--type-btn-color, var(--primary));
@@ -250,41 +234,6 @@ const getTypeStyle = (type: string) => {
   cursor: pointer;
   z-index: 10;
   line-height: 1;
-}
-
-.pane-content {
-  padding: 1rem 1.5rem 2rem;
-}
-
-.description {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  line-height: 1.4;
-}
-
-.details-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.label {
-  font-size: 0.8rem;
-  opacity: 0.6;
-  text-transform: uppercase;
-}
-
-.value {
-  font-weight: bold;
-  text-transform: capitalize;
 }
 
 .stats-section,
