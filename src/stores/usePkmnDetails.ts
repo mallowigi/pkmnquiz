@@ -31,6 +31,15 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
     pkmnDetailsState.detailsMap.clear();
   });
 
+  const closeDetails = () => {
+    pkmnDetailsState.isOpen = false;
+  };
+
+  const fetchInLanguage = (list: any[]) => {
+    const lang = getLanguageCode(locale.value);
+    return list.find((entry) => entry.language.name === lang) ?? list.find((entry) => entry.language.name === 'en');
+  };
+
   const getLanguageCode = (lang: string) => {
     switch (lang) {
       case 'jp':
@@ -78,26 +87,17 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
   };
 
   const fetchDescription = (speciesData: PokemonSpecies): string => {
-    const lang = getLanguageCode(locale.value);
-    const descriptionEntry =
-      speciesData.flavor_text_entries.find((entry) => entry.language.name === lang) ??
-      speciesData.flavor_text_entries.find((entry) => entry.language.name === 'en');
+    const descriptionEntry = fetchInLanguage(speciesData.flavor_text_entries);
     return descriptionEntry ? descriptionEntry.flavor_text.replace(/\f/g, ' ') : '';
   };
 
   const fetchSpecies = (speciesData: PokemonSpecies): string => {
-    const lang = getLanguageCode(locale.value);
-    const speciesEntry =
-      speciesData.genera.find((entry) => entry.language.name === lang) ??
-      speciesData.genera.find((entry) => entry.language.name === 'en');
+    const speciesEntry = fetchInLanguage(speciesData.genera);
     return speciesEntry ? speciesEntry.genus : '';
   };
 
   const fetchName = (speciesData: PokemonSpecies): string => {
-    const lang = getLanguageCode(locale.value);
-    const nameEntry =
-      speciesData.names.find((entry) => entry.language.name === lang) ??
-      speciesData.names.find((entry) => entry.language.name === 'en');
+    const nameEntry = fetchInLanguage(speciesData.names);
     return nameEntry ? nameEntry.name : '';
   };
 
@@ -152,22 +152,16 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
     };
   };
 
-  const closeDetails = () => {
-    pkmnDetailsState.isOpen = false;
-  };
-
   const fetchAbilityDetails = async (abilities: PokemonAbility[]) => {
-    const lang = getLanguageCode(locale.value);
-
     return await Promise.all(
       abilities.map(async (ability) => {
         const abilityResponse = await api.getAbilityByName(ability.ability.name);
-        const abilityEntry =
-          abilityResponse.effect_entries.find((entry) => entry.language.name === lang) ??
-          abilityResponse.effect_entries.find((entry) => entry.language.name === 'en');
+        const nameEntry = fetchInLanguage(abilityResponse.names);
+        const effectEntry = fetchInLanguage(abilityResponse.effect_entries);
+
         return {
-          effect: abilityEntry?.effect ?? '',
-          name: abilityResponse.name,
+          effect: effectEntry?.effect ?? '',
+          name: nameEntry?.name ?? abilityResponse.name,
           url: abilityUrl(abilityResponse.name),
         };
       }),
