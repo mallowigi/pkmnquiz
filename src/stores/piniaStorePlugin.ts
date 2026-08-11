@@ -6,7 +6,17 @@ export function piniaStorePlugin({ store }: PiniaPluginContext) {
   const { autoSave } = useSavedData();
   let saveTimeout: ReturnType<typeof setTimeout>;
 
-  const excludedStores = ['dialogs', 'messages', 'roomMessages', 'pkmnData', 'firebase', 'tooltips', 'credits', 'profile'];
+  const excludedStores = [
+    'dialogs',
+    'messages',
+    'roomMessages',
+    'pkmnData',
+    'firebase',
+    'tooltips',
+    'credits',
+    'profile',
+    'pkmnDetails',
+  ];
   if (excludedStores.includes(store.$id)) {
     return;
   }

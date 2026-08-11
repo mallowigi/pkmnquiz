@@ -11,7 +11,6 @@ import SavingIndicator from '@/components/background/SavingIndicator.vue';
 import SnackBar from '@/components/background/SnackBar.vue';
 import Tooltip from '@/components/background/Tooltip.vue';
 import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
-import SlideInRightTransition from '@/components/common/transitions/SlideInRightTransition.vue';
 import Dialogs from '@/components/dialogs/Dialogs.vue';
 import GameFooter from '@/components/footer/GameFooter.vue';
 import Game from '@/components/game/Game.vue';

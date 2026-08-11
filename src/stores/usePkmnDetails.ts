@@ -145,8 +145,7 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
 
     try {
       pkmnDetailsState.loading = true;
-      const fetchedDetails = await fetchPokemon(id);
-      pkmnDetailsState.currentPokemon = fetchedDetails;
+      pkmnDetailsState.currentPokemon = await fetchPokemon(id);
     } catch (e) {
       pkmnDetailsState.error = `Failed to fetch details for Pokémon with ID: ${id}. Error: ${e instanceof Error ? e.message : String(e)}`;
     } finally {

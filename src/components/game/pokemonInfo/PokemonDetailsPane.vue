@@ -1,15 +1,25 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
 import MorphTransition from '@/components/common/transitions/MorphTransition.vue';
-import SlideDownTransition from '@/components/common/transitions/SlideDownTransition.vue';
 import SlideInRightTransition from '@/components/common/transitions/SlideInRightTransition.vue';
+import Artwork from '@/components/game/pokemonInfo/Artwork.vue';
 import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 
 const { pkmnDetailsState, closeDetails } = usePkmnDetails();
 const { t } = useI18n();
+
+const typeInfos = computed(() => {
+  const primaryType = pkmnDetailsState.currentPokemon?.primaryType;
+  const secondaryType = pkmnDetailsState.currentPokemon?.secondaryType;
+
+  return [primaryType, secondaryType].map((type) => {
+    return pokemonTypes[type as keyof typeof pokemonTypes];
+  });
+});
 
 const getStatPercentage = (value: number) => {
   return Math.min(100, (value / 255) * 100);
@@ -38,21 +48,17 @@ const getTypeStyle = (type: string) => {
       <aside
         class="details-pane"
         v-if="pkmnDetailsState.isOpen"
+        :style="{
+          '--primary-type': typeInfos[0]?.bgColor ?? 'var(--primary)',
+          '--secondary-type': typeInfos[1]?.bgColor ?? 'var(--primary)',
+        }"
       >
-        <MorphTransition>
+        <MorphTransition mode="out-in">
           <div
             class="details-pane-contents"
             v-if="pkmnDetailsState.currentPokemon"
           >
-            <div class="pane-header">
-              <div class="artwork-container">
-                <img
-                  :src="pkmnDetailsState.currentPokemon.artwork"
-                  :alt="pkmnDetailsState.currentPokemon.baseName"
-                  class="artwork"
-                />
-              </div>
-            </div>
+            <Artwork />
             <!--    <div class="basic-info">-->
             <!--      <span class="dex-num">#{{ String(pkmnDetailsState.currentPokemon.dexNum).padStart(3, '0') }}</span>-->
             <!--      <h2 class="name">{{ pkmnDetailsState.currentPokemon.baseName }}</h2>-->
@@ -198,6 +204,10 @@ const getTypeStyle = (type: string) => {
 </template>
 
 <style scoped>
+.overlay {
+  padding-right: 0;
+}
+
 :deep(.overlay-wrapper) {
   justify-content: flex-end;
 }
@@ -206,7 +216,6 @@ const getTypeStyle = (type: string) => {
   max-width: 400px;
   min-width: 300px;
   height: 100vh;
-  background-color: var(--button);
   color: var(--text);
   box-shadow: -4px 0 15px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -214,14 +223,48 @@ const getTypeStyle = (type: string) => {
   overflow-y: auto;
   position: relative;
   border-left: 2px solid var(--primary);
+
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary-type) 70%, black 30%) 0%,
+    color-mix(in srgb, var(--secondary-type) 70%, black 30%) 100%
+  );
+
+  &:has(.loading),
+  &:has(.error) {
+    justify-content: center;
+  }
+
+  .loading,
+  .error {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+  }
 }
 
-.loading,
-.error {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem;
+.loader {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+  justify-self: center;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .details-pane {
+    max-width: 100%;
+  }
 }
 
 .close-btn {
@@ -235,29 +278,6 @@ const getTypeStyle = (type: string) => {
   cursor: pointer;
   z-index: 10;
   line-height: 1;
-}
-
-.pane-header {
-  padding: 2rem 1.5rem 1rem;
-  text-align: center;
-  background: linear-gradient(to bottom, var(--primary) 0%, transparent 100%);
-  background-size: 100% 150px;
-  background-repeat: no-repeat;
-}
-
-.artwork-container {
-  width: 200px;
-  height: 200px;
-  margin: 0 auto 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.artwork {
-  max-width: 100%;
-  max-height: 100%;
-  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
 }
 
 .name {
@@ -398,27 +418,5 @@ h3 {
 .genderless {
   text-align: center;
   font-style: italic;
-}
-
-.loader {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-left-color: var(--primary);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 480px) {
-  .details-pane {
-    max-width: 100%;
-  }
 }
 </style>

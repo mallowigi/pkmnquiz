@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ArrowIcon: typeof import('./src/components/common/icons/ArrowIcon.vue')['default']
+    Artwork: typeof import('./src/components/game/pokemonInfo/Artwork.vue')['default']
     AutoPauseToggle: typeof import('./src/components/game/settings/AutoPauseToggle.vue')['default']
     AutoSaveToggle: typeof import('./src/components/game/settings/AutoSaveToggle.vue')['default']
     AvatarMenu: typeof import('./src/components/header/AvatarMenu.vue')['default']
