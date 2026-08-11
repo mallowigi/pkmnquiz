@@ -1,19 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-
-import { pokemonTypes } from '@/data/pokemonTypes.ts';
+import { usePokemonTypesStyles } from '@/composables/usePokemonTypesStyles.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 
 const { pkmnDetailsState } = usePkmnDetails();
 
-const typeInfos = computed(() => {
-  const primaryType = pkmnDetailsState.currentPokemon?.primaryType;
-  const secondaryType = pkmnDetailsState.currentPokemon?.secondaryType;
-
-  return [primaryType, secondaryType].map((type) => {
-    return pokemonTypes[type as keyof typeof pokemonTypes];
-  });
-});
+const styles = usePokemonTypesStyles(pkmnDetailsState.currentPokemon);
 </script>
 
 <template>
@@ -23,11 +14,7 @@ const typeInfos = computed(() => {
   >
     <div
       class="artwork-gradient rad-br-tl"
-      :style="{
-        '--primary-type': typeInfos[0]?.bgColor ?? 'var(--primary)',
-        '--secondary-type': typeInfos[1]?.bgColor ?? typeInfos[0]?.bgColor ?? 'var(--primary)',
-        '--type-btn-color': typeInfos[0]?.buttonColor ?? 'var(--primary)',
-      }"
+      :style="styles"
     >
       <div class="artwork-container">
         <img

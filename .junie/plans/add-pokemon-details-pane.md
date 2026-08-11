@@ -28,9 +28,10 @@ Implement a detailed view for Pokémon that have been found during the quiz. Thi
 - A basic `usePkmnDetails` store exists but needs refinement for data parsing and variety support.
 
 ### Key Decisions
+- **SDK choice**: Use `pokenode-ts` to interact with PokeAPI. This provides full type safety and a clean API for fetching Pokémon and species data.
 - **Form Mapping Strategy**: Fetch species data first using `dexNum`, then match the internal `id` against the `varieties` array by comparing names with dashes removed. This ensures correct stats for Megas and Regional forms.
-- **Data Parsing in Store**: Perform all API data transformation in the store's `afterFetch` hook to keep the component logic focused on rendering.
-- **Centralized Fetcher**: Use a single reactive `useFetch` instance in the store to handle requests, avoiding the overhead of per-sprite fetchers.
+- **Data Parsing in Store**: Perform all data transformation in the store when fetching to keep the component logic focused on rendering.
+- **Caching**: Use a `detailsMap` in the Pinia store to cache fetched Pokémon details and avoid redundant API calls.
 
 ### Proposed Changes
 1.  **Type: `PokemonDetails`**:
@@ -39,12 +40,11 @@ Implement a detailed view for Pokémon that have been found during the quiz. Thi
     - Implement a two-step fetch process (Species -> Variety -> Details).
     - Add a `parsePokemonData` utility to transform raw API responses.
     - Manage `detailsMap` for caching and `selectedId` for UI state.
-3.  **Component: `PokemonDetailsPane`**:
-    - Build the sliding panel UI using UnoCSS.
-    - Implement visual bars for stats and a clear info grid.
+3.  **Transition: `SlideInRightTransition`**:
+    - A new custom transition in `src/components/common/transitions/SlideInRightTransition.vue` for the sliding effect.
 4.  **Integration**:
     - Add `PokemonDetailsPane` to `App.vue`.
-    - Update `PokemonSprite.vue` click handler to trigger the store's `showDetails`.
+    - `PokemonSprite.vue` already has a click handler that triggers `displayPokemonDetails`.
 
 ### Data Model
 ```typescript
@@ -90,3 +90,9 @@ graph LR
     - Opening details for a Pokémon with multiple forms (ensuring correct form data is fetched if possible).
     - Handling API errors gracefully (showing a message).
     - Switching between Pokémon without closing the pane.
+
+## Steps
+
+### ✓ Step 1: Create usePkmnDetails store and API integration
+### ✓ Step 2: Develop PokemonDetailsPane and SlideInRightTransition components
+### ✓ Step 3: Integrate the details pane into the game and add translations
