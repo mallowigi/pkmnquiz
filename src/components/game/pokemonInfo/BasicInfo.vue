@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import RoundedBox from '@/components/common/RoundedBox.vue';
 import { usePokemonTypesStyles } from '@/composables/usePokemonTypesStyles.ts';
 import { pokemonTypes } from '@/data/pokemonTypes.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
@@ -15,7 +16,7 @@ const styles = usePokemonTypesStyles(currentPokemon);
 </script>
 
 <template>
-  <div
+  <RoundedBox
     class="basic-info"
     v-if="pkmnDetailsState.currentPokemon"
     :style="styles"
@@ -24,7 +25,14 @@ const styles = usePokemonTypesStyles(currentPokemon);
     <span class="dex-num">#{{ String(pkmnDetailsState.currentPokemon.dexNum).padStart(3, '0') }}</span>
 
     <!-- Name -->
-    <h2 class="name">{{ pkmnDetailsState.currentPokemon.baseName }}</h2>
+    <h2 class="name">
+      <a
+        :href="`https://bulbapedia.bulbagarden.net/wiki/${pkmnDetailsState.currentPokemon.baseName}_(Pokémon)`"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{{ pkmnDetailsState.currentPokemon.baseName }}</a
+      >
+    </h2>
 
     <!-- Species -->
     <p class="species">{{ pkmnDetailsState.currentPokemon.species }}</p>
@@ -45,7 +53,7 @@ const styles = usePokemonTypesStyles(currentPokemon);
 
     <!--  Description -->
     <p class="description">{{ pkmnDetailsState.currentPokemon.description }}</p>
-  </div>
+  </RoundedBox>
 </template>
 
 <style scoped>
@@ -56,6 +64,7 @@ const styles = usePokemonTypesStyles(currentPokemon);
   text-align: center;
   gap: 0.5em;
   margin: 0 1em;
+  max-height: initial;
 }
 
 .dex-num {
