@@ -45,8 +45,9 @@ service cloud.firestore {
 
     function isValidLeaderboardRecord(data) {
       return (data.name == null || isValidString(data.name, 1, 100)) &&
-      // prevent saving debug mode wins
-      isValidInt(data.time, 60) &&
+      // Only enforce a minimum time on actual wins (prevents saving debug mode wins);
+      // gave-up sessions can legitimately end in under 60 seconds.
+      isValidInt(data.time, data.hasGivenUp == true ? 0 : 60) &&
       isValidInt(data.numFound, 0) &&
       isValidInt(data.numShadows, 0) &&
       data.hasGivenUp is bool &&
