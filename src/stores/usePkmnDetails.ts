@@ -180,7 +180,7 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
         return varietyName === internalInfo.id.toLowerCase();
       });
 
-      const pokemonName = targetVariety?.pokemon.name ?? speciesResponse.name;
+      const pokemonName = targetVariety?.pokemon.name ?? speciesResponse.varieties[0].pokemon.name;
 
       // 3. Fetch specific pokemon details for that variety
       const pokemonResponse = await api.getPokemonByName(pokemonName);
