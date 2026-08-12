@@ -168,14 +168,7 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
     );
   };
 
-  const fetchPokemon = async (id: string) => {
-    const { findPokemon } = usePokemons();
-    const internalInfo = findPokemon(id)?.[0];
-
-    if (!internalInfo) {
-      throw new Error(`Pokémon not found in local data: ${id}`);
-    }
-
+  const fetchPokemon = async (internalInfo: PokemonInfo) => {
     try {
       // 1. Fetch species data using dex number to get all varieties
       const speciesResponse = await api.getPokemonSpeciesByName(internalInfo.dexNum.toString());
@@ -184,7 +177,7 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
       // Mapping: charizardmegax -> charizard-mega-x
       const targetVariety = speciesResponse.varieties.find((v) => {
         const varietyName = v.pokemon.name.replace(/-/g, '');
-        return varietyName === id.toLowerCase();
+        return varietyName === internalInfo.id.toLowerCase();
       });
 
       const pokemonName = targetVariety?.pokemon.name ?? speciesResponse.name;
@@ -201,7 +194,7 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
         pokemonData: pokemonResponse,
         speciesData: speciesResponse,
       });
-      pkmnDetailsState.detailsMap.set(id, response);
+      pkmnDetailsState.detailsMap.set(internalInfo.id, response);
       return response;
     } catch (e) {
       console.error('Failed to fetch pokemon details:', e);
@@ -209,8 +202,8 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
     }
   };
 
-  const displayPokemonDetails = async (id: string) => {
-    const details = pkmnDetailsState.detailsMap.get(id);
+  const displayPokemonDetails = async (pokemon: PokemonInfo) => {
+    const details = pkmnDetailsState.detailsMap.get(pokemon.id);
 
     pkmnDetailsState.error = null;
     pkmnDetailsState.currentPokemon = null;
@@ -223,9 +216,9 @@ export const usePkmnDetails = defineStore('pkmnDetails', () => {
 
     try {
       pkmnDetailsState.loading = true;
-      pkmnDetailsState.currentPokemon = await fetchPokemon(id);
+      pkmnDetailsState.currentPokemon = await fetchPokemon(pokemon);
     } catch (e) {
-      pkmnDetailsState.error = `Failed to fetch details for Pokémon with ID: ${id}. Error: ${e instanceof Error ? e.message : String(e)}`;
+      pkmnDetailsState.error = `Failed to fetch details for Pokémon with ID: ${pokemon.id}. Error: ${e instanceof Error ? e.message : String(e)}`;
     } finally {
       pkmnDetailsState.loading = false;
     }

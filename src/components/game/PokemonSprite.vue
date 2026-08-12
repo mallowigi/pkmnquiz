@@ -135,7 +135,7 @@ const isDitto = computed(() => {
 const onClick = async () => {
   if (!props.status.isFound || props.status.isShadowed) return;
 
-  displayPokemonDetails(props.pokemon.id);
+  displayPokemonDetails(props.pokemon);
 };
 
 watch(displayedSprite, (newSprite, oldSprite) => {
