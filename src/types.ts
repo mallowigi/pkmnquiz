@@ -305,6 +305,7 @@ export type SaveData = State &
     gameSelectionState: GameSelectionState | null;
     challengeMode: ChallengeMode;
     gens: Gen[] | null;
+    types: Type[] | null;
     languages: Language[];
     pokemonProgress: PokemonProgress;
     score: number;

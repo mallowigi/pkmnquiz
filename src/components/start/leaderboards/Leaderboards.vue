@@ -3,7 +3,7 @@ import LeaderboardTable from '@/components/start/leaderboards/LeaderboardTable.v
 import SkeletonTable from '@/components/start/leaderboards/SkeletonTable.vue';
 import type { TopTrainer } from '@/types.ts';
 
-const props = defineProps<TopTrainer>();
+const props = defineProps<Partial<TopTrainer>>();
 </script>
 
 <template>
