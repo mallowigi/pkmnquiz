@@ -94,7 +94,7 @@ h3 {
 .stat-bar-container {
   flex-grow: 1;
   height: 10px;
-  background: var(--button);
+  background: var(--gauge);
   border-radius: 4px;
   overflow: hidden;
 }

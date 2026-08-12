@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
 import MorphTransition from '@/components/common/transitions/MorphTransition.vue';
 import SlideInRightTransition from '@/components/common/transitions/SlideInRightTransition.vue';
 import Artwork from '@/components/game/pokemonInfo/Artwork.vue';
-import BasicInfo from '@/components/game/pokemonInfo/BasicInfo.vue';
 import BaseStats from '@/components/game/pokemonInfo/BaseStats.vue';
+import BasicInfo from '@/components/game/pokemonInfo/BasicInfo.vue';
 import Profile from '@/components/game/pokemonInfo/Profile.vue';
+import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 
 const { pkmnDetailsState, closeDetails } = usePkmnDetails();
 const { t } = useI18n();
+const { playPokemonCry } = usePlaySounds();
 
 const isVisible = ref(pkmnDetailsState.isOpen);
 
@@ -25,10 +27,18 @@ watch(
   },
 );
 
+watch(
+  () => pkmnDetailsState.currentPokemon,
+  (pokemon) => {
+    if (pokemon) {
+      playPokemonCry(pokemon.dexNum);
+    }
+  },
+);
+
 const onAfterLeave = () => {
   isVisible.value = false;
 };
-
 </script>
 
 <template>
@@ -190,5 +200,4 @@ const onAfterLeave = () => {
   z-index: 10;
   line-height: 1;
 }
-
 </style>

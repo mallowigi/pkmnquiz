@@ -28,6 +28,7 @@
   --animate-duration: 0.5s;
   --animate-delay: 0;
   --animate-repeat: 1;
+  --gauge: #eee;
 }
 
 .dark {
@@ -42,6 +43,7 @@
   --type-fg-color: var(--text);
 
   --glow: black;
+  --gauge: #222;
 }
 
 html {
