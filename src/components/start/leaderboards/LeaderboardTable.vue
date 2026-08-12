@@ -4,9 +4,9 @@ import { useI18n } from 'vue-i18n';
 
 import { useLeaderboards } from '@/composables/useLeaderboards.ts';
 import { useTranslations } from '@/composables/useTranslations.ts';
-import type { Mode, GameMode, Gen, Type, TopTrainer } from '@/types.ts';
+import type { Mode, GameMode, Gen, Type, TopTrainer, LeaderboardsProps } from '@/types.ts';
 
-const props = defineProps<TopTrainer>();
+const props = defineProps<LeaderboardsProps>();
 
 const { getLeaderboardsAsync } = useLeaderboards();
 const { t } = useI18n();
@@ -24,8 +24,20 @@ const formatTime = (timeInSec: number) => {
 };
 
 const subType = (user: DocumentData): string => {
-  if (user.gameMode === 'types') return getTypeTranslation(user.type) ?? '';
-  if (user.gameMode === 'gen') return getGenTranslation(user.gen) ?? '';
+  if (user.gameMode === 'types') {
+    const types = user.types ?? [];
+    return types
+      .map((t: Type) => getTypeTranslation(t))
+      .filter(Boolean)
+      .join(', ');
+  }
+  if (user.gameMode === 'gen') {
+    const gens = user.gens ?? [];
+    return gens
+      .map((g: Gen) => getGenTranslation(g))
+      .filter(Boolean)
+      .join(', ');
+  }
   return getGameModeTranslation(user.gameMode) ?? '';
 };
 </script>
