@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed, nextTick, useTemplateRef, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import RoundedBox from '@/components/common/RoundedBox.vue';
 import PokemonSprite from '@/components/game/PokemonSprite.vue';
 import { useBoxes } from '@/composables/useBoxes.ts';
@@ -10,8 +13,6 @@ import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useState } from '@/stores/useState.ts';
 import type { PokemonInfo, RegionBox, SpecialType } from '@/types.ts';
-import { computed, nextTick, useTemplateRef, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 const { getCurrentGameModeBoxes, getSpecialBoxes } = useBoxes();
 const { getCurrentGameModeBoxPokemon, getSpecialTypePokemon, getStatus, getMegaPokemon } = usePokemons();
@@ -79,18 +80,7 @@ const getCurrentGamePokemon = (boxId: SpecialType | RegionBox): Map<string, Poke
   // Apply chaos mode sorting
   if (state.mode === 'chaos') {
     const entries = Array.from(result.entries());
-    entries.sort(
-      (
-        [
-          ,
-          pokemonsA,
-        ],
-        [
-          ,
-          pokemonsB,
-        ],
-      ) => orderByFoundAt(pokemonsA[0], pokemonsB[0]),
-    );
+    entries.sort(([, pokemonsA], [, pokemonsB]) => orderByFoundAt(pokemonsA[0], pokemonsB[0]));
     return new Map(entries);
   }
 
@@ -162,7 +152,10 @@ const multiGenClass = computed(() => {
 </script>
 
 <template>
-  <div class="region-boxes" :class="[state.gameMode, multiGenClass]">
+  <div
+    class="region-boxes"
+    :class="[state.gameMode, multiGenClass]"
+  >
     <RoundedBox
       v-for="(box, index) in currentBoxes"
       :key="box.id"
@@ -185,7 +178,10 @@ const multiGenClass = computed(() => {
     >
       <span class="region-name">{{ t(box.id) }}</span>
 
-      <div class="sprite-container" ref="boxRefs">
+      <div
+        class="sprite-container"
+        ref="boxRefs"
+      >
         <PokemonSprite
           v-for="(pokemon, index) in getBoxPokemons(box.id)"
           :key="pokemon.id"
@@ -281,7 +277,6 @@ const multiGenClass = computed(() => {
   align-items: flex-start;
   gap: 4px;
   max-height: inherit;
-  margin: 10px;
   border: none;
   border: 3px solid color-mix(in srgb, var(--region-color, var(--primary)) 50%, var(--button));
 
