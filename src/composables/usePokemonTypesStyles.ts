@@ -17,14 +17,16 @@ export const usePokemonTypesStyles = (pokemon: PokemonInfo | null) => {
     const secondaryTypeColor = secondaryType && pokemonTypes[secondaryType as keyof typeof pokemonTypes];
 
     return {
-      '--primary-type': primaryTypeColor?.bgColor ?? 'var(--type-bg-color)',
+      '--primary-type': primaryTypeColor?.lightBgColor ?? 'var(--type-bg-color)',
       '--primary-type-dark': primaryTypeColor?.darkBgColor ?? 'var(--type-dark-color)',
-      '--primary-type-text': primaryTypeColor?.fgColor ? 'var(--type-fg-color)' : 'var(--type-bg-color)',
+      '--primary-type-text': primaryTypeColor?.fgColor ?? 'var(--type-fg-color)',
+      '--primary-type-text-dark': primaryTypeColor?.fgColor ?? 'var(--type-fg-color-dark)',
 
-      '--secondary-type': secondaryTypeColor?.bgColor ?? primaryTypeColor?.bgColor ?? 'var(--type-bg-color)',
+      '--secondary-type': secondaryTypeColor?.lightBgColor ?? primaryTypeColor?.lightBgColor ?? 'var(--type-bg-color)',
       '--secondary-type-dark':
         secondaryTypeColor?.darkBgColor ?? primaryTypeColor?.darkBgColor ?? 'var(--type-dark-color)',
-      '--secondary-type-text': secondaryTypeColor?.fgColor ? 'var(--type-fg-color)' : 'var(--type-bg-color)',
+      '--secondary-type-text': secondaryTypeColor?.fgColor ?? 'var(--type-fg-color)',
+      '--secondary-type-text-dark': secondaryTypeColor?.fgColor ?? 'var(--type-fg-color-dark)',
 
       '--type-btn-color': primaryTypeColor?.buttonColor ?? 'var(--primary)',
     };

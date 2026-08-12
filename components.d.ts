@@ -18,6 +18,7 @@ declare module 'vue' {
     AvatarMenu: typeof import('./src/components/header/AvatarMenu.vue')['default']
     Background: typeof import('./src/components/background/Background.vue')['default']
     BackgroundPreload: typeof import('./src/components/background/BackgroundPreload.vue')['default']
+    BaseStats: typeof import('./src/components/game/pokemonInfo/BaseStats.vue')['default']
     BasicInfo: typeof import('./src/components/game/pokemonInfo/BasicInfo.vue')['default']
     BlueskyIcon: typeof import('./src/components/common/icons/BlueskyIcon.vue')['default']
     BoxShuffle: typeof import('./src/components/game/settings/BoxShuffle.vue')['default']

@@ -93,17 +93,21 @@ const styles = usePokemonTypesStyles(currentPokemon);
 
   &.primary {
     background-color: var(--primary-type);
+    color: var(--primary-type-text);
 
     .dark & {
       background-color: var(--primary-type-dark);
+      color: var(--primary-type-text-dark);
     }
   }
 
   &.secondary {
     background-color: var(--secondary-type);
+    color: var(--secondary-type-text);
 
     .dark & {
       background-color: var(--secondary-type-dark);
+      color: var(--secondary-type-text-dark);
     }
   }
 }
