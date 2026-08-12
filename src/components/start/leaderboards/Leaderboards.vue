@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import LeaderboardTable from '@/components/start/leaderboards/LeaderboardTable.vue';
 import SkeletonTable from '@/components/start/leaderboards/SkeletonTable.vue';
-import type { TopTrainer } from '@/types.ts';
+import type { LeaderboardsProps } from '@/types.ts';
 
-const props = defineProps<Partial<TopTrainer>>();
+const props = defineProps<LeaderboardsProps>();
 </script>
 
 <template>

@@ -323,16 +323,27 @@ export type Message = {
   type: MessageType;
 };
 
-export interface UserRecord extends DocumentData, SaveData {
-  id?: string;
-  hasGivenUp: boolean;
-  numShadows: number;
-}
+export type UserRecord = DocumentData &
+  SaveData & {
+    id?: string;
+    hasGivenUp: boolean;
+    numShadows: number;
+  };
 
 export const availableLanguages = ['en', 'cn', 'de', 'es', 'fr', 'it', 'jp', 'ko', 'pt', 'ru', 'zh'];
 
 export type TopTrainer = UserRecord & {
   id: string;
+};
+
+export type LeaderboardsProps = {
+  gameMode?: GameMode | null;
+  gens?: Gen[] | null;
+  limit?: number;
+  mode?: Mode | null;
+  types?: Type[] | null;
+  uid?: string | null;
+  caption?: string;
 };
 
 export type AbilityInfo = {

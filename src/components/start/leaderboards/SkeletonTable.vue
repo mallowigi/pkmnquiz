@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 
-import type { TopTrainer } from '@/types.ts';
+import type { LeaderboardsProps } from '@/types.ts';
 
-const props = defineProps<TopTrainer>();
+const props = defineProps<LeaderboardsProps>();
 
 const { t } = useI18n();
 </script>
