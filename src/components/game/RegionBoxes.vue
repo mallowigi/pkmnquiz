@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { computed, watch, nextTick, useTemplateRef } from 'vue';
-import { useI18n } from 'vue-i18n';
-
 import RoundedBox from '@/components/common/RoundedBox.vue';
 import PokemonSprite from '@/components/game/PokemonSprite.vue';
 import { useBoxes } from '@/composables/useBoxes.ts';
@@ -11,7 +8,9 @@ import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useState } from '@/stores/useState.ts';
-import type { SpecialType, RegionBox, PokemonInfo } from '@/types.ts';
+import type { PokemonInfo, RegionBox, SpecialType } from '@/types.ts';
+import { computed, nextTick, useTemplateRef, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const { getCurrentGameModeBoxes, getSpecialBoxes } = useBoxes();
 const { getCurrentGameModeBoxPokemon, getSpecialTypePokemon, getStatus, getMegaPokemon } = usePokemons();
@@ -64,7 +63,18 @@ const getCurrentGamePokemon = (boxId: SpecialType | RegionBox): Map<string, Poke
   // Apply chaos mode sorting
   if (state.mode === 'chaos') {
     const entries = Array.from(result.entries());
-    entries.sort(([, pokemonsA], [, pokemonsB]) => orderByFoundAt(pokemonsA[0], pokemonsB[0]));
+    entries.sort(
+      (
+        [
+          ,
+          pokemonsA,
+        ],
+        [
+          ,
+          pokemonsB,
+        ],
+      ) => orderByFoundAt(pokemonsA[0], pokemonsB[0]),
+    );
     return new Map(entries);
   }
 
@@ -128,7 +138,12 @@ watch(activeBoxId, (newBoxId) => {
 <template>
   <div
     class="region-boxes"
-    :class="[state.gameMode, { 'multi-gen': state.gameMode === 'gen' && currentGenState.gens.size > 1 }]"
+    :class="[
+      state.gameMode,
+      {
+        'multi-gen': state.gameMode === 'gen' && currentGenState.gens.size > 1,
+      },
+    ]"
   >
     <RoundedBox
       v-for="(box, index) in currentBoxes"
@@ -151,10 +166,7 @@ watch(activeBoxId, (newBoxId) => {
     >
       <span class="region-name">{{ t(box.id) }}</span>
 
-      <div
-        class="sprite-container"
-        ref="boxRefs"
-      >
+      <div class="sprite-container" ref="boxRefs">
         <PokemonSprite
           v-for="(pokemon, index) in getBoxPokemons(box.id)"
           :key="pokemon.id"
@@ -212,11 +224,13 @@ watch(activeBoxId, (newBoxId) => {
     --num-cols: 1;
     --sprite-width: 64px;
     --text-padding: 10px;
+  }
 
-    &.multi-gen {
-      --max-width: 100%;
-      --num-cols: 2;
-    }
+  &.multi-gen {
+    --max-width: 66%;
+    --num-cols: 2;
+    --sprite-width: 62px;
+    --text-padding: 10px;
   }
 
   .laptop & {
@@ -249,7 +263,6 @@ watch(activeBoxId, (newBoxId) => {
   }
 
   &.dimmed {
-    pointer-events: none;
     filter: brightness(0.5) saturate(0.5);
   }
 }

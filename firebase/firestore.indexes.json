@@ -35,7 +35,7 @@
       "fields": [
         { "fieldPath": "hasGivenUp", "order": "ASCENDING" },
         { "fieldPath": "gameMode", "order": "ASCENDING" },
-        { "fieldPath": "gen", "order": "ASCENDING" },
+        { "fieldPath": "gens", "arrayConfig": "CONTAINS" },
         { "fieldPath": "time", "order": "ASCENDING" },
         { "fieldPath": "__name__", "order": "ASCENDING" }
       ]
@@ -46,7 +46,7 @@
       "fields": [
         { "fieldPath": "hasGivenUp", "order": "ASCENDING" },
         { "fieldPath": "gameMode", "order": "ASCENDING" },
-        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "currentTypes", "arrayConfig": "CONTAINS" },
         { "fieldPath": "time", "order": "ASCENDING" },
         { "fieldPath": "__name__", "order": "ASCENDING" }
       ]

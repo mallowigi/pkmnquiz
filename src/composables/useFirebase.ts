@@ -206,9 +206,9 @@ export const useFirebase = defineStore('firebase', () => {
       andCondition.push(where('gameMode', '==', gameMode));
 
       if (gameMode === 'gen' && gen) {
-        andCondition.push(where('gen', '==', gen));
+        andCondition.push(where('gens', 'array-contains', gen));
       } else if (gameMode === 'types' && type) {
-        andCondition.push(where('type', '==', type));
+        andCondition.push(where('currentTypes', 'array-contains', type));
       }
     }
 
