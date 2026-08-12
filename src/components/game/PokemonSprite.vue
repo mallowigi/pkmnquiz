@@ -190,6 +190,7 @@ watch(displayedSprite, (newSprite, oldSprite) => {
     >
       <CyclingSprite
         :sprites="displayedSprite.sprites"
+        @click="onClick"
         :style="flowState.missingno ? glitchStyles : {}"
       />
     </RevealZoomTransition>
@@ -198,6 +199,7 @@ watch(displayedSprite, (newSprite, oldSprite) => {
     <RevealZoomTransition
       appear
       mode="out-in"
+      @click="onClick"
       v-else-if="isDitto && props.status.isFound"
     >
       <LastPokemon :style="flowState.missingno ? glitchStyles : {}" />

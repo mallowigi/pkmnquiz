@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
@@ -8,6 +8,7 @@ import SlideInRightTransition from '@/components/common/transitions/SlideInRight
 import Artwork from '@/components/game/pokemonInfo/Artwork.vue';
 import BaseStats from '@/components/game/pokemonInfo/BaseStats.vue';
 import BasicInfo from '@/components/game/pokemonInfo/BasicInfo.vue';
+import Gender from '@/components/game/pokemonInfo/Gender.vue';
 import Profile from '@/components/game/pokemonInfo/Profile.vue';
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
@@ -72,6 +73,9 @@ const onAfterLeave = () => {
 
             <!-- Base Stats -->
             <BaseStats />
+
+            <!-- Gender Ratio -->
+            <Gender />
           </div>
 
           <div
