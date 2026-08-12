@@ -28,6 +28,10 @@ service cloud.firestore {
       return gen == null || gen in ['gen1', 'gen2', 'gen3', 'gen4', 'gen5', 'gen6', 'gen7', 'gen8', 'gen9'];
     }
 
+    function isValidGens(gens) {
+      return gens == null || (gens is list && gens.size() <= 9);
+    }
+
     function isValidMode(mode) {
       return mode in ['chaos', 'normal', 'order'];
     }
@@ -47,7 +51,7 @@ service cloud.firestore {
       isValidInt(data.numShadows, 0) &&
       data.hasGivenUp is bool &&
       isValidGameMode(data.gameMode) &&
-      isValidGen(data.gen) &&
+      isValidGens(data.gens) &&
       isValidMode(data.mode) &&
       (data.uid == null || data.uid is string) &&
       isValidPokemonProgress(data.pokemonProgress);
