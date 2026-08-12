@@ -3,6 +3,7 @@ import RoundedBox from '@/components/common/RoundedBox.vue';
 import PokemonSprite from '@/components/game/PokemonSprite.vue';
 import { useBoxes } from '@/composables/useBoxes.ts';
 import { boxes } from '@/data/boxes.js';
+import { gens } from '@/data/gens.ts';
 import { specialTypes } from '@/data/specialTypes.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
@@ -29,6 +30,21 @@ const currentBoxes = computed(() => {
       return currentGameModeBoxes?.map((box) => boxes[box]);
   }
 });
+
+// Maps each RegionBox to the color of the generation it belongs to, so region boxes can be tinted accordingly.
+const regionColorMap: Partial<Record<RegionBox, string>> = {};
+Object.values(gens).forEach((gen) => {
+  gen.boxes.forEach((boxId) => {
+    regionColorMap[boxId] = gen.color;
+  });
+});
+
+const getBoxColor = (boxId: SpecialType | RegionBox): string | undefined => {
+  if (state.gameMode === 'special') {
+    return specialTypes[boxId as SpecialType]?.bgColor;
+  }
+  return regionColorMap[boxId as RegionBox];
+};
 
 function orderByFoundAt(pokemonA: PokemonInfo, pokemonB: PokemonInfo): number {
   const statusA = getStatus(pokemonA);
@@ -165,6 +181,7 @@ const multiGenClass = computed(() => {
         full: isFull(box.id),
         dimmed: isDimmed(box.id),
       }"
+      :style="{ '--region-color': getBoxColor(box.id) }"
     >
       <span class="region-name">{{ t(box.id) }}</span>
 
@@ -258,7 +275,7 @@ const multiGenClass = computed(() => {
   }
 }
 
-.region-box {
+.region-boxes .region-box {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -266,15 +283,18 @@ const multiGenClass = computed(() => {
   max-height: inherit;
   margin: 10px;
   border: none;
+  border: 3px solid color-mix(in srgb, var(--region-color, var(--primary)) 50%, var(--button));
 
   transform: translate3d(0, 0, 0.1px);
   will-change: transform, visibility;
   transform-style: preserve-3d;
-  transition: box-shadow 0.2s ease-in-out;
+  transition:
+    box-shadow 0.2s ease-in-out,
+    border 0.2s ease-in-out;
   box-shadow: 0 10px 20px -5px var(--glow);
 
   &:hover {
-    --glow: var(--type-btn-color, var(--primary));
+    --glow: var(--region-color, var(--type-btn-color, var(--primary)));
   }
 
   &.full {

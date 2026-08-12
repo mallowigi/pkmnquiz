@@ -30,7 +30,6 @@ import SpellingToggle from '@/components/game/settings/SpellingToggle.vue';
 import TimerSelection from '@/components/game/settings/TimerSelection.vue';
 import TypeShuffle from '@/components/game/settings/TypeShuffle.vue';
 import { useShuffles } from '@/composables/useShuffles.ts';
-import { useBonus } from '@/stores/useBonus.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.ts';
@@ -46,7 +45,7 @@ const canSkip = computed(() => {
   if (!state.withBoxShuffle && !state.withTypeShuffle && !state.withCriesShuffle) return false;
 
   const numSkips = skipsState.skips;
-  if (numSkips > 0) return true;
+  if (Number(numSkips) <= 0) return false;
 
   return !isChallengeMode.value;
 });
