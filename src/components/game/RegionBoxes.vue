@@ -133,18 +133,20 @@ watch(activeBoxId, (newBoxId) => {
     });
   });
 });
+
+const multiGenClass = computed(() => {
+  if (state.gameMode !== 'gen') return null;
+
+  const genCount = currentGenState.gens.size;
+  if (genCount <= 1) return null;
+  if (genCount <= 4) return 'multi-gen-2';
+  if (genCount <= 7) return 'multi-gen-3';
+  return 'multi-gen-auto';
+});
 </script>
 
 <template>
-  <div
-    class="region-boxes"
-    :class="[
-      state.gameMode,
-      {
-        'multi-gen': state.gameMode === 'gen' && currentGenState.gens.size > 1,
-      },
-    ]"
-  >
+  <div class="region-boxes" :class="[state.gameMode, multiGenClass]">
     <RoundedBox
       v-for="(box, index) in currentBoxes"
       :key="box.id"
@@ -188,7 +190,9 @@ watch(activeBoxId, (newBoxId) => {
   column-gap: 10px;
 
   & .region-box {
-    display: inline-flex;
+    /* Must stay block-level flex (not inline-flex): Chromium fails to balance
+       multi-column content across columns when children are inline-flex. */
+    display: flex;
     width: 100%;
     margin: 0 0 10px;
     padding: 12px 12px 12px 10px;
@@ -226,9 +230,24 @@ watch(activeBoxId, (newBoxId) => {
     --text-padding: 10px;
   }
 
-  &.multi-gen {
+  &.multi-gen-2 {
     --max-width: 66%;
     --num-cols: 2;
+    --sprite-width: 62px;
+    --text-padding: 10px;
+  }
+
+  &.multi-gen-3 {
+    --max-width: 100%;
+    --num-cols: 3;
+    --sprite-width: 62px;
+    --text-padding: 10px;
+  }
+
+  &.multi-gen-auto {
+    --max-width: none;
+    --num-cols: auto;
+    --col-width: 25vh;
     --sprite-width: 62px;
     --text-padding: 10px;
   }
