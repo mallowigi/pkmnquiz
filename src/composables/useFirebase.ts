@@ -34,10 +34,10 @@ import type { UserRecord, GameMode, Gen, Mode, Type, SaveData, TopTrainer } from
 
 type TopTrainersOptions = {
   gameMode?: GameMode | null;
-  gen?: Gen | null;
+  gens?: Gen[] | null;
   limit?: number;
   mode?: Mode | null;
-  type?: Type | null;
+  types?: Type[] | null;
   uid?: string | null;
 };
 
@@ -123,6 +123,7 @@ export const useFirebase = defineStore('firebase', () => {
         numFound: numFound.value,
         numShadows: numShadows.value,
         time: timerState.elapsed,
+        types: savedState.currentTypes,
         uid: user ? user.uid : null,
       };
 
@@ -190,7 +191,7 @@ export const useFirebase = defineStore('firebase', () => {
     return null;
   };
 
-  const prepareTopTrainersQuery = ({ uid, mode, gameMode, gen, type, limit: queryLimit }: TopTrainersOptions) => {
+  const prepareTopTrainersQuery = ({ uid, mode, gameMode, gens, types, limit: queryLimit }: TopTrainersOptions) => {
     checkOnline('getTopTrainersAsync');
 
     const andCondition = [where('hasGivenUp', '==', false)];
@@ -205,23 +206,23 @@ export const useFirebase = defineStore('firebase', () => {
     if (gameMode) {
       andCondition.push(where('gameMode', '==', gameMode));
 
-      if (gameMode === 'gen' && gen) {
-        andCondition.push(where('gens', 'array-contains', gen));
-      } else if (gameMode === 'types' && type) {
-        andCondition.push(where('currentTypes', 'array-contains', type));
+      if (gameMode === 'gen' && gens && gens.length > 0) {
+        andCondition.push(where('gens', '==', [...gens].sort()));
+      } else if (gameMode === 'types' && types && types.length > 0) {
+        andCondition.push(where('types', '==', [...types].sort()));
       }
     }
 
     return query(collection(db, 'leaderboards'), ...andCondition, orderBy('time', 'asc'), limit(queryLimit ?? 0));
   };
 
-  const getTopTrainers = ({ gameMode, gen, limit: queryLimit = 3, mode, type, uid }: TopTrainersOptions = {}) => {
+  const getTopTrainers = ({ gameMode, gens, limit: queryLimit = 3, mode, types, uid }: TopTrainersOptions = {}) => {
     const leaderBoardQuery = prepareTopTrainersQuery({
       gameMode: gameMode,
-      gen: gen,
+      gens: gens,
       limit: queryLimit,
       mode: mode,
-      type: type,
+      types: types,
       uid: uid,
     });
 
@@ -231,13 +232,13 @@ export const useFirebase = defineStore('firebase', () => {
     });
   };
 
-  const getTopTrainersAsync = async ({ gameMode, gen, limit = 3, mode, type, uid }: TopTrainersOptions = {}) => {
+  const getTopTrainersAsync = async ({ gameMode, gens, limit = 3, mode, types, uid }: TopTrainersOptions = {}) => {
     const leaderBoardQuery = prepareTopTrainersQuery({
       gameMode: gameMode,
-      gen: gen,
+      gens: gens,
       limit: limit,
       mode: mode,
-      type: type,
+      types: types,
       uid: uid,
     });
 

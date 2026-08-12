@@ -113,12 +113,12 @@ const {
     <!-- Leaderboard table -->
     <MorphTransition mode="out-in">
       <Leaderboards
-        :key="`${activeTab}-${currentFilter.mode}-${currentFilter.gameMode}-${currentFilter.gen}-${currentFilter.type}`"
+        :key="`${activeTab}-${currentFilter.mode}-${currentFilter.gameMode}-${currentFilter.gens}-${currentFilter.types}`"
         :limit="10"
         :mode="currentFilter.mode"
         :gameMode="currentFilter.gameMode"
-        :gen="currentFilter.gen"
-        :type="currentFilter.type"
+        :gens="currentFilter.gens"
+        :types="currentFilter.types"
       />
     </MorphTransition>
   </section>
