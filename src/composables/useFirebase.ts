@@ -30,16 +30,16 @@ import { usePokemons } from '@/stores/usePokemons.ts';
 import { useProfile } from '@/stores/useProfile.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useTimer } from '@/stores/useTimer.ts';
-import type { UserRecord, GameMode, Gen, Mode, Type, SaveData, TopTrainer } from '@/types.ts';
+import type { UserRecord, SaveData, TopTrainer, LeaderboardsProps } from '@/types.ts';
 
-type TopTrainersOptions = {
-  gameMode?: GameMode | null;
-  gens?: Gen[] | null;
-  limit?: number;
-  mode?: Mode | null;
-  types?: Type[] | null;
-  uid?: string | null;
-};
+// type TopTrainersOptions = {
+//   gameMode?: GameMode | null;
+//   gens?: Gen[] | null;
+//   limit?: number;
+//   mode?: Mode | null;
+//   types?: Type[] | null;
+//   uid?: string | null;
+// };
 
 export const useFirebase = defineStore('firebase', () => {
   const { setName, setAvatar } = useSettings();
@@ -191,7 +191,7 @@ export const useFirebase = defineStore('firebase', () => {
     return null;
   };
 
-  const prepareTopTrainersQuery = ({ uid, mode, gameMode, gens, types, limit: queryLimit }: TopTrainersOptions) => {
+  const prepareTopTrainersQuery = ({ uid, mode, gameMode, gen, type, limit: queryLimit }: LeaderboardsProps) => {
     checkOnline('getTopTrainersAsync');
 
     const andCondition = [where('hasGivenUp', '==', false)];
@@ -206,23 +206,23 @@ export const useFirebase = defineStore('firebase', () => {
     if (gameMode) {
       andCondition.push(where('gameMode', '==', gameMode));
 
-      if (gameMode === 'gen' && gens && gens.length > 0) {
-        andCondition.push(where('gens', '==', [...gens].sort()));
-      } else if (gameMode === 'types' && types && types.length > 0) {
-        andCondition.push(where('types', '==', [...types].sort()));
+      if (gameMode === 'gen' && gen) {
+        andCondition.push(where('gens', 'array-contains', gen));
+      } else if (gameMode === 'types' && type) {
+        andCondition.push(where('currentTypes', 'array-contains', type));
       }
     }
 
     return query(collection(db, 'leaderboards'), ...andCondition, orderBy('time', 'asc'), limit(queryLimit ?? 0));
   };
 
-  const getTopTrainers = ({ gameMode, gens, limit: queryLimit = 3, mode, types, uid }: TopTrainersOptions = {}) => {
+  const getTopTrainers = ({ gameMode, gen, limit: queryLimit = 3, mode, type, uid }: LeaderboardsProps = {}) => {
     const leaderBoardQuery = prepareTopTrainersQuery({
       gameMode: gameMode,
-      gens: gens,
+      gen: gen,
       limit: queryLimit,
       mode: mode,
-      types: types,
+      type: type,
       uid: uid,
     });
 
@@ -232,13 +232,13 @@ export const useFirebase = defineStore('firebase', () => {
     });
   };
 
-  const getTopTrainersAsync = async ({ gameMode, gens, limit = 3, mode, types, uid }: TopTrainersOptions = {}) => {
+  const getTopTrainersAsync = async ({ gameMode, gen, limit = 3, mode, type, uid }: LeaderboardsProps = {}) => {
     const leaderBoardQuery = prepareTopTrainersQuery({
       gameMode: gameMode,
-      gens: gens,
+      gen: gen,
       limit: limit,
       mode: mode,
-      types: types,
+      type: type,
       uid: uid,
     });
 

@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import { useLeaderboards } from '@/composables/useLeaderboards.ts';
 import { useTranslations } from '@/composables/useTranslations.ts';
-import type { Mode, GameMode, Gen, Type, TopTrainer, LeaderboardsProps } from '@/types.ts';
+import type { Gen, Type, LeaderboardsProps } from '@/types.ts';
 
 const props = defineProps<LeaderboardsProps>();
 

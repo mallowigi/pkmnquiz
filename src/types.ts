@@ -338,10 +338,10 @@ export type TopTrainer = UserRecord & {
 
 export type LeaderboardsProps = {
   gameMode?: GameMode | null;
-  gens?: Gen[] | null;
+  gen?: Gen | null;
   limit?: number;
   mode?: Mode | null;
-  types?: Type[] | null;
+  type?: Type | null;
   uid?: string | null;
   caption?: string;
 };
