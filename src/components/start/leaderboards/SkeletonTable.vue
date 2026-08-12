@@ -25,7 +25,7 @@ const { t } = useI18n();
       </thead>
       <tbody>
         <tr
-          v-for="n in props.limit ?? 3"
+          v-for="n in 3"
           :key="`skeleton-${n}`"
         >
           <td class="rank"><div class="skeleton-bar rank-skeleton"></div></td>

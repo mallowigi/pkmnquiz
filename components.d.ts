@@ -79,6 +79,7 @@ declare module 'vue' {
     MissedNamesTransition: typeof import('./src/components/common/transitions/MissedNamesTransition.vue')['default']
     ModeDialog: typeof import('./src/components/dialogs/ModeDialog.vue')['default']
     ModeSelection: typeof import('./src/components/game/settings/ModeSelection.vue')['default']
+    MorphResizeTransition: typeof import('./src/components/common/transitions/MorphResizeTransition.vue')['default']
     MorphTransition: typeof import('./src/components/common/transitions/MorphTransition.vue')['default']
     MultiplayerInvite: typeof import('./src/components/game/settings/MultiplayerInvite.vue')['default']
     NewGameButtons: typeof import('./src/components/start/NewGameButtons.vue')['default']

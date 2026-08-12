@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MorphResizeTransition from '@/components/common/transitions/MorphResizeTransition.vue';
 import LeaderboardTable from '@/components/start/leaderboards/LeaderboardTable.vue';
 import SkeletonTable from '@/components/start/leaderboards/SkeletonTable.vue';
 import type { LeaderboardsProps } from '@/types.ts';
@@ -10,15 +11,19 @@ const props = defineProps<LeaderboardsProps>();
   <div class="leaderboard">
     <h2>{{ props.caption }}</h2>
 
-    <Suspense>
-      <!-- The asynchronous table component -->
-      <LeaderboardTable v-bind="props" />
+    <MorphResizeTransition>
+      <KeepAlive>
+        <Suspense>
+          <!-- The asynchronous table component -->
+          <LeaderboardTable v-bind="props" />
 
-      <!-- The layout-consistent skeleton loading state -->
-      <template #fallback>
-        <SkeletonTable v-bind="props" />
-      </template>
-    </Suspense>
+          <!-- The layout-consistent skeleton loading state -->
+          <template #fallback>
+            <SkeletonTable v-bind="props" />
+          </template>
+        </Suspense>
+      </KeepAlive>
+    </MorphResizeTransition>
   </div>
 </template>
 
