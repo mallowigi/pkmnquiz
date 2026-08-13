@@ -80,15 +80,16 @@ watch(
 }
 
 .color-select {
-  border: 1px solid var(--text);
-  border-radius: 50%;
+  border: none;
+  border-radius: 8px;
   text-decoration: none;
   outline: none;
   cursor: pointer;
   transition: background-color 0.2s;
   background-color: var(--accent-color);
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
 
   &:hover {
     background-color: var(--type-dark-color, var(--darkPrimary));

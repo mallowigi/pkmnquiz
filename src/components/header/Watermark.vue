@@ -80,7 +80,7 @@ const showCredits = () => {
 .watermark-url {
   font-size: 20px;
   z-index: 10;
-  padding: 4px 10px 10px 40px;
+  padding: 4px 10px 10px 4px;
   color: var(--text);
   anchor-name: --watermark-url;
 }

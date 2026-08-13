@@ -9,6 +9,10 @@ export const gameModes: Record<GameMode, GameModeInfo> = {
     id: 'gen',
     name: 'Generations',
   },
+  mega: {
+    id: 'mega',
+    name: 'Mega',
+  },
   special: {
     id: 'special',
     name: 'Special',
