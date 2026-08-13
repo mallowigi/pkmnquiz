@@ -2,10 +2,12 @@
 import { useI18n } from 'vue-i18n';
 
 import GitHubIcon from '@/components/common/icons/GitHubIcon.vue';
-import { useCredits } from '@/stores/useCredits';
+import { useCredits } from '@/stores/useCredits.ts';
+import { useHelp } from '@/stores/useHelp.ts';
 import KofiButton from '@/components/common/KofiButton.vue';
 
 const { toggleShowCredits } = useCredits();
+const { showHelp } = useHelp();
 
 const { t } = useI18n();
 </script>
@@ -132,6 +134,13 @@ const { t } = useI18n();
           {{ t('footer.privacy') }}
         </p>
       </a>
+
+      <p
+        class="p2 link"
+        @click="showHelp"
+      >
+        {{ t('help.title') }}
+      </p>
     </div>
 
     <div class="footerRow">

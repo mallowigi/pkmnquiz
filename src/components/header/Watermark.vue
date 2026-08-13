@@ -3,14 +3,17 @@ import { useI18n } from 'vue-i18n';
 
 import ChartIcon from '@/components/common/icons/ChartIcon.vue';
 import CreditsIcon from '@/components/common/icons/CreditsIcon.vue';
+import HelpIcon from '@/components/common/icons/HelpIcon.vue';
 import AvatarMenu from '@/components/header/AvatarMenu.vue';
 import ColorChanger from '@/components/header/ColorChanger.vue';
 import LocaleChanger from '@/components/header/LocaleChanger.vue';
 import { useCredits } from '@/stores/useCredits.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
+import { useHelp } from '@/stores/useHelp.ts';
 
 const { setDialog } = useDialogs();
 const { toggleShowCredits } = useCredits();
+const { showHelp } = useHelp();
 const { t } = useI18n();
 
 const showLeaderBoards = () => {
@@ -35,6 +38,12 @@ const showCredits = () => {
         class="hide-laptop"
         @click="showCredits"
         v-tooltip:bottom="t('showCredits')"
+      />
+
+      <HelpIcon
+        class="hide-laptop"
+        @click="showHelp"
+        v-tooltip:bottom="t('help')"
       />
 
       <ColorChanger class="hide-laptop" />

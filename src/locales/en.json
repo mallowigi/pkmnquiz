@@ -136,6 +136,25 @@
   "green": "Green",
   "ground": "Ground",
   "height": "Height",
+  "helpPopup": {
+    "gameModes": {
+      "description": "Choose between different quiz modes like Regional, Type-based, or Full National Dex. You can also play in Challenge Mode for a harder experience.",
+      "title": "Game Modes"
+    },
+    "howToPlay": {
+      "description": "The goal of the game is to name as many Pokémon as possible within the time limit. Type the name of a Pokémon in the input field to name it. If you get it right, it will appear in the grid.",
+      "title": "How to Play"
+    },
+    "leaderboards": {
+      "description": "Compete with other players and see your rank on the leaderboards. Scores are based on the number of Pokémon found and the time taken.",
+      "title": "Leaderboards"
+    },
+    "settings": {
+      "description": "Customize your experience in the settings menu. You can toggle dark mode, change the timer, enable or disable shadows, and more.",
+      "title": "Settings"
+    }
+  },
+  "help": "Help",
   "hello": "Hello, {name}",
   "hisui": "Hisui",
   "hoenn": "Hoenn",
