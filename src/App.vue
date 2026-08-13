@@ -5,6 +5,7 @@ import { watchEffect, watch } from 'vue';
 import Background from '@/components/background/Background.vue';
 import Credits from '@/components/background/Credits.vue';
 import EndOverlay from '@/components/background/EndOverlay.vue';
+import Help from '@/components/background/Help.vue';
 import PauseOverlay from '@/components/background/PauseOverlay.vue';
 import RoomMessageOverlay from '@/components/background/RoomMessageOverlay.vue';
 import SavingIndicator from '@/components/background/SavingIndicator.vue';
@@ -24,6 +25,7 @@ import ReloadPrompt from '@/ReloadPrompt.vue';
 import ScrollTop from '@/ScrollTop.vue';
 import { useCredits } from '@/stores/useCredits';
 import { useGameFlow } from '@/stores/useGameFlow';
+import { useHelp } from '@/stores/useHelp.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 import { useRoomMessages } from '@/stores/useRoomMessages';
 import { useState } from '@/stores/useState';
@@ -34,6 +36,7 @@ const { credits } = useCredits();
 const { roomState } = useRoomMessages();
 const typeStyles = useTypeStyles();
 const { pkmnDetailsState } = usePkmnDetails();
+const { helpState } = useHelp();
 
 const { isMobile, isLaptop, isDesktop } = useAppBreakpoints();
 
@@ -80,7 +83,10 @@ watch(
     }"
     :style="typeStyles"
   >
+    <!-- Offline Banner-->
     <OfflineBanner />
+
+    <!-- New Release Reload Prompt-->
     <ReloadPrompt />
 
     <!-- Background images -->
@@ -98,6 +104,11 @@ watch(
     <!-- Credits-->
     <FadeTransition>
       <Credits v-if="credits.showCredits" />
+    </FadeTransition>
+
+    <!-- Help-->
+    <FadeTransition>
+      <Help v-if="helpState.showHelp" />
     </FadeTransition>
 
     <!-- Room messages -->

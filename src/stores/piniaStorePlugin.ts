@@ -15,6 +15,7 @@ export function piniaStorePlugin({ store }: PiniaPluginContext) {
     'tooltips',
     'credits',
     'profile',
+    'help',
     'pkmnDetails',
   ];
   if (excludedStores.includes(store.$id)) {
