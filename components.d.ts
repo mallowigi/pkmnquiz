@@ -60,6 +60,7 @@ declare module 'vue' {
     GitHubIcon: typeof import('./src/components/common/icons/GitHubIcon.vue')['default']
     GiveUpDialog: typeof import('./src/components/dialogs/GiveUpDialog.vue')['default']
     GoogleIcon: typeof import('./src/components/common/icons/GoogleIcon.vue')['default']
+    Help: typeof import('./src/components/background/Help.vue')['default']
     Icon: typeof import('./src/components/common/icons/Icon.vue')['default']
     IconButton: typeof import('./src/components/common/IconButton.vue')['default']
     KofiButton: typeof import('./src/components/common/KofiButton.vue')['default']

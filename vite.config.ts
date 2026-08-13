@@ -17,8 +17,8 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          // Prevents warnings for the new <selectedcontent> tag
-          isCustomElement: (tag) => ['selectedcontent'].includes(tag)
+          // Prevents warnings for the new <selectedcontent> and <button> tags inside <select>
+          isCustomElement: (tag) => ['selectedcontent', 'button', 'datalist'].includes(tag)
         }
       }
     }),
