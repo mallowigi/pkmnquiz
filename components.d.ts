@@ -62,6 +62,8 @@ declare module 'vue' {
     GoogleIcon: typeof import('./src/components/common/icons/GoogleIcon.vue')['default']
     Help: typeof import('./src/components/background/Help.vue')['default']
     HelpIcon: typeof import('./src/components/common/icons/HelpIcon.vue')['default']
+    HelpSection: typeof import('./src/components/background/help/HelpSection.vue')['default']
+    HelpSubsection: typeof import('./src/components/background/help/HelpSubsection.vue')['default']
     Icon: typeof import('./src/components/common/icons/Icon.vue')['default']
     IconButton: typeof import('./src/components/common/IconButton.vue')['default']
     ImageModal: typeof import('./src/components/common/ImageModal.vue')['default']

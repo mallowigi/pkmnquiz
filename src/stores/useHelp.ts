@@ -20,6 +20,8 @@ export interface HelpSubsection {
 
 interface HelpState {
   showHelp: boolean;
+  expandedSections: Set<string>;
+  selectedImage: string | null;
 }
 
 export const useHelp = defineStore('help', () => {
@@ -174,6 +176,8 @@ export const useHelp = defineStore('help', () => {
   };
 
   const helpState = reactive<HelpState>({
+    expandedSections: new Set(['howToPlay']),
+    selectedImage: null,
     showHelp: false,
   });
 
@@ -185,11 +189,35 @@ export const useHelp = defineStore('help', () => {
     helpState.showHelp = false;
   };
 
+  const toggleSection = (sectionId: string) => {
+    if (helpState.expandedSections.has(sectionId)) {
+      helpState.expandedSections.delete(sectionId);
+    } else {
+      helpState.expandedSections.add(sectionId);
+    }
+  };
+
+  const isSectionExpanded = (sectionId: string) => {
+    return helpState.expandedSections.has(sectionId);
+  };
+
+  const openImageModal = (imagePath: string) => {
+    helpState.selectedImage = imagePath;
+  };
+
+  const closeImageModal = () => {
+    helpState.selectedImage = null;
+  };
+
   return {
+    closeImageModal,
     getHelpSections,
     helpState,
     hideHelp,
+    isSectionExpanded,
+    openImageModal,
     showHelp,
+    toggleSection,
   };
 });
 
