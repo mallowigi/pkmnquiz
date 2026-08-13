@@ -64,6 +64,7 @@ declare module 'vue' {
     HelpIcon: typeof import('./src/components/common/icons/HelpIcon.vue')['default']
     Icon: typeof import('./src/components/common/icons/Icon.vue')['default']
     IconButton: typeof import('./src/components/common/IconButton.vue')['default']
+    ImageModal: typeof import('./src/components/common/ImageModal.vue')['default']
     KofiButton: typeof import('./src/components/common/KofiButton.vue')['default']
     LanguagesSelection: typeof import('./src/components/game/settings/LanguagesSelection.vue')['default']
     LastPokemon: typeof import('./src/components/header/LastPokemon.vue')['default']
