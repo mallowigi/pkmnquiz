@@ -137,6 +137,171 @@
   "ground": "Tierra",
   "height": "Altura",
   "hello": "Hola, {name}",
+  "help": "Ayuda",
+  "helpPopup": {
+    "gameModes": {
+      "title": "Modos de Juego",
+      "description": "¡Elige cómo quieres jugar! Selecciona entre quizzes regionales (como Kanto o Johto), quizzes por tipo (todos los Pokémon de Agua o Fuego), quizzes especiales (como Legendarios o Megaevoluciones) o desafía la Pokédex Nacional completa. Cada modo ofrece un reto único.",
+      "challengeMode": {
+        "title": "Modo Desafío",
+        "description": "¡Pon a prueba tus habilidades! En el <b>Modo Desafío</b>, todos los ajustes quedan bloqueados al empezar. Puedes personalizar qué ayudas estarán disponibles, pero una vez iniciada la partida no se permiten cambios. ¡Compite contra el reloj para completar el quiz lo antes posible!"
+      },
+      "freeMode": {
+        "title": "Modo Libre",
+        "description": "¡Juega a tu propio ritmo! El Modo Libre te permite activar o desactivar pistas, ajustar la configuración, guardar tu progreso y hacer pausas cuando quieras. Ideal para jugar relajadamente o aprender los nombres de todos los Pokémon."
+      },
+      "limitedTime": {
+        "title": "Modo Tiempo Limitado",
+        "description": "¡Acelera contra el reloj! En el <b>Modo Tiempo Limitado</b> tienes un tiempo límite determinado para nombrar tantas Pokémon como puedas. ¡El cronómetro corre, así que sé rápido para lograr la máxima puntuación!"
+      },
+      "orderModes": {
+        "title": "Modos de Orden",
+        "description": "¡Aumenta la dificultad imponiendo un orden concreto o eliminando posiciones fijas! Elige entre Modo Normal, Orden Pokédex o Modo Caos para poner a prueba tus conocimientos de distintas formas.",
+        "listItems": {
+          "normal": "<b>Modo Normal</b>: Adivina Pokémon en cualquier orden; aparecerán en la casilla según su número en la Pokédex Nacional",
+          "dex": "<b>Orden Pokédex</b>: Adivina Pokémon siguiendo estrictamente el orden numérico de la Pokédex Nacional",
+          "chaos": "<b>Modo Caos</b>: Adivina Pokémon en cualquier orden; se irán mostrando a medida que los encuentres, sin casillas predefinidas"
+        }
+      },
+      "quizTypes": {
+        "title": "Tipos de Quiz",
+        "description": "Personaliza tu desafío filtrando los Pokémon de diferentes maneras:",
+        "listItems": {
+          "gen": "<b>Quiz por Generación</b>: Adivina Pokémon de una o varias generaciones (p. ej., Gen 1, Gen 2, Gen 3)",
+          "type": "<b>Quiz por Tipo</b>: Concéntrate en Pokémon de un tipo determinado (Fuego, Agua, Planta, etc.)",
+          "special": "<b>Quiz Especiales</b>: Enfréntate a grupos concretos como Pokémon Legendarios, Singulares o Megaevoluciones",
+          "full": "<b>Quiz Completo</b>: Todos los Pokémon de todas las generaciones, DLCs incluidos",
+          "mega": "<b>Quiz Megaevoluciones</b>: Solo Megaevoluciones y formas Gigamax"
+        }
+      }
+    },
+    "helpers": {
+      "title": "Pistas y Ayudas",
+      "description": "Utiliza las pistas integradas para ayudarte a identificar a los Pokémon más difíciles:",
+      "cries": {
+        "title": "Pista de Sonido",
+        "description": "¡Escucha el grito del Pokémon para reconocerlo por su sonido! Pulsa la tecla <kbd>.</kbd> (o doble toque en móvil) para reproducir el grito de un Pokémon faltante."
+      },
+      "shadows": {
+        "title": "Pista de Silueta",
+        "description": "Muestra la silueta de un Pokémon no descubierto. Pulsa la tecla <kbd>,</kbd> (o triple toque en móvil) para revelarla. ¡Atención: usar siluetas afecta a tu puntuación en la clasificación!"
+      },
+      "spelling": {
+        "title": "Pista de Letras",
+        "description": "¡Evita fallos de ortografía! Activa la Pista de Letras para ver sugerencias en tiempo real mientras escribes."
+      },
+      "skip": {
+        "title": "Saltar y Mezclar",
+        "description": "¿Atascado con un Pokémon? Usa el botón Saltar para mezclar la caja/tipo actual (solo en <em>Modo Mezcla</em>).<br><b>Nota:</b> ¡Los saltos son limitados y se recargan cada 150 puntos!"
+      }
+    },
+    "howToPlay": {
+      "title": "Cómo Jugar",
+      "description": "El objetivo es sencillo: ¡nombra a la mayor cantidad de Pokémon posible antes de que se agote el tiempo!",
+      "typing": {
+        "title": "Escribir Respuestas",
+        "description": "Escribe el nombre del Pokémon directamente en el campo de texto. Si es correcto, se registrará en la Pokédex."
+      },
+      "scoring": {
+        "title": "Sistema de Puntuación",
+        "description": "Los puntos se otorgan en función de la rapidez con la que introduzcas la respuesta correcta:",
+        "listItems": {
+          "0-3": "0-3 segundos: <b>+5</b> puntos",
+          "3-7": "3-7 segundos: <b>+4</b> puntos",
+          "7-15": "7-15 segundos: <b>+3</b> puntos",
+          "15-30": "15-30 segundos: <b>+2</b> puntos",
+          "+30": "Más de 30 segundos: <b>+1</b> punto"
+        }
+      }
+    },
+    "leaderboards": {
+      "title": "Clasificación",
+      "description": "¡Compite con entrenadores de todo el mundo por la puntuación más alta y el mejor tiempo! Envía tu resultado al completar el Modo Desafío."
+    },
+    "pokemonDetails": {
+      "title": "Detalles del Pokémon",
+      "description": "Haz clic en cualquier Pokémon adivinado para ver información detallada (tipos, altura, peso, grito e ilustraciones oficiales)."
+    },
+    "saveLoad": {
+      "title": "Guardar y Cargar",
+      "description": "Gestiona el guardado de tu partida y la sincronización en la nube:",
+      "localSave": {
+        "title": "Guardado Local",
+        "description": "Tu partida se guarda automáticamente en tiempo real en tu navegador."
+      },
+      "cloudSync": {
+        "title": "Sincronización en la Nube",
+        "description": "Inicia sesión para sincronizar tus datos en la nube y seguir jugando en cualquier dispositivo."
+      }
+    },
+    "settings": {
+      "title": "Ajustes",
+      "description": "Personaliza tu experiencia de juego según tus preferencias:",
+      "gameplay": {
+        "title": "Opciones de Juego",
+        "description": "Ajustar reglas y funciones de ayuda:",
+        "listItems": {
+          "sounds": "Activar o desactivar efectos de sonido y gritos",
+          "autoPause": "Pausar automáticamente al salir de la pestaña",
+          "sync": "Activar la sincronización en tiempo real en la nube",
+          "autoScroll": "Desplazar la página automáticamente al acertar",
+          "shinyCharm": "Activar modo secreto de Pokémon Variocolor (Shiny)",
+          "cycleRegions": "Cambiar rápidamente de región en la barra de texto",
+          "cycleTypes": "Cambiar rápidamente de tipo en la barra de texto",
+          "cycleSprites": "Cambiar el estilo de los iconos de la Pokédex"
+        }
+      },
+      "visual": {
+        "title": "Ajustes Visuales",
+        "description": "Ajustar la apariencia de la interfaz:",
+        "listItems": {
+          "darkMode": "Alternar entre modo oscuro y modo claro",
+          "themeColor": "Cambiar el color principal del tema",
+          "language": "Cambiar el idioma de la interfaz"
+        }
+      },
+      "languages": {
+        "title": "Opciones de Idioma",
+        "description": "Permite jugar e introducir respuestas en múltiples idiomas."
+      }
+    },
+    "shortcuts": {
+      "title": "Atajos de Teclado",
+      "description": "Utiliza estos atajos para escribir más rápido:",
+      "keyboard": {
+        "title": "Atajos de Teclado",
+        "description": "Teclas rápidas en PC:",
+        "listItems": {
+          "cries": "Tecla <kbd>.</kbd>: Reproducir grito de Pokémon faltante",
+          "shadow": "Tecla <kbd>,</kbd>: Mostrar silueta de Pokémon faltante"
+        }
+      },
+      "mobile": {
+        "title": "Gestos Móviles",
+        "description": "Controles táctiles en móvil:",
+        "listItems": {
+          "cries": "Doble toque: Reproducir grito",
+          "shadow": "Triple toque: Mostrar silueta"
+        }
+      }
+    },
+    "shuffleModes": {
+      "title": "Modos de Mezcla",
+      "description": "Los modos de mezcla aleatorizan el orden de los Pokémon para ofrecer un desafío renovado:",
+      "boxShuffle": {
+        "title": "Mezcla por Cajas",
+        "description": "Mezcla los Pokémon en grupos similares a las cajas del PC del juego."
+      },
+      "typeShuffle": {
+        "title": "Mezcla por Tipos",
+        "description": "Mezcla los Pokémon según su tipo para evaluar tu rapidez."
+      }
+    },
+    "userProfile": {
+      "title": "Perfil de Usuario",
+      "description": "Consulta tu tiempo total de juego, medallas de logro y estadísticas avanzadas."
+    }
+  },
   "hisui": "Hisui",
   "hoenn": "Hoenn",
   "hoennmega": "Megaevolución (Hoenn)",

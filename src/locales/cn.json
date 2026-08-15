@@ -137,6 +137,171 @@
   "ground": "地面",
   "height": "身高",
   "hello": "你好，{name}",
+  "help": "帮助",
+  "helpPopup": {
+    "gameModes": {
+      "title": "游戏模式",
+      "description": "选择你想玩的方式！可以选择区域测验（如关都或城都）、属性测验（所有水属性或火属性宝可梦）、特别测验（如传说宝可梦或超级进化宝可梦）或挑战全全国图鉴。每种模式都有独特的挑战。",
+      "challengeMode": {
+        "title": "挑战模式",
+        "description": "测试你的技巧！在<b>挑战模式</b>中，所有设置在开始时都被锁定。你可以自定义可用的辅助功能，但游戏开始后不允许更改。与时间赛跑，尽快完成测验！"
+      },
+      "freeMode": {
+        "title": "自由模式",
+        "description": "按自己的节奏游玩！自由模式让你随时切换辅助功能、调整设置、保存进度和休息。非常适合休闲游玩或学习所有宝可梦名称。"
+      },
+      "limitedTime": {
+        "title": "限时模式",
+        "description": "与时间赛跑！在<b>限时模式</b>中，你需要在限定时间内叫出尽可能多的宝可梦名称。计时器会倒计时，你必须迅速行动以获得最高分！"
+      },
+      "orderModes": {
+        "title": "顺序模式",
+        "description": "通过强制特定顺序或移除预定义位置来增加挑战！在普通模式、图鉴顺序或混乱模式之间选择，以不同方式测试你的宝可梦知识！",
+        "listItems": {
+          "normal": "<b>普通模式</b>：按任意顺序猜测宝可梦，宝可梦会根据其全国图鉴编号显示在对应位置",
+          "dex": "<b>图鉴顺序</b>：按全国图鉴编号顺序猜测宝可梦",
+          "chaos": "<b>混乱模式</b>：按任意顺序猜测宝可梦，宝可梦会在你找到时直接显示，没有预定义位置"
+        }
+      },
+      "quizTypes": {
+        "title": "测验类型",
+        "description": "通过按不同方式筛选宝可梦来定制你的测试：",
+        "listItems": {
+          "gen": "<b>世代测验</b>：猜测来自一个或多个世代（例如第1世代、第2世代、第3世代）的宝可梦",
+          "type": "<b>属性测验</b>：专注于特定属性（火、水、草等）的宝可梦",
+          "special": "<b>特别测验</b>：挑战特定分组，如传说宝可梦、幻之宝可梦或超级进化",
+          "full": "<b>全测验</b>：所有世代的所有宝可梦，包括 DLC 宝可梦",
+          "mega": "<b>超级进化测验</b>：仅包含超级进化与超极巨化宝可梦"
+        }
+      }
+    },
+    "helpers": {
+      "title": "辅助与提示",
+      "description": "使用内置辅助工具来帮助你识别棘手的宝可梦：",
+      "cries": {
+        "title": "叫声辅助",
+        "description": "播放宝可梦的叫声来通过声音识别它！按下 <kbd>.</kbd> 键（或在移动端双击）播放随机未答出宝可梦的叫声。"
+      },
+      "shadows": {
+        "title": "剪影辅助",
+        "description": "显示你尚未找到宝可梦的剪影轮廓。按下 <kbd>,</kbd> 快捷键（或在移动端三击）显示随机未答出宝可梦的剪影。注意：使用剪影会影响排行榜积分！"
+      },
+      "spelling": {
+        "title": "拼写辅助",
+        "description": "不确定拼写？开启拼写辅助以在输入时实时查看匹配的宝可梦名字建议。"
+      },
+      "skip": {
+        "title": "跳过与重洗",
+        "description": "卡在某个宝可梦？使用跳过按钮重新打乱当前属性和盒子。（仅在<em>混洗模式</em>下有效）<br><b>注意：</b>跳过次数有限！每获得 150 分可增加新跳过次数。"
+      }
+    },
+    "howToPlay": {
+      "title": "如何游玩",
+      "description": "目标很简单：在时间耗尽前猜出尽可能多的宝可梦名称！",
+      "typing": {
+        "title": "输入答案",
+        "description": "直接在输入框中输入宝可梦名称，匹配成功后会自动填入图鉴中。"
+      },
+      "scoring": {
+        "title": "积分规则",
+        "description": "得分取决于你输入正确答案的速度：",
+        "listItems": {
+          "0-3": "0-3 秒：<b>+5</b> 分",
+          "3-7": "3-7 秒：<b>+4</b> 分",
+          "7-15": "7-15 秒：<b>+3</b> 分",
+          "15-30": "15-30 秒：<b>+2</b> 分",
+          "+30": "超过 30 秒：<b>+1</b> 分"
+        }
+      }
+    },
+    "leaderboards": {
+      "title": "排行榜",
+      "description": "在排行榜中与全球玩家竞争最高分与最佳完成时间！完成挑战模式后可提交成绩登顶榜单。"
+    },
+    "pokemonDetails": {
+      "title": "宝可梦详情",
+      "description": "点击任意已猜中的宝可梦以查看详细信息（属性、身高、体重、叫声和官方艺术图）。"
+    },
+    "saveLoad": {
+      "title": "保存与加载",
+      "description": "管理你的游戏存档与云端同步：",
+      "localSave": {
+        "title": "本地保存",
+        "description": "你的游戏进度会自动实时保存到浏览器本地。"
+      },
+      "cloudSync": {
+        "title": "云端同步",
+        "description": "登录账号将数据同步至云端，在任何设备上无缝继续游玩。"
+      }
+    },
+    "settings": {
+      "title": "设置",
+      "description": "根据你的偏好自定义游戏体验：",
+      "gameplay": {
+        "title": "游戏选项",
+        "description": "自定义游戏规则与辅助功能：",
+        "listItems": {
+          "sounds": "开启或关闭游戏音效与叫声",
+          "autoPause": "离开页面时自动暂停游戏",
+          "sync": "开启实时云端同步",
+          "autoScroll": "猜中宝可梦时自动滚动页面",
+          "shinyCharm": "开启闪光宝可梦彩蛋模式",
+          "cycleRegions": "在输入框中快速切换不同区域",
+          "cycleTypes": "在输入框中快速切换属性分类",
+          "cycleSprites": "快速切换宝可梦图鉴图标风格"
+        }
+      },
+      "visual": {
+        "title": "视觉设置",
+        "description": "自定义界面外观：",
+        "listItems": {
+          "darkMode": "切换深色模式与浅色模式",
+          "themeColor": "更改主界面主题色彩",
+          "language": "切换界面显示语言"
+        }
+      },
+      "languages": {
+        "title": "语言选项",
+        "description": "支持多种语言输入和界面显示。"
+      }
+    },
+    "shortcuts": {
+      "title": "快捷键",
+      "description": "使用快捷操作加快答题速度：",
+      "keyboard": {
+        "title": "键盘快捷键",
+        "description": "桌面端常用按键：",
+        "listItems": {
+          "cries": "<kbd>.</kbd> 键：播放随机未答出宝可梦叫声",
+          "shadow": "<kbd>,</kbd> 键：显示随机未答出宝可梦剪影"
+        }
+      },
+      "mobile": {
+        "title": "移动端手势",
+        "description": "触屏设备手势支持：",
+        "listItems": {
+          "cries": "双击宝可梦卡片播放叫声",
+          "shadow": "三击宝可梦卡片显示剪影"
+        }
+      }
+    },
+    "shuffleModes": {
+      "title": "混洗模式",
+      "description": "混洗模式随机打乱测验顺序，带来全新的挑战体验：",
+      "boxShuffle": {
+        "title": "盒子混洗",
+        "description": "将宝可梦打乱到类似于游戏内电脑盒子的分组中。"
+      },
+      "typeShuffle": {
+        "title": "属性混洗",
+        "description": "按属性打乱宝可梦顺序，考验跨时代识别同属性宝可梦的能力。"
+      }
+    },
+    "userProfile": {
+      "title": "用户资料",
+      "description": "查看你的累计游戏时间、成就徽章和历史统计。"
+    }
+  },
   "hisui": "洗翠",
   "hoenn": "丰缘",
   "hoennmega": "超級進化（豐緣）",
@@ -151,6 +316,7 @@
   "kalosmega": "超級進化（卡洛斯）",
   "kanto": "关都",
   "ko": "韩语",
+  "language": "语言",
   "languageSet": "{lang}语言 {status}",
   "languagesTooltip": "用其他语言猜测宝可梦",
   "leaderboardSaveFailed": "保存排行榜记录失败：{error}",
@@ -308,6 +474,7 @@
     "title": "切换测验？"
   },
   "thanksForPlaying": "感谢您的游玩!",
+  "themeColor": "主题颜色",
   "timer": "计时器",
   "timerTooltip": "为游戏设置计时器。",
   "toggleSettings": "切换设置",
@@ -325,6 +492,7 @@
   "upload": "上传",
   "userProfile": "用户资料",
   "variousArtists": "多位艺术家",
+  "visualSettings": "视觉设置",
   "water": "水",
   "weight": "体重",
   "welcome": "欢迎来到宝可梦问卷！",

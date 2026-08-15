@@ -139,6 +139,7 @@ declare module 'vue' {
     TypeShuffle: typeof import('./src/components/game/settings/TypeShuffle.vue')['default']
     UserIcon: typeof import('./src/components/common/icons/UserIcon.vue')['default']
     UserProfileDialog: typeof import('./src/components/dialogs/UserProfileDialog.vue')['default']
+    VisualSettingsDialog: typeof import('./src/components/dialogs/VisualSettingsDialog.vue')['default']
     Watermark: typeof import('./src/components/header/Watermark.vue')['default']
     XIcon: typeof import('./src/components/common/icons/XIcon.vue')['default']
     ZoomTransition: typeof import('./src/components/common/transitions/ZoomTransition.vue')['default']

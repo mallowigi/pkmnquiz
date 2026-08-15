@@ -137,6 +137,171 @@
   "ground": "Boden",
   "height": "Größe",
   "hello": "Hallo, {name}",
+  "help": "Hilfe",
+  "helpPopup": {
+    "gameModes": {
+      "title": "Spielmodi",
+      "description": "Wähle deine bevorzugte Spielweise! Wähle aus regionalen Quizzen (wie Kanto oder Johto), typbasierten Quizzen (alle Wasser- oder Feuer-Pokémon), Spezial-Quizzen (wie Legendäre oder Mega-Pokémon) oder stelle dich dem kompletten National-Dex. Jeder Modus bietet eine einzigartige Herausforderung.",
+      "challengeMode": {
+        "title": "Herausforderungsmodus",
+        "description": "Testen deine Fähigkeiten! Im <b>Herausforderungsmodus</b> sind alle Einstellungen zu Beginn gesperrt. Du kannst anpassen, welche Hilfen verfügbar sind, aber sobald das Spiel startet, sind keine Änderungen mehr möglich. Renne gegen die Zeit, um das Quiz so schnell wie möglich abzuschließen!"
+      },
+      "freeMode": {
+        "title": "Freier Modus",
+        "description": "Spiele in deinem eigenen Tempo! Im Freien Modus kannst du Hilfen umschalten, Einstellungen anpassen, deinen Fortschritt speichern und jederzeit Pausen einlegen. Perfekt für entspanntes Spielen oder zum Lernen aller Pokémon-Namen."
+      },
+      "limitedTime": {
+        "title": "Zeitmodus",
+        "description": "Renne gegen die Uhr! Im <b>Zeitmodus</b> hast du ein festgelegtes Zeitlimit, um so viele Pokémon wie möglich zu benennen. Der Timer läuft ab, also sei schnell, um deine Punktzahl zu maximieren!"
+      },
+      "orderModes": {
+        "title": "Reihenfolge-Modi",
+        "description": "Erhöhe die Herausforderung, indem du eine bestimmte Reihenfolge erzwingst oder vordefinierte Platzierungen entfernst. Wähle zwischen Normalem Modus, Dex-Reihenfolge oder Chaos-Modus, um dein Pokémon-Wissen auf verschiedene Weise zu testen!",
+        "listItems": {
+          "normal": "<b>Normaler Modus</b>: Errate Pokémon in beliebiger Reihenfolge. Die Pokémon werden an der Stelle entsprechend ihrer Nummer im National-Pokédex angezeigt.",
+          "dex": "<b>Dex-Reihenfolge</b>: Errate Pokémon strikt in der Reihenfolge des National-Pokédex.",
+          "chaos": "<b>Chaos-Modus</b>: Errate Pokémon in beliebiger Reihenfolge. Die Pokémon erscheinen beim Erraten nacheinander ohne feste Platzierung."
+        }
+      },
+      "quizTypes": {
+        "title": "Quiz-Arten",
+        "description": "Passe dein Quiz an, indem du Pokémon nach verschiedenen Kriterien filterst:",
+        "listItems": {
+          "gen": "<b>Generations-Quiz</b>: Errate Pokémon aus bestimmten Generationen (z.B. Gen 1, Gen 2, Gen 3)",
+          "type": "<b>Typ-Quizze</b>: Konzentriere dich auf Pokémon eines bestimmten Typs (Feuer, Wasser, Pflanze etc.)",
+          "special": "<b>Spezial-Quizze</b>: Stelle dich besonderen Gruppen wie Legendären Pokémon, Mysteriösen Pokémon oder Mega-Entwicklungen",
+          "full": "<b>Gesamt-Quiz</b>: Alle Pokémon aus allen Generationen inklusive DLC-Pokémon",
+          "mega": "<b>Mega-Quiz</b>: Nur Mega-Entwicklungen und Gigadynamax-Formen"
+        }
+      }
+    },
+    "helpers": {
+      "title": "Hilfen & Hinweise",
+      "description": "Nutze integrierte Hilfen, um knifflige Pokémon zu identifizieren:",
+      "cries": {
+        "title": "Ruf-Hilfe",
+        "description": "Spiele den Ruf des Pokémon ab, um es am Sound zu erkennen! Drücke die Taste <kbd>.</kbd> (oder doppeltippe auf Mobilgeräten), um den Ruf eines zufälligen fehlenden Pokémon abzuspielen."
+      },
+      "shadows": {
+        "title": "Schatten-Hilfe",
+        "description": "Zeige die Schatten-Silhouette des Pokémon an. Drücke die Taste <kbd>,</kbd> (oder dreifachtippe auf Mobilgeräten), um den Schatten aufzudecken. Hinweis: Das Aufdecken beeinflusst deine Punkte in der Bestenliste!"
+      },
+      "spelling": {
+        "title": "Buchstabier-Hilfe",
+        "description": "Unsicher bei der Schreibweise? Aktiviere die Buchstabier-Hilfe, um während der Eingabe passende Namensvorschläge zu sehen."
+      },
+      "skip": {
+        "title": "Überspringen & Mischen",
+        "description": "Hängst du fest? Nutze die Überspringen-Taste, um die aktuelle Auswahl neu zu mischen (funktioniert nur im <em>Mischmodus</em>).<br><b>Hinweis:</b> Übersprünge sind begrenzt und werden alle 150 Punkte aufgeladen!"
+      }
+    },
+    "howToPlay": {
+      "title": "Spielanleitung",
+      "description": "Das Ziel ist einfach: Nenne so viele Pokémon wie möglich, bevor die Zeit abläuft!",
+      "typing": {
+        "title": "Antworten eingeben",
+        "description": "Gib den Namen des Pokémon direkt in das Feld ein. Bei richtiger Eingabe wird es automatisch im Pokédex eingetragen."
+      },
+      "scoring": {
+        "title": "Punkte-System",
+        "description": "Punkte werden basierend darauf vergeben, wie schnell du die richtige Antwort eingibst:",
+        "listItems": {
+          "0-3": "0-3 Sekunden: <b>+5</b> Punkte",
+          "3-7": "3-7 Sekunden: <b>+4</b> Punkte",
+          "7-15": "7-15 Sekunden: <b>+3</b> Punkte",
+          "15-30": "15-30 Sekunden: <b>+2</b> Punkte",
+          "+30": "Über 30 Sekunden: <b>+1</b> Punkt"
+        }
+      }
+    },
+    "leaderboards": {
+      "title": "Bestenlisten",
+      "description": "Miss dich mit anderen Pokémon-Trainern weltweit um die höchsten Punktzahlen und besten Zeiten! Reiche deine Ergebnisse nach Abschluss des Herausforderungsmodus ein."
+    },
+    "pokemonDetails": {
+      "title": "Pokémon-Details",
+      "description": "Klicke auf ein erratenes Pokémon, um detaillierte Informationen wie Typen, Größe, Gewicht, Ruf und offizielle Artworks anzuzeigen."
+    },
+    "saveLoad": {
+      "title": "Speichern & Laden",
+      "description": "Verwalte deinen Spielfortschritt und die Cloud-Synchronisation:",
+      "localSave": {
+        "title": "Lokale Speicherung",
+        "description": "Dein Fortschritt wird automatisch in Echtzeit im Browser gespeichert."
+      },
+      "cloudSync": {
+        "title": "Cloud-Synchronisation",
+        "description": "Melde dich an, um Daten in der Cloud zu synchronisieren und auf jedem Gerät weiterzuspielen."
+      }
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "description": "Passe dein Spielerlebnis nach deinen Wünschen an:",
+      "gameplay": {
+        "title": "Gameplay-Einstellungen",
+        "description": "Regeln und Hilfen anpassen:",
+        "listItems": {
+          "sounds": "Töne und Pokémon-Rufe ein-/ausschalten",
+          "autoPause": "Spiel automatisch pausieren, wenn die Seite verlassen wird",
+          "sync": "Echtzeit-Cloud-Synchronisation aktivieren",
+          "autoScroll": "Bei richtiger Antwort automatisch weiterrollen",
+          "shinyCharm": "Schillerndes Pokémon-Easter-Egg aktivieren",
+          "cycleRegions": "Schnelles Durchschalten von Regionen im Eingabefeld",
+          "cycleTypes": "Schnelles Durchschalten von Typen im Eingabefeld",
+          "cycleSprites": "Pokédex-Icon-Stil umschalten"
+        }
+      },
+      "visual": {
+        "title": "Visuelle Einstellungen",
+        "description": "Erscheinungsbild der Oberfläche anpassen:",
+        "listItems": {
+          "darkMode": "Zwischen Dark Mode und Light Mode wechseln",
+          "themeColor": "Hauptthema-Farbe ändern",
+          "language": "Anzeigesprache ändern"
+        }
+      },
+      "languages": {
+        "title": "Sprachoptionen",
+        "description": "Unterstützt Eingaben und Anzeigen in mehreren Sprachen."
+      }
+    },
+    "shortcuts": {
+      "title": "Tastenkombinationen",
+      "description": "Nutze Tastenkombinationen für eine schnellere Eingabe:",
+      "keyboard": {
+        "title": "Tastatur-Shortcuts",
+        "description": "Schnelltasten auf dem PC:",
+        "listItems": {
+          "cries": "<kbd>.</kbd> Taste: Ruf eines fehlenden Pokémon abspielen",
+          "shadow": "<kbd>,</kbd> Taste: Schatten eines fehlenden Pokémon anzeigen"
+        }
+      },
+      "mobile": {
+        "title": "Mobile Gesten",
+        "description": "Gesten auf Touchscreen-Geräten:",
+        "listItems": {
+          "cries": "Doppel-Tippen: Ruf abspielen",
+          "shadow": "Dreifach-Tippen: Schatten anzeigen"
+        }
+      }
+    },
+    "shuffleModes": {
+      "title": "Mischmodi",
+      "description": "Mischmodi bringen Abwechslung, indem sie die Reihenfolge zufällig neu anordnen:",
+      "boxShuffle": {
+        "title": "Boxen-Mischung",
+        "description": "Mischt Pokémon in Gruppen ähnlich den PC-Boxen im Spiel."
+      },
+      "typeShuffle": {
+        "title": "Typen-Mischung",
+        "description": "Mischt Pokémon nach Typen für eine besondere Herausforderung."
+      }
+    },
+    "userProfile": {
+      "title": "Benutzerprofil",
+      "description": "Verfolge deine Spielzeit, Abzeichen und detaillierte Statistiken."
+    }
+  },
   "hisui": "Hisui",
   "hoenn": "Hoenn",
   "hoennmega": "Mega-Entwicklung (Hoenn)",
@@ -151,6 +316,7 @@
   "kalosmega": "Mega-Entwicklung (Kalos)",
   "kanto": "Kanto",
   "ko": "Koreanisch",
+  "language": "Sprache",
   "languageSet": "{lang}-Sprache {status}",
   "languagesTooltip": "Rate Pokémon in anderen Sprachen",
   "leaderboardSaveFailed": "Fehler beim Speichern des Bestenlisten-Eintrags: {error}",
@@ -308,6 +474,7 @@
     "title": "Quiz wechseln?"
   },
   "thanksForPlaying": "Danke fürs Spielen!",
+  "themeColor": "Themenfarbe",
   "timer": "Timer",
   "timerTooltip": "Stellen Sie einen Timer für das Spiel ein.",
   "toggleSettings": "Einstellungen ein-/ausschalten",
@@ -325,6 +492,7 @@
   "upload": "Hochladen",
   "userProfile": "Benutzerprofil",
   "variousArtists": "verschiedene Künstler",
+  "visualSettings": "Visuelle Einstellungen",
   "water": "Wasser",
   "weight": "Gewicht",
   "welcome": "Willkommen zum Pokémon-Quiz!",
