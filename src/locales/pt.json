@@ -287,14 +287,14 @@
     },
     "shuffleModes": {
       "boxShuffle": {
-        "title": "Misturar Caixas",
-        "description": "Mistura os Pokémon em grupos semelhantes às caixas do PC no jogo."
+        "description": "Mistura os Pokémon em grupos semelhantes às caixas do PC no jogo.",
+        "title": "Misturar Caixas"
       },
       "description": "Os modos aleatórios misturam a ordem dos Pokémon para oferecer um novo desafio:",
       "title": "Modos de Mistura",
       "typeShuffle": {
-        "title": "Misturar Tipos",
-        "description": "Mistura os Pokémon por tipo para testar sua agilidade."
+        "description": "Mistura os Pokémon por tipo para testar sua agilidade.",
+        "title": "Misturar Tipos"
       }
     },
     "userProfile": {
