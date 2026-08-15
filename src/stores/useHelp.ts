@@ -55,6 +55,7 @@ export const useHelp = defineStore('help', () => {
           {
             description: t('helpPopup.gameModes.quizTypes.description'),
             id: 'quizTypes',
+            image: '/public/assets/help/gens.png',
             listItems: [
               t('helpPopup.gameModes.quizTypes.listItems.gen'),
               t('helpPopup.gameModes.quizTypes.listItems.type'),
@@ -67,12 +68,19 @@ export const useHelp = defineStore('help', () => {
           {
             description: t('helpPopup.gameModes.orderModes.description'),
             id: 'orderModes',
+            image: '/public/assets/help/orderMode.png',
             listItems: [
               t('helpPopup.gameModes.orderModes.listItems.normal'),
               t('helpPopup.gameModes.orderModes.listItems.dex'),
               t('helpPopup.gameModes.orderModes.listItems.chaos'),
             ],
             title: t('helpPopup.gameModes.orderModes.title'),
+          },
+          {
+            description: t('helpPopup.gameModes.limitedTime.description'),
+            id: 'limitedTime',
+            image: '/public/assets/help/limitedTime.png',
+            title: t('helpPopup.gameModes.limitedTime.title'),
           },
         ],
         title: t('helpPopup.gameModes.title'),
@@ -84,17 +92,26 @@ export const useHelp = defineStore('help', () => {
           {
             description: t('helpPopup.helpers.shadows.description'),
             id: 'shadows',
+            image: '/public/assets/help/shadowHelper.png',
             title: t('helpPopup.helpers.shadows.title'),
           },
           {
             description: t('helpPopup.helpers.cries.description'),
             id: 'cries',
+            image: '/public/assets/help/criesHelper.png',
             title: t('helpPopup.helpers.cries.title'),
           },
           {
             description: t('helpPopup.helpers.spelling.description'),
             id: 'spelling',
+            image: '/public/assets/help/spelling.png',
             title: t('helpPopup.helpers.spelling.title'),
+          },
+          {
+            description: t('helpPopup.helpers.skip.description'),
+            id: 'skip',
+            image: '/public/assets/help/skip.png',
+            title: t('helpPopup.helpers.skip.title'),
           },
         ],
         title: t('helpPopup.helpers.title'),
@@ -123,6 +140,7 @@ export const useHelp = defineStore('help', () => {
           {
             description: t('helpPopup.settings.visual.description'),
             id: 'visual',
+            image: '/public/assets/help/topSection.png',
             listItems: [
               t('helpPopup.settings.visual.listItems.darkMode'),
               t('helpPopup.settings.visual.listItems.themeColor'),
@@ -133,6 +151,7 @@ export const useHelp = defineStore('help', () => {
           {
             description: t('helpPopup.settings.gameplay.description'),
             id: 'gameplay',
+            image: '/public/assets/help/settings.png',
             listItems: [
               t('helpPopup.settings.gameplay.listItems.shinyCharm'),
               t('helpPopup.settings.gameplay.listItems.autoPause'),
@@ -148,6 +167,7 @@ export const useHelp = defineStore('help', () => {
           {
             description: t('helpPopup.settings.languages.description'),
             id: 'languages',
+            image: '/public/assets/help/languages.png',
             title: t('helpPopup.settings.languages.title'),
           },
         ],
@@ -185,19 +205,28 @@ export const useHelp = defineStore('help', () => {
           {
             description: t('helpPopup.saveLoad.cloudSync.description'),
             id: 'cloudSync',
+            image: '/public/assets/help/cloudSave.png',
             title: t('helpPopup.saveLoad.cloudSync.title'),
           },
           {
             description: t('helpPopup.saveLoad.localSave.description'),
             id: 'localSave',
+            image: '/public/assets/help/localSave.png',
             title: t('helpPopup.saveLoad.localSave.title'),
           },
         ],
         title: t('helpPopup.saveLoad.title'),
       },
       {
+        description: t('helpPopup.userProfile.description'),
+        id: 'userProfile',
+        image: '/public/assets/help/userProfile.png',
+        title: t('helpPopup.userProfile.title'),
+      },
+      {
         description: t('helpPopup.leaderboards.description'),
         id: 'leaderboards',
+        image: '/public/assets/help/leaderboards.png',
         title: t('helpPopup.leaderboards.title'),
       },
     ];

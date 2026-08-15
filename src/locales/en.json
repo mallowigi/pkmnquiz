@@ -147,6 +147,10 @@
         "description": "Play at your own pace! Free Mode lets you toggle helpers, adjust settings, save your progress, and take breaks anytime. Perfect for casual play or learning all the Pokémon names.",
         "title": "Free Mode"
       },
+      "limitedTime": {
+        "description": "Race against the clock! In <b>Limited Time Mode</b>, you have a set time limit to name as many Pokémon as possible. The timer counts down, and you must be quick to maximize your score!",
+        "title": "Limited Time Mode"
+      },
       "orderModes": {
         "description": "Increase the challenge by enforcing a specific order or by removing predefined placements. Choose from Normal Mode, Dex Order, or Chaos Mode to test your Pokémon knowledge in different ways!",
         "title": "Order Modes",
@@ -182,6 +186,10 @@
       "spelling": {
         "description": "Not sure about spelling? Enable Spelling Help to see suggestions as you type. The game will show the closest matching Pokémon names in real-time.",
         "title": "Spelling Help"
+      },
+      "skip": {
+        "description": "Stuck on a Pokémon? Use the Skip button to reshuffle the current Type and Box. (only works in <em>Shuffle Mode</em>) <br><b>Note:</b> Skips are limited! You can get new skips every 150 points, so use them wisely!",
+        "title": "Skip and Reshuffle"
       },
       "title": "Helpers & Hints"
     },
@@ -282,6 +290,10 @@
         "description": "Guess Pokémon by <b>Type</b>! At every answer, a random type is selected amongst the remaining Pokémon, and you must guess a Pokémon of that type. This mode adds a fun twist to the quiz, testing your knowledge of Pokémon types!<br><b>Note:</b> This mode cannot be enabled in a <em>Types</em> Quiz.",
         "title": "Type Shuffle"
       }
+    },
+    "userProfile": {
+      "description": "Track your progress and achievements! View your best runs, wins breakdown, and other stats. You can also manage your nickname and see how you rank on the leaderboards.",
+      "title": "User Profile"
     }
   },
   "help": "Help",

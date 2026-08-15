@@ -77,7 +77,7 @@ const openImage = (imagePath: string) => {
 .subsection-title {
   font-weight: 600;
   font-size: 1.1em;
-  color: var(--type-btn-color, var(--primary));
+  color: var(--type-dark-color, var(--primary));
   margin-bottom: 6px;
 }
 

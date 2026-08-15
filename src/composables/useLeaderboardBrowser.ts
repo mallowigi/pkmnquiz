@@ -40,13 +40,13 @@ export const useLeaderboardBrowser = () => {
 
   const modeOptions = computed<TabOption<Mode>[]>(() => [
     { color: '#950015', id: 'chaos', label: t('chaos') },
-    { color: '#262626', id: 'normal', label: t('normal') },
-    { color: '#123F9B', id: 'order', label: t('order') },
+    { color: '#657065', id: 'normal', label: t('normal') },
+    { color: '#33549a', id: 'order', label: t('order') },
   ]);
 
   const gameModeOptions = computed<TabOption<GameMode>[]>(() => [
     { color: '#31adbb', id: 'full', label: t('full') },
-    { color: '#4D3833', id: 'gen', label: t('gen') },
+    { color: '#80635f', id: 'gen', label: t('gen') },
     { color: '#6767AB', id: 'types', label: t('types') },
     { color: '#f5c242', id: 'special', label: t('special') },
     { color: '#008a8a', id: 'mega', label: t('mega') },

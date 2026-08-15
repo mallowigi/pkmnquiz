@@ -187,7 +187,7 @@ const {
   padding: 5px 12px;
   border: 2px solid var(--opt-color, var(--primary));
   border-radius: 16px;
-  background: transparent;
+  background: var(--opt-color, var(--primary));
   color: var(--text);
   font-size: 13px;
   cursor: pointer;

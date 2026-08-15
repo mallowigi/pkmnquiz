@@ -98,7 +98,7 @@ const openImage = (imagePath: string) => {
 .section-title {
   font-weight: bold;
   font-size: 1.1em;
-  color: var(--type-btn-color, var(--primary));
+  color: var(--type-dark-color, var(--primary));
   display: flex;
   align-items: center;
   gap: 8px;
