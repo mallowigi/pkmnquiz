@@ -2,21 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-export interface HelpSection {
-  id: string;
-  titleKey: string;
-  descriptionKey?: string;
-  subsections?: HelpSubsection[];
-  image?: string;
-}
-
-export interface HelpSubsection {
-  id: string;
-  titleKey: string;
-  descriptionKey: string;
-  image?: string;
-  tips?: string[];
-}
+import type { HelpSection } from '@/types.ts';
 
 interface HelpState {
   showHelp: boolean;
@@ -29,148 +15,155 @@ export const useHelp = defineStore('help', () => {
     const { t } = useI18n();
     return [
       {
-        descriptionKey: t('helpPopup.howToPlay.description'),
+        description: t('helpPopup.howToPlay.description'),
         id: 'howToPlay',
         subsections: [
           {
-            descriptionKey: t('helpPopup.howToPlay.typing.description'),
+            description: t('helpPopup.howToPlay.typing.description'),
             id: 'typing',
-            titleKey: t('helpPopup.howToPlay.typing.title'),
+            title: t('helpPopup.howToPlay.typing.title'),
           },
           {
-            descriptionKey: t('helpPopup.howToPlay.scoring.description'),
+            description: t('helpPopup.howToPlay.scoring.description'),
             id: 'scoring',
-            titleKey: t('helpPopup.howToPlay.scoring.title'),
+            listItems: [
+              t('helpPopup.howToPlay.scoring.listItems.0-3'),
+              t('helpPopup.howToPlay.scoring.listItems.3-7'),
+              t('helpPopup.howToPlay.scoring.listItems.7-15'),
+              t('helpPopup.howToPlay.scoring.listItems.15-30'),
+              t('helpPopup.howToPlay.scoring.listItems.+30'),
+            ],
+            title: t('helpPopup.howToPlay.scoring.title'),
           },
         ],
-        titleKey: t('helpPopup.howToPlay.title'),
+        title: t('helpPopup.howToPlay.title'),
       },
       {
-        descriptionKey: t('helpPopup.gameModes.description'),
+        description: t('helpPopup.gameModes.description'),
         id: 'gameModes',
         subsections: [
           {
-            descriptionKey: t('helpPopup.gameModes.freeMode.description'),
+            description: t('helpPopup.gameModes.freeMode.description'),
             id: 'freeMode',
-            titleKey: t('helpPopup.gameModes.freeMode.title'),
+            title: t('helpPopup.gameModes.freeMode.title'),
           },
           {
-            descriptionKey: t('helpPopup.gameModes.challengeMode.description'),
+            description: t('helpPopup.gameModes.challengeMode.description'),
             id: 'challengeMode',
-            titleKey: t('helpPopup.gameModes.challengeMode.title'),
+            title: t('helpPopup.gameModes.challengeMode.title'),
           },
           {
-            descriptionKey: t('helpPopup.gameModes.quizTypes.description'),
+            description: t('helpPopup.gameModes.quizTypes.description'),
             id: 'quizTypes',
-            titleKey: t('helpPopup.gameModes.quizTypes.title'),
+            title: t('helpPopup.gameModes.quizTypes.title'),
           },
           {
-            descriptionKey: t('helpPopup.gameModes.orderModes.description'),
+            description: t('helpPopup.gameModes.orderModes.description'),
             id: 'orderModes',
-            titleKey: t('helpPopup.gameModes.orderModes.title'),
+            title: t('helpPopup.gameModes.orderModes.title'),
           },
         ],
-        titleKey: t('helpPopup.gameModes.title'),
+        title: t('helpPopup.gameModes.title'),
       },
       {
-        descriptionKey: t('helpPopup.helpers.description'),
+        description: t('helpPopup.helpers.description'),
         id: 'helpers',
         subsections: [
           {
-            descriptionKey: t('helpPopup.helpers.shadows.description'),
+            description: t('helpPopup.helpers.shadows.description'),
             id: 'shadows',
-            titleKey: t('helpPopup.helpers.shadows.title'),
+            title: t('helpPopup.helpers.shadows.title'),
           },
           {
-            descriptionKey: t('helpPopup.helpers.cries.description'),
+            description: t('helpPopup.helpers.cries.description'),
             id: 'cries',
-            titleKey: t('helpPopup.helpers.cries.title'),
+            title: t('helpPopup.helpers.cries.title'),
           },
           {
-            descriptionKey: t('helpPopup.helpers.spelling.description'),
+            description: t('helpPopup.helpers.spelling.description'),
             id: 'spelling',
-            titleKey: t('helpPopup.helpers.spelling.title'),
+            title: t('helpPopup.helpers.spelling.title'),
           },
         ],
-        titleKey: t('helpPopup.helpers.title'),
+        title: t('helpPopup.helpers.title'),
       },
       {
-        descriptionKey: t('helpPopup.settings.description'),
+        description: t('helpPopup.settings.description'),
         id: 'settings',
         subsections: [
           {
-            descriptionKey: t('helpPopup.settings.visual.description'),
+            description: t('helpPopup.settings.visual.description'),
             id: 'visual',
-            titleKey: t('helpPopup.settings.visual.title'),
+            title: t('helpPopup.settings.visual.title'),
           },
           {
-            descriptionKey: t('helpPopup.settings.gameplay.description'),
+            description: t('helpPopup.settings.gameplay.description'),
             id: 'gameplay',
-            titleKey: t('helpPopup.settings.gameplay.title'),
+            title: t('helpPopup.settings.gameplay.title'),
           },
           {
-            descriptionKey: t('helpPopup.settings.languages.description'),
+            description: t('helpPopup.settings.languages.description'),
             id: 'languages',
-            titleKey: t('helpPopup.settings.languages.title'),
+            title: t('helpPopup.settings.languages.title'),
           },
         ],
-        titleKey: t('helpPopup.settings.title'),
+        title: t('helpPopup.settings.title'),
       },
       {
-        descriptionKey: t('helpPopup.shuffleModes.description'),
+        description: t('helpPopup.shuffleModes.description'),
         id: 'shuffleModes',
         subsections: [
           {
-            descriptionKey: t('helpPopup.shuffleModes.typeShuffle.description'),
+            description: t('helpPopup.shuffleModes.typeShuffle.description'),
             id: 'typeShuffle',
-            titleKey: t('helpPopup.shuffleModes.typeShuffle.title'),
+            title: t('helpPopup.shuffleModes.typeShuffle.title'),
           },
           {
-            descriptionKey: t('helpPopup.shuffleModes.boxShuffle.description'),
+            description: t('helpPopup.shuffleModes.boxShuffle.description'),
             id: 'boxShuffle',
-            titleKey: t('helpPopup.shuffleModes.boxShuffle.title'),
+            title: t('helpPopup.shuffleModes.boxShuffle.title'),
           },
         ],
-        titleKey: t('helpPopup.shuffleModes.title'),
+        title: t('helpPopup.shuffleModes.title'),
       },
       {
-        descriptionKey: t('helpPopup.shortcuts.description'),
+        description: t('helpPopup.shortcuts.description'),
         id: 'shortcuts',
         subsections: [
           {
-            descriptionKey: t('helpPopup.shortcuts.keyboard.description'),
+            description: t('helpPopup.shortcuts.keyboard.description'),
             id: 'keyboard',
-            titleKey: t('helpPopup.shortcuts.keyboard.title'),
+            title: t('helpPopup.shortcuts.keyboard.title'),
           },
           {
-            descriptionKey: t('helpPopup.shortcuts.mobile.description'),
+            description: t('helpPopup.shortcuts.mobile.description'),
             id: 'mobile',
-            titleKey: t('helpPopup.shortcuts.mobile.title'),
+            title: t('helpPopup.shortcuts.mobile.title'),
           },
         ],
-        titleKey: t('helpPopup.shortcuts.title'),
+        title: t('helpPopup.shortcuts.title'),
       },
       {
-        descriptionKey: t('helpPopup.saveLoad.description'),
+        description: t('helpPopup.saveLoad.description'),
         id: 'saveLoad',
         subsections: [
           {
-            descriptionKey: t('helpPopup.saveLoad.cloudSync.description'),
+            description: t('helpPopup.saveLoad.cloudSync.description'),
             id: 'cloudSync',
-            titleKey: t('helpPopup.saveLoad.cloudSync.title'),
+            title: t('helpPopup.saveLoad.cloudSync.title'),
           },
           {
-            descriptionKey: t('helpPopup.saveLoad.localSave.description'),
+            description: t('helpPopup.saveLoad.localSave.description'),
             id: 'localSave',
-            titleKey: t('helpPopup.saveLoad.localSave.title'),
+            title: t('helpPopup.saveLoad.localSave.title'),
           },
         ],
-        titleKey: t('helpPopup.saveLoad.title'),
+        title: t('helpPopup.saveLoad.title'),
       },
       {
-        descriptionKey: t('helpPopup.leaderboards.description'),
+        description: t('helpPopup.leaderboards.description'),
         id: 'leaderboards',
-        titleKey: t('helpPopup.leaderboards.title'),
+        title: t('helpPopup.leaderboards.title'),
       },
     ];
   };

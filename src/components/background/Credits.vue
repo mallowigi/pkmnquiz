@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { credits } from '@/data/credits';
-import { useCredits } from '@/stores/useCredits';
 import { vOnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
+
+import { credits } from '@/data/credits';
+import { useCredits } from '@/stores/useCredits';
 
 const { toggleShowCredits } = useCredits();
 const { t } = useI18n();
@@ -15,7 +16,7 @@ const { t } = useI18n();
     v-on-click-outside="toggleShowCredits"
   >
     <div
-      class="paragraph pointer"
+      class="title pointer"
       @click="toggleShowCredits()"
     >
       {{ t('credits.title') }}
@@ -67,7 +68,7 @@ const { t } = useI18n();
   line-height: 22px;
 }
 
-.paragraph {
+.title {
   font-size: 1.15em;
   padding-bottom: 10px;
   display: grid;

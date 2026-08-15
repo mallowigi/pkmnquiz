@@ -6,15 +6,8 @@ import HelpSection from '@/components/background/help/HelpSection.vue';
 import ImageModal from '@/components/common/ImageModal.vue';
 import { useHelp } from '@/stores/useHelp.ts';
 
-const { 
-  hideHelp, 
-  getHelpSections, 
-  toggleSection, 
-  isSectionExpanded, 
-  openImageModal, 
-  closeImageModal,
-  helpState 
-} = useHelp();
+const { hideHelp, getHelpSections, toggleSection, isSectionExpanded, openImageModal, closeImageModal, helpState } =
+  useHelp();
 const { t } = useI18n();
 </script>
 
@@ -25,7 +18,7 @@ const { t } = useI18n();
     v-on-click-outside="hideHelp"
   >
     <div
-      class="paragraph pointer"
+      class="title pointer"
       @click="hideHelp"
     >
       {{ t('help') }}
@@ -79,13 +72,14 @@ const { t } = useI18n();
   line-height: 22px;
 }
 
-.paragraph {
-  font-size: 1.15em;
+.title {
+  font-size: 1.25rem;
   padding-bottom: 10px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
   gap: 8px;
+  text-align: center;
 }
 
 .help-popup {
@@ -102,12 +96,21 @@ const { t } = useI18n();
   gap: 8px;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .popuptext {
     width: 90vw;
     height: 80%;
     top: 5%;
+  }
+}
+
+b,
+strong,
+em,
+i,
+.highlight {
+  :deep(&) {
+    color: var(--type-inline-color, var(--primary));
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HelpSubsection from '@/components/background/help/HelpSubsection.vue';
-import type { HelpSection } from '@/stores/useHelp.ts';
+import type { HelpSection } from '@/types.ts';
 
 const props = defineProps<{
   section: HelpSection;
@@ -29,7 +29,7 @@ const openImage = (imagePath: string) => {
     >
       <div class="section-title">
         <span class="expand-icon">{{ isExpanded ? '▼' : '▶' }}</span>
-        {{ section.titleKey }}
+        <p v-html="section.title" />
       </div>
     </div>
 
@@ -38,10 +38,10 @@ const openImage = (imagePath: string) => {
       class="section-content"
     >
       <div
-        v-if="section.descriptionKey"
+        v-if="section.description"
         class="section-description"
       >
-        {{ section.descriptionKey }}
+        <p v-html="section.description" />
       </div>
 
       <div
@@ -50,7 +50,7 @@ const openImage = (imagePath: string) => {
       >
         <img
           :src="section.image"
-          :alt="section.titleKey"
+          :alt="section.title"
           class="section-image pointer"
           @click="openImage(section.image)"
         />

@@ -266,6 +266,23 @@ export type Translations = {
   zh: string;
 };
 
+export type HelpSection = {
+  id: string;
+  title: string;
+  description?: string;
+  subsections?: HelpSubsection[];
+  image?: string;
+};
+
+export type HelpSubsection = {
+  id: string;
+  title: string;
+  description: string;
+  listItems?: string[];
+  image?: string;
+  tips?: string[];
+};
+
 export type PkmnData = {
   error: unknown;
   isLoaded: boolean;

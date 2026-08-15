@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HelpSubsection } from '@/stores/useHelp.ts';
+import type { HelpSubsection } from '@/types.ts';
 
 const props = defineProps<{
   subsection: HelpSubsection;
@@ -16,11 +16,28 @@ const openImage = (imagePath: string) => {
 
 <template>
   <div class="subsection">
-    <div class="subsection-title">
-      {{ subsection.titleKey }}
-    </div>
-    <div class="subsection-description">
-      {{ subsection.descriptionKey }}
+    <div
+      class="subsection-title"
+      v-html="subsection.title"
+    />
+
+    <div
+      class="subsection-description"
+      v-html="subsection.description"
+    />
+
+    <div
+      v-if="subsection.listItems"
+      class="list-items"
+    >
+      <ul>
+        <li
+          v-for="(li, index) in subsection.listItems"
+          :key="index"
+          class="list-item"
+          v-html="li"
+        />
+      </ul>
     </div>
 
     <div
@@ -29,7 +46,7 @@ const openImage = (imagePath: string) => {
     >
       <img
         :src="subsection.image"
-        :alt="subsection.titleKey"
+        :alt="subsection.title"
         class="subsection-image pointer"
         @click="openImage(subsection.image)"
       />
@@ -43,9 +60,8 @@ const openImage = (imagePath: string) => {
         v-for="(tip, index) in subsection.tips"
         :key="index"
         class="tip"
-      >
-        💡 {{ tip }}
-      </div>
+        v-html="`💡 ${tip}`"
+      />
     </div>
   </div>
 </template>
@@ -60,14 +76,14 @@ const openImage = (imagePath: string) => {
 
 .subsection-title {
   font-weight: 600;
-  font-size: 1em;
+  font-size: 1.1em;
   color: var(--type-btn-color, var(--primary));
   margin-bottom: 6px;
 }
 
 .subsection-description {
   line-height: 1.5;
-  font-size: 0.95em;
+  font-size: 1em;
 }
 
 .subsection-image-container {
@@ -105,10 +121,16 @@ const openImage = (imagePath: string) => {
   line-height: 1.4;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .subsection-title {
     font-size: 0.95em;
+  }
+}
+
+ul {
+  :deep(&) {
+    padding-left: 20px;
+    margin: 8px 0;
   }
 }
 </style>
