@@ -110,7 +110,7 @@ em,
 i,
 .highlight {
   :deep(&) {
-    color: var(--type-inline-color, var(--primary));
+    color: var(--type-dark-color, var(--primary));
   }
 }
 </style>

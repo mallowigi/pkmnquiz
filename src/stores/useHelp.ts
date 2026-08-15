@@ -224,6 +224,12 @@ export const useHelp = defineStore('help', () => {
         title: t('helpPopup.userProfile.title'),
       },
       {
+        description: t('helpPopup.pokemonDetails.description'),
+        id: 'pokemonDetails',
+        image: '/public/assets/help/pokemonDetails.png',
+        title: t('helpPopup.pokemonDetails.title'),
+      },
+      {
         description: t('helpPopup.leaderboards.description'),
         id: 'leaderboards',
         image: '/public/assets/help/leaderboards.png',

@@ -216,6 +216,10 @@
       "description": "Compete with players worldwide! Leaderboards track the top scores for each game mode and quiz type. Your best runs are saved and you can see how you rank against others. Scores consider completion time, score and number of shadows used.",
       "title": "Leaderboards"
     },
+    "pokemonDetails": {
+      "description": "Click on a Pokémon to view its details! You can see its type, abilities, base stats, and more. This is a great way to learn more about the Pokémon you are guessing.",
+      "title": "Pokémon Details"
+    },
     "saveLoad": {
       "cloudSync": {
         "description": "Sign in to sync your progress across devices! Your game state, settings, and best scores are saved to the cloud automatically. Play on your phone, continue on your computer!",
