@@ -53,7 +53,7 @@ const showVisualSettings = () => {
 
 <template>
   <div
-    class="mobile-controls"
+    class="mobile-controls rad-br-tl"
     v-if="flowState.isStarted"
   >
     <div class="controls-row">
@@ -95,19 +95,23 @@ const showVisualSettings = () => {
 <style scoped>
 .mobile-controls {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0.5rem;
+  left: 1rem;
+  right: 1rem;
   background: var(--button);
-  border-top: 2px solid var(--type-btn-color, var(--primary));
-  padding: 10px;
-  z-index: 100;
+  padding: 0;
+  z-index: 2;
+  backdrop-filter: blur(5px);
+  filter: opacity(0.8);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 .controls-row {
   display: flex;
   justify-content: center;
   width: 100%;
+  gap: 4px;
+  column-rule: 2px dotted var(--type-btn-color, var(--primary));
 }
 
 .control-btn {
@@ -118,31 +122,25 @@ const showVisualSettings = () => {
   align-items: center;
   min-width: 0;
   border-radius: 0;
-  border-right-style: dotted;
-  border-left: none;
-  padding: 12px;
+  border: none;
+  padding: 6px;
 
   &:first-child {
-    border-left: 2px solid var(--type-btn-color, var(--primary));
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+    border-radius: 20px 0 0 3px;
   }
 
   &:last-child {
-    border-right-style: solid;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
+    border-radius: 0 3px 20px 0;
   }
 
   &:hover {
     background-color: var(--type-dark-color, var(--darkPrimary));
-    border-color: var(--type-dark-color, var(--darkPrimary));
+    border: none;
   }
 
   &.selected {
     background-color: var(--type-btn-color, var(--primary));
-    border-color: var(--type-btn-color, var(--primary));
-    color: var(--type-fg-color, var(--text));
+    border: none;
   }
 }
 

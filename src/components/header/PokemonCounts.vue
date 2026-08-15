@@ -60,6 +60,10 @@ const total = computed(() => {
   justify-content: center;
   align-items: center;
   gap: 20px;
+
+  .mobile & {
+    gap: 8px;
+  }
 }
 
 .counts {
@@ -75,6 +79,11 @@ const total = computed(() => {
   border-left: 1px solid var(--text);
   padding-left: 20px;
   position: relative;
+
+  .mobile & {
+    gap: 4px;
+    padding-left: 8px;
+  }
 }
 
 .score-label {
