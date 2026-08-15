@@ -55,11 +55,23 @@ export const useHelp = defineStore('help', () => {
           {
             description: t('helpPopup.gameModes.quizTypes.description'),
             id: 'quizTypes',
+            listItems: [
+              t('helpPopup.gameModes.quizTypes.listItems.gen'),
+              t('helpPopup.gameModes.quizTypes.listItems.type'),
+              t('helpPopup.gameModes.quizTypes.listItems.full'),
+              t('helpPopup.gameModes.quizTypes.listItems.mega'),
+              t('helpPopup.gameModes.quizTypes.listItems.special'),
+            ],
             title: t('helpPopup.gameModes.quizTypes.title'),
           },
           {
             description: t('helpPopup.gameModes.orderModes.description'),
             id: 'orderModes',
+            listItems: [
+              t('helpPopup.gameModes.orderModes.listItems.normal'),
+              t('helpPopup.gameModes.orderModes.listItems.dex'),
+              t('helpPopup.gameModes.orderModes.listItems.chaos'),
+            ],
             title: t('helpPopup.gameModes.orderModes.title'),
           },
         ],
@@ -88,28 +100,6 @@ export const useHelp = defineStore('help', () => {
         title: t('helpPopup.helpers.title'),
       },
       {
-        description: t('helpPopup.settings.description'),
-        id: 'settings',
-        subsections: [
-          {
-            description: t('helpPopup.settings.visual.description'),
-            id: 'visual',
-            title: t('helpPopup.settings.visual.title'),
-          },
-          {
-            description: t('helpPopup.settings.gameplay.description'),
-            id: 'gameplay',
-            title: t('helpPopup.settings.gameplay.title'),
-          },
-          {
-            description: t('helpPopup.settings.languages.description'),
-            id: 'languages',
-            title: t('helpPopup.settings.languages.title'),
-          },
-        ],
-        title: t('helpPopup.settings.title'),
-      },
-      {
         description: t('helpPopup.shuffleModes.description'),
         id: 'shuffleModes',
         subsections: [
@@ -127,17 +117,62 @@ export const useHelp = defineStore('help', () => {
         title: t('helpPopup.shuffleModes.title'),
       },
       {
+        description: t('helpPopup.settings.description'),
+        id: 'settings',
+        subsections: [
+          {
+            description: t('helpPopup.settings.visual.description'),
+            id: 'visual',
+            listItems: [
+              t('helpPopup.settings.visual.listItems.darkMode'),
+              t('helpPopup.settings.visual.listItems.themeColor'),
+              t('helpPopup.settings.visual.listItems.language'),
+            ],
+            title: t('helpPopup.settings.visual.title'),
+          },
+          {
+            description: t('helpPopup.settings.gameplay.description'),
+            id: 'gameplay',
+            listItems: [
+              t('helpPopup.settings.gameplay.listItems.shinyCharm'),
+              t('helpPopup.settings.gameplay.listItems.autoPause'),
+              t('helpPopup.settings.gameplay.listItems.sync'),
+              t('helpPopup.settings.gameplay.listItems.autoScroll'),
+              t('helpPopup.settings.gameplay.listItems.sounds'),
+              t('helpPopup.settings.gameplay.listItems.cycleSprites'),
+              t('helpPopup.settings.gameplay.listItems.cycleRegions'),
+              t('helpPopup.settings.gameplay.listItems.cycleTypes'),
+            ],
+            title: t('helpPopup.settings.gameplay.title'),
+          },
+          {
+            description: t('helpPopup.settings.languages.description'),
+            id: 'languages',
+            title: t('helpPopup.settings.languages.title'),
+          },
+        ],
+        title: t('helpPopup.settings.title'),
+      },
+      {
         description: t('helpPopup.shortcuts.description'),
         id: 'shortcuts',
         subsections: [
           {
             description: t('helpPopup.shortcuts.keyboard.description'),
             id: 'keyboard',
+            listItems: [
+              t('helpPopup.shortcuts.keyboard.listItems.cries'),
+              t('helpPopup.shortcuts.keyboard.listItems.shadow'),
+            ],
             title: t('helpPopup.shortcuts.keyboard.title'),
           },
           {
             description: t('helpPopup.shortcuts.mobile.description'),
             id: 'mobile',
+            listItems: [
+              t('helpPopup.shortcuts.mobile.listItems.cries'),
+              t('helpPopup.shortcuts.mobile.listItems.shadow'),
+            ],
             title: t('helpPopup.shortcuts.mobile.title'),
           },
         ],

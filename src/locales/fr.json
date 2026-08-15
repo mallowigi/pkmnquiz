@@ -201,7 +201,7 @@
     "gen": "Nommez les Pokémon de {name}!",
     "mega": "Nommez tous les Pokémon Méga !",
     "special": "Nommez les Pokémon {name}!",
-    "types": "Nommez les Pokémon de type {name}!"
+    "types": "Nommez les Pokémon {name}!"
   },
   "nameAllRegionPokemon": "Nommez tous les Pokémon!",
   "newContentAvailable": "L'application a été mise à jour. Cliquez sur Recharger ou actualisez la page pour appliquer la mise à jour.",

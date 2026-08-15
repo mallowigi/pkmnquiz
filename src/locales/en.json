@@ -139,32 +139,44 @@
   "helpPopup": {
     "gameModes": {
       "challengeMode": {
-        "description": "Test your skills! In Challenge Mode, all settings are locked at the start. You can customize which helpers are available, but once the game starts, no changes allowed. Race against time to complete the quiz as fast as possible!",
+        "description": "Test your skills! In <b>Challenge Mode</b>, all settings are locked at the start. You can customize which helpers are available, but once the game starts, no changes allowed. Race against time to complete the quiz as fast as possible!",
         "title": "Challenge Mode"
       },
-      "description": "Choose how you want to play! Select from Regional quizzes (like Kanto or Johto), Type-based quizzes (all Water or Fire Pokémon), or tackle the Full National Dex. Each mode offers a unique challenge.",
+      "description": "Choose how you want to play! Select from Regional quizzes (like Kanto or Johto), Type-based quizzes (all Water or Fire Pokémon), Special quizzes (like Legendary or Mega Pokémon) or tackle the Full National Dex. Each mode offers a unique challenge.",
       "freeMode": {
         "description": "Play at your own pace! Free Mode lets you toggle helpers, adjust settings, save your progress, and take breaks anytime. Perfect for casual play or learning all the Pokémon names.",
         "title": "Free Mode"
       },
       "orderModes": {
-        "description": "Choose your guessing order: Normal Mode (guess in any order), Dex Order (must guess Pokémon in Pokédex number order), or Chaos Mode (no fixed positions, Pokémon appear randomly).",
-        "title": "Order Modes"
+        "description": "Increase the challenge by enforcing a specific order or by removing predefined placements. Choose from Normal Mode, Dex Order, or Chaos Mode to test your Pokémon knowledge in different ways!",
+        "title": "Order Modes",
+        "listItems": {
+          "normal": "<b>Normal Mode</b>: Guess Pokémon in any order with Pokemon showing in the place according to their National Pokédex number",
+          "dex": "<b>Dex Order</b>: Guess Pokémon in National Pokédex number order",
+          "chaos": "<b>Chaos Mode</b>: Guess Pokémon in any order, and Pokémon will show up as you find them, without predefined placements"
+        }
       },
       "quizTypes": {
-        "description": "Regional Quiz: Focus on one generation (Kanto, Johto, etc.). Type Quiz: Name all Pokémon of a specific type. Full Quiz: All Pokémon from all generations. Mega Quiz: Mega Evolutions only. Special Quiz: Legendary, Mythical, Ultra Beasts, and more!",
-        "title": "Quiz Types"
+        "description": "Select the type of quiz you want to play! You can focus on specific regions, Pokémon types, or go for the full National Dex. Each quiz type offers a different challenge!",
+        "title": "Quiz Types",
+        "listItems": {
+          "gen": "<b>Generation Quiz</b>: Guess Pokémon from one or more generations (e.g., Gen 1, Gen 2, Gen 3)",
+          "type": "<b>Type Quiz</b>: Guess Pokémon from specific types (e.g., Water, Fire, Psychic)",
+          "full": "<b>Full Quiz</b>: All Pokémon from all generations, DLC included",
+          "mega": "<b>Mega Quiz</b>: Mega Evolutions and Gigantamax only",
+          "special": "<b>Special Quiz</b>: Legendary, Sub-Legendary, Mythical, Ultra Beasts and Paradox only"
+        }
       },
       "title": "Game Modes"
     },
     "helpers": {
       "cries": {
-        "description": "Hear Pokémon cries to help identify them! Press the designated hotkey (or double-tap on mobile) to play the cry of a random missing Pokémon. Great for audio learners!",
+        "description": "Hear Pokémon cries to help identify them! Press the <kbd>.</kbd> (or double-tap on mobile) to play the cry of a random missing Pokémon. Great for audio learners!",
         "title": "Cries Helper"
       },
       "description": "Stuck? Use these helpers to get hints! Each helper provides a different type of clue to help you remember Pokémon names.",
       "shadows": {
-        "description": "Reveal the silhouette of Pokémon you haven't found yet. Press the hotkey (or triple-tap on mobile) to reveal one random shadow. Note: Using shadows affects your leaderboard score!",
+        "description": "Reveal the silhouette of Pokémon you haven't found yet. Press the <kbd>,</kbd> hotkey (or triple-tap on mobile) to reveal one random shadow. Note: Using shadows affects your leaderboard score!",
         "title": "Shadow Helper"
       },
       "spelling": {
@@ -174,19 +186,26 @@
       "title": "Helpers & Hints"
     },
     "howToPlay": {
-      "description": "Type Pokémon names into the input field and press Enter. Correct answers appear in their designated spots. You can play in multiple languages simultaneously! The goal is to name as many Pokémon as possible before time runs out.",
+      "description": "The goal is to name all Pokémon in the selected set. You can choose from different game modes, quiz types, and helpers to customize your experience. Type Pokémon names and watch them appear on the grid as you find them!",
       "scoring": {
-        "description": "Your score is based on how many Pokémon you name and how quickly you complete the quiz. Using fewer helpers (like shadows or cries) results in a better score. Challenge Mode scores are separate from Free Mode scores.",
-        "title": "Scoring System"
+        "description": "The game uses a scoring system based on a <em>combo-like multiplier</em>. When you find a Pokémon, you get <b>1</b> point. Then, the next Pokémon you find will give you an additional bonus depending on the time it took to name it. Try to find Pokémon as fast as possible to maximize your score!",
+        "title": "Scoring System",
+        "listItems": {
+          "0-3": "0-3 seconds: <b>+5</b> points",
+          "3-7": "3-7 seconds: <b>+4</b> points",
+          "7-15": "7-15 seconds: <b>+3</b> points",
+          "15-30": "15-30 seconds: <b>+2</b> points",
+          "+30": "+30 seconds: <b>+1</b> point"
+        }
       },
       "title": "How to Play",
       "typing": {
-        "description": "Simply start typing in the input field at the top of the screen. The game accepts Pokémon names in multiple languages (if enabled in settings). Press Enter to submit your guess. Correct answers will appear on the grid with their sprite!",
+        "description": "Simply start typing anywhere in the screen and try to complete the Pokémon names. The game accepts Pokémon names in multiple languages (if enabled in settings). Correct answers will appear on the grid with their sprite!",
         "title": "Entering Names"
       }
     },
     "leaderboards": {
-      "description": "Compete with players worldwide! Leaderboards track the top scores for each game mode and quiz type. Your best runs are saved and you can see how you rank against others. Scores consider completion time and number of Pokémon found.",
+      "description": "Compete with players worldwide! Leaderboards track the top scores for each game mode and quiz type. Your best runs are saved and you can see how you rank against others. Scores consider completion time, score and number of shadows used.",
       "title": "Leaderboards"
     },
     "saveLoad": {
@@ -204,8 +223,18 @@
     "settings": {
       "description": "Customize your quiz experience! Adjust visual settings, gameplay options, and language preferences.",
       "gameplay": {
-        "description": "Auto Pause: Automatically pause when you switch tabs. Auto Scroll: Scroll to newly found Pokémon. Sounds: Toggle sound effects. Cycle options control which sprite styles and regions cycle automatically.",
-        "title": "Gameplay Settings"
+        "description": "Customize your gameplay experience with various options. Enable or disable features like Shiny Charm, Auto Pause, Auto Scroll, Sounds, and automatic cycling of sprites, regions, and types to suit your play style.",
+        "title": "Gameplay Settings",
+        "listItems": {
+          "shinyCharm": "<b>Shiny Charm</b>: Increase the chance of finding shiny Pokémon",
+          "autoPause": "<b>Auto Pause</b>: Automatically pause the game when switching tabs or switching to a different app",
+          "sync": "<b>Sync</b>: Automatically sync your game state to the cloud",
+          "autoScroll": "<b>Auto Scroll</b>: Automatically scroll to newly found Pokémon",
+          "sounds": "<b>Sounds</b>: Toggle sound effects on/off",
+          "cycleSprites": "<b>Cycle Sprites</b>: Cycle sprites of Pokemon having multiple forms (e.g. Arceus forms, Alcremie forms, etc.)",
+          "cycleRegions": "<b>Cycle Regions</b>: In multiple region quizzes, automatically cycle through the selected regions in the app title and in the guessing input.",
+          "cycleTypes": "<b>Cycle Types</b>: In multiple type quizzes, automatically cycle through the selected types in the app title and in the current theme and background colors"
+        }
       },
       "languages": {
         "description": "Enable multiple languages to guess Pokémon names in English, French, German, Japanese, Korean, Chinese, and more! You can answer in any enabled language.",
@@ -213,31 +242,44 @@
       },
       "title": "Settings",
       "visual": {
-        "description": "Shiny Charm: Display shiny sprites instead of regular ones. Theme Color: Choose your favorite color theme. Dark Mode: Toggle dark mode for comfortable night play.",
-        "title": "Visual Settings"
+        "description": "Customize the visual aspects of the game.",
+        "title": "Visual Settings",
+        "listItems": {
+          "themeColor": "<b>Theme Color</b>: Choose your favorite color theme",
+          "language": "<b>Language</b>: Select the language of the game",
+          "darkMode": "<b>Dark Mode</b>: Toggle dark mode for comfortable night play"
+        }
       }
     },
     "shortcuts": {
-      "description": "Master these shortcuts to play more efficiently!",
+      "description": "If you're stuck, the game provides you with several helpers to assist you in your naming quest. Once you toggle the helper, you can trigger the help anytime you want via keyboard shortcuts or mobile gestures. Try to guess without them!",
       "keyboard": {
-        "description": "Shadow Helper: Press the hotkey shown on screen to reveal a random shadow. Cries Helper: Press the hotkey to hear a random Pokémon cry. These shortcuts save time when you need a quick hint!",
-        "title": "Keyboard Shortcuts"
+        "description": "Press specific keys on the keyboard to trigger the helpers.",
+        "title": "Keyboard Shortcuts",
+        "listItems": {
+          "shadow": "<b>Shadow Helper</b>: press <kbd>,</kbd> to reveal a random shadow",
+          "cries": "<b>Cries Helper</b>: press <kbd>.</kbd> to hear a random Pokémon cry"
+        }
       },
       "mobile": {
-        "description": "Double-tap anywhere on the screen to play a random Pokémon cry. Triple-tap to reveal a random Pokémon shadow. These gestures make helpers easy to access on touch devices!",
-        "title": "Mobile Gestures"
+        "description": "On mobile devices, you can use taps to trigger the helpers.",
+        "title": "Mobile Gestures",
+        "listItems": {
+          "shadow": "<b>Shadow Helper</b>: triple-tap anywhere to reveal a random shadow",
+          "cries": "<b>Cries Helper</b>: double-tap anywhere to hear a random Pokémon cry"
+        }
       },
       "title": "Shortcuts & Hotkeys"
     },
     "shuffleModes": {
       "boxShuffle": {
-        "description": "Available in Regional quizzes only. Instead of guessing in any order, you must complete one box at a time. A random box is selected, and you must name all its Pokémon before moving to the next box!",
+        "description": "Limit your guess to Pokémon from a specific box! At every answer, a random box is selected amongst the remaining Pokémon, and you must guess a Pokémon from that box. <br><b>Note:</b> This mode cannot be enabled in a <em>Special</em> Quiz.",
         "title": "Box Shuffle"
       },
-      "description": "Add extra challenge with shuffle modes! These special modes change how you guess Pokémon.",
+      "description": "Add extra challenge with <b>shuffle modes</b> by limiting your guess to specific criteria. This adds a fun twist to the quiz, testing your knowledge of Pokémon in different ways!",
       "title": "Shuffle Modes",
       "typeShuffle": {
-        "description": "Guess Pokémon by type! A random type is selected, and you must name the next Pokémon of that type. The type changes after each correct answer. Adds a strategic puzzle element to the quiz!",
+        "description": "Guess Pokémon by <b>Type</b>! At every answer, a random type is selected amongst the remaining Pokémon, and you must guess a Pokémon of that type. This mode adds a fun twist to the quiz, testing your knowledge of Pokémon types!<br><b>Note:</b> This mode cannot be enabled in a <em>Types</em> Quiz.",
         "title": "Type Shuffle"
       }
     }

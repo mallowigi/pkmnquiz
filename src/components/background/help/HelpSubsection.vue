@@ -133,4 +133,10 @@ ul {
     margin: 8px 0;
   }
 }
+
+li {
+  :deep(&) {
+    margin-bottom: 4px;
+  }
+}
 </style>
