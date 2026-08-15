@@ -5,10 +5,11 @@ import { useI18n } from 'vue-i18n';
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import { useQuiz } from '@/composables/useQuiz.js';
 import { useTranslations } from '@/composables/useTranslations.js';
-import { typesList } from '@/data/pokemonTypes';
+import { gens } from '@/data/gens.ts';
+import { typesList, pokemonTypes } from '@/data/pokemonTypes';
 import { useCurrentType } from '@/stores/useCurrentType';
 import { useGameFlow } from '@/stores/useGameFlow.js';
-import type { Type } from '@/types.ts';
+import type { Type, Gen } from '@/types.ts';
 
 const activeTypes = ref<Set<Type>>(new Set());
 
@@ -17,8 +18,6 @@ const { getSpecialType } = useCurrentType();
 const { setTypesQuiz } = useQuiz();
 const { getTypeTranslation } = useTranslations();
 const { t } = useI18n();
-
-const specialType = computed(() => getSpecialType());
 
 const goBack = () => {
   setGameSelectionState('gen');
@@ -34,6 +33,21 @@ const toggleType = (type: Type) => {
 
 const startQuiz = (types: Set<Type>) => {
   setTypesQuiz(Array.from(types));
+};
+
+const shuffle = () => {
+  const typeIds = Object.keys(pokemonTypes);
+  const randomSize = Math.floor(Math.random() * typeIds.length) + 1;
+  const shuffledTypes = new Set<Type>();
+
+  while (shuffledTypes.size < randomSize) {
+    const randomIndex = Math.floor(Math.random() * typeIds.length);
+    const randomTypeId = typeIds[randomIndex] as Type;
+    shuffledTypes.add(randomTypeId);
+  }
+
+  console.log('Shuffled Types:', Array.from(shuffledTypes));
+  activeTypes.value = shuffledTypes;
 };
 </script>
 
@@ -60,13 +74,22 @@ const startQuiz = (types: Set<Type>) => {
         <div class="type-name">{{ getTypeTranslation(typeMeta.id) }}</div>
       </RoundedButton>
 
-      <div class="button-special"></div>
+      <div class="button-hidden"></div>
       <RoundedButton
         class="button-type button-back"
         @click="goBack"
         :style="{ '--bgColor': '#111', '--fgColor': '#fff' }"
       >
         <div class="type-name">{{ t('back') }}</div>
+      </RoundedButton>
+      <div></div>
+
+      <div class="button-hidden2"></div>
+      <RoundedButton
+        class="button-type button-randomize"
+        @click="shuffle"
+      >
+        <div class="type-name">{{ t('randomize') }}</div>
       </RoundedButton>
       <div></div>
     </div>
@@ -118,9 +141,11 @@ const startQuiz = (types: Set<Type>) => {
   }
 
   &.active {
-    top: 4px; /* Matches the shadow height above */
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Shadow disappears as it hits the floor */
+    top: 4px;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     filter: brightness(0.5);
+    border: 2px solid var(--primary);
+    transition: all 0.2s ease-in-out;
 
     &::after {
       content: '';
@@ -139,9 +164,10 @@ const startQuiz = (types: Set<Type>) => {
 }
 
 .type-grid {
+  margin-top: 1em;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(7, auto);
+  grid-template-rows: repeat(8, auto);
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
   gap: 2px;
@@ -176,14 +202,25 @@ const startQuiz = (types: Set<Type>) => {
   }
 }
 
-.button-special {
+.button-hidden {
   grid-row: 7;
+  grid-column: 1;
+}
+
+.button-hidden2 {
+  grid-row: 8;
   grid-column: 1;
 }
 
 .button-back {
   grid-row: 7;
   grid-column: 2;
+}
+
+.button-randomize {
+  grid-row: 8;
+  grid-column: 2;
+  background: var(--primary);
 }
 
 .symbol {

@@ -37,6 +37,20 @@ const toggleGen = (gen: Gen) => {
 const startQuiz = (gens: Set<Gen>) => {
   setGenQuiz(Array.from(gens));
 };
+
+const shuffle = () => {
+  const genIds = Object.keys(gens);
+  const randomSize = Math.floor(Math.random() * genIds.length) + 1;
+  const shuffledGens = new Set<Gen>();
+
+  while (shuffledGens.size < randomSize) {
+    const randomIndex = Math.floor(Math.random() * genIds.length);
+    const randomGenId = genIds[randomIndex] as Gen;
+    shuffledGens.add(randomGenId);
+  }
+
+  activeGens.value = shuffledGens;
+};
 </script>
 
 <template>
@@ -94,6 +108,15 @@ const startQuiz = (gens: Set<Gen>) => {
         class="cell cell-type rad-tr"
         @click="openSpecialChooser"
       />
+
+      <div />
+      <div
+        class="cell rad-bl-tr"
+        @click="shuffle"
+      >
+        <div class="type-name">{{ t('randomize') }}</div>
+      </div>
+      <div />
     </div>
 
     <RoundedButton
@@ -155,9 +178,11 @@ const startQuiz = (gens: Set<Gen>) => {
   }
 
   &.active {
-    top: 4px; /* Matches the shadow height above */
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* Shadow disappears as it hits the floor */
+    top: 4px;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     filter: brightness(0.5);
+    border: 2px solid var(--primary);
+    transition: all 0.2s ease-in-out;
 
     &::after {
       content: '';

@@ -1,6 +1,6 @@
-import type { GenerationInfo } from '@/types';
+import type { GenerationInfo, Gen } from '@/types';
 
-export const gens: Record<string, GenerationInfo> = {
+export const gens: Record<Gen, GenerationInfo> = {
   gen1: {
     boxes: ['kanto'],
     color: '#7EA35E',
