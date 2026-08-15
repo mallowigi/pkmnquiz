@@ -3,13 +3,14 @@ import { computed } from 'vue';
 
 import MorphTransition from '@/components/common/transitions/MorphTransition.vue';
 import { useUnknownSprite } from '@/composables/useUnknownSprite.ts';
+import { useLanguages } from '@/stores/useLanguages.ts';
 import { usePkmnData } from '@/stores/usePkmnStore.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
-import { capitalize } from '@/utils/utils.ts';
 
 const { unknownSprite } = useUnknownSprite();
 const { getLastPokemon, getStatus } = usePokemons();
 const { data } = usePkmnData();
+const { getTranslation } = useLanguages();
 
 const lastPokemon = computed(() => getLastPokemon());
 
@@ -47,7 +48,7 @@ const bgImg = computed(() => {
 
 const isUnknown = computed(() => !lastPokemon.value || (!spriteData.value.shiny && !spriteData.value.sprite));
 
-const title = computed(() => (lastPokemon.value ? capitalize(lastPokemon.value.baseName) : ''));
+const title = computed(() => (lastPokemon.value ? getTranslation(lastPokemon.value) : ''));
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useScroll } from '@vueuse/core';
-import { computed, capitalize, watch, useTemplateRef, nextTick, ref } from 'vue';
+import { computed, watch, useTemplateRef, nextTick } from 'vue';
 
 import CyclingSprite from '@/components/common/CyclingSprite.vue';
 import RevealZoomTransition from '@/components/common/transitions/RevealZoomTransition.vue';
@@ -8,6 +8,7 @@ import LastPokemon from '@/components/header/LastPokemon.vue';
 import { useGlitchedEffect } from '@/composables/useGlitchedEffect.ts';
 import { useUnknownSprite } from '@/composables/useUnknownSprite.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
+import { useLanguages } from '@/stores/useLanguages.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
 import { usePkmnData } from '@/stores/usePkmnStore.ts';
 import { useSettings } from '@/stores/useSettings.ts';
@@ -45,9 +46,12 @@ const { data } = usePkmnData();
 const { unknownSprite } = useUnknownSprite();
 const { glitchStyles } = useGlitchedEffect();
 const { displayPokemonDetails } = usePkmnDetails();
+const { getTranslation } = useLanguages();
 
 const el = useTemplateRef('el');
 const { isScrolling } = useScroll(el);
+
+const pokemonName = computed(() => getTranslation(props.pokemon));
 
 const makeGlitchy = (text: string) => {
   const { flowState } = useGameFlow();
@@ -77,7 +81,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
         key: 'found-cycle',
         kind: 'cycle',
         sprites: spriteData.value.spriteCycle,
-        title: makeGlitchy(capitalize(props.pokemon.baseName)),
+        title: makeGlitchy(pokemonName.value),
       };
     }
 
@@ -86,7 +90,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
         image: spriteData.value.shiny,
         key: 'found-shiny',
         kind: 'found shiny',
-        title: `${makeGlitchy(capitalize(props.pokemon.baseName))} (Shiny)`,
+        title: `${makeGlitchy(pokemonName.value)} (Shiny)`,
       };
     }
 
@@ -95,7 +99,7 @@ const displayedSprite = computed<DisplayedSprite>(() => {
         image: spriteData.value.sprite,
         key: 'found-default',
         kind: 'found',
-        title: makeGlitchy(capitalize(props.pokemon.baseName)),
+        title: makeGlitchy(pokemonName.value),
       };
     }
   }

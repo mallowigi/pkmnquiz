@@ -2,8 +2,9 @@
 import { useIntervalFn } from '@vueuse/core';
 import { computed, ref } from 'vue';
 
+import { useLanguages } from '@/stores/useLanguages.ts';
 import { usePkmnData } from '@/stores/usePkmnStore.ts';
-import { normalizeName, capitalize } from '@/utils/utils.ts';
+import { normalizeName } from '@/utils/utils.ts';
 
 const props = defineProps<{
   sprites: readonly string[];
@@ -11,6 +12,7 @@ const props = defineProps<{
 }>();
 
 const { data } = usePkmnData();
+const { getTranslation } = useLanguages();
 
 const sprites = computed(() => {
   if (!data.sprites) {
@@ -30,7 +32,7 @@ useIntervalFn(() => {
   <div
     :hidden="sprites.length === 0"
     class="sprite cycle"
-    v-tooltip:bottom="sprites[currentIndex] ? capitalize(props.sprites[currentIndex]) : ''"
+    v-tooltip:bottom="sprites[currentIndex] ? getTranslation(props.sprites[currentIndex]) : ''"
     :style="{ '--bg-img': `url(${sprites[currentIndex]})` }"
   />
 </template>
