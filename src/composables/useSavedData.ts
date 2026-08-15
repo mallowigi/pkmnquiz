@@ -23,6 +23,7 @@ import { normalizeName } from '@/utils/utils.ts';
 const ready = ref(false);
 const LOCAL_STORAGE_KEY = 'pkmn_quiz_saved_state';
 const LOCAL_STORAGE_NAME_KEY = 'pkmn_quiz_saved_name';
+const VERSION = 1;
 
 const debouncedSaveToFirebase = useDebounceFn(
   (savedState: SaveData) => {
@@ -66,8 +67,20 @@ export const useSavedData = () => {
     }
 
     try {
-      const savedState = JSON.parse(savedStateStr);
-      return savedState && savedState.version === 1;
+      const savedState = JSON.parse(savedStateStr) as SaveData;
+      if (!savedState || typeof savedState !== 'object') {
+        return false;
+      }
+
+      if (savedState.version !== VERSION) {
+        return false;
+      }
+
+      if (savedState.gameSelectionState !== null) {
+        return false;
+      }
+
+      return true;
     } catch (error) {
       console.error('Failed to parse autosave data.', error);
       return false;
@@ -130,7 +143,7 @@ export const useSavedData = () => {
         savedAt: Date.now(),
       },
       types: Array.from(currentTypeState.currentTypes),
-      version: 1,
+      version: VERSION,
     };
   };
 
