@@ -151,6 +151,7 @@
   "kalosmega": "Megaevolución (Kalos)",
   "kanto": "Kanto",
   "ko": "Coreano",
+  "language": "Idioma",
   "languageSet": "{lang} idioma {status}",
   "languagesTooltip": "Adivina Pokémon en otros idiomas",
   "leaderboardSaveFailed": "Error al guardar el récord en la tabla de clasificación: {error}",
@@ -308,6 +309,7 @@
     "title": "¿Cambiar cuestionario?"
   },
   "thanksForPlaying": "¡Gracias por jugar!",
+  "themeColor": "Color del Tema",
   "timer": "Temporizador",
   "timerTooltip": "Establece un temporizador para el juego.",
   "toggleSettings": "Alternar Configuración",

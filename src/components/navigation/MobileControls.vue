@@ -47,7 +47,8 @@ const showUserProfile = () => {
 };
 
 const showVisualSettings = () => {
-  // Not implemented yet
+  hideHelp();
+  setDialog('visualSettings');
 };
 </script>
 
@@ -59,6 +60,7 @@ const showVisualSettings = () => {
     <div class="controls-row">
       <RoundedButton
         class="control-btn"
+        :selected="dialogs.dialog === 'leaderboards'"
         @click="showLeaderBoards"
         v-tooltip:top="t('showLeaderBoards')"
       >
@@ -67,6 +69,7 @@ const showVisualSettings = () => {
 
       <RoundedButton
         class="control-btn"
+        :selected="helpState.showHelp"
         @click="toggleHelp"
         v-tooltip:top="t('help')"
       >
@@ -75,6 +78,7 @@ const showVisualSettings = () => {
 
       <RoundedButton
         class="control-btn"
+        :selected="dialogs.dialog === 'userProfile' || dialogs.dialog === 'login'"
         @click="showUserProfile"
         v-tooltip:top="t('userProfile')"
       >
@@ -83,6 +87,7 @@ const showVisualSettings = () => {
 
       <RoundedButton
         class="control-btn"
+        :selected="dialogs.dialog === 'visualSettings'"
         @click="showVisualSettings"
         v-tooltip:top="t('visualSettings')"
       >
@@ -110,8 +115,6 @@ const showVisualSettings = () => {
   display: flex;
   justify-content: center;
   width: 100%;
-  gap: 4px;
-  column-rule: 2px dotted var(--type-btn-color, var(--primary));
 }
 
 .control-btn {
@@ -122,25 +125,30 @@ const showVisualSettings = () => {
   align-items: center;
   min-width: 0;
   border-radius: 0;
-  border: none;
-  padding: 6px;
+  border-right-style: dotted;
+  border-left: none;
+  padding: 10px;
 
   &:first-child {
+    border-left: 2px solid var(--type-btn-color, var(--primary));
     border-radius: 20px 0 0 3px;
   }
 
   &:last-child {
+    border-right-style: solid;
     border-radius: 0 3px 20px 0;
   }
 
   &:hover {
     background-color: var(--type-dark-color, var(--darkPrimary));
-    border: none;
+    border-color: var(--type-dark-color, var(--darkPrimary));
+    border-left: none;
   }
 
   &.selected {
     background-color: var(--type-btn-color, var(--primary));
-    border: none;
+    border-color: var(--type-btn-color, var(--primary));
+    border-left: none;
   }
 }
 

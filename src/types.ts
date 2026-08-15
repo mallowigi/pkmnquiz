@@ -14,7 +14,8 @@ export type Dialog =
   | 'shadows'
   | 'switchQuiz'
   | 'timer'
-  | 'userProfile';
+  | 'userProfile'
+  | 'visualSettings';
 
 export type GameMode = 'full' | 'gen' | 'special' | 'mega' | 'types';
 

@@ -11,6 +11,7 @@ import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
 import UserProfileDialog from '@/components/dialogs/UserProfileDialog.vue';
 import { useI18n } from 'vue-i18n';
 import LoginDialog from '@/components/dialogs/LoginDialog.vue';
+import VisualSettingsDialog from '@/components/dialogs/VisualSettingsDialog.vue';
 
 const { dialogs } = useDialogs();
 const { t } = useI18n();
@@ -51,6 +52,8 @@ const { t } = useI18n();
     <UserProfileDialog v-if="dialogs.dialog === 'userProfile'" />
 
     <LoginDialog v-if="dialogs.dialog === 'login'" />
+
+    <VisualSettingsDialog v-if="dialogs.dialog === 'visualSettings'" />
   </FadeTransition>
 </template>
 

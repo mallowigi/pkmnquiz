@@ -316,6 +316,7 @@
   "kalosmega": "Mega Evolution (Kalos)",
   "kanto": "Kanto",
   "ko": "Korean",
+  "language": "Language",
   "languageSet": "{lang} language {status}",
   "languagesTooltip": "Guess Pokemon in other languages",
   "leaderboardSaveFailed": "Failed to save leaderboard record: {error}",
@@ -473,6 +474,7 @@
     "title": "Switch Quiz?"
   },
   "thanksForPlaying": "Thanks for Playing!",
+  "themeColor": "Theme Color",
   "timer": "Timer",
   "timerTooltip": "Set a timer for the game.",
   "toggleSettings": "Toggle Settings",
