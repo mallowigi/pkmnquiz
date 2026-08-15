@@ -17,6 +17,7 @@ import GameFooter from '@/components/footer/GameFooter.vue';
 import Game from '@/components/game/Game.vue';
 import PokemonDetailsPane from '@/components/game/pokemonInfo/PokemonDetailsPane.vue';
 import GameHeader from '@/components/header/GameHeader.vue';
+import MobileControls from '@/components/navigation/MobileControls.vue';
 import GameSelection from '@/components/start/genSelection/GameSelection.vue';
 import { useAppBreakpoints } from '@/composables/useAppBreakpoints.ts';
 import { TYPE_STYLE_KEYS, useTypeStyles } from '@/composables/useTypeStyles';
@@ -35,7 +36,6 @@ const { flowState } = useGameFlow();
 const { credits } = useCredits();
 const { roomState } = useRoomMessages();
 const typeStyles = useTypeStyles();
-const { pkmnDetailsState } = usePkmnDetails();
 const { helpState } = useHelp();
 
 const { isMobile, isLaptop, isDesktop } = useAppBreakpoints();
@@ -144,6 +144,9 @@ watch(
 
     <!-- Details Pane -->
     <PokemonDetailsPane />
+
+    <!-- Mobile Controls -->
+    <MobileControls v-if="isMobile" />
   </main>
 </template>
 
@@ -155,5 +158,9 @@ watch(
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  &.mobile {
+    padding-bottom: 80px;
+  }
 }
 </style>

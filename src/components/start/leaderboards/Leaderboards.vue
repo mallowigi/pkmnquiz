@@ -90,6 +90,10 @@ const props = defineProps<LeaderboardsProps>();
   background-color: var(--text-inverted);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .mobile & {
+    scrollbar-width: none;
+  }
 }
 
 :deep(.leaderboard-table) {
@@ -124,7 +128,16 @@ const props = defineProps<LeaderboardsProps>();
   }
 
   & tbody tr:nth-of-type(even) {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .mobile & {
+    font-size: 12px;
+
+    & th,
+    & td {
+      padding: 8px 10px;
+    }
   }
 }
 </style>

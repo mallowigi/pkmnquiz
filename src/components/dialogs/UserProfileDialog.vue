@@ -6,15 +6,22 @@ import RoundedButton from '@/components/common/RoundedButton.vue';
 import ProfileDetailedStats from '@/components/dialogs/userProfile/ProfileDetailedStats.vue';
 import ProfileStats from '@/components/dialogs/userProfile/ProfileStats.vue';
 import ProfilePic from '@/components/header/ProfilePic.vue';
+import { useFirebase } from '@/composables/useFirebase.ts';
 import { useUsername } from '@/composables/useUsername.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 
+const { auth, signout } = useFirebase();
 const { closeDialog } = useDialogs();
 const { username } = useUsername();
 
 const { t } = useI18n();
 
 const cancel = () => {
+  closeDialog();
+};
+
+const handleSignout = async () => {
+  await signout();
   closeDialog();
 };
 </script>
@@ -40,12 +47,21 @@ const cancel = () => {
         <ProfileDetailedStats />
       </div>
 
-      <RoundedButton
-        @click.stop="cancel"
-        primary
-      >
-        {{ t('close') }}
-      </RoundedButton>
+      <div class="row">
+        <RoundedButton
+          @click.stop="handleSignout"
+          class="danger-btn"
+        >
+          {{ t('signout') }}
+        </RoundedButton>
+
+        <RoundedButton
+          @click.stop="cancel"
+          primary
+        >
+          {{ t('close') }}
+        </RoundedButton>
+      </div>
     </div>
   </Overlay>
 </template>
