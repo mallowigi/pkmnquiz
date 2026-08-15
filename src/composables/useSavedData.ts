@@ -129,6 +129,7 @@ export const useSavedData = () => {
         ...timerState,
         savedAt: Date.now(),
       },
+      types: Array.from(currentTypeState.currentTypes),
       version: 1,
     };
   };
