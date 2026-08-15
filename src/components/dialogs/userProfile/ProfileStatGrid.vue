@@ -35,6 +35,11 @@ defineProps<{
   justify-content: center;
   gap: 8px;
   width: 100%;
+
+  .mobile & {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 6px;
+  }
 }
 
 .grid-item {
@@ -50,6 +55,11 @@ defineProps<{
   min-height: 80px;
   justify-content: center;
 
+  .mobile & {
+    min-height: 60px;
+    padding: 4px;
+  }
+
   &:hover {
     opacity: 1;
   }
@@ -64,6 +74,10 @@ defineProps<{
 .stat-value {
   font-size: 20px;
   font-weight: bold;
+
+  .mobile & {
+    font-size: 18px;
+  }
 }
 
 .stat-label {
@@ -72,5 +86,9 @@ defineProps<{
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: color 0.2s;
+
+  .mobile & {
+    font-size: 10px;
+  }
 }
 </style>

@@ -39,6 +39,10 @@ const { activeTab, currentStats, tabs } = useProfileStats();
 <style scoped>
 .profile-detailed-stats {
   margin-top: 24px;
+
+  .mobile & {
+    margin-top: 16px;
+  }
 }
 
 .breakdown-title {
@@ -49,6 +53,12 @@ const { activeTab, currentStats, tabs } = useProfileStats();
   text-transform: uppercase;
   letter-spacing: 2px;
   opacity: 0.8;
+
+  .mobile & {
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
 }
 
 .tabs {
@@ -70,6 +80,11 @@ const { activeTab, currentStats, tabs } = useProfileStats();
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
+
+  .mobile & {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
 
   &:hover {
     background: var(--button-hover);

@@ -44,7 +44,6 @@ const resume = () => resumeGame();
 }
 
 .prompt {
-  overflow: hidden;
   flex-direction: column;
   display: flex;
   align-items: center;

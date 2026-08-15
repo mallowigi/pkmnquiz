@@ -44,10 +44,9 @@ onUnmounted(() => {
 <style scoped>
 .overlay-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  margin: auto;
 }
 
 .overlay {
@@ -58,20 +57,17 @@ onUnmounted(() => {
   display: flex;
   width: 100dvw;
   height: 100dvh;
-  align-items: center;
-  justify-content: center;
   padding: 16px;
   overscroll-behavior: contain;
+  overflow-y: auto;
 
   .mobile & {
-    overflow: hidden;
   }
 }
 
 :deep(.prompt) {
   text-align: center;
   color: white;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  margin: auto;
 }
 </style>

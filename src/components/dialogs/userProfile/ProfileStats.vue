@@ -53,6 +53,11 @@ const { t } = useI18n();
   align-items: center;
   gap: 4px;
   max-height: initial;
+  opacity: 0.8;
+
+  .mobile & {
+    padding: 8px;
+  }
 }
 
 .stat-label {
@@ -60,11 +65,21 @@ const { t } = useI18n();
   opacity: 0.8;
   text-transform: uppercase;
   letter-spacing: 2px;
+
+  .mobile & {
+    font-size: 11px;
+    letter-spacing: 1px;
+    line-height: 1.4;
+  }
 }
 
 .stat-value {
   font-size: 24px;
   font-weight: bold;
   color: var(--type-btn-color, var(--primary));
+
+  .mobile & {
+    font-size: 20px;
+  }
 }
 </style>

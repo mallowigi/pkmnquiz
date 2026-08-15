@@ -74,6 +74,10 @@ const handleSignout = async () => {
   gap: 20px;
   max-width: 700px;
   width: 90%;
+
+  .mobile & {
+    gap: 12px;
+  }
 }
 
 .profile-content {
@@ -106,12 +110,27 @@ const handleSignout = async () => {
     font-size: 32px;
     font-weight: bold;
   }
+
+  .mobile & {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 8px;
+
+    &::after {
+      font-size: 24px;
+    }
+  }
 }
 
 .profile-name {
   font-size: 24px;
   margin: 0 0 12px 0;
   color: white;
+
+  .mobile & {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
 }
 
 .profile-records {
