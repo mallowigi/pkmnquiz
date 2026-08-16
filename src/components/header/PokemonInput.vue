@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onStartTyping } from '@vueuse/core';
+import { onStartTyping, useSpeechRecognition } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import RoundedButton from '@/components/common/RoundedButton.vue';
 import TextBox from '@/components/common/TextBox.vue';
 import LastPokemon from '@/components/header/LastPokemon.vue';
 import { useLastInput } from '@/composables/useLastInput.ts';
@@ -13,6 +14,7 @@ import { useQuiz } from '@/composables/useQuiz.ts';
 import vEllipsis from '@/directives/ellipsis.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
+import { usePokemons } from '@/stores/usePokemons.ts';
 import { useRoomMessages } from '@/stores/useRoomMessages.ts';
 import { useState } from '@/stores/useState.ts';
 
@@ -24,6 +26,7 @@ const { dialogs } = useDialogs();
 const { roomState } = useRoomMessages();
 const { getGameModeName } = useQuiz();
 const { t } = useI18n();
+const { getCurrentGameModePokemon } = usePokemons();
 
 /** Clears the input field and updates the game flow state with a null input. */
 const clearInput = () => {
@@ -116,6 +119,41 @@ onStartTyping((e) => {
   ensureFocus();
 });
 
+const { isSupported, isListening, result, confidence, start, stop, recognition } = useSpeechRecognition({
+  continuous: true,
+  interimResults: true,
+  lang: 'en-UK',
+});
+
+const startRecording = () => {
+  if (isListening.value) {
+    stop();
+  } else {
+    start();
+  }
+};
+
+if (isSupported.value) {
+  // @ts-expect-error missing types
+  const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
+  const speechRecognitionList = new SpeechGrammarList();
+
+  const allPokemon = Object.values(getCurrentGameModePokemon()).map((pokemon) => pokemon.name);
+  const grammar = `#JSGF V1.0; grammar pokemon; public <pokemon> = ${allPokemon.join(' | ')} ;`;
+  speechRecognitionList.addFromString(grammar, 1);
+  recognition!.grammars = speechRecognitionList;
+}
+
+watch(result, (newResult) => {
+  if (!newResult) return;
+
+  const value = newResult.trim();
+  inputRef.value!.value = value;
+  updateInput(value);
+
+  checkInput(value);
+});
+
 // TODO remove this once vueuse adds the isTypedCharValid
 onMounted(() => {
   ensureFocus();
@@ -148,6 +186,13 @@ onUnmounted(() => {
     />
 
     <LastPokemon />
+
+    <RoundedButton
+      class="settings rad-br-tl"
+      @click="startRecording"
+    >
+      <p>Record</p>
+    </RoundedButton>
   </div>
 </template>
 
