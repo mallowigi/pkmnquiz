@@ -34,10 +34,12 @@ watch(
 @keyframes score-fade {
   0% {
     opacity: 1;
+    transform: scale(1);
     top: anchor(--score bottom);
   }
   100% {
     opacity: 0;
+    transform: scale(2);
     top: calc(anchor(--score bottom) - 20px);
   }
 }
@@ -46,9 +48,13 @@ watch(
   position: absolute;
   top: anchor(--score bottom);
   left: anchor(--score left);
-  color: greenyellow;
   font-size: 1.2em;
   font-weight: bold;
   animation: score-fade 1s ease-in-out forwards;
+
+  color: greenyellow;
+  text-shadow:
+    0 0 6px rgba(0, 0, 0, 0.8),
+    0 1px 2px rgba(0, 0, 0, 0.9);
 }
 </style>

@@ -105,7 +105,6 @@ const total = computed(() => {
 }
 
 .highlight {
-  color: var(--text-inverted);
   text-shadow: 0 0 5px var(--text);
   color: white;
   text-decoration-style: dashed;
