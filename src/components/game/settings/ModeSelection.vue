@@ -5,16 +5,18 @@ import { useI18n } from 'vue-i18n';
 import RoundedBox from '@/components/common/RoundedBox.vue';
 import SegmentButton from '@/components/common/SegmentButton.vue';
 import { useQuiz } from '@/composables/useQuiz.ts';
-import { useDialogs } from '@/stores/useDialogs.js';
-import { useGameFlow } from '@/stores/useGameFlow.js';
-import { useState } from '@/stores/useState.js';
-import type { Mode } from '@/types.js';
+import { useShuffles } from '@/composables/useShuffles.ts';
+import { useDialogs } from '@/stores/useDialogs.ts';
+import { useGameFlow } from '@/stores/useGameFlow.ts';
+import { useState } from '@/stores/useState.ts';
+import type { Mode } from '@/types.ts';
 import { scrollToTop } from '@/utils/utils.ts';
 
 const { state, setMode } = useState();
-const { flowState } = useGameFlow();
+const { flowState, startGame } = useGameFlow();
 const { setDialog } = useDialogs();
 const { resetQuiz } = useQuiz();
+const { updateShuffles } = useShuffles();
 const { t } = useI18n();
 
 const applyMode = (mode: Mode) => {
@@ -27,6 +29,8 @@ const applyMode = (mode: Mode) => {
   setDialog(mode, () => {
     setMode(mode);
     resetQuiz();
+    updateShuffles();
+    startGame();
     scrollToTop();
   });
 };
