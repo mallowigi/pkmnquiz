@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import PauseIcon from '@/components/common/icons/PauseIcon.vue';
 import SettingsIcon from '@/components/common/icons/SettingsIcon.vue';
 import SkipIcon from '@/components/common/icons/SkipIcon.vue';
+import VoiceIcon from '@/components/common/icons/VoiceIcon.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import RevealZoomTransition from '@/components/common/transitions/RevealZoomTransition.vue';
 import ZoomTransition from '@/components/common/transitions/ZoomTransition.vue';
@@ -30,6 +31,7 @@ import SpellingToggle from '@/components/game/settings/SpellingToggle.vue';
 import TimerSelection from '@/components/game/settings/TimerSelection.vue';
 import TypeShuffle from '@/components/game/settings/TypeShuffle.vue';
 import { useShuffles } from '@/composables/useShuffles.ts';
+import { useVoice } from '@/composables/useVoice.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.ts';
@@ -40,6 +42,7 @@ const { isChallengeMode } = storeToRefs(useGameFlow());
 const { updateShuffles } = useShuffles();
 const { state } = useState();
 const { skipsState, useSkip } = useSkips();
+const { isSupported, isListening, toggleVoice } = useVoice();
 
 const canSkip = computed(() => {
   if (!state.withBoxShuffle && !state.withTypeShuffle && !state.withCriesShuffle) return false;
@@ -59,6 +62,10 @@ const togglePause = () => pauseGame();
 const skipPokemon = () => {
   useSkip();
   updateShuffles();
+};
+
+const toggleSpeak = () => {
+  toggleVoice();
 };
 </script>
 
@@ -84,6 +91,16 @@ const skipPokemon = () => {
           @click="togglePause"
         >
           <PauseIcon />
+        </RoundedButton>
+
+        <RoundedButton
+          class="settings rad-br-tl"
+          :class="{ active: isListening }"
+          v-tooltip:top="t('speak')"
+          v-if="isSupported"
+          @click="toggleSpeak"
+        >
+          <VoiceIcon />
         </RoundedButton>
 
         <!-- Skip -->
@@ -190,6 +207,12 @@ const skipPokemon = () => {
   * {
     color: var(--text);
     stroke: var(--text);
+  }
+
+  &.active {
+    background-color: var(--type-btn-color, var(--primary));
+    color: white;
+    stroke: white;
   }
 }
 

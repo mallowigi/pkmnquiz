@@ -5,6 +5,7 @@ import { useFirebase } from '@/composables/useFirebase.ts';
 import { useLastInput } from '@/composables/useLastInput.ts';
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
+import { useVoice } from '@/composables/useVoice.ts';
 import { useBonus } from '@/stores/useBonus.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
@@ -24,6 +25,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
   const { resetBonus } = useBonus();
   const { startTypeCycle, stopTypeCycle } = useCurrentType();
   const { startGenCycle, stopGenCycle } = useCurrentGen();
+  const { toggleVoice } = useVoice();
 
   const flowState = reactive<GameFlowState>({
     challengeMode: 'free',
@@ -55,6 +57,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.isPaused = true;
     stopTypeCycle();
     stopGenCycle();
+    toggleVoice();
   };
 
   const resumeGame = () => {
@@ -75,6 +78,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
 
     stopTypeCycle();
     stopGenCycle();
+    toggleVoice();
     removeAutoSave();
     createRecord();
     recordWin();
@@ -87,6 +91,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
 
     stopTypeCycle();
     stopGenCycle();
+    toggleVoice();
     createRecord();
     removeAutoSave();
     showRemaining();
