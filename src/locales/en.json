@@ -297,6 +297,10 @@
         "title": "Type Shuffle"
       }
     },
+    "speechRecognition": {
+      "description": "Play hands-free using your voice! Click the microphone button to start listening, then speak Pokémon names aloud. The game will automatically detect and submit matching Pokémon names in real-time.<br><b>Note:</b> Requires microphone permissions and a browser that supports speech recognition.",
+      "title": "Speech Recognition"
+    },
     "userProfile": {
       "description": "Track your progress and achievements! View your best runs, wins breakdown, and other stats. You can also manage your nickname and see how you rank on the leaderboards.",
       "title": "User Profile"
@@ -458,6 +462,7 @@
   "soundTooltip": "Toggle Sounds On/Off",
   "spAtk": "Sp. Atk",
   "spDef": "Sp. Def",
+  "speak": "Speak",
   "special": "Special",
   "specialQuiz": "Special Quiz",
   "species": "Species",
@@ -504,5 +509,6 @@
   "winsNoShadows": "Wins (No Shadows)",
   "x": "X",
   "yellow": "Yellow",
+
   "zh": "Chinese (Traditional)"
 }

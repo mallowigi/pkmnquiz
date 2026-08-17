@@ -297,6 +297,10 @@
         "title": "属性混洗"
       }
     },
+    "speechRecognition": {
+      "description": "用声音解放双手进行游戏！点击麦克风按钮开始收音，然后大声说出宝可梦的名字。游戏会自动实时识别并提交匹配的宝可梦名称。<br><b>注意：</b>需要麦克风权限以及支持语音识别的浏览器。",
+      "title": "语音识别"
+    },
     "userProfile": {
       "description": "查看你的累计游戏时间、成就徽章和历史统计。",
       "title": "用户资料"
@@ -402,6 +406,7 @@
   "purple": "紫色",
   "quiz": "测验",
   "quizLoaded": "测验加载成功！",
+  "randomize": "随机",
   "red": "红色",
   "regionQuiz": "{region} 测验",
   "regular": "常规",
@@ -457,6 +462,7 @@
   "soundTooltip": "切换声音开/关",
   "spAtk": "特攻",
   "spDef": "特防",
+  "speak": "语音输入",
   "special": "特殊",
   "specialQuiz": "特殊测验",
   "species": "分类",

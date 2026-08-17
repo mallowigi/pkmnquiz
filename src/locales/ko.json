@@ -297,6 +297,10 @@
         "title": "타입 셔플"
       }
     },
+    "speechRecognition": {
+      "description": "목소리로 손쉽게 플레이하세요! 마이크 버튼을 눌러 음성 인식을 시작하고 포켓몬 이름을 말해보세요. 게임이 실시간으로 일치하는 포켓몬 이름을 감지하여 자동 입력합니다.<br><b>참고:</b> 마이크 권한과 음성 인식을 지원하는 브라우저가 필요합니다.",
+      "title": "음성 인식"
+    },
     "userProfile": {
       "description": "총 플레이 시간, 업적 배지 및 게임 통계를 확인하세요.",
       "title": "사용자 프로필"
@@ -402,6 +406,7 @@
   "purple": "보라색",
   "quiz": "퀴즈",
   "quizLoaded": "퀴즈가 성공적으로 로드되었습니다!",
+  "randomize": "무작위",
   "red": "빨간색",
   "regionQuiz": "{region} 퀴즈",
   "regular": "일반",
@@ -457,6 +462,7 @@
   "soundTooltip": "사운드 켜기/끄기",
   "spAtk": "특수공격",
   "spDef": "특수방어",
+  "speak": "음성 입력",
   "special": "스페셜",
   "specialQuiz": "스페셜 퀴즈",
   "species": "분류",

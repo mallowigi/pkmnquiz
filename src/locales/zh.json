@@ -297,6 +297,10 @@
         "title": "屬性混洗"
       }
     },
+    "speechRecognition": {
+      "description": "用聲音解放雙手進行遊戲！點擊麥克風按鈕開始收音，然後大聲說出寶可夢的名字。遊戲會自動即時辨識並提交相符的寶可夢名稱。<br><b>注意：</b>需要麥克風權限以及支援語音辨識的瀏覽器。",
+      "title": "語音辨識"
+    },
     "userProfile": {
       "description": "查看你的累計遊戲時間、成就徽章和歷史統計。",
       "title": "用戶資料"
@@ -402,6 +406,7 @@
   "purple": "紫色",
   "quiz": "测验",
   "quizLoaded": "測驗加載成功！",
+  "randomize": "隨機",
   "red": "紅色",
   "regionQuiz": "{region} 測驗",
   "regular": "常規",
@@ -457,6 +462,7 @@
   "soundTooltip": "切換聲音開/關",
   "spAtk": "特攻",
   "spDef": "特防",
+  "speak": "語音輸入",
   "special": "特殊",
   "specialQuiz": "特殊测验",
   "species": "分類",

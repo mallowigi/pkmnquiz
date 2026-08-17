@@ -297,6 +297,10 @@
         "title": "Misturar Tipos"
       }
     },
+    "speechRecognition": {
+      "description": "Jogue sem usar as mãos usando a sua voz! Clique no botão do microfone para começar a ouvir e fale os nomes dos Pokémon em voz alta. O jogo detectará e enviará automaticamente os nomes correspondentes em tempo real.<br><b>Nota:</b> Requer permissão para usar o microfone e um navegador compatível com reconhecimento de voz.",
+      "title": "Reconhecimento de Voz"
+    },
     "userProfile": {
       "description": "Acompanhe seu tempo total de jogo, insígnias de conquistas e estatísticas detalhadas.",
       "title": "Perfil de Usuário"
@@ -402,6 +406,7 @@
   "purple": "Roxo",
   "quiz": "Quiz",
   "quizLoaded": "Quiz carregado com sucesso!",
+  "randomize": "Aleatorizar",
   "red": "Vermelho",
   "regionQuiz": "Quiz de {region}",
   "regular": "Normal",
@@ -457,6 +462,7 @@
   "soundTooltip": "Ativar/Desativar Sons",
   "spAtk": "Atq. Esp.",
   "spDef": "Def. Esp.",
+  "speak": "Falar",
   "special": "Especial",
   "specialQuiz": "Quiz Especial",
   "species": "Espécie",

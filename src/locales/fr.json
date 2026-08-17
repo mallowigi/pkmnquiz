@@ -297,6 +297,10 @@
         "title": "Mélange Type"
       }
     },
+    "speechRecognition": {
+      "description": "Jouez les mains libres grâce à votre voix ! Cliquez sur le bouton micro pour lancer l'écoute, puis prononcez les noms des Pokémon à voix haute. Le jeu détectera et validera automatiquement les Pokémon correspondants en temps réel.<br><b>Remarque :</b> Nécessite l'autorisation du micro et un navigateur prenant en charge la reconnaissance vocale.",
+      "title": "Reconnaissance vocale"
+    },
     "userProfile": {
       "description": "Consultez votre temps de jeu total, vos badges de succès et vos statistiques.",
       "title": "Profil Utilisateur"
@@ -402,6 +406,7 @@
   "purple": "Violet",
   "quiz": "Quiz",
   "quizLoaded": "Quiz chargé avec succès!",
+  "randomize": "Aléatoire",
   "red": "Rouge",
   "regionQuiz": "Quiz {region}",
   "regular": "Normal",
@@ -457,6 +462,7 @@
   "soundTooltip": "Activer/Désactiver les sons",
   "spAtk": "Att. Spé.",
   "spDef": "Déf. Spé.",
+  "speak": "Parler",
   "special": "Spécial",
   "specialQuiz": "Quiz Spécial",
   "species": "Espèce",

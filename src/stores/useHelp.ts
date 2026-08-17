@@ -117,6 +117,11 @@ export const useHelp = defineStore('help', () => {
         title: t('helpPopup.helpers.title'),
       },
       {
+        description: t('helpPopup.speechRecognition.description'),
+        id: 'speechRecognition',
+        title: t('helpPopup.speechRecognition.title'),
+      },
+      {
         description: t('helpPopup.shuffleModes.description'),
         id: 'shuffleModes',
         subsections: [

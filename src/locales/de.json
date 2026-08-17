@@ -297,6 +297,10 @@
         "title": "Typen-Mischung"
       }
     },
+    "speechRecognition": {
+      "description": "Spiele freihändig mit deiner Stimme! Klicke auf das Mikrofonsymbol, um die Erkennung zu starten, und sprich die Pokémon-Namen laut aus. Das Spiel erkennt passende Pokémon-Namen automatisch in Echtzeit und trägt sie ein.<br><b>Hinweis:</b> Erfordert Mikrofonberechtigungen und einen Browser, der Spracherkennung unterstützt.",
+      "title": "Spracherkennung"
+    },
     "userProfile": {
       "description": "Verfolge deine Spielzeit, Abzeichen und detaillierte Statistiken.",
       "title": "Benutzerprofil"
@@ -402,6 +406,7 @@
   "purple": "Lila",
   "quiz": "Quiz",
   "quizLoaded": "Quiz erfolgreich geladen!",
+  "randomize": "Zufällig anordnen",
   "red": "Rot",
   "regionQuiz": "{region}-Quiz",
   "regular": "Normal",
@@ -457,6 +462,7 @@
   "soundTooltip": "Töne Ein/Aus",
   "spAtk": "Sp.-Ang.",
   "spDef": "Sp.-Ver.",
+  "speak": "Sprechen",
   "special": "Spezial",
   "specialQuiz": "Spezial-Quiz",
   "species": "Spezies",
