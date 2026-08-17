@@ -24,12 +24,14 @@ export const useVoice = () => {
   if (isSupported.value) {
     // @ts-expect-error missing types
     const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
-    const speechRecognitionList = new SpeechGrammarList();
 
-    const allPokemon = Object.values(getCurrentGameModePokemon()).map((pokemon) => pokemon.name);
-    const grammar = `#JSGF V1.0; grammar pokemon; public <pokemon> = ${allPokemon.join(' | ')} ;`;
-    speechRecognitionList.addFromString(grammar, 1);
-    recognition!.grammars = speechRecognitionList;
+    if (SpeechGrammarList) {
+      const speechRecognitionList = new SpeechGrammarList();
+      const allPokemon = Object.values(getCurrentGameModePokemon()).map((pokemon) => pokemon.name);
+      const grammar = `#JSGF V1.0; grammar pokemon; public <pokemon> = ${allPokemon.join(' | ')} ;`;
+      speechRecognitionList.addFromString(grammar, 1);
+      recognition!.grammars = speechRecognitionList;
+    }
 
     recognition!.onresult = (event: SpeechRecognitionEvent) => {
       const lastResultIndex = event.results.length - 1;
