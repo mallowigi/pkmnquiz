@@ -362,6 +362,7 @@ export const usePokemons = defineStore('pokemons', () => {
 
     if (state.mode === 'order') {
       nextPokemon = remainingArray[0];
+      return pokemonMaps.all.get(nextPokemon)?.[0];
     }
 
     while (!nextPokemon && iterationCount < maxIterations) {
