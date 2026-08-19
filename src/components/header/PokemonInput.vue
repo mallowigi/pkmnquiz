@@ -37,7 +37,7 @@ const clearInput = () => {
 const { activateNextShadow, activateCheat, activateNextCry, checkInput } = usePokemonInput({ clearInput });
 
 const isDisabled = computed(() => {
-  return !isInGame.value || dialogs.dialog !== null || roomState.roomMessage !== null;
+  return !isInGame.value || dialogs.dialog !== null;
 });
 
 useMultiTap({
