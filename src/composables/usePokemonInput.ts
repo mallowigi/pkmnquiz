@@ -8,6 +8,7 @@ import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
+import { useRoomMessages } from '@/stores/useRoomMessages.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useState } from '@/stores/useState.ts';
 import type { PokemonInfo, SpecialType, RegionBox } from '@/types.ts';
@@ -40,6 +41,7 @@ export const usePokemonInput = ({ clearInput }: Props) => {
   } = usePokemons();
   const { playFanfare, playFailSound, playPokemonCry } = usePlaySounds();
   const { isDebugMode } = useFeatureFlags();
+  const { sendMessage } = useRoomMessages();
 
   const debugEnd = () => {
     clearInput();
@@ -184,6 +186,8 @@ export const usePokemonInput = ({ clearInput }: Props) => {
     if (!foundPokemon) {
       return;
     }
+
+    sendMessage(value);
 
     const isPartOfAnotherPokemon = isInRemaining(value);
 
