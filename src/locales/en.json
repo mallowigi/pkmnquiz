@@ -44,6 +44,7 @@
   "closestSpelling": "Closest spelling:",
   "cn": "Chinese (Simplified)",
   "continue": "Continue",
+  "createOrJoinRoom": "Create or Join a Room",
   "credits": {
     "title": "Artist and quality control credits for custom sprites:"
   },
@@ -91,6 +92,7 @@
     "wellDone": "Well done!"
   },
   "enterName": "Enter your nickname",
+  "enterRoomName": "Enter a room name",
   "es": "Spanish",
   "exit": "Exit",
   "facebook": "Facebook",

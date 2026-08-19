@@ -32,15 +32,6 @@ import { useSettings } from '@/stores/useSettings.ts';
 import { useTimer } from '@/stores/useTimer.ts';
 import type { UserRecord, SaveData, TopTrainer, LeaderboardsProps } from '@/types.ts';
 
-// type TopTrainersOptions = {
-//   gameMode?: GameMode | null;
-//   gens?: Gen[] | null;
-//   limit?: number;
-//   mode?: Mode | null;
-//   types?: Type[] | null;
-//   uid?: string | null;
-// };
-
 export const useFirebase = defineStore('firebase', () => {
   const { setName, setAvatar } = useSettings();
   const { showUserMessage, showErrorMessage } = useMessages();

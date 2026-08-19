@@ -15,7 +15,8 @@ export type Dialog =
   | 'switchQuiz'
   | 'timer'
   | 'userProfile'
-  | 'visualSettings';
+  | 'visualSettings'
+  | 'createRoom';
 
 export type GameMode = 'full' | 'gen' | 'special' | 'mega' | 'types';
 

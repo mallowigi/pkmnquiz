@@ -105,6 +105,7 @@ declare module 'vue' {
     RegionBoxes: typeof import('./src/components/game/RegionBoxes.vue')['default']
     ResetDialog: typeof import('./src/components/dialogs/ResetDialog.vue')['default']
     RevealZoomTransition: typeof import('./src/components/common/transitions/RevealZoomTransition.vue')['default']
+    RoomCreateDialog: typeof import('./src/components/dialogs/RoomCreateDialog.vue')['default']
     RoomMessageOverlay: typeof import('./src/components/background/RoomMessageOverlay.vue')['default']
     RoundedBox: typeof import('./src/components/common/RoundedBox.vue')['default']
     RoundedButton: typeof import('./src/components/common/RoundedButton.vue')['default']

@@ -1,17 +1,19 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
+import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
 import ChangeTimerDialog from '@/components/dialogs/ChangeTimerDialog.vue';
 import GiveUpDialog from '@/components/dialogs/GiveUpDialog.vue';
+import LeaderBoardsDialog from '@/components/dialogs/LeaderBoardsDialog.vue';
+import LoginDialog from '@/components/dialogs/LoginDialog.vue';
 import ModeDialog from '@/components/dialogs/ModeDialog.vue';
 import ResetDialog from '@/components/dialogs/ResetDialog.vue';
+import RoomCreateDialog from '@/components/dialogs/RoomCreateDialog.vue';
 import ShadowsDialog from '@/components/dialogs/ShadowsDialog.vue';
 import SwitchQuizDialog from '@/components/dialogs/SwitchQuizDialog.vue';
-import { useDialogs } from '@/stores/useDialogs';
-import LeaderBoardsDialog from '@/components/dialogs/LeaderBoardsDialog.vue';
-import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
 import UserProfileDialog from '@/components/dialogs/UserProfileDialog.vue';
-import { useI18n } from 'vue-i18n';
-import LoginDialog from '@/components/dialogs/LoginDialog.vue';
 import VisualSettingsDialog from '@/components/dialogs/VisualSettingsDialog.vue';
+import { useDialogs } from '@/stores/useDialogs';
 
 const { dialogs } = useDialogs();
 const { t } = useI18n();
@@ -54,6 +56,8 @@ const { t } = useI18n();
     <LoginDialog v-if="dialogs.dialog === 'login'" />
 
     <VisualSettingsDialog v-if="dialogs.dialog === 'visualSettings'" />
+
+    <RoomCreateDialog v-if="dialogs.dialog === 'createRoom'" />
   </FadeTransition>
 </template>
 
