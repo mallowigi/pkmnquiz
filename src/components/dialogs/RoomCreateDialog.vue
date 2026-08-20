@@ -3,11 +3,8 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
-import RoundedBox from '@/components/common/RoundedBox.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import TextBox from '@/components/common/TextBox.vue';
-import ColorChanger from '@/components/header/ColorChanger.vue';
-import LocaleChanger from '@/components/header/LocaleChanger.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useMessages } from '@/stores/useMessages.ts';

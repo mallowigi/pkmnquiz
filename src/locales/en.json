@@ -45,6 +45,7 @@
   "cn": "Chinese (Simplified)",
   "continue": "Continue",
   "createOrJoinRoom": "Create or Join a Room",
+  "createdRoom": "Created room: {roomId}",
   "credits": {
     "title": "Artist and quality control credits for custom sprites:"
   },
@@ -318,6 +319,7 @@
   "it": "Italian",
   "ja": "Japanese",
   "johto": "Johto",
+  "joinedRoom": "Joined Room: {roomId}",
   "kalos": "Kalos",
   "kalosmega": "Mega Evolution (Kalos)",
   "kanto": "Kanto",
@@ -386,6 +388,7 @@
   "notNextPokemon": "{name} is not the next Pokemon.",
   "notOfType": "{name} is not of type {type}.",
   "notPartOfGame": "{name} is not part of this game.",
+  "notRoomOwner": "You are not the room owner",
   "nowSaving": "Now saving...",
   "off": "Off",
   "offlineMode": "You must be online to use this feature! ({feature})",
@@ -498,6 +501,7 @@
   "ultrabeast": "Ultra Beast",
   "unova": "Unova",
   "upload": "Upload",
+  "userNotAuthenticated": "You must be authenticated",
   "userProfile": "User Profile",
   "variousArtists": "various artists",
   "visualSettings": "Visual Settings",
