@@ -394,3 +394,19 @@ export type PokemonDetails = PokemonInfo & {
     speed: number;
   };
 };
+
+export type OwnerState = Pick<
+  SaveData,
+  | 'gameSelectionState'
+  | 'gameMode'
+  | 'mode'
+  | 'challengeMode'
+  | 'gens'
+  | 'types'
+  | 'currentBox'
+  | 'currentMegaBox'
+  | 'currentSpecialBox'
+  | 'currentType'
+  | 'currentTypes'
+  | 'pokemonProgress'
+>;
