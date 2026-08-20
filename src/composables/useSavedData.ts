@@ -189,6 +189,11 @@ export const useSavedData = () => {
     sessionStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
+  const applyPartialState = (partialState: Partial<SaveData>) => {
+    const currentState = getSavedState();
+    applyState({ ...currentState, ...partialState });
+  };
+
   const applyState = (loadedState: SaveData) => {
     const { setState } = useState();
     const { setCurrentGens } = useCurrentGen();
@@ -470,6 +475,8 @@ export const useSavedData = () => {
   };
 
   return {
+    applyPartialState,
+    applyState,
     autoSave,
     getSavedName,
     getSavedState,

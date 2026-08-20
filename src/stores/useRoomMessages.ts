@@ -1,4 +1,4 @@
-import { ref, set, get, onDisconnect, serverTimestamp, onChildAdded, push, remove } from 'firebase/database';
+import { ref, set, get, onDisconnect, serverTimestamp, onChildAdded, push, remove, onValue } from 'firebase/database';
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -143,6 +143,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     // Start listening
     listenToMessages();
     listenToJoins();
+    listenToState();
 
     onDisconnect(presenceRef).remove();
   };
@@ -184,6 +185,30 @@ export const useRoomMessages = defineStore('roomMessages', () => {
         if (ownerId === auth.currentUser?.uid) {
           sendState();
         }
+      }
+    });
+  };
+
+  const listenToState = () => {
+    const { applyPartialState } = useSavedData();
+    if (!roomState.room) return;
+
+    const { auth } = useFirebase();
+    if (!auth.currentUser) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    const stateRef = ref(realtimeDb, `rooms/${roomState.room}/ownerState`);
+
+    // Fetch state from firebase - this is both "resume game" and "sync state" for new users joining the room
+    onValue(stateRef, async (snapshot) => {
+      const state = snapshot.val();
+
+      if (state) {
+        showUserMessage(`Room ${roomState.room} state updated`);
+        // Here you can update the local state with the new ownerState
+        applyPartialState(state);
       }
     });
   };
