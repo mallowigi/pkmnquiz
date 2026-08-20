@@ -1,4 +1,4 @@
-name: Deploy Firestore Rules
+name: Deploy Firestore and Realtime Database Rules
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
     paths:
       - 'firebase/firestore.rules'
       - 'firebase/firestore.indexes.json'
+      - 'firebase/rtdb.rules.json'
 
 jobs:
   deploy:
@@ -16,9 +17,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v7
 
-      - name: Deploy Firestore Rules
+      - name: Deploy Firestore and Realtime Database Rules
         uses: w9jds/firebase-action@v15.21.0
         with:
-          args: deploy --only firestore:rules,firestore:indexes
+          args: deploy --only firestore:rules,firestore:indexes,database:rules
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}

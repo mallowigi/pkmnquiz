@@ -1,0 +1,26 @@
+{
+  "rules": {
+    "rooms": {
+      "$roomId": {
+        ".read": "auth != null",
+        "ownerId": {
+          ".write": "auth != null && (!data.exists() || data.val() === auth.uid)",
+          ".validate": "newData.isString() && newData.val() === auth.uid"
+        },
+        "ownerState": {
+          ".write": "auth != null && root.child('rooms/' + $roomId + '/ownerId').val() === auth.uid"
+        },
+        "active_users": {
+          "$userId": {
+            ".write": "auth != null && auth.uid === $userId"
+          }
+        },
+        "messages": {
+          "$messageId": {
+            ".write": "auth != null"
+          }
+        }
+      }
+    }
+  }
+}
