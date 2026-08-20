@@ -42,7 +42,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     };
   };
 
-  // Send current state to all listeners
+  /** Send the current state to the room. Only the owner can send state. */
   const sendState = async () => {
     const { auth } = useFirebase();
     const { getSavedState } = useSavedData();
@@ -60,7 +60,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
 
     // We also need to check in the db
     const ownerId = await getOwnerId();
-    if (ownerId !== auth.currentUser.uid) {
+    if (ownerId !== null && ownerId !== auth.currentUser.uid) {
       showUserMessage(t('notRoomOwner'), 'warning');
       return;
     }
@@ -75,6 +75,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     });
   };
 
+  /** Get the ownerId of the room. If the room doesn't exist, it will return null. */
   const getOwnerId = async () => {
     if (!roomState.room) return null;
 
@@ -87,6 +88,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     return null;
   };
 
+  /** Assigns the ownerId. Only the owner can send state. */
   const setOwnerId = async () => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
@@ -102,15 +104,21 @@ export const useRoomMessages = defineStore('roomMessages', () => {
       return;
     }
 
-    await set(ownerIdRef, ownerId);
+    await set(ownerIdRef, auth.currentUser.uid);
   };
 
+  /**
+   * Join or Create a room. If the room doesn't exist, it will be created and the user will become the owner. If the
+   * room exists, the user will join it.
+   */
   const joinRoom = async (roomId: string, userId: string) => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
       showUserMessage(t('userNotAuthenticated'), 'error');
       return;
     }
+
+    roomState.room = roomId;
 
     const presenceRef = ref(realtimeDb, `rooms/${roomId}/active_users/${userId}`);
     const ownerId = await getOwnerId();
@@ -127,7 +135,6 @@ export const useRoomMessages = defineStore('roomMessages', () => {
       showUserMessage(t('joinedRoom', { roomId }));
     }
 
-    roomState.room = roomId;
     set(presenceRef, {
       updatedAt: serverTimestamp(),
       username: auth.currentUser.displayName,
@@ -135,10 +142,12 @@ export const useRoomMessages = defineStore('roomMessages', () => {
 
     // Start listening
     listenToMessages();
+    listenToJoins();
 
     onDisconnect(presenceRef).remove();
   };
 
+  /** Listen to messages (e.g. the pokemon found) */
   const listenToMessages = () => {
     if (!roomState.room) return;
     const messagesRef = ref(realtimeDb, `rooms/${roomState.room}/messages`);
@@ -153,6 +162,33 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     });
   };
 
+  /** When creating a room, listen to joins so we can send them the current state. */
+  const listenToJoins = () => {
+    const { auth } = useFirebase();
+    if (!auth.currentUser) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    if (!roomState.room) return;
+    const activeUsersRef = ref(realtimeDb, `rooms/${roomState.room}/active_users`);
+
+    onChildAdded(activeUsersRef, async (snapshot) => {
+      const user = snapshot.val();
+      const ownerId = await getOwnerId();
+
+      if (user && user.username && snapshot.key !== auth.currentUser?.uid) {
+        showUserMessage(`User ${user.username} joined room ${roomState.room}`);
+
+        // Broadcast the current state to the new user if we are the owner
+        if (ownerId === auth.currentUser?.uid) {
+          sendState();
+        }
+      }
+    });
+  };
+
+  /** Broadcast a message to the room. The message will be deleted immediately after being sent */
   const sendMessage = async (message: string) => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
