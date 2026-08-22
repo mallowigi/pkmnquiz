@@ -6,14 +6,16 @@ import Overlay from '@/components/common/Overlay.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import TextBox from '@/components/common/TextBox.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
+import { useAlerts } from '@/stores/useAlerts.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { useRooms } from '@/stores/useRooms.ts';
 
 const { closeDialog } = useDialogs();
 const { t } = useI18n();
-const { joinOrCreateRoom } = useRooms();
+const { roomState, joinOrCreateRoom } = useRooms();
 const { showUserMessage } = useMessages();
+const { showAlert } = useAlerts();
 
 const roomName = ref('');
 
@@ -30,6 +32,19 @@ const submitJoinRoom = () => {
   const { auth } = useFirebase();
   if (!auth.currentUser?.uid || !roomName.value) {
     showUserMessage('You must be logged in and provide a room name to join or create a room.', 'error');
+    return;
+  }
+
+  if (roomState.room) {
+    showAlert({
+      confirmText: t('continue'),
+      description: t('leaveRoomDialog.description'),
+      onConfirm: () => {
+        joinOrCreateRoom(roomName.value, auth.currentUser?.uid ?? '');
+        close();
+      },
+      title: t('leaveRoomDialog.title'),
+    });
     return;
   }
 

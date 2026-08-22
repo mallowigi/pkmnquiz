@@ -10,17 +10,11 @@ import { useRooms } from '@/stores/useRooms.ts';
 
 const { t } = useI18n();
 const { setDialog } = useDialogs();
-const { showAlert } = useAlerts();
 const { showUserMessage } = useMessages();
 const { auth } = useFirebase();
-const { destroyRoom, roomState } = useRooms();
+const { destroyRoom } = useRooms();
 
 const join = () => {
-  if (!auth.currentUser?.uid) {
-    showUserMessage('You must be logged in to join a room.', 'error');
-    return;
-  }
-
   destroyRoom();
   setDialog('createRoom');
 };
@@ -28,16 +22,6 @@ const join = () => {
 const handleInviteClick = () => {
   if (!auth.currentUser?.uid) {
     showUserMessage('You must be logged in to join a room.', 'error');
-    return;
-  }
-
-  if (roomState.room) {
-    showAlert({
-      confirmText: t('continue'),
-      description: t('leaveRoomDialog.description'),
-      onConfirm: join,
-      title: t('leaveRoomDialog.title'),
-    });
     return;
   }
 
