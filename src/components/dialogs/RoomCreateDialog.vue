@@ -13,7 +13,7 @@ import { useRooms } from '@/stores/useRooms.ts';
 
 const { closeDialog } = useDialogs();
 const { t } = useI18n();
-const { roomState, joinOrCreateRoom } = useRooms();
+const { roomState, joinOrCreateRoom, destroyRoom } = useRooms();
 const { showUserMessage } = useMessages();
 const { showAlert } = useAlerts();
 
@@ -40,6 +40,7 @@ const submitJoinRoom = () => {
       confirmText: t('continue'),
       description: t('leaveRoomDialog.description'),
       onConfirm: () => {
+        destroyRoom();
         joinOrCreateRoom(roomName.value, auth.currentUser?.uid ?? '');
         close();
       },

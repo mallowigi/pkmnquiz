@@ -197,11 +197,6 @@ export const useRooms = defineStore('roomMessages', () => {
       return;
     }
 
-    if (auth.currentUser.uid !== roomState.ownerId) {
-      showUserMessage(t('notRoomOwner'), 'warning');
-      return;
-    }
-
     // We also need to check in the db
     const ownerId = await getOwnerId();
     if (ownerId !== null && ownerId !== auth.currentUser.uid) {
@@ -289,11 +284,6 @@ export const useRooms = defineStore('roomMessages', () => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
       showUserMessage(t('userNotAuthenticated'), 'error');
-      return;
-    }
-
-    if (auth.currentUser.uid !== roomState.ownerId) {
-      showUserMessage(t('notRoomOwner'), 'warning');
       return;
     }
 
