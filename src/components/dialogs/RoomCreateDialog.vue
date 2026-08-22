@@ -8,11 +8,11 @@ import TextBox from '@/components/common/TextBox.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useMessages } from '@/stores/useMessages.ts';
-import { useRoomMessages } from '@/stores/useRoomMessages.ts';
+import { useRooms } from '@/stores/useRooms.ts';
 
 const { closeDialog } = useDialogs();
 const { t } = useI18n();
-const { joinOrCreateRoom } = useRoomMessages();
+const { joinOrCreateRoom } = useRooms();
 const { showUserMessage } = useMessages();
 
 const roomName = ref('');

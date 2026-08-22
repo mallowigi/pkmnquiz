@@ -3,9 +3,9 @@ import { useI18n } from 'vue-i18n';
 
 import Overlay from '@/components/common/Overlay.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
-import { useRoomMessages } from '@/stores/useRoomMessages';
+import { useRooms } from '@/stores/useRooms.ts';
 
-const { roomState } = useRoomMessages();
+const { roomState } = useRooms();
 const { t } = useI18n();
 </script>
 

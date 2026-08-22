@@ -28,13 +28,13 @@ import { useCredits } from '@/stores/useCredits';
 import { useGameFlow } from '@/stores/useGameFlow';
 import { useHelp } from '@/stores/useHelp.ts';
 import { usePkmnDetails } from '@/stores/usePkmnDetails.ts';
-import { useRoomMessages } from '@/stores/useRoomMessages';
+import { useRooms } from '@/stores/useRooms.ts';
 import { useState } from '@/stores/useState';
 
 const { state, setDarkMode } = useState();
 const { flowState } = useGameFlow();
 const { credits } = useCredits();
-const { roomState } = useRoomMessages();
+const { roomState } = useRooms();
 const typeStyles = useTypeStyles();
 const { helpState } = useHelp();
 

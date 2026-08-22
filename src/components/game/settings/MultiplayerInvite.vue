@@ -6,14 +6,14 @@ import { useFirebase } from '@/composables/useFirebase.ts';
 import { useAlerts } from '@/stores/useAlerts.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useMessages } from '@/stores/useMessages.ts';
-import { useRoomMessages } from '@/stores/useRoomMessages.ts';
+import { useRooms } from '@/stores/useRooms.ts';
 
 const { t } = useI18n();
 const { setDialog } = useDialogs();
 const { showAlert } = useAlerts();
 const { showUserMessage } = useMessages();
 const { auth } = useFirebase();
-const { destroyRoom, roomState } = useRoomMessages();
+const { destroyRoom, roomState } = useRooms();
 
 const join = () => {
   if (!auth.currentUser?.uid) {

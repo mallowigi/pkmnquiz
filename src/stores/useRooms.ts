@@ -15,7 +15,7 @@ interface RoomMessagesState {
   isActive: boolean;
 }
 
-export const useRoomMessages = defineStore('roomMessages', () => {
+export const useRooms = defineStore('roomMessages', () => {
   const { showUserMessage } = useMessages();
   const { t } = useI18n();
 
@@ -379,5 +379,5 @@ export const useRoomMessages = defineStore('roomMessages', () => {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useRoomMessages, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useRooms, import.meta.hot));
 }

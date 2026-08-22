@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AlertDialog: typeof import('./src/components/dialogs/AlertDialog.vue')['default']
     ArrowIcon: typeof import('./src/components/common/icons/ArrowIcon.vue')['default']
     Artwork: typeof import('./src/components/game/pokemonInfo/Artwork.vue')['default']
     AutoPauseToggle: typeof import('./src/components/game/settings/AutoPauseToggle.vue')['default']
