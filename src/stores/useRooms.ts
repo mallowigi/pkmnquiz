@@ -1,6 +1,6 @@
 import { ref, set, get, onDisconnect, serverTimestamp, onChildAdded, push, remove, onValue } from 'firebase/database';
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useFirebase } from '@/composables/useFirebase.ts';
@@ -18,6 +18,7 @@ interface RoomMessagesState {
 export const useRooms = defineStore('roomMessages', () => {
   const { showUserMessage } = useMessages();
   const { t } = useI18n();
+  const { auth } = useFirebase();
 
   const roomState = reactive<RoomMessagesState>({
     isActive: false,
@@ -25,7 +26,16 @@ export const useRooms = defineStore('roomMessages', () => {
     room: null,
   });
 
-  // region Room Management
+  // region Owner Management
+  const isOwner = computed(() => {
+    // Don't check if we're not in multi mode or unauthenticated.
+    if (!auth.currentUser) return true;
+
+    if (!roomState.room) return true;
+
+    return auth.currentUser.uid === roomState.ownerId;
+  });
+
   /** Get the ownerId of the room. If the room doesn't exist, it will return null. */
   const getOwnerId = async (): Promise<string | null> => {
     if (!roomState.room) return null;
@@ -57,6 +67,24 @@ export const useRooms = defineStore('roomMessages', () => {
 
     await set(ownerIdRef, auth.currentUser.uid);
   };
+
+  const listenToOwner = async () => {
+    if (!roomState.room) return;
+
+    const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
+    onValue(ownerIdRef, (snapshot) => {
+      const ownerId = snapshot.val();
+
+      if (ownerId) {
+        roomState.ownerId = ownerId;
+      } else {
+        roomState.ownerId = null;
+      }
+    });
+  };
+
+  // endregion
+  // region Room Management
 
   /**
    * Join or Create a room. If the room doesn't exist, it will be created and the user will become the owner. If the
@@ -93,6 +121,7 @@ export const useRooms = defineStore('roomMessages', () => {
     });
 
     // Start listening
+    listenToOwner();
     listenToMessages();
     listenToJoins();
     listenToState();
@@ -108,6 +137,7 @@ export const useRooms = defineStore('roomMessages', () => {
     await remove(presenceRef);
 
     roomState.room = null;
+    roomState.ownerId = null;
     roomState.isActive = false;
 
     showUserMessage(t('leftRoom', { roomId: roomState.room }));
@@ -339,6 +369,8 @@ export const useRooms = defineStore('roomMessages', () => {
     }
   };
 
+  // endregion
+
   const stopListening = () => {
     if (!roomState.room) return;
     const messagesRef = ref(realtimeDb, `rooms/${roomState.room}/messages`);
@@ -353,12 +385,14 @@ export const useRooms = defineStore('roomMessages', () => {
     onDisconnect(activeUsersRef).remove();
 
     roomState.room = null;
+    roomState.ownerId = null;
+    roomState.isActive = false;
     showUserMessage(t('disconnected', { roomId: roomState.room }), 'warning');
   };
-  // endregion
 
   return {
     destroyRoom,
+    isOwner,
     joinOrCreateRoom,
     leaveRoom,
     roomState,

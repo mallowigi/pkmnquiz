@@ -33,6 +33,7 @@ import TypeShuffle from '@/components/game/settings/TypeShuffle.vue';
 import { useShuffles } from '@/composables/useShuffles.ts';
 import { useVoice } from '@/composables/useVoice.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
+import { useRooms } from '@/stores/useRooms.ts';
 import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.ts';
 
@@ -43,6 +44,7 @@ const { updateShuffles } = useShuffles();
 const { state } = useState();
 const { skipsState, useSkip } = useSkips();
 const { isSupported, isListening, toggleVoice } = useVoice();
+const { isOwner } = storeToRefs(useRooms());
 
 const canSkip = computed(() => {
   if (!state.withBoxShuffle && !state.withTypeShuffle && !state.withCriesShuffle) return false;
@@ -129,7 +131,7 @@ const toggleSpeak = () => {
       >
         <div
           class="selection-row"
-          v-if="!isChallengeMode"
+          v-if="!isChallengeMode && isOwner"
         >
           <GameModeSelection />
 
@@ -144,7 +146,7 @@ const toggleSpeak = () => {
 
         <div
           class="selection-row"
-          v-if="!isChallengeMode"
+          v-if="!isChallengeMode && isOwner"
         >
           <ShinyToggle />
 
@@ -173,11 +175,9 @@ const toggleSpeak = () => {
 
         <div
           class="selection-row"
-          v-if="!isChallengeMode"
+          v-if="!isChallengeMode && isOwner"
         >
           <LanguagesSelection />
-
-          <MultiplayerInvite />
         </div>
       </motion.div>
     </AnimatePresence>
