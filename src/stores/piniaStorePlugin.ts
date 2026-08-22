@@ -8,6 +8,7 @@ export function piniaStorePlugin({ store }: PiniaPluginContext) {
 
   const excludedStores = [
     'dialogs',
+    'alerts',
     'messages',
     'roomMessages',
     'pkmnData',

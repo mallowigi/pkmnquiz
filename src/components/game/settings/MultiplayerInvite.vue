@@ -10,7 +10,7 @@ import { useRoomMessages } from '@/stores/useRoomMessages.ts';
 
 const { t } = useI18n();
 const { setDialog } = useDialogs();
-const { setAlert } = useAlerts();
+const { showAlert } = useAlerts();
 const { showUserMessage } = useMessages();
 const { auth } = useFirebase();
 const { destroyRoom, roomState } = useRoomMessages();
@@ -32,7 +32,7 @@ const handleInviteClick = () => {
   }
 
   if (roomState.room) {
-    setAlert({
+    showAlert({
       confirmText: t('continue'),
       description: t('leaveRoomDialog.description'),
       onConfirm: join,

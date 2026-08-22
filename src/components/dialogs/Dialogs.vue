@@ -2,6 +2,7 @@
 import { useI18n } from 'vue-i18n';
 
 import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
+import AlertDialog from '@/components/dialogs/AlertDialog.vue';
 import ChangeTimerDialog from '@/components/dialogs/ChangeTimerDialog.vue';
 import GiveUpDialog from '@/components/dialogs/GiveUpDialog.vue';
 import LeaderBoardsDialog from '@/components/dialogs/LeaderBoardsDialog.vue';
@@ -13,14 +14,18 @@ import ShadowsDialog from '@/components/dialogs/ShadowsDialog.vue';
 import SwitchQuizDialog from '@/components/dialogs/SwitchQuizDialog.vue';
 import UserProfileDialog from '@/components/dialogs/UserProfileDialog.vue';
 import VisualSettingsDialog from '@/components/dialogs/VisualSettingsDialog.vue';
+import { useAlerts } from '@/stores/useAlerts.ts';
 import { useDialogs } from '@/stores/useDialogs';
 
 const { dialogs } = useDialogs();
+const { alertState } = useAlerts();
 const { t } = useI18n();
 </script>
 
 <template>
   <FadeTransition>
+    <AlertDialog v-if="alertState.shown" />
+
     <ModeDialog
       mode="chaos"
       :caption="t('modeDialog.chaosCaption')"

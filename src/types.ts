@@ -1,7 +1,18 @@
 import { type User } from 'firebase/auth';
 import type { DocumentData } from 'firebase/firestore';
 
+export type AlertDialogOptions = {
+  title?: string;
+  description?: string;
+  confirmText?: string;
+  cancelText?: string;
+  confirmClass?: string;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+};
+
 export type Dialog =
+  | 'alert'
   | 'changeName'
   | 'chaos'
   | 'giveup'
