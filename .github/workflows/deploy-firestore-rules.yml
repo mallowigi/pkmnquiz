@@ -20,6 +20,6 @@ jobs:
       - name: Deploy Firestore and Realtime Database Rules
         uses: w9jds/firebase-action@v15.21.0
         with:
-          args: deploy --only firestore:rules,firestore:indexes,database:rules
+          args: deploy --only firestore:rules,firestore:indexes,database:rules,functions
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
