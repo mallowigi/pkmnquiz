@@ -3,21 +3,13 @@ import { useI18n } from 'vue-i18n';
 
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
-import { useAlerts } from '@/stores/useAlerts.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useMessages } from '@/stores/useMessages.ts';
-import { useRooms } from '@/stores/useRooms.ts';
 
 const { t } = useI18n();
 const { setDialog } = useDialogs();
 const { showUserMessage } = useMessages();
 const { auth } = useFirebase();
-const { destroyRoom } = useRooms();
-
-const join = () => {
-  destroyRoom();
-  setDialog('createRoom');
-};
 
 const handleInviteClick = () => {
   if (!auth.currentUser?.uid) {
@@ -25,7 +17,7 @@ const handleInviteClick = () => {
     return;
   }
 
-  join();
+  setDialog('createRoom');
 };
 </script>
 

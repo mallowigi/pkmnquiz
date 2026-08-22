@@ -15,7 +15,7 @@ const { closeDialog } = useDialogs();
 const { t } = useI18n();
 const { roomState, joinOrCreateRoom, destroyRoom } = useRooms();
 const { showUserMessage } = useMessages();
-const { showAlert } = useAlerts();
+const { setDialog } = useDialogs();
 
 const roomName = ref('');
 
@@ -36,15 +36,10 @@ const submitJoinRoom = () => {
   }
 
   if (roomState.room) {
-    showAlert({
-      confirmText: t('continue'),
-      description: t('leaveRoomDialog.description'),
-      onConfirm: () => {
-        destroyRoom();
-        joinOrCreateRoom(roomName.value, auth.currentUser?.uid ?? '');
-        close();
-      },
-      title: t('leaveRoomDialog.title'),
+    setDialog('deleteRoom', () => {
+      destroyRoom();
+      joinOrCreateRoom(roomName.value, auth.currentUser?.uid ?? '');
+      close();
     });
     return;
   }

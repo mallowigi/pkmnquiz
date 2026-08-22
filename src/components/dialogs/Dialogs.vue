@@ -4,12 +4,13 @@ import { useI18n } from 'vue-i18n';
 import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
 import AlertDialog from '@/components/dialogs/AlertDialog.vue';
 import ChangeTimerDialog from '@/components/dialogs/ChangeTimerDialog.vue';
+import CreateRoomDialog from '@/components/dialogs/CreateRoomDialog.vue';
+import DeleteRoomDialog from '@/components/dialogs/DeleteRoomDialog.vue';
 import GiveUpDialog from '@/components/dialogs/GiveUpDialog.vue';
 import LeaderBoardsDialog from '@/components/dialogs/LeaderBoardsDialog.vue';
 import LoginDialog from '@/components/dialogs/LoginDialog.vue';
 import ModeDialog from '@/components/dialogs/ModeDialog.vue';
 import ResetDialog from '@/components/dialogs/ResetDialog.vue';
-import RoomCreateDialog from '@/components/dialogs/RoomCreateDialog.vue';
 import ShadowsDialog from '@/components/dialogs/ShadowsDialog.vue';
 import SwitchQuizDialog from '@/components/dialogs/SwitchQuizDialog.vue';
 import UserProfileDialog from '@/components/dialogs/UserProfileDialog.vue';
@@ -62,7 +63,9 @@ const { t } = useI18n();
 
     <VisualSettingsDialog v-if="dialogs.dialog === 'visualSettings'" />
 
-    <RoomCreateDialog v-if="dialogs.dialog === 'createRoom'" />
+    <CreateRoomDialog v-if="dialogs.dialog === 'createRoom'" />
+
+    <DeleteRoomDialog v-if="dialogs.dialog === 'deleteRoom'" />
   </FadeTransition>
 </template>
 

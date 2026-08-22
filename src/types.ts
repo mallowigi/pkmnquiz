@@ -27,7 +27,8 @@ export type Dialog =
   | 'timer'
   | 'userProfile'
   | 'visualSettings'
-  | 'createRoom';
+  | 'createRoom'
+  | 'deleteRoom';
 
 export type GameMode = 'full' | 'gen' | 'special' | 'mega' | 'types';
 
