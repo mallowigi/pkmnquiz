@@ -7,7 +7,7 @@ import { useFirebase } from '@/composables/useFirebase.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { realtimeDb } from '@/firebase.ts';
 import { useMessages } from '@/stores/useMessages.ts';
-import type { SaveData, OwnerState } from '@/types.ts';
+import type { SaveData, OwnerState, RoomEvent, UserSnapshot } from '@/types.ts';
 
 interface RoomMessagesState {
   ownerId: string | null;
@@ -76,7 +76,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
   };
 
   /** Get the ownerId of the room. If the room doesn't exist, it will return null. */
-  const getOwnerId = async () => {
+  const getOwnerId = async (): Promise<string | null> => {
     if (!roomState.room) return null;
 
     const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
@@ -144,6 +144,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     listenToMessages();
     listenToJoins();
     listenToState();
+    listenToEvents();
 
     onDisconnect(presenceRef).remove();
   };
@@ -156,6 +157,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     onChildAdded(messagesRef, (snapshot) => {
       showUserMessage(`New message in room ${roomState.room}`);
       const messages = snapshot.val();
+
       if (messages) {
         roomState.roomMessage = messages.message;
         showUserMessage(`New message in room ${roomState.room}: ${messages.message}`);
@@ -175,7 +177,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     const activeUsersRef = ref(realtimeDb, `rooms/${roomState.room}/active_users`);
 
     onChildAdded(activeUsersRef, async (snapshot) => {
-      const user = snapshot.val();
+      const user = snapshot.val() as UserSnapshot;
       const ownerId = await getOwnerId();
 
       if (user && user.username && snapshot.key !== auth.currentUser?.uid) {
@@ -203,7 +205,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
 
     // Fetch state from firebase - this is both "resume game" and "sync state" for new users joining the room
     onValue(stateRef, async (snapshot) => {
-      const state = snapshot.val();
+      const state = snapshot.val() as OwnerState;
 
       if (state) {
         showUserMessage(`Room ${roomState.room} state updated`);
@@ -234,14 +236,76 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     await remove(newMessageRef);
   };
 
+  const sendEvent = async (event: RoomEvent) => {
+    const { auth } = useFirebase();
+    if (!auth.currentUser) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    if (auth.currentUser.uid !== roomState.ownerId) {
+      showUserMessage(t('notRoomOwner'), 'warning');
+      return;
+    }
+
+    // We also need to check in the db
+    const ownerId = await getOwnerId();
+    if (ownerId !== null && ownerId !== auth.currentUser.uid) {
+      showUserMessage(t('notRoomOwner'), 'warning');
+      return;
+    }
+
+    const eventsRef = ref(realtimeDb, `rooms/${roomState.room}/events`);
+    const newEventRef = push(eventsRef);
+
+    await set(newEventRef, {
+      event,
+      senderId: auth.currentUser.uid,
+      timestamp: serverTimestamp(),
+    });
+
+    await remove(newEventRef);
+  };
+
+  const listenToEvents = () => {
+    if (!roomState.room) return;
+    const eventsRef = ref(realtimeDb, `rooms/${roomState.room}/events`);
+
+    onChildAdded(eventsRef, (snapshot) => {
+      const event = snapshot.val();
+      if (event) {
+        showUserMessage(`New event in room ${roomState.room}: ${event.event}`);
+        // Here you can handle the event as needed
+        handleEvent(event);
+      }
+    });
+  };
+
+  const handleEvent = (event: RoomEvent) => {
+    switch (event) {
+      case 'gamePaused':
+        // Handle game paused event
+        break;
+      case 'gameEnded':
+        // Handle game ended event
+        break;
+      case 'disconnect':
+        // Handle disconnect event
+        break;
+      default:
+        // Handle unknown event
+        break;
+    }
+  };
+
   const setRoomMessage = (message: string | null) => {
     roomState.roomMessage = message;
   };
 
   return {
     joinRoom,
-    listenToMessages,
     roomState,
+    sendEvent,
     sendMessage,
     sendState,
     setRoomMessage,

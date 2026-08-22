@@ -410,3 +410,27 @@ export type OwnerState = Pick<
   | 'currentTypes'
   | 'pokemonProgress'
 >;
+
+export type StateSnapshot = OwnerState & {
+  updatedAt: object;
+  updatedBy: string;
+};
+
+export type UserSnapshot = {
+  updatedAt: object;
+  username: string;
+};
+
+export type MessageSnapshot = {
+  timestamp: object;
+  senderId: string;
+  message: string;
+};
+
+export type RoomEvent = 'gamePaused' | 'gameEnded' | 'disconnect';
+
+export type EventSnapshot = {
+  event: RoomEvent;
+  timestamp: object;
+  senderId: string;
+};
