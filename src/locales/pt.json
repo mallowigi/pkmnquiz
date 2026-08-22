@@ -1,5 +1,10 @@
 {
   "abilities": "Habilidades",
+  "alert": "Alerta",
+  "alertDialog": {
+    "description": "Você tem certeza de que deseja continuar?",
+    "title": "Alerta"
+  },
   "all": "Todos",
   "alola": "Alola",
   "alreadyNamed": "{name} já foi nomeado.",
@@ -337,6 +342,10 @@
     "browseLeaderboards": "Explorar Classificações",
     "myRecords": "Meus Melhores Recordes",
     "title": "Top 3 adivinhadores de {mode}"
+  },
+  "leaveRoomDialog": {
+    "description": "Você está atualmente em uma sala. Entrar ou criar uma nova sala fará você sair da atual. Deseja continuar?",
+    "title": "Sair da sala?"
   },
   "legendary": "Lendário",
   "lightMode": "Modo Claro",

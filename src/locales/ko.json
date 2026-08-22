@@ -1,5 +1,10 @@
 {
   "abilities": "특성",
+  "alert": "경고",
+  "alertDialog": {
+    "description": "계속 진행하시겠습니까?",
+    "title": "경고"
+  },
   "all": "전체",
   "alola": "알로라",
   "alreadyNamed": "{name}은(는) 이미 입력되었습니다.",
@@ -337,6 +342,10 @@
     "browseLeaderboards": "리더보드 탐색",
     "myRecords": "나의 최고 기록",
     "title": "{mode} 맞추기 상위 3명"
+  },
+  "leaveRoomDialog": {
+    "description": "현재 방에 참여하고 있습니다. 새 방을 생성하거나 참여하면 현재 방을 나가게 됩니다. 계속하시겠습니까?",
+    "title": "방을 나가시겠습니까?"
   },
   "legendary": "전설",
   "lightMode": "라이트 모드",

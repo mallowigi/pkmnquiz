@@ -1,5 +1,10 @@
 {
   "abilities": "Abilities",
+  "alert": "Alert",
+  "alertDialog": {
+    "description": "Are you sure you want to continue?",
+    "title": "Alert"
+  },
   "all": "All",
   "alola": "Alola",
   "alreadyNamed": "{name} already named.",
@@ -343,6 +348,10 @@
     "browseLeaderboards": "Browse Leaderboards",
     "myRecords": "My Best Runs",
     "title": "Top 3 {mode} Guessers"
+  },
+  "leaveRoomDialog": {
+    "description": "You are currently in a room. Joining or creating a new room will leave the current one. Do you want to continue?",
+    "title": "Leave Room?"
   },
   "leftRoom": "You left the room",
   "legendary": "Legendary",

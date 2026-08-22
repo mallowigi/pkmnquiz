@@ -1,5 +1,10 @@
 {
   "abilities": "Capacités",
+  "alert": "Alerte",
+  "alertDialog": {
+    "description": "Êtes-vous sûr de vouloir continuer ?",
+    "title": "Alerte"
+  },
   "all": "Tous",
   "alola": "Alola",
   "alreadyNamed": "{name} est déjà nommé.",
@@ -328,7 +333,7 @@
     "gameMode": "Mode de jeu",
     "genType": "Gén/Type",
     "name": "Nom",
-    "noRecords": "Aucun record pour le moment. Soyez le premier!",
+    "noRecords": "Aucun record pour le moment. Soyez le premier !",
     "orderMode": "Ordre",
     "shadowsUsed": "Ombres",
     "time": "Temps"
@@ -337,6 +342,10 @@
     "browseLeaderboards": "Parcourir les classements",
     "myRecords": "Mes records",
     "title": "Top 3 Joueurs {mode}"
+  },
+  "leaveRoomDialog": {
+    "description": "Vous êtes actuellement dans un salon. En rejoindre ou en créer un nouveau vous fera quitter le salon actuel. Voulez-vous continuer ?",
+    "title": "Quitter le salon ?"
   },
   "legendary": "Légendaire",
   "lightMode": "Mode Jour",

@@ -1,5 +1,10 @@
 {
   "abilities": "Fähigkeiten",
+  "alert": "Warnung",
+  "alertDialog": {
+    "description": "Bist du sicher, dass du fortfahren möchtest?",
+    "title": "Warnung"
+  },
   "all": "Alle",
   "alola": "Alola",
   "alreadyNamed": "{name} wurde bereits benannt.",
@@ -337,6 +342,10 @@
     "browseLeaderboards": "Bestenlisten durchsuchen",
     "myRecords": "Meine Bestleistungen",
     "title": "Top 3 {mode}-Rater"
+  },
+  "leaveRoomDialog": {
+    "description": "Du befindest dich derzeit in einem Raum. Wenn du einen neuen Raum erstellst oder betrittst, verlässt du den aktuellen Raum. Möchtest du fortfahren?",
+    "title": "Raum verlassen?"
   },
   "legendary": "Legendär",
   "lightMode": "Heller Modus",

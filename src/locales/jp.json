@@ -1,5 +1,10 @@
 {
   "abilities": "特性",
+  "alert": "警告",
+  "alertDialog": {
+    "description": "続行してもよろしいですか？",
+    "title": "警告"
+  },
   "all": "すべて",
   "alola": "アローラ",
   "alreadyNamed": "{name} はすでに命名されています。",
@@ -337,6 +342,10 @@
     "browseLeaderboards": "リーダーボードを見る",
     "myRecords": "自己ベスト",
     "title": "{mode}の正解者トップ3"
+  },
+  "leaveRoomDialog": {
+    "description": "現在部屋に参加しています。新しい部屋を作成または参加すると、現在の部屋を退出します。続行しますか？",
+    "title": "部屋を退出しますか？"
   },
   "legendary": "伝説",
   "lightMode": "ライトモード",

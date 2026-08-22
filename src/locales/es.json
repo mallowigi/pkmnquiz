@@ -1,5 +1,10 @@
 {
   "abilities": "Habilidades",
+  "alert": "Alerta",
+  "alertDialog": {
+    "description": "¿Estás seguro de que quieres continuar?",
+    "title": "Alerta"
+  },
   "all": "Todos",
   "alola": "Alola",
   "alreadyNamed": "{name} ya ha sido nombrado.",
@@ -337,6 +342,10 @@
     "browseLeaderboards": "Explorar tablas de clasificación",
     "myRecords": "Mis mejores partidas",
     "title": "Top 3 adivinadores de {mode}"
+  },
+  "leaveRoomDialog": {
+    "description": "Actualmente estás en una sala. Unirte o crear una nueva sala te hará salir de la actual. ¿Quieres continuar?",
+    "title": "¿Salir de la sala?"
   },
   "legendary": "Legendario",
   "lightMode": "Modo Claro",

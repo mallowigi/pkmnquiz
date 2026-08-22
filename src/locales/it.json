@@ -1,5 +1,10 @@
 {
   "abilities": "Abilità",
+  "alert": "Avviso",
+  "alertDialog": {
+    "description": "Sei sicuro di voler continuare?",
+    "title": "Avviso"
+  },
   "all": "Tutti",
   "alola": "Alola",
   "alreadyNamed": "{name} è già stato nominato.",
@@ -158,7 +163,7 @@
         "listItems": {
           "chaos": "<b>Modalità Caos</b>: Indovina i Pokémon in qualsiasi ordine; appariranno man mano che li trovi, senza caselle predefinite",
           "dex": "<b>Ordine Pokédex</b>: Indovina i Pokémon seguendo rigorosamente l'ordine del Pokédex Nazionale",
-          "normal": "<b>Modalità Normale</b>: Indovina i Pokémon in qualsiasi ordine; appariranno nella casella corrispondente al loro numero di Pokédex Nazionale"
+          "normal": "<b>Modalità Normale</b>: Indovina i Pokémon in qualsiasi ordine; appariranno nella caseaza corrispondente al loro numero di Pokédex Nazionale"
         },
         "title": "Modalità d'Ordine"
       },
@@ -337,6 +342,10 @@
     "browseLeaderboards": "Sfoglia le classifiche",
     "myRecords": "I miei record",
     "title": "Top 3 indovini di {mode}"
+  },
+  "leaveRoomDialog": {
+    "description": "Sei attualmente in una stanza. Creare o entrare in una nuova stanza ti farà uscire da quella attuale. Vuoi continuare?",
+    "title": "Lasciare la stanza?"
   },
   "legendary": "Leggendario",
   "lightMode": "Modalità Chiara",

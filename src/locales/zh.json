@@ -1,5 +1,10 @@
 {
   "abilities": "特性",
+  "alert": "提示",
+  "alertDialog": {
+    "description": "你確定要繼續嗎？",
+    "title": "提示"
+  },
   "all": "全部",
   "alola": "阿罗拉",
   "alreadyNamed": "{name} 已經被命名了。",
@@ -337,6 +342,10 @@
     "browseLeaderboards": "瀏覽排行榜",
     "myRecords": "我的最佳紀錄",
     "title": "{mode} 猜想者前 3 名"
+  },
+  "leaveRoomDialog": {
+    "description": "你當前已在一個房間中。加入或建立新房間將離開當前房間。是否繼續？",
+    "title": "離開房間？"
   },
   "legendary": "传说",
   "lightMode": "淺色模式",

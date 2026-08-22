@@ -1,5 +1,10 @@
 {
   "abilities": "特性",
+  "alert": "提示",
+  "alertDialog": {
+    "description": "你确定要继续吗？",
+    "title": "提示"
+  },
   "all": "全部",
   "alola": "阿罗拉",
   "alreadyNamed": "{name} 已经被命名了。",
