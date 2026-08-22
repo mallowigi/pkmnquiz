@@ -9,8 +9,10 @@ import { useVoice } from '@/composables/useVoice.ts';
 import { useBonus } from '@/stores/useBonus.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
+import { useDialogs } from '@/stores/useDialogs.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useProfile } from '@/stores/useProfile.ts';
+import { useRooms } from '@/stores/useRooms.ts';
 import { useTouches } from '@/stores/useTouches.ts';
 import type { GameFlowState, GameSelectionState, ChallengeMode } from '@/types.ts';
 
@@ -26,6 +28,8 @@ export const useGameFlow = defineStore('gameFlow', () => {
   const { startTypeCycle, stopTypeCycle } = useCurrentType();
   const { startGenCycle, stopGenCycle } = useCurrentGen();
   const { toggleVoice } = useVoice();
+  const { roomState } = useRooms();
+  const { setDialog } = useDialogs();
 
   const flowState = reactive<GameFlowState>({
     challengeMode: 'free',
@@ -71,31 +75,47 @@ export const useGameFlow = defineStore('gameFlow', () => {
   };
 
   const endGame = () => {
-    flowState.isEnded = true;
-    flowState.isStarted = false;
-    flowState.gameSelectionState = null;
-    flowState.isGivenUp = false;
+    const doEndGame = () => {
+      flowState.isEnded = true;
+      flowState.isStarted = false;
+      flowState.gameSelectionState = null;
+      flowState.isGivenUp = false;
 
-    stopTypeCycle();
-    stopGenCycle();
-    toggleVoice();
-    removeAutoSave();
-    createRecord();
-    recordWin();
-    playFanfare();
-    resetInput();
+      stopTypeCycle();
+      stopGenCycle();
+      toggleVoice();
+      removeAutoSave();
+      createRecord();
+      recordWin();
+      playFanfare();
+      resetInput();
+    };
+
+    if (roomState.room) {
+      setDialog('deleteRoom', () => doEndGame());
+    } else {
+      doEndGame();
+    }
   };
 
   const giveUp = () => {
-    flowState.isGivenUp = true;
+    const doGiveUp = () => {
+      flowState.isGivenUp = true;
 
-    stopTypeCycle();
-    stopGenCycle();
-    toggleVoice();
-    createRecord();
-    removeAutoSave();
-    showRemaining();
-    resetInput();
+      stopTypeCycle();
+      stopGenCycle();
+      toggleVoice();
+      createRecord();
+      removeAutoSave();
+      showRemaining();
+      resetInput();
+    };
+
+    if (roomState.room) {
+      setDialog('deleteRoom', () => doGiveUp());
+    } else {
+      doGiveUp();
+    }
   };
 
   const setGameSelectionState = (state: GameSelectionState) => {
