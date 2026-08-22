@@ -68,9 +68,11 @@
   "darkMode": "Dark Mode",
   "de": "German",
   "def": "Defense",
+  "destroyedRoom": "Room {roomId} has been deleted",
   "dexOrder": "Dex Order",
   "dexOrderModeTooltip": "Dex Order Mode: Find Pokemon in Pokedex order",
   "disabled": "disabled",
+  "disconnected": "The room {roomId} has been disconnected",
   "donateTo": "Donate to {name} on Ko-Fi!",
   "download": "Download",
   "dragon": "Dragon",
@@ -342,6 +344,7 @@
     "myRecords": "My Best Runs",
     "title": "Top 3 {mode} Guessers"
   },
+  "leftRoom": "You left the room",
   "legendary": "Legendary",
   "lightMode": "Light Mode",
   "loadFromCloudTooltip": "Load from Cloud",
@@ -515,6 +518,5 @@
   "winsNoShadows": "Wins (No Shadows)",
   "x": "X",
   "yellow": "Yellow",
-
   "zh": "Chinese (Traditional)"
 }

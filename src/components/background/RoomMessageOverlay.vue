@@ -1,30 +1,38 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import Overlay from '@/components/common/Overlay.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import { useRoomMessages } from '@/stores/useRoomMessages';
-import { useI18n } from 'vue-i18n';
 
-const { setRoomMessage } = useRoomMessages();
+const { roomState } = useRoomMessages();
 const { t } = useI18n();
-
-defineProps(['message']);
 </script>
 
 <template>
-  <Overlay
-    class="full-overlay"
-    @close="setRoomMessage(null)"
-  >
-    <div class="prompt">
-      <h2>{{ message }}</h2>
-      <RoundedButton @click="setRoomMessage(null)"> {{ t('exit') }} </RoundedButton>
+  <Overlay class="transparent-overlay">
+    <div class="room-info">
+      <div class="room-info-content">
+        <span>{{ roomState.room }}</span>
+      </div>
     </div>
   </Overlay>
 </template>
 
 <style scoped>
-.full-overlay {
-  z-index: 99;
-  --overlay-bg: var(--full-overlay);
+.transparent-overlay {
+  background-color: rgba(0, 0, 0, 0);
+  z-index: -1;
+}
+
+.room-info {
+  position: absolute;
+  right: anchor(--watermark-url right, 1rem);
+  top: anchor(--watermark-url bottom, 7rem);
+  background-color: var(--type-btn-color, var(--primary));
+  padding: 0.5em;
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
 }
 </style>

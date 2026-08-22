@@ -12,7 +12,7 @@ import type { SaveData, OwnerState, RoomEvent, UserSnapshot } from '@/types.ts';
 interface RoomMessagesState {
   ownerId: string | null;
   room: string | null;
-  roomMessage: string | null;
+  isActive: boolean;
 }
 
 export const useRoomMessages = defineStore('roomMessages', () => {
@@ -20,11 +20,155 @@ export const useRoomMessages = defineStore('roomMessages', () => {
   const { t } = useI18n();
 
   const roomState = reactive<RoomMessagesState>({
+    isActive: false,
     ownerId: null,
     room: null,
-    roomMessage: null,
   });
 
+  // region Room Management
+  /** Get the ownerId of the room. If the room doesn't exist, it will return null. */
+  const getOwnerId = async (): Promise<string | null> => {
+    if (!roomState.room) return null;
+
+    const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
+    const snapshot = await get(ownerIdRef);
+
+    if (snapshot.exists()) {
+      return snapshot.val();
+    }
+    return null;
+  };
+
+  /** Assigns the ownerId. Only the owner can send state. */
+  const setOwnerId = async () => {
+    const { auth } = useFirebase();
+    if (!auth.currentUser) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
+    const ownerId = await getOwnerId();
+
+    if (ownerId !== null && ownerId !== auth.currentUser.uid) {
+      showUserMessage(t('notRoomOwner'), 'warning');
+      return;
+    }
+
+    await set(ownerIdRef, auth.currentUser.uid);
+  };
+
+  /**
+   * Join or Create a room. If the room doesn't exist, it will be created and the user will become the owner. If the
+   * room exists, the user will join it.
+   */
+  const joinOrCreateRoom = async (roomId: string, userId: string) => {
+    const { auth } = useFirebase();
+    if (!auth.currentUser) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    roomState.room = roomId;
+    roomState.isActive = true;
+
+    const presenceRef = ref(realtimeDb, `rooms/${roomId}/active_users/${userId}`);
+    const ownerId = await getOwnerId();
+
+    // If the room doesn't exist, create it and set the ownerId. If it does exist, just join it.
+    if (!ownerId) {
+      roomState.ownerId = userId;
+
+      // Set user as owner
+      await setOwnerId();
+      showUserMessage(t('createdRoom', { roomId }));
+    } else {
+      // Joining
+      showUserMessage(t('joinedRoom', { roomId }));
+    }
+
+    set(presenceRef, {
+      updatedAt: serverTimestamp(),
+      username: auth.currentUser.displayName,
+    });
+
+    // Start listening
+    listenToMessages();
+    listenToJoins();
+    listenToState();
+    listenToEvents();
+
+    onDisconnect(presenceRef).remove();
+  };
+
+  const leaveRoom = async (userId: string) => {
+    if (!roomState.room) return;
+
+    const presenceRef = ref(realtimeDb, `rooms/${roomState.room}/active_users/${userId}`);
+    await remove(presenceRef);
+
+    roomState.room = null;
+    roomState.isActive = false;
+
+    showUserMessage(t('leftRoom', { roomId: roomState.room }));
+  };
+
+  const destroyRoom = async () => {
+    if (!roomState.room) return;
+
+    const { auth } = useFirebase();
+    if (!auth.currentUser) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    const ownerId = await getOwnerId();
+    if (ownerId !== auth.currentUser.uid) {
+      showUserMessage(t('notRoomOwner'), 'warning');
+      return;
+    }
+
+    await sendEvent('disconnect');
+
+    const roomRef = ref(realtimeDb, `rooms/${roomState.room}`);
+    await remove(roomRef);
+
+    roomState.room = null;
+    roomState.ownerId = null;
+    roomState.isActive = false;
+    stopListening();
+
+    showUserMessage(t('destroyedRoom', { roomId: roomState.room }));
+  };
+
+  /** When creating a room, listen to joins so we can send them the current state. */
+  const listenToJoins = () => {
+    const { auth } = useFirebase();
+    if (!auth.currentUser) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    if (!roomState.room) return;
+    const activeUsersRef = ref(realtimeDb, `rooms/${roomState.room}/active_users`);
+
+    onChildAdded(activeUsersRef, async (snapshot) => {
+      const user = snapshot.val() as UserSnapshot;
+      const ownerId = await getOwnerId();
+
+      if (user && user.username && snapshot.key !== auth.currentUser?.uid) {
+        showUserMessage(`User ${user.username} joined room ${roomState.room}`);
+
+        // Broadcast the current state to the new user if we are the owner
+        if (ownerId === auth.currentUser?.uid) {
+          sendState();
+        }
+      }
+    });
+  };
+  // endregion
+
+  // region State Management
   const toOwnerState = (savedState: SaveData): OwnerState => {
     return {
       challengeMode: savedState.challengeMode,
@@ -75,122 +219,7 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     });
   };
 
-  /** Get the ownerId of the room. If the room doesn't exist, it will return null. */
-  const getOwnerId = async (): Promise<string | null> => {
-    if (!roomState.room) return null;
-
-    const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
-    const snapshot = await get(ownerIdRef);
-
-    if (snapshot.exists()) {
-      return snapshot.val();
-    }
-    return null;
-  };
-
-  /** Assigns the ownerId. Only the owner can send state. */
-  const setOwnerId = async () => {
-    const { auth } = useFirebase();
-    if (!auth.currentUser) {
-      showUserMessage(t('userNotAuthenticated'), 'error');
-      return;
-    }
-
-    const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
-    const ownerId = await getOwnerId();
-
-    if (ownerId !== null && ownerId !== auth.currentUser.uid) {
-      showUserMessage(t('notRoomOwner'), 'warning');
-      return;
-    }
-
-    await set(ownerIdRef, auth.currentUser.uid);
-  };
-
-  /**
-   * Join or Create a room. If the room doesn't exist, it will be created and the user will become the owner. If the
-   * room exists, the user will join it.
-   */
-  const joinRoom = async (roomId: string, userId: string) => {
-    const { auth } = useFirebase();
-    if (!auth.currentUser) {
-      showUserMessage(t('userNotAuthenticated'), 'error');
-      return;
-    }
-
-    roomState.room = roomId;
-
-    const presenceRef = ref(realtimeDb, `rooms/${roomId}/active_users/${userId}`);
-    const ownerId = await getOwnerId();
-
-    // If the room doesn't exist, create it and set the ownerId. If it does exist, just join it.
-    if (!ownerId) {
-      roomState.ownerId = userId;
-
-      // Set user as owner
-      await setOwnerId();
-      showUserMessage(t('createdRoom', { roomId }));
-    } else {
-      // Joining
-      showUserMessage(t('joinedRoom', { roomId }));
-    }
-
-    set(presenceRef, {
-      updatedAt: serverTimestamp(),
-      username: auth.currentUser.displayName,
-    });
-
-    // Start listening
-    listenToMessages();
-    listenToJoins();
-    listenToState();
-    listenToEvents();
-
-    onDisconnect(presenceRef).remove();
-  };
-
-  /** Listen to messages (e.g. the pokemon found) */
-  const listenToMessages = () => {
-    if (!roomState.room) return;
-    const messagesRef = ref(realtimeDb, `rooms/${roomState.room}/messages`);
-
-    onChildAdded(messagesRef, (snapshot) => {
-      showUserMessage(`New message in room ${roomState.room}`);
-      const messages = snapshot.val();
-
-      if (messages) {
-        roomState.roomMessage = messages.message;
-        showUserMessage(`New message in room ${roomState.room}: ${messages.message}`);
-      }
-    });
-  };
-
-  /** When creating a room, listen to joins so we can send them the current state. */
-  const listenToJoins = () => {
-    const { auth } = useFirebase();
-    if (!auth.currentUser) {
-      showUserMessage(t('userNotAuthenticated'), 'error');
-      return;
-    }
-
-    if (!roomState.room) return;
-    const activeUsersRef = ref(realtimeDb, `rooms/${roomState.room}/active_users`);
-
-    onChildAdded(activeUsersRef, async (snapshot) => {
-      const user = snapshot.val() as UserSnapshot;
-      const ownerId = await getOwnerId();
-
-      if (user && user.username && snapshot.key !== auth.currentUser?.uid) {
-        showUserMessage(`User ${user.username} joined room ${roomState.room}`);
-
-        // Broadcast the current state to the new user if we are the owner
-        if (ownerId === auth.currentUser?.uid) {
-          sendState();
-        }
-      }
-    });
-  };
-
+  /** Listen to state changes in the room. This is both "resume game" and "sync state" for new users joining the room */
   const listenToState = () => {
     const { applyPartialState } = useSavedData();
     if (!roomState.room) return;
@@ -214,7 +243,9 @@ export const useRoomMessages = defineStore('roomMessages', () => {
       }
     });
   };
+  // endregion
 
+  // region Messages
   /** Broadcast a message to the room. The message will be deleted immediately after being sent */
   const sendMessage = async (message: string) => {
     const { auth } = useFirebase();
@@ -236,6 +267,24 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     await remove(newMessageRef);
   };
 
+  /** Listen to messages (e.g. the pokemon found) */
+  const listenToMessages = () => {
+    if (!roomState.room) return;
+    const messagesRef = ref(realtimeDb, `rooms/${roomState.room}/messages`);
+
+    onChildAdded(messagesRef, (snapshot) => {
+      showUserMessage(`New message in room ${roomState.room}`);
+      const messages = snapshot.val();
+
+      if (messages) {
+        showUserMessage(`New message in room ${roomState.room}: ${messages.message}`);
+      }
+    });
+  };
+
+  // endregion
+
+  // region Events
   const sendEvent = async (event: RoomEvent) => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
@@ -288,9 +337,11 @@ export const useRoomMessages = defineStore('roomMessages', () => {
         break;
       case 'gameEnded':
         // Handle game ended event
+        stopListening();
         break;
       case 'disconnect':
         // Handle disconnect event
+        stopListening();
         break;
       default:
         // Handle unknown event
@@ -298,17 +349,32 @@ export const useRoomMessages = defineStore('roomMessages', () => {
     }
   };
 
-  const setRoomMessage = (message: string | null) => {
-    roomState.roomMessage = message;
+  const stopListening = () => {
+    if (!roomState.room) return;
+    const messagesRef = ref(realtimeDb, `rooms/${roomState.room}/messages`);
+    const eventsRef = ref(realtimeDb, `rooms/${roomState.room}/events`);
+    const stateRef = ref(realtimeDb, `rooms/${roomState.room}/ownerState`);
+    const activeUsersRef = ref(realtimeDb, `rooms/${roomState.room}/active_users`);
+
+    // Remove all listeners
+    onDisconnect(messagesRef).remove();
+    onDisconnect(eventsRef).remove();
+    onDisconnect(stateRef).remove();
+    onDisconnect(activeUsersRef).remove();
+
+    roomState.room = null;
+    showUserMessage(t('disconnected', { roomId: roomState.room }), 'warning');
   };
+  // endregion
 
   return {
-    joinRoom,
+    destroyRoom,
+    joinOrCreateRoom,
+    leaveRoom,
     roomState,
     sendEvent,
     sendMessage,
     sendState,
-    setRoomMessage,
   };
 });
 

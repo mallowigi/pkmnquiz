@@ -5,11 +5,13 @@ import RoundedButton from '@/components/common/RoundedButton.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useMessages } from '@/stores/useMessages.ts';
+import { useRoomMessages } from '@/stores/useRoomMessages.ts';
 
 const { t } = useI18n();
 const { setDialog } = useDialogs();
 const { showUserMessage } = useMessages();
 const { auth } = useFirebase();
+const { destroyRoom } = useRoomMessages();
 
 const join = () => {
   if (!auth.currentUser?.uid) {
@@ -17,6 +19,7 @@ const join = () => {
     return;
   }
 
+  destroyRoom();
   setDialog('createRoom');
 };
 </script>

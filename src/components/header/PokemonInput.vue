@@ -4,7 +4,6 @@ import { storeToRefs } from 'pinia';
 import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import RoundedButton from '@/components/common/RoundedButton.vue';
 import TextBox from '@/components/common/TextBox.vue';
 import LastPokemon from '@/components/header/LastPokemon.vue';
 import { useLastInput } from '@/composables/useLastInput.ts';
@@ -15,7 +14,6 @@ import { useVoice } from '@/composables/useVoice.ts';
 import vEllipsis from '@/directives/ellipsis.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
-import { useRoomMessages } from '@/stores/useRoomMessages.ts';
 import { useState } from '@/stores/useState.ts';
 
 const { state } = useState();
@@ -23,7 +21,6 @@ const gameFlowStore = useGameFlow();
 const { flowState, isInGame } = storeToRefs(gameFlowStore);
 const { updateInput } = useLastInput();
 const { dialogs } = useDialogs();
-const { roomState } = useRoomMessages();
 const { getGameModeName } = useQuiz();
 const { t } = useI18n();
 const { lastQuery } = useVoice();

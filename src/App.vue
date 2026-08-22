@@ -112,7 +112,7 @@ watch(
     </FadeTransition>
 
     <!-- Room messages -->
-    <!--<RoomMessageOverlay v-if="roomState.roomMessage !== null" />-->
+    <RoomMessageOverlay v-if="roomState.isActive" />
 
     <!-- Pause -->
     <FadeTransition>

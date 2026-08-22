@@ -12,7 +12,7 @@ import { useRoomMessages } from '@/stores/useRoomMessages.ts';
 
 const { closeDialog } = useDialogs();
 const { t } = useI18n();
-const { joinRoom } = useRoomMessages();
+const { joinOrCreateRoom } = useRoomMessages();
 const { showUserMessage } = useMessages();
 
 const roomName = ref('');
@@ -33,7 +33,7 @@ const submitJoinRoom = () => {
     return;
   }
 
-  joinRoom(roomName.value, auth.currentUser?.uid);
+  joinOrCreateRoom(roomName.value, auth.currentUser?.uid);
   close();
 };
 </script>
