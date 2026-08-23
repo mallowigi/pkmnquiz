@@ -18,9 +18,9 @@ export default {
       const isDisabled = flowState.isGivenUp || flowState.isEnded;
 
       if (isDisabled) {
-        el.classList.add('disabled');
+        el.classList.add('hidden');
       } else {
-        el.classList.remove('disabled');
+        el.classList.remove('hidden');
       }
     });
 

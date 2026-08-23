@@ -171,12 +171,7 @@ const toggleSpeak = () => {
           <ScrollIntoViewToggle />
 
           <SoundToggle />
-        </div>
 
-        <div
-          class="selection-row"
-          v-if="!isChallengeMode && isOwner"
-        >
           <LanguagesSelection />
         </div>
       </motion.div>
@@ -185,8 +180,17 @@ const toggleSpeak = () => {
 </template>
 
 <style scoped>
+.game-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .options-container {
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .selection-row {
