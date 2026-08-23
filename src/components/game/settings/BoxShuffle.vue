@@ -46,7 +46,7 @@ const isDisabled = computed(() => {
 <template>
   <RoundedBox
     v-tooltip="t('boxShuffleTooltip')"
-    v-tooltip.disabled="t('boxShuffleOnlyInFullQuizTooltip')"
+    v-tooltip.disabled="t('boxShuffleOnlyInRegularModeTooltip')"
     :class="{ disabled: isDisabled }"
   >
     <SegmentButton

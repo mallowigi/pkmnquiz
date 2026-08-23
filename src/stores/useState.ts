@@ -30,10 +30,6 @@ export const useState = defineStore('state', () => {
       state.withTypeShuffle = false;
     }
 
-    if (mode === 'gen') {
-      state.withBoxShuffle = false;
-    }
-
     updateShuffles();
   };
 
