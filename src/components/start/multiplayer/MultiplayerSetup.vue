@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import TextBox from '@/components/common/TextBox.vue';
+import RecentRoomsTable from '@/components/start/multiplayer/RecentRoomsTable.vue';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useRooms } from '@/stores/useRooms.ts';
 
@@ -54,12 +55,14 @@ const submitJoinRoom = () => {
 
       <RoundedButton
         @click.stop="submitJoinRoom"
-        v-if="roomName"
+        :disabled="!roomName.length"
         primary
       >
         {{ t('submit') }}
       </RoundedButton>
     </div>
+
+    <RecentRoomsTable />
   </div>
 </template>
 

@@ -14,7 +14,7 @@ import ShadowsDialog from '@/components/dialogs/ShadowsDialog.vue';
 import SwitchQuizDialog from '@/components/dialogs/SwitchQuizDialog.vue';
 import UserProfileDialog from '@/components/dialogs/UserProfileDialog.vue';
 import VisualSettingsDialog from '@/components/dialogs/VisualSettingsDialog.vue';
-import MultiplayerSetup from '@/components/start/challenge/MultiplayerSetup.vue';
+import MultiplayerSetup from '@/components/start/multiplayer/MultiplayerSetup.vue';
 import { useAlerts } from '@/stores/useAlerts.ts';
 import { useDialogs } from '@/stores/useDialogs';
 
