@@ -3,6 +3,7 @@ import Overlay from '@/components/common/Overlay.vue';
 import FadeTransition from '@/components/common/transitions/FadeTransition.vue';
 import ChallengeModeChooser from '@/components/start/challenge/ChallengeModeChooser.vue';
 import ChallengeSetup from '@/components/start/challenge/ChallengeSetup.vue';
+import MultiplayerSetup from '@/components/start/challenge/MultiplayerSetup.vue';
 import GenChooser from '@/components/start/genSelection/GenChooser.vue';
 import Logo from '@/components/start/genSelection/Logo.vue';
 import SpecialChooser from '@/components/start/genSelection/SpecialChooser.vue';
@@ -45,6 +46,8 @@ const close = () => {
               <TypeChooser v-if="flowState.gameSelectionState === 'types'" />
 
               <SpecialChooser v-if="flowState.gameSelectionState === 'special'" />
+
+              <MultiplayerSetup v-if="flowState.gameSelectionState === 'createRoom'" />
             </FadeTransition>
           </div>
         </FadeTransition>

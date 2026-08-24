@@ -56,10 +56,8 @@ const resetGame = () => {
         {{ t('reset') }}
       </RoundedButton>
 
-      <MultiplayerInvite />
+      <ShadowsToggle />
     </div>
-
-    <ShadowsToggle />
   </div>
 </template>
 

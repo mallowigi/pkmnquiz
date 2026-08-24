@@ -254,7 +254,15 @@ export type TimerState = {
 
 export type ChallengeMode = 'free' | 'challenge';
 
-export type GameSelectionState = 'new' | 'gen' | 'types' | 'special' | null | 'challenge' | 'challengeSetup';
+export type GameSelectionState =
+  | 'new'
+  | 'gen'
+  | 'types'
+  | 'special'
+  | null
+  | 'challenge'
+  | 'challengeSetup'
+  | 'createRoom';
 
 export type GameFlowState = {
   gameSelectionState: GameSelectionState;

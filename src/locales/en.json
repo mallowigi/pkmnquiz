@@ -50,6 +50,7 @@
   "cn": "Chinese (Simplified)",
   "continue": "Continue",
   "createOrJoinRoom": "Create or Join a Room",
+  "createOrJoinRoomDescription": "Enter the name of the room you want to join. If it doesn't exist, a new room will be created for others to join.",
   "createdRoom": "Created room: {roomId}",
   "credits": {
     "title": "Artist and quality control credits for custom sprites:"
@@ -381,6 +382,7 @@
   },
   "modes": "Modes",
   "multiplayerInvite": "Multiplayer",
+  "multiplayerModeDescription": "Play against other people online! Race to get the best score or work together to finish as quickly as possible!",
   "mythical": "Mythical",
   "nameAll": {
     "full": "Name all Pokémon!",

@@ -2,13 +2,19 @@
 import { useI18n } from 'vue-i18n';
 
 import RoundedButton from '@/components/common/RoundedButton.vue';
+import MultiplayerInvite from '@/components/game/settings/MultiplayerInvite.vue';
 import { useAppBreakpoints } from '@/composables/useAppBreakpoints.ts';
+import { useFirebase } from '@/composables/useFirebase.ts';
+import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
+import { useMessages } from '@/stores/useMessages.ts';
 
 const { t } = useI18n();
 const { setGameSelectionState, setChallengeMode } = useGameFlow();
 
 const { isMobile } = useAppBreakpoints();
+const { auth } = useFirebase();
+const { showUserMessage } = useMessages();
 
 const selectFreeMode = () => {
   setGameSelectionState('gen');
@@ -18,6 +24,15 @@ const selectFreeMode = () => {
 const selectChallengeMode = () => {
   setGameSelectionState('challengeSetup');
   setChallengeMode('challenge');
+};
+
+const selectMultiplayerMode = () => {
+  if (!auth.currentUser?.uid) {
+    showUserMessage('You must be logged in to join a room.', 'error');
+    return;
+  }
+
+  setGameSelectionState('createRoom');
 };
 </script>
 
@@ -56,6 +71,28 @@ const selectChallengeMode = () => {
 
           <p class="description">
             {{ t('challengeModeDescription') }}
+          </p>
+        </div>
+
+        <div
+          class="separator"
+          v-if="auth.currentUser?.uid"
+        />
+
+        <div
+          class="side"
+          v-if="auth.currentUser?.uid"
+        >
+          <RoundedButton
+            class="danger-btn"
+            primary
+            @click="selectMultiplayerMode"
+          >
+            {{ t('multiplayerInvite') }}
+          </RoundedButton>
+
+          <p class="description">
+            {{ t('multiplayerModeDescription') }}
           </p>
         </div>
       </div>

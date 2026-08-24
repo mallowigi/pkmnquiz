@@ -8,10 +8,12 @@ import TextBox from '@/components/common/TextBox.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useAlerts } from '@/stores/useAlerts.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
+import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { useRooms } from '@/stores/useRooms.ts';
 
 const { closeDialog } = useDialogs();
+const { setGameSelectionState } = useGameFlow();
 const { t } = useI18n();
 const { roomState, joinOrCreateRoom, destroyRoom } = useRooms();
 const { showUserMessage } = useMessages();
@@ -19,8 +21,12 @@ const { setDialog } = useDialogs();
 
 const roomName = ref('');
 
+const goBack = () => {
+  setGameSelectionState('challenge');
+};
+
 const close = () => {
-  closeDialog();
+  setGameSelectionState('gen');
 };
 
 const editName = (event: Event) => {
@@ -50,25 +56,28 @@ const submitJoinRoom = () => {
 </script>
 
 <template>
-  <Overlay
-    class="overlay"
-    @close="close"
-  >
-    <div class="prompt settings-dialog">
-      <h2>{{ t('createOrJoinRoom') }}</h2>
+  <div class="room-create">
+    <h2>{{ t('createOrJoinRoom') }}</h2>
 
-      <div class="settings-content">
-        <form @submit.prevent="submitJoinRoom">
-          <TextBox
-            class="large-text"
-            maxlength="50"
-            type="text"
-            :placeholder="t('enterRoomName')"
-            @input="editName"
-            :value="roomName"
-          />
-        </form>
-      </div>
+    <p>{{ t('createOrJoinRoomDescription') }}</p>
+
+    <div class="room-create-content">
+      <form @submit.prevent="submitJoinRoom">
+        <TextBox
+          class="large-text"
+          maxlength="50"
+          type="text"
+          :placeholder="t('enterRoomName')"
+          @input="editName"
+          :value="roomName"
+        />
+      </form>
+    </div>
+
+    <div class="buttons">
+      <RoundedButton @click.stop="goBack">
+        {{ t('back') }}
+      </RoundedButton>
 
       <RoundedButton
         @click.stop="submitJoinRoom"
@@ -76,31 +85,28 @@ const submitJoinRoom = () => {
       >
         {{ t('submit') }}
       </RoundedButton>
-
-      <RoundedButton
-        @click.stop="close"
-        primary
-      >
-        {{ t('close') }}
-      </RoundedButton>
     </div>
-  </Overlay>
+  </div>
 </template>
 
 <style scoped>
-.settings-dialog {
+.room-create {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  max-width: 400px;
-  width: 90%;
 }
 
-.settings-content {
+.room-create-content {
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 100%;
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
 }
 </style>
