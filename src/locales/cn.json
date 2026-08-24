@@ -49,6 +49,9 @@
   "closestSpelling": "最接近的拼写:",
   "cn": "中文（简体）",
   "continue": "继续",
+  "createOrJoinRoom": "创建或加入房间",
+  "createOrJoinRoomDescription": "输入你要加入的房间名称。如果房间不存在，将创建一个新房间供其他人加入。",
+  "createdRoom": "已创建房间：{roomId}",
   "credits": {
     "title": "自定义精灵的艺术家和质量控制来源:"
   },
@@ -71,9 +74,11 @@
   "darkMode": "深色模式",
   "de": "德语",
   "def": "防御",
+  "destroyedRoom": "房间 {roomId} 已被删除",
   "dexOrder": "图鉴顺序",
   "dexOrderModeTooltip": "图鉴顺序模式：按图鉴顺序查找宝可梦",
   "disabled": "已禁用",
+  "disconnected": "房间 {roomId} 已断开连接",
   "donateTo": "在 Ko-Fi 上向 {name} 捐赠！",
   "download": "下载",
   "dragon": "龙",
@@ -96,6 +101,7 @@
     "wellDone": "做得好！"
   },
   "enterName": "输入你的昵称",
+  "enterRoomName": "输入房间名称",
   "es": "西班牙语",
   "exit": "退出",
   "facebook": "Facebook",
@@ -321,6 +327,7 @@
   "it": "意大利语",
   "ja": "日语",
   "johto": "城都",
+  "joinedRoom": "已加入房间：{roomId}",
   "kalos": "卡洛斯",
   "kalosmega": "超級進化（卡洛斯）",
   "kanto": "关都",
@@ -343,6 +350,11 @@
     "myRecords": "我的最佳记录",
     "title": "{mode} 猜想者前 3 名"
   },
+  "leaveRoomDialog": {
+    "description": "你当前已在一个房间中。加入或创建新房间将离开当前房间。是否继续？",
+    "title": "离开房间？"
+  },
+  "leftRoom": "你已离开房间",
   "legendary": "传说",
   "lightMode": "浅色模式",
   "loadFromCloudTooltip": "从云端加载",
@@ -370,6 +382,7 @@
   },
   "modes": "模式",
   "multiplayerInvite": "多人游戏",
+  "multiplayerModeDescription": "与其他在线玩家对战！争取获得最高分，或通力合作尽快完成！",
   "mythical": "幻",
   "nameAll": {
     "full": "说出所有宝可梦的名字！",
@@ -389,6 +402,7 @@
   "notNextPokemon": "{name} 不是下一个宝可梦。",
   "notOfType": "{name} 不是 {type} 属性。",
   "notPartOfGame": "{name} 不在此游戏中。",
+  "notRoomOwner": "你不是房主",
   "nowSaving": "正在保存...",
   "off": "关闭",
   "offlineMode": "您必须在线才能使用此功能！（{feature}）",
@@ -501,6 +515,7 @@
   "ultrabeast": "究极异兽",
   "unova": "合众",
   "upload": "上传",
+  "userNotAuthenticated": "你必须先通过身份验证",
   "userProfile": "用户资料",
   "variousArtists": "多位艺术家",
   "visualSettings": "视觉设置",

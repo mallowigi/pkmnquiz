@@ -31,7 +31,6 @@ declare module 'vue' {
     CloudUpIcon: typeof import('./src/components/common/icons/CloudUpIcon.vue')['default']
     ColorChanger: typeof import('./src/components/header/ColorChanger.vue')['default']
     CountdownOverlay: typeof import('./src/components/game/CountdownOverlay.vue')['default']
-    CreateRoomDialog: typeof import('@/components/start/challenge/CreateRoomDialog.vue')['default']
     Credits: typeof import('./src/components/background/Credits.vue')['default']
     CreditsIcon: typeof import('./src/components/common/icons/CreditsIcon.vue')['default']
     CriesHotkeyToggle: typeof import('./src/components/game/settings/CriesHotkeyToggle.vue')['default']
