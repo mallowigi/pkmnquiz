@@ -86,6 +86,10 @@ export const useRooms = defineStore('roomMessages', () => {
   // endregion
   // region Room Management
 
+  const setRoom = (roomId: string) => {
+    roomState.room = roomId ?? 'Untitled';
+  };
+
   /**
    * Join or Create a room. If the room doesn't exist, it will be created and the user will become the owner. If the
    * room exists, the user will join it.
@@ -399,6 +403,7 @@ export const useRooms = defineStore('roomMessages', () => {
     sendEvent,
     sendMessage,
     sendState,
+    setRoom,
   };
 });
 

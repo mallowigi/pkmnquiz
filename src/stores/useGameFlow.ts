@@ -6,10 +6,12 @@ import { useLastInput } from '@/composables/useLastInput.ts';
 import { usePlaySounds } from '@/composables/usePlaySounds.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { useVoice } from '@/composables/useVoice.ts';
+import { i18n } from '@/main.ts';
 import { useBonus } from '@/stores/useBonus.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
 import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
+import { useMessages } from '@/stores/useMessages.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useProfile } from '@/stores/useProfile.ts';
 import { useRooms } from '@/stores/useRooms.ts';
@@ -28,8 +30,9 @@ export const useGameFlow = defineStore('gameFlow', () => {
   const { startTypeCycle, stopTypeCycle } = useCurrentType();
   const { startGenCycle, stopGenCycle } = useCurrentGen();
   const { toggleVoice } = useVoice();
-  const { roomState } = useRooms();
+  const { roomState, joinOrCreateRoom, destroyRoom } = useRooms();
   const { setDialog } = useDialogs();
+  const { showUserMessage } = useMessages();
 
   const flowState = reactive<GameFlowState>({
     challengeMode: 'free',
@@ -43,7 +46,28 @@ export const useGameFlow = defineStore('gameFlow', () => {
     sessionId: null,
   });
 
-  const startGame = () => {
+  const initRoom = async () => {
+    if (!roomState.room) return;
+
+    const { auth } = useFirebase();
+    if (!auth.currentUser?.uid) {
+      showUserMessage(i18n.global.t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    const roomName = roomState.room;
+    // Destroy previous room
+    if (roomState.isActive) {
+      setDialog('deleteRoom', async () => {
+        await destroyRoom();
+        await joinOrCreateRoom(roomName, auth.currentUser?.uid ?? '');
+      });
+    } else {
+      await joinOrCreateRoom(roomName, auth.currentUser?.uid ?? '');
+    }
+  };
+
+  const startGame = async () => {
     flowState.isStarted = true;
     flowState.isEnded = false;
     flowState.gameSelectionState = null;
@@ -55,6 +79,8 @@ export const useGameFlow = defineStore('gameFlow', () => {
     resetBonus();
     startTypeCycle();
     startGenCycle();
+
+    await initRoom();
   };
 
   const pauseGame = () => {

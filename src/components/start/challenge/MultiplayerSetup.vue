@@ -2,31 +2,19 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import Overlay from '@/components/common/Overlay.vue';
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import TextBox from '@/components/common/TextBox.vue';
-import { useFirebase } from '@/composables/useFirebase.ts';
-import { useAlerts } from '@/stores/useAlerts.ts';
-import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
-import { useMessages } from '@/stores/useMessages.ts';
 import { useRooms } from '@/stores/useRooms.ts';
 
-const { closeDialog } = useDialogs();
 const { setGameSelectionState } = useGameFlow();
 const { t } = useI18n();
-const { roomState, joinOrCreateRoom, destroyRoom } = useRooms();
-const { showUserMessage } = useMessages();
-const { setDialog } = useDialogs();
+const { setRoom } = useRooms();
 
 const roomName = ref('');
 
 const goBack = () => {
   setGameSelectionState('challenge');
-};
-
-const close = () => {
-  setGameSelectionState('gen');
 };
 
 const editName = (event: Event) => {
@@ -35,23 +23,8 @@ const editName = (event: Event) => {
 };
 
 const submitJoinRoom = () => {
-  const { auth } = useFirebase();
-  if (!auth.currentUser?.uid || !roomName.value) {
-    showUserMessage('You must be logged in and provide a room name to join or create a room.', 'error');
-    return;
-  }
-
-  if (roomState.room) {
-    setDialog('deleteRoom', () => {
-      destroyRoom();
-      joinOrCreateRoom(roomName.value, auth.currentUser?.uid ?? '');
-      close();
-    });
-    return;
-  }
-
-  joinOrCreateRoom(roomName.value, auth.currentUser?.uid);
-  close();
+  setRoom(roomName.value);
+  setGameSelectionState('gen');
 };
 </script>
 
@@ -81,6 +54,7 @@ const submitJoinRoom = () => {
 
       <RoundedButton
         @click.stop="submitJoinRoom"
+        v-if="roomName"
         primary
       >
         {{ t('submit') }}
