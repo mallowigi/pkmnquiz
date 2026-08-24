@@ -98,6 +98,7 @@ export const useRooms = defineStore('roomMessages', () => {
   };
 
   // endregion
+
   // region Room Management
 
   const setRoom = (roomId: string) => {
@@ -130,6 +131,8 @@ export const useRooms = defineStore('roomMessages', () => {
       const createdAtRef = ref(realtimeDb, `rooms/${roomId}/createdAt`);
       await set(createdAtRef, serverTimestamp());
       showUserMessage(t('createdRoom', { roomId }));
+
+      sendState();
     } else {
       // Joining
       showUserMessage(t('joinedRoom', { roomId }));
@@ -417,6 +420,9 @@ export const useRooms = defineStore('roomMessages', () => {
     snapshot.forEach((childSnapshot) => {
       const val = childSnapshot.val() || {};
       const activeUsers = val.active_users ? Object.keys(val.active_users).length : 0;
+      const ownerState = val.ownerState;
+
+      if (!ownerState) return;
 
       rooms.unshift({
         createdAt: typeof val.createdAt === 'number' ? val.createdAt : null,
@@ -426,12 +432,12 @@ export const useRooms = defineStore('roomMessages', () => {
       });
     });
 
-    return rooms;
+    return rooms.slice(-5);
   };
 
   /** Fetch the 5 most recently created rooms. */
   const getRecentRooms = async (): Promise<RoomInfo[]> => {
-    const roomsQuery = query(ref(realtimeDb, 'rooms'), orderByChild('createdAt'), limitToLast(5));
+    const roomsQuery = query(ref(realtimeDb, 'rooms'), orderByChild('createdAt'), limitToLast(30));
     const snapshot = await get(roomsQuery);
 
     return fetchRecentRooms(snapshot);
