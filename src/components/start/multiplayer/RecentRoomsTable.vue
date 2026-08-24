@@ -3,20 +3,29 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import RoundedButton from '@/components/common/RoundedButton.vue';
+import { useFirebase } from '@/composables/useFirebase.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useRooms } from '@/stores/useRooms.ts';
 import type { RoomInfo } from '@/types.ts';
 
 const { setGameSelectionState } = useGameFlow();
 const { t } = useI18n();
-const { setRoom, listenToRecentRooms } = useRooms();
+const { listenToRecentRooms, getRecentRooms, joinOrCreateRoom } = useRooms();
+const { auth } = useFirebase();
+const { startGame } = useGameFlow();
 
 const rooms = ref<RoomInfo[]>([]);
 const loading = ref(true);
 
 let unsubscribe: (() => void) | null = null;
 
-onMounted(() => {
+onMounted(async () => {
+  const recentRooms = await getRecentRooms();
+  if (recentRooms) {
+    rooms.value = recentRooms;
+    loading.value = false;
+  }
+
   unsubscribe = listenToRecentRooms((recentRooms) => {
     rooms.value = recentRooms;
     loading.value = false;
@@ -30,8 +39,13 @@ onUnmounted(() => {
 });
 
 const handleJoin = (roomId: string) => {
-  setRoom(roomId);
-  setGameSelectionState('gen');
+  if (!auth.currentUser) {
+    console.error('User is not authenticated');
+    return;
+  }
+
+  startGame();
+  joinOrCreateRoom(roomId, auth.currentUser.uid);
 };
 </script>
 

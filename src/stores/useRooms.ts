@@ -10,6 +10,7 @@ import {
   onValue,
   query,
   orderByChild,
+  DataSnapshot,
   limitToLast,
 } from 'firebase/database';
 import { defineStore, acceptHMRUpdate } from 'pinia';
@@ -410,10 +411,7 @@ export const useRooms = defineStore('roomMessages', () => {
   };
 
   // region Recent Rooms
-  /** Fetch the 5 most recently created rooms. */
-  const getRecentRooms = async (): Promise<RoomInfo[]> => {
-    const roomsQuery = query(ref(realtimeDb, 'rooms'), orderByChild('createdAt'), limitToLast(5));
-    const snapshot = await get(roomsQuery);
+  const fetchRecentRooms = async (snapshot: DataSnapshot) => {
     const rooms: RoomInfo[] = [];
 
     snapshot.forEach((childSnapshot) => {
@@ -431,23 +429,20 @@ export const useRooms = defineStore('roomMessages', () => {
     return rooms;
   };
 
+  /** Fetch the 5 most recently created rooms. */
+  const getRecentRooms = async (): Promise<RoomInfo[]> => {
+    const roomsQuery = query(ref(realtimeDb, 'rooms'), orderByChild('createdAt'), limitToLast(5));
+    const snapshot = await get(roomsQuery);
+
+    return fetchRecentRooms(snapshot);
+  };
+
   /** Listen to the 5 most recently created rooms in real time. Returns an unsubscribe function. */
   const listenToRecentRooms = (callback: (rooms: RoomInfo[]) => void): (() => void) => {
     const roomsQuery = query(ref(realtimeDb, 'rooms'), orderByChild('createdAt'), limitToLast(5));
 
-    return onValue(roomsQuery, (snapshot) => {
-      const rooms: RoomInfo[] = [];
-
-      snapshot.forEach((childSnapshot) => {
-        const val = childSnapshot.val() || {};
-        const activeUsers = val.active_users ? Object.keys(val.active_users).length : 0;
-        rooms.unshift({
-          createdAt: typeof val.createdAt === 'number' ? val.createdAt : null,
-          id: childSnapshot.key as string,
-          name: val.name || (childSnapshot.key as string),
-          userCount: activeUsers,
-        });
-      });
+    return onValue(roomsQuery, async (snapshot) => {
+      const rooms = await fetchRecentRooms(snapshot);
 
       callback(rooms);
     });
