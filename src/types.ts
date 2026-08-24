@@ -454,3 +454,10 @@ export type EventSnapshot = {
   timestamp: object;
   senderId: string;
 };
+
+export interface RoomInfo {
+  id: string;
+  name: string;
+  userCount: number;
+  createdAt: number | null;
+}

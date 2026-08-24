@@ -1,8 +1,13 @@
 {
   "rules": {
     "rooms": {
+      ".read": "auth != null",
+      ".indexOn": ["createdAt"],
       "$roomId": {
         ".read": "auth != null",
+        "createdAt": {
+          ".write": "auth != null"
+        },
         "ownerId": {
           ".write": "auth != null && (!data.exists() || data.val() === auth.uid)"
         },

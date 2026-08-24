@@ -1,4 +1,17 @@
-import { ref, set, get, onDisconnect, serverTimestamp, onChildAdded, push, remove, onValue } from 'firebase/database';
+import {
+  ref,
+  set,
+  get,
+  onDisconnect,
+  serverTimestamp,
+  onChildAdded,
+  push,
+  remove,
+  onValue,
+  query,
+  orderByChild,
+  limitToLast,
+} from 'firebase/database';
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -7,7 +20,7 @@ import { useFirebase } from '@/composables/useFirebase.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { realtimeDb } from '@/firebase.ts';
 import { useMessages } from '@/stores/useMessages.ts';
-import type { SaveData, OwnerState, RoomEvent, UserSnapshot } from '@/types.ts';
+import type { SaveData, OwnerState, RoomEvent, UserSnapshot, RoomInfo } from '@/types.ts';
 
 interface RoomMessagesState {
   ownerId: string | null;
@@ -113,6 +126,8 @@ export const useRooms = defineStore('roomMessages', () => {
 
       // Set user as owner
       await setOwnerId();
+      const createdAtRef = ref(realtimeDb, `rooms/${roomId}/createdAt`);
+      await set(createdAtRef, serverTimestamp());
       showUserMessage(t('createdRoom', { roomId }));
     } else {
       // Joining
@@ -394,11 +409,58 @@ export const useRooms = defineStore('roomMessages', () => {
     showUserMessage(t('disconnected', { roomId: roomState.room }), 'warning');
   };
 
+  // region Recent Rooms
+  /** Fetch the 5 most recently created rooms. */
+  const getRecentRooms = async (): Promise<RoomInfo[]> => {
+    const roomsQuery = query(ref(realtimeDb, 'rooms'), orderByChild('createdAt'), limitToLast(5));
+    const snapshot = await get(roomsQuery);
+    const rooms: RoomInfo[] = [];
+
+    snapshot.forEach((childSnapshot) => {
+      const val = childSnapshot.val() || {};
+      const activeUsers = val.active_users ? Object.keys(val.active_users).length : 0;
+
+      rooms.unshift({
+        createdAt: typeof val.createdAt === 'number' ? val.createdAt : null,
+        id: childSnapshot.key as string,
+        name: val.name || (childSnapshot.key as string),
+        userCount: activeUsers,
+      });
+    });
+
+    return rooms;
+  };
+
+  /** Listen to the 5 most recently created rooms in real time. Returns an unsubscribe function. */
+  const listenToRecentRooms = (callback: (rooms: RoomInfo[]) => void): (() => void) => {
+    const roomsQuery = query(ref(realtimeDb, 'rooms'), orderByChild('createdAt'), limitToLast(5));
+
+    return onValue(roomsQuery, (snapshot) => {
+      const rooms: RoomInfo[] = [];
+
+      snapshot.forEach((childSnapshot) => {
+        const val = childSnapshot.val() || {};
+        const activeUsers = val.active_users ? Object.keys(val.active_users).length : 0;
+        rooms.unshift({
+          createdAt: typeof val.createdAt === 'number' ? val.createdAt : null,
+          id: childSnapshot.key as string,
+          name: val.name || (childSnapshot.key as string),
+          userCount: activeUsers,
+        });
+      });
+
+      callback(rooms);
+    });
+  };
+  // endregion
+
   return {
     destroyRoom,
+    getRecentRooms,
     isOwner,
     joinOrCreateRoom,
     leaveRoom,
+    listenToRecentRooms,
     roomState,
     sendEvent,
     sendMessage,
