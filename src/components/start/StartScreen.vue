@@ -54,11 +54,6 @@ onMounted(() => {
       <SaveButtons class="save-buttons" />
 
       <Spacer />
-      <!-- Leaderboards -->
-      <!--<Leaderboards-->
-      <!--  class="leaderboards-table"-->
-      <!--  :caption="t('topGuessers', { n: 3 })"-->
-      <!--/>-->
     </div>
   </div>
 </template>

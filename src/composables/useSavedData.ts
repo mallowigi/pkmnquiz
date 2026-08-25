@@ -4,6 +4,7 @@ import { ref } from 'vue';
 
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { usePageTitle } from '@/composables/useTitle.ts';
+import { LOCAL_STORAGE_NAME_KEY, LOCAL_STORAGE_KEY, VERSION } from '@/data/global';
 import { i18n } from '@/main.ts';
 import { parseSaveData } from '@/schemas/saveData.schema.ts';
 import { useBonus } from '@/stores/useBonus.ts';
@@ -22,9 +23,6 @@ import type { SaveData, PokemonProgress } from '@/types.ts';
 import { normalizeName } from '@/utils/utils.ts';
 
 const ready = ref(false);
-const LOCAL_STORAGE_KEY = 'pkmn_quiz_saved_state';
-const LOCAL_STORAGE_NAME_KEY = 'pkmn_quiz_saved_name';
-const VERSION = 1;
 
 const debouncedSaveToFirebase = useDebounceFn(
   (savedState: SaveData) => {
@@ -119,7 +117,7 @@ export const useSavedData = () => {
       currentSpecialBox: currentBoxState.currentSpecialBox ?? null,
       currentType: currentTypeState.shuffledType,
       currentTypes: Array.from(currentTypeState.currentTypes),
-      gameSelectionState: flowState.gameSelectionState,
+      gameSelectionState: null,
       gens: Array.from(currentGenState.gens),
       languages: Array.from(settingsState.languages),
       pokemonProgress: {

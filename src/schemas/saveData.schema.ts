@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
+import { VERSION } from '@/data/global.ts';
 import {
   challengeModeSchema,
   gameModeSchema,
-  gameSelectionStateSchema,
   generationSchema,
   languageSchema,
   modeSchema,
@@ -74,7 +74,7 @@ export const saveDataSchema = z.object({
   currentSpecialBox: specialTypeSchema.nullable(),
   currentType: typeSchema.nullable(),
   currentTypes: z.array(typeSchema).nullable(),
-  gameSelectionState: gameSelectionStateSchema,
+  gameSelectionState: z.null(),
   gens: z.array(generationSchema).nullable(),
   languages: z.array(languageSchema),
   name: z.string().nullable(),
@@ -85,7 +85,7 @@ export const saveDataSchema = z.object({
   skips: z.number().int().nonnegative(),
   timer: timerStateSchema,
   types: z.array(typeSchema).nullable(),
-  version: z.literal(1),
+  version: z.literal(VERSION),
   withCriesHelper: z.boolean(),
   withCycleRegions: z.boolean(),
   withCycleSprites: z.boolean(),
