@@ -13,6 +13,12 @@ import type {
   typeSchema,
 } from '@/schemas/enums.schema.ts';
 import type { pokemonProgressSchema } from '@/schemas/pokemonProgress.schema.ts';
+import type {
+  eventSnapshotSchema,
+  ownerStateSchema,
+  roomEnvelopeSchema,
+  roomEventSchema,
+} from '@/schemas/room.schema.ts';
 import type { saveDataSchema, settingsSchema, stateSchema, touchesSchema } from '@/schemas/saveData.schema.ts';
 import type { timerStateSchema } from '@/schemas/timer.schema.ts';
 import type { z } from 'zod';
@@ -308,26 +314,9 @@ export type PokemonDetails = PokemonInfo & {
   };
 };
 
-export type OwnerState = Pick<
-  SaveData,
-  | 'gameSelectionState'
-  | 'gameMode'
-  | 'mode'
-  | 'challengeMode'
-  | 'gens'
-  | 'types'
-  | 'currentBox'
-  | 'currentMegaBox'
-  | 'currentSpecialBox'
-  | 'currentType'
-  | 'currentTypes'
-  | 'pokemonProgress'
->;
+export type OwnerState = z.infer<typeof ownerStateSchema>;
 
-export type StateSnapshot = OwnerState & {
-  updatedAt: object;
-  updatedBy: string;
-};
+export type StateSnapshot = z.infer<typeof roomEnvelopeSchema>;
 
 export type UserSnapshot = {
   updatedAt: object;
@@ -340,13 +329,9 @@ export type MessageSnapshot = {
   message: string;
 };
 
-export type RoomEvent = 'gamePaused' | 'gameEnded' | 'disconnect';
+export type RoomEvent = z.infer<typeof roomEventSchema>;
 
-export type EventSnapshot = {
-  event: RoomEvent;
-  timestamp: object;
-  senderId: string;
-};
+export type EventSnapshot = z.infer<typeof eventSnapshotSchema>;
 
 export interface RoomInfo {
   id: string;
