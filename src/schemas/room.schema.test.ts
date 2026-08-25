@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseEventSnapshot, parseOwnerState, parseRoomEnvelope } from '@/schemas/room.schema.ts';
+import { parseEventSnapshot, parseOwnerState, parseRoomEnvelope, parseRoomListing } from '@/schemas/room.schema.ts';
 
 const ownerState = {
   currentBox: null,
@@ -47,16 +47,30 @@ const roomEnvelope = {
   state: ownerState,
 };
 
+const roomListing = {
+  active_users: {
+    'user-1': { username: 'Ash' },
+  },
+  createdAt: 100,
+  name: 'room-1',
+  ownerId: 'owner-1',
+  ownerState,
+};
+
 describe('room schemas', () => {
   it('accepts a resumable owner state and room envelope', () => {
     expect(parseOwnerState(ownerState).success).toBe(true);
     expect(parseRoomEnvelope(roomEnvelope).success).toBe(true);
+    expect(parseRoomListing(roomListing).success).toBe(true);
   });
 
   it('rejects invalid room configuration and metadata', () => {
     expect(parseOwnerState({ ...ownerState, gameMode: 'unsupported' }).success).toBe(false);
     expect(parseOwnerState({ ...ownerState, sessionId: '' }).success).toBe(false);
     expect(parseRoomEnvelope({ ...roomEnvelope, metadata: { ...roomEnvelope.metadata, revision: -1 } }).success).toBe(
+      false,
+    );
+    expect(parseRoomListing({ ...roomListing, ownerState: { ...ownerState, gameMode: 'unsupported' } }).success).toBe(
       false,
     );
   });

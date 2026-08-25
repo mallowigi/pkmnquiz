@@ -41,6 +41,15 @@ export const roomEnvelopeSchema = z.object({
   state: ownerStateSchema,
 });
 
+/** Current flat room shape used by the recent-room directory. */
+export const roomListingSchema = z.object({
+  active_users: z.record(z.string(), z.unknown()).optional(),
+  createdAt: z.number(),
+  name: z.string().optional(),
+  ownerId: z.string().min(1),
+  ownerState: ownerStateSchema,
+});
+
 export const roomEventSchema = z.enum(['gamePaused', 'gameEnded', 'disconnect']);
 
 export const eventSnapshotSchema = z.object({
@@ -51,4 +60,5 @@ export const eventSnapshotSchema = z.object({
 
 export const parseOwnerState = (input: unknown) => ownerStateSchema.safeParse(input);
 export const parseRoomEnvelope = (input: unknown) => roomEnvelopeSchema.safeParse(input);
+export const parseRoomListing = (input: unknown) => roomListingSchema.safeParse(input);
 export const parseEventSnapshot = (input: unknown) => eventSnapshotSchema.safeParse(input);

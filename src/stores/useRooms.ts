@@ -20,6 +20,7 @@ import { useI18n } from 'vue-i18n';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { realtimeDb } from '@/firebase.ts';
+import { parseRoomListing } from '@/schemas/room.schema.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import type { SaveData, OwnerState, RoomEvent, UserSnapshot, RoomInfo } from '@/types.ts';
 
@@ -224,18 +225,26 @@ export const useRooms = defineStore('roomMessages', () => {
   // region State Management
   const toOwnerState = (savedState: SaveData): OwnerState => {
     return {
-      challengeMode: savedState.challengeMode,
       currentBox: savedState.currentBox,
       currentMegaBox: savedState.currentMegaBox,
       currentSpecialBox: savedState.currentSpecialBox,
       currentType: savedState.currentType,
       currentTypes: savedState.currentTypes,
       gameMode: savedState.gameMode,
-      gameSelectionState: savedState.gameSelectionState,
       gens: savedState.gens,
       mode: savedState.mode,
       pokemonProgress: savedState.pokemonProgress,
+      score: savedState.score,
+      sessionId: savedState.sessionId,
+      skipScore: savedState.skipScore,
+      skips: savedState.skips,
+      timer: savedState.timer,
       types: savedState.types,
+      version: savedState.version,
+      withBoxShuffle: savedState.withBoxShuffle,
+      withCriesShuffle: savedState.withCriesShuffle,
+      withShadows: savedState.withShadows,
+      withTypeShuffle: savedState.withTypeShuffle,
     };
   };
 
@@ -418,17 +427,18 @@ export const useRooms = defineStore('roomMessages', () => {
     const rooms: RoomInfo[] = [];
 
     snapshot.forEach((childSnapshot) => {
-      const val = childSnapshot.val() || {};
-      const activeUsers = val.active_users ? Object.keys(val.active_users).length : 0;
-      const ownerState = val.ownerState;
+      if (!childSnapshot.key) return;
 
-      if (!ownerState) return;
+      const parsedRoom = parseRoomListing(childSnapshot.val());
+      if (!parsedRoom.success) return;
+
+      const { active_users: activeUsers, name } = parsedRoom.data;
 
       rooms.unshift({
-        createdAt: typeof val.createdAt === 'number' ? val.createdAt : null,
-        id: childSnapshot.key as string,
-        name: val.name || (childSnapshot.key as string),
-        userCount: activeUsers,
+        createdAt: parsedRoom.data.createdAt,
+        id: childSnapshot.key,
+        name: name || childSnapshot.key,
+        userCount: activeUsers ? Object.keys(activeUsers).length : 0,
       });
     });
 
