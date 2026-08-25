@@ -21,6 +21,14 @@ export const useVoice = () => {
     }
   };
 
+  const stopVoice = () => {
+    stop();
+  };
+
+  const startVoice = () => {
+    start();
+  };
+
   if (isSupported.value) {
     // @ts-expect-error missing types
     const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
@@ -49,6 +57,8 @@ export const useVoice = () => {
     isListening,
     isSupported,
     lastQuery,
+    startVoice,
+    stopVoice,
     toggleVoice,
   };
 };

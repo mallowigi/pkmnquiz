@@ -29,7 +29,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
   const { resetBonus } = useBonus();
   const { startTypeCycle, stopTypeCycle } = useCurrentType();
   const { startGenCycle, stopGenCycle } = useCurrentGen();
-  const { toggleVoice } = useVoice();
+  const { stopVoice } = useVoice();
   const { roomState, joinOrCreateRoom, destroyRoom } = useRooms();
   const { setDialog } = useDialogs();
   const { showUserMessage } = useMessages();
@@ -87,7 +87,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
     flowState.isPaused = true;
     stopTypeCycle();
     stopGenCycle();
-    toggleVoice();
+    stopVoice();
   };
 
   const resumeGame = () => {
@@ -109,7 +109,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
 
       stopTypeCycle();
       stopGenCycle();
-      toggleVoice();
+      stopVoice();
       removeAutoSave();
       createRecord();
       recordWin();
@@ -130,7 +130,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
 
       stopTypeCycle();
       stopGenCycle();
-      toggleVoice();
+      stopVoice();
       createRecord();
       removeAutoSave();
       showRemaining();
