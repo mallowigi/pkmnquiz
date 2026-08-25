@@ -1,6 +1,22 @@
 import { type User } from 'firebase/auth';
 import type { DocumentData } from 'firebase/firestore';
 
+import type {
+  challengeModeSchema,
+  gameModeSchema,
+  gameSelectionStateSchema,
+  generationSchema,
+  languageSchema,
+  modeSchema,
+  regionBoxSchema,
+  specialTypeSchema,
+  typeSchema,
+} from '@/schemas/enums.schema.ts';
+import type { pokemonProgressSchema } from '@/schemas/pokemonProgress.schema.ts';
+import type { saveDataSchema, settingsSchema, stateSchema, touchesSchema } from '@/schemas/saveData.schema.ts';
+import type { timerStateSchema } from '@/schemas/timer.schema.ts';
+import type { z } from 'zod';
+
 export type AlertDialogOptions = {
   title?: string;
   description?: string;
@@ -30,63 +46,28 @@ export type Dialog =
   | 'createRoom'
   | 'deleteRoom';
 
-export type GameMode = 'full' | 'gen' | 'special' | 'mega' | 'types';
+export type GameMode = z.infer<typeof gameModeSchema>;
 
 export type GameModeInfo = {
   id: GameMode;
   name: string;
 };
 
-export type Mode = 'chaos' | 'normal' | 'order';
+export type Mode = z.infer<typeof modeSchema>;
 
 export type ModeInfo = {
   id: Mode;
   name: string;
 };
 
-export type RegionBox =
-  | 'alola'
-  | 'areazero'
-  | 'galar'
-  | 'gmax'
-  | 'hisui'
-  | 'hoenn'
-  | 'hoennmega'
-  | 'hyperspace'
-  | 'johto'
-  | 'kalos'
-  | 'kalosmega'
-  | 'kanto'
-  | 'lumiose'
-  | 'paldea'
-  | 'pokemongo'
-  | 'sinnoh'
-  | 'unova';
+export type RegionBox = z.infer<typeof regionBoxSchema>;
 
 export type RegionBoxInfo = {
   id: RegionBox;
   name: string;
 };
 
-export type Type =
-  | 'bug'
-  | 'dark'
-  | 'dragon'
-  | 'electric'
-  | 'fairy'
-  | 'fighting'
-  | 'fire'
-  | 'flying'
-  | 'ghost'
-  | 'grass'
-  | 'ground'
-  | 'ice'
-  | 'normal'
-  | 'poison'
-  | 'psychic'
-  | 'rock'
-  | 'steel'
-  | 'water';
+export type Type = z.infer<typeof typeSchema>;
 
 export type TypeInfo = {
   bgColor: string;
@@ -103,7 +84,7 @@ export type TypeInfo = {
   symbol: string;
 };
 
-export type SpecialType = 'no' | 'sublegendary' | 'legendary' | 'mythical' | 'ultrabeast' | 'paradox';
+export type SpecialType = z.infer<typeof specialTypeSchema>;
 
 export type SpecialTypeInfo = Omit<TypeInfo, 'id'> & {
   id: SpecialType;
@@ -115,7 +96,7 @@ export type MegaTypeInfo = Omit<TypeInfo, 'id'> & {
   id: MegaType;
 };
 
-export type Gen = 'gen1' | 'gen2' | 'gen3' | 'gen4' | 'gen5' | 'gen6' | 'gen7' | 'gen8' | 'gen9';
+export type Gen = z.infer<typeof generationSchema>;
 
 export type GenerationInfo = {
   boxes: RegionBox[];
@@ -125,7 +106,7 @@ export type GenerationInfo = {
   sprites: string[];
 };
 
-export type Language = 'cn' | 'de' | 'en' | 'fr' | 'ja' | 'ko' | 'zh';
+export type Language = z.infer<typeof languageSchema>;
 
 export type LanguageInfo = {
   id: Language;
@@ -148,25 +129,6 @@ export type PokemonInfo = {
 
 export type UserData = {
   user: User | null;
-};
-
-export type Touches = {
-  toggledAutoPause: boolean;
-  toggledDisplayShadows: boolean;
-  toggledLanguage: boolean;
-  toggledShadowHelper: boolean;
-  toggledShinyCharm: boolean;
-  toggledCriesHelper: boolean;
-  toggledInitialsHelper: boolean;
-  toggledSpelling: boolean;
-  toggledMissingno: boolean;
-  typeShuffleClicks: number;
-  boxShuffleClicks: number;
-  spellingClicks: number;
-  shiniesDiscovered: number;
-  summonedShadows: number;
-  summonedCries: number;
-  summonedInitials: number;
 };
 
 export type FinishedGames = {
@@ -198,34 +160,9 @@ export type Skips = {
   skips: number;
 };
 
-export type State = {
-  gameMode: GameMode | null;
-  isDark: boolean;
-  mode: Mode;
+export type State = z.infer<typeof stateSchema>;
 
-  withShadows: boolean;
-  withTypeShuffle: boolean;
-  withBoxShuffle: boolean;
-  withCriesShuffle: boolean;
-};
-
-export type Settings = {
-  name: string | null;
-  avatar: string | null;
-  autoPause: boolean;
-  withCycleSprites: boolean;
-  withCycleTypes: boolean;
-  withCycleRegions: boolean;
-  withShadowHelper: boolean;
-  withCriesHelper: boolean;
-  withInitialsHelper: boolean;
-  withShinies: boolean;
-  withSound: boolean;
-  withSpelling: boolean;
-  withScrollIntoView: boolean;
-  languages: Set<Language>;
-  autoSync: boolean;
-};
+export type Settings = z.infer<typeof settingsSchema>;
 
 export type PokemonStatus = {
   isFound: boolean;
@@ -244,25 +181,11 @@ export type PokemonProgressState = {
   shinyRate: number;
 };
 
-export type TimerState = {
-  elapsed: number;
-  isLimited: boolean;
-  minutes: number;
-  savedAt: number | null;
-  startTime: number | null;
-};
+export type TimerState = z.infer<typeof timerStateSchema>;
 
-export type ChallengeMode = 'free' | 'challenge';
+export type ChallengeMode = z.infer<typeof challengeModeSchema>;
 
-export type GameSelectionState =
-  | 'new'
-  | 'gen'
-  | 'types'
-  | 'special'
-  | null
-  | 'challenge'
-  | 'challengeSetup'
-  | 'createRoom';
+export type GameSelectionState = z.infer<typeof gameSelectionStateSchema>;
 
 export type GameFlowState = {
   gameSelectionState: GameSelectionState;
@@ -318,41 +241,11 @@ export type PkmnData = {
   translations: Record<string, Translations> | null;
 };
 
-export type PokemonProgress = {
-  pokemonFound: {
-    id: string;
-    lastFoundAt: number | null;
-  }[];
-  pokemonShadowed: {
-    id: string;
-    lastShadowedAt: number | null;
-  }[];
-  shinyPokemon: {
-    id: string;
-  }[];
-};
+export type PokemonProgress = z.infer<typeof pokemonProgressSchema>;
 
-export type SaveData = State &
-  Omit<Settings, 'languages'> &
-  Touches & {
-    sessionId: string | null;
-    currentType: Type | null;
-    currentTypes: Type[] | null;
-    currentBox: RegionBox | null;
-    currentSpecialBox: SpecialType | null;
-    currentMegaBox: RegionBox | null;
-    gameSelectionState: GameSelectionState | null;
-    challengeMode: ChallengeMode;
-    gens: Gen[] | null;
-    types: Type[] | null;
-    languages: Language[];
-    pokemonProgress: PokemonProgress;
-    score: number;
-    skips: number;
-    skipScore: number;
-    timer: TimerState;
-    version: number;
-  };
+export type Touches = z.infer<typeof touchesSchema>;
+
+export type SaveData = z.infer<typeof saveDataSchema>;
 
 export type MessageType = 'success' | 'error' | 'info' | 'warning';
 
