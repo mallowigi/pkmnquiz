@@ -143,6 +143,28 @@ export const useRooms = defineStore('roomMessages', () => {
     roomState.room = roomId ?? 'Untitled';
   };
 
+  const createRoom = async (roomId: string, userId: string) => {
+    roomState.ownerId = userId;
+    await setOwnerId();
+
+    const createdAtRef = ref(realtimeDb, `rooms/${roomId}/createdAt`);
+    await set(createdAtRef, serverTimestamp());
+
+    showUserMessage(t('createdRoom', { roomId }));
+
+    // The owner publishes the initial state once the room exists.
+    sendState();
+  };
+
+  const joinRoom = (roomId: string) => {
+    showUserMessage(t('joinedRoom', { roomId }));
+  };
+
+  const resumeRoom = async (roomId: string, userId: string) => {
+    roomState.ownerId = userId;
+    showUserMessage(t('joinedRoom', { roomId }));
+  };
+
   const joinOrCreateRoom = async (roomId: string, userId: string) => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
@@ -166,18 +188,11 @@ export const useRooms = defineStore('roomMessages', () => {
 
     // If the room doesn't exist, create it and set the ownerId. If it does exist, just join it.
     if (!ownerId) {
-      roomState.ownerId = userId;
-
-      // Set user as owner
-      await setOwnerId();
-      const createdAtRef = ref(realtimeDb, `rooms/${roomId}/createdAt`);
-      await set(createdAtRef, serverTimestamp());
-      showUserMessage(t('createdRoom', { roomId }));
-
-      sendState();
+      await createRoom(roomId, userId);
+    } else if (ownerId === userId) {
+      await resumeRoom(roomId, userId);
     } else {
-      // Joining
-      showUserMessage(t('joinedRoom', { roomId }));
+      joinRoom(roomId);
     }
 
     set(currentPresenceRef, {
