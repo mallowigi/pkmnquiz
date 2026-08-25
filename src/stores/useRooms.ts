@@ -15,7 +15,7 @@ import {
   type DatabaseReference,
 } from 'firebase/database';
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref as vueRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useFirebase } from '@/composables/useFirebase.ts';
@@ -41,6 +41,8 @@ export const useRooms = defineStore('roomMessages', () => {
     ownerId: null,
     room: null,
   });
+
+  const isJoining = vueRef(false);
 
   let unsubscribeCallbacks: (() => void)[] = [];
   let currentGeneration = 0;
@@ -82,6 +84,8 @@ export const useRooms = defineStore('roomMessages', () => {
 
     return auth.currentUser.uid === roomState.ownerId;
   });
+
+  const isJoiner = computed(() => roomState.isActive && !isOwner.value);
 
   /** Get the ownerId of the room. If the room doesn't exist, it will return null. */
   const getOwnerId = async (): Promise<string | null> => {
@@ -165,7 +169,7 @@ export const useRooms = defineStore('roomMessages', () => {
     showUserMessage(t('joinedRoom', { roomId }));
   };
 
-  const joinOrCreateRoom = async (roomId: string, userId: string) => {
+  const connectToRoom = async (roomId: string, userId: string) => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
       showUserMessage(t('userNotAuthenticated'), 'error');
@@ -211,6 +215,16 @@ export const useRooms = defineStore('roomMessages', () => {
     }
 
     onDisconnect(currentPresenceRef).remove();
+  };
+
+  const joinOrCreateRoom = async (roomId: string, userId: string) => {
+    isJoining.value = true;
+
+    try {
+      await connectToRoom(roomId, userId);
+    } finally {
+      isJoining.value = false;
+    }
   };
 
   const leaveRoom = async (userId: string) => {
@@ -536,6 +550,8 @@ export const useRooms = defineStore('roomMessages', () => {
   return {
     destroyRoom,
     getRecentRooms,
+    isJoiner,
+    isJoining,
     isOwner,
     joinOrCreateRoom,
     leaveRoom,
