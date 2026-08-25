@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { usePageTitle } from '@/composables/useTitle.ts';
 import { i18n } from '@/main.ts';
+import { parseSaveData } from '@/schemas/saveData.schema.ts';
 import { useBonus } from '@/stores/useBonus.ts';
 import { useCurrentBox } from '@/stores/useCurrentBox.ts';
 import { useCurrentGen } from '@/stores/useCurrentGen.ts';
@@ -18,7 +19,6 @@ import { useState } from '@/stores/useState.ts';
 import { useTimer } from '@/stores/useTimer.ts';
 import { useTouches } from '@/stores/useTouches.ts';
 import type { SaveData, PokemonProgress } from '@/types.ts';
-import { parseSaveData } from '@/schemas/saveData.schema.ts';
 import { normalizeName } from '@/utils/utils.ts';
 
 const ready = ref(false);
@@ -183,11 +183,30 @@ export const useSavedData = () => {
   };
 
   const applyPartialState = (partialState: Partial<SaveData>) => {
-    const currentState = getSavedState();
-    applyState({ ...currentState, ...partialState });
+    const parsedState = parseSaveData({ ...getSavedState(), ...partialState });
+    if (!parsedState.success) {
+      console.error('Failed to apply partial state: Invalid data.', parsedState.error.issues);
+      showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
+      return false;
+    }
+
+    applyValidatedState(parsedState.data);
+    return true;
   };
 
-  const applyState = (loadedState: SaveData) => {
+  const applyState = (loadedState: unknown) => {
+    const parsedState = parseSaveData(loadedState);
+    if (!parsedState.success) {
+      console.error('Failed to apply state: Invalid data.', parsedState.error.issues);
+      showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
+      return false;
+    }
+
+    applyValidatedState(parsedState.data);
+    return true;
+  };
+
+  const applyValidatedState = (loadedState: SaveData) => {
     const { setState } = useState();
     const { setCurrentGens } = useCurrentGen();
     const { setCurrentBox, setCurrentSpecialBox, setCurrentMegaBox } = useCurrentBox();
@@ -402,15 +421,16 @@ export const useSavedData = () => {
         const parsedState = parseSaveData(JSON.parse(result));
         if (!parsedState.success) {
           console.error('Failed to load state: Invalid save data.', parsedState.error.issues);
-          showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
+          showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
           return;
         }
 
-        applyState(parsedState.data);
-        setReady();
+        if (applyState(parsedState.data)) {
+          setReady();
+        }
       } catch (error) {
         console.error('Failed to load state: Invalid file format.', error);
-        showUserMessage(i18n.global.t('failedToLoadQuizFormat'));
+        showUserMessage(i18n.global.t('failedToLoadQuizFormat'), 'error');
       }
     };
     reader.readAsText(file);
@@ -433,15 +453,16 @@ export const useSavedData = () => {
       const parsedState = parseSaveData(userState);
       if (!parsedState.success) {
         console.error('Failed to load cloud save: Invalid data.', parsedState.error.issues);
-        showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
+        showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
         return;
       }
 
-      applyState(parsedState.data);
-      setReady();
+      if (applyState(parsedState.data)) {
+        setReady();
+      }
     } catch (error) {
       console.error('Failed to load cloud save: Invalid data.', error);
-      showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
+      showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
     }
   };
 
@@ -461,15 +482,16 @@ export const useSavedData = () => {
       const parsedState = parseSaveData(JSON.parse(savedStateStr));
       if (!parsedState.success) {
         console.error('Failed to load autosave: Invalid data.', parsedState.error.issues);
-        showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
+        showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
         return;
       }
 
-      applyState(parsedState.data);
-      setReady();
+      if (applyState(parsedState.data)) {
+        setReady();
+      }
     } catch (error) {
       console.error('Failed to load autosave: Invalid data.', error);
-      showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
+      showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
     }
   };
 
