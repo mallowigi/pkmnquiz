@@ -43,6 +43,7 @@ export const useRooms = defineStore('roomMessages', () => {
   });
 
   const isJoining = vueRef(false);
+  const ownerOnline = vueRef(false);
 
   let unsubscribeCallbacks: (() => void)[] = [];
   let currentGeneration = 0;
@@ -131,8 +132,10 @@ export const useRooms = defineStore('roomMessages', () => {
 
       if (ownerId) {
         roomState.ownerId = ownerId;
+        ownerOnline.value = true;
       } else {
         roomState.ownerId = null;
+        ownerOnline.value = false;
       }
     });
 
@@ -164,8 +167,9 @@ export const useRooms = defineStore('roomMessages', () => {
     showUserMessage(t('joinedRoom', { roomId }));
   };
 
-  const resumeRoom = async (roomId: string, userId: string) => {
+  const resumeRoom = (roomId: string, userId: string) => {
     roomState.ownerId = userId;
+    ownerOnline.value = true;
     showUserMessage(t('joinedRoom', { roomId }));
   };
 
@@ -194,7 +198,7 @@ export const useRooms = defineStore('roomMessages', () => {
     if (!ownerId) {
       await createRoom(roomId, userId);
     } else if (ownerId === userId) {
-      await resumeRoom(roomId, userId);
+      resumeRoom(roomId, userId);
     } else {
       joinRoom(roomId);
     }
@@ -240,6 +244,8 @@ export const useRooms = defineStore('roomMessages', () => {
     roomState.room = null;
     roomState.ownerId = null;
     roomState.isActive = false;
+
+    ownerOnline.value = false;
 
     showUserMessage(t('leftRoom', { roomId: roomState.room }));
   };
@@ -498,6 +504,7 @@ export const useRooms = defineStore('roomMessages', () => {
     roomState.room = null;
     roomState.ownerId = null;
     roomState.isActive = false;
+    ownerOnline.value = false;
 
     if (notify) {
       showUserMessage(t('disconnected'), 'warning');
@@ -556,6 +563,7 @@ export const useRooms = defineStore('roomMessages', () => {
     joinOrCreateRoom,
     leaveRoom,
     listenToRecentRooms,
+    ownerOnline,
     roomState,
     sendEvent,
     sendMessage,
