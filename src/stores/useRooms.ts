@@ -148,8 +148,11 @@ export const useRooms = defineStore('roomMessages', () => {
     listenToOwner();
     listenToMessages();
     listenToJoins();
-    listenToState();
     listenToEvents();
+
+    if (roomState.ownerId !== auth.currentUser.uid) {
+      listenToState();
+    }
 
     onDisconnect(presenceRef).remove();
   };
