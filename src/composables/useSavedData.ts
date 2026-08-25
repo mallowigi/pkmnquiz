@@ -18,6 +18,7 @@ import { useState } from '@/stores/useState.ts';
 import { useTimer } from '@/stores/useTimer.ts';
 import { useTouches } from '@/stores/useTouches.ts';
 import type { SaveData, PokemonProgress } from '@/types.ts';
+import { parseSaveData } from '@/schemas/saveData.schema.ts';
 import { normalizeName } from '@/utils/utils.ts';
 
 const ready = ref(false);
@@ -67,16 +68,8 @@ export const useSavedData = () => {
     }
 
     try {
-      const savedState = JSON.parse(savedStateStr) as SaveData;
-      if (!savedState || typeof savedState !== 'object') {
-        return false;
-      }
-
-      if (savedState.version !== VERSION) {
-        return false;
-      }
-
-      if (savedState.gameSelectionState !== null) {
+      const result = parseSaveData(JSON.parse(savedStateStr));
+      if (!result.success || result.data.gameSelectionState !== null) {
         return false;
       }
 
@@ -401,16 +394,19 @@ export const useSavedData = () => {
     const reader = new FileReader();
     reader.onload = (e: ProgressEvent<FileReader>) => {
       try {
-        const result = e.target?.result as string;
-        const loadedState = JSON.parse(result);
-        if (loadedState.version !== 1) {
-          console.error('Unsupported save version.');
-          showUserMessage(i18n.global.t('failedToLoadQuizVersion'));
+        const result = e.target?.result;
+        if (typeof result !== 'string') {
+          throw new Error('Save file did not contain text data.');
+        }
+
+        const parsedState = parseSaveData(JSON.parse(result));
+        if (!parsedState.success) {
+          console.error('Failed to load state: Invalid save data.', parsedState.error.issues);
+          showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
           return;
         }
 
-        // Parse and validate loaded state
-        applyState(loadedState);
+        applyState(parsedState.data);
         setReady();
       } catch (error) {
         console.error('Failed to load state: Invalid file format.', error);
@@ -434,12 +430,14 @@ export const useSavedData = () => {
     }
 
     try {
-      if (userState.version !== 1) {
-        console.error('Unsupported save version in cloud save.');
+      const parsedState = parseSaveData(userState);
+      if (!parsedState.success) {
+        console.error('Failed to load cloud save: Invalid data.', parsedState.error.issues);
+        showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
         return;
       }
 
-      applyState(userState as SaveData);
+      applyState(parsedState.data);
       setReady();
     } catch (error) {
       console.error('Failed to load cloud save: Invalid data.', error);
@@ -460,13 +458,14 @@ export const useSavedData = () => {
     }
 
     try {
-      const savedState = JSON.parse(savedStateStr);
-      if (savedState.version !== 1) {
-        console.error('Unsupported save version in autosave.');
+      const parsedState = parseSaveData(JSON.parse(savedStateStr));
+      if (!parsedState.success) {
+        console.error('Failed to load autosave: Invalid data.', parsedState.error.issues);
+        showUserMessage(i18n.global.t('failedToLoadQuizInvalid'));
         return;
       }
 
-      applyState(savedState);
+      applyState(parsedState.data);
       setReady();
     } catch (error) {
       console.error('Failed to load autosave: Invalid data.', error);
