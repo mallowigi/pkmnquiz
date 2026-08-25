@@ -12,6 +12,7 @@ import {
   orderByChild,
   DataSnapshot,
   limitToLast,
+  type DatabaseReference,
 } from 'firebase/database';
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive, computed } from 'vue';
@@ -40,6 +41,37 @@ export const useRooms = defineStore('roomMessages', () => {
     ownerId: null,
     room: null,
   });
+
+  let unsubscribeCallbacks: (() => void)[] = [];
+  let currentGeneration = 0;
+
+  let presenceRef: DatabaseReference | null = null;
+
+  /** Clear all listeners and unsubscribe callbacks. */
+  const clearListeners = () => {
+    unsubscribeCallbacks.forEach((unsubscribe) => unsubscribe());
+    unsubscribeCallbacks = [];
+  };
+
+  const cancelPresence = () => {
+    if (!presenceRef) return;
+
+    onDisconnect(presenceRef).cancel();
+    presenceRef = null;
+  };
+
+  /**
+   * Supplementary check to avoid calling listeners more than once per room by keeping a generation counter. This is
+   * necessary because Firebase listeners can sometimes be called multiple times for the same event, especially when
+   * switching rooms or reconnecting.
+   */
+  const isCurrentListener = (generation: number, room: string) => {
+    if (!roomState.isActive) return false;
+
+    if (generation !== currentGeneration) return false;
+
+    return room === roomState.room;
+  };
 
   // region Owner Management
   const isOwner = computed(() => {
@@ -83,11 +115,14 @@ export const useRooms = defineStore('roomMessages', () => {
     await set(ownerIdRef, auth.currentUser.uid);
   };
 
-  const listenToOwner = async () => {
+  const listenToOwner = async (generation: number) => {
     if (!roomState.room) return;
 
     const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
-    onValue(ownerIdRef, (snapshot) => {
+
+    const unsubscribe = onValue(ownerIdRef, (snapshot) => {
+      if (!isCurrentListener(generation, roomState.room!)) return;
+
       const ownerId = snapshot.val();
 
       if (ownerId) {
@@ -96,6 +131,8 @@ export const useRooms = defineStore('roomMessages', () => {
         roomState.ownerId = null;
       }
     });
+
+    unsubscribeCallbacks.push(unsubscribe);
   };
 
   // endregion
@@ -106,10 +143,6 @@ export const useRooms = defineStore('roomMessages', () => {
     roomState.room = roomId ?? 'Untitled';
   };
 
-  /**
-   * Join or Create a room. If the room doesn't exist, it will be created and the user will become the owner. If the
-   * room exists, the user will join it.
-   */
   const joinOrCreateRoom = async (roomId: string, userId: string) => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
@@ -117,10 +150,18 @@ export const useRooms = defineStore('roomMessages', () => {
       return;
     }
 
+    // Force cleanup of previous session
+    clearListeners();
+    cancelPresence();
+    currentGeneration += 1;
+
     roomState.room = roomId;
     roomState.isActive = true;
 
-    const presenceRef = ref(realtimeDb, `rooms/${roomId}/active_users/${userId}`);
+    // Keep the reference of the presence ref in the store.
+    const currentPresenceRef = ref(realtimeDb, `rooms/${roomId}/active_users/${userId}`);
+    presenceRef = currentPresenceRef;
+
     const ownerId = await getOwnerId();
 
     // If the room doesn't exist, create it and set the ownerId. If it does exist, just join it.
@@ -139,29 +180,33 @@ export const useRooms = defineStore('roomMessages', () => {
       showUserMessage(t('joinedRoom', { roomId }));
     }
 
-    set(presenceRef, {
+    set(currentPresenceRef, {
       updatedAt: serverTimestamp(),
       username: auth.currentUser.displayName,
     });
 
     // Start listening
-    listenToOwner();
-    listenToMessages();
-    listenToJoins();
-    listenToEvents();
+    listenToOwner(currentGeneration);
+    listenToMessages(currentGeneration);
+    listenToJoins(currentGeneration);
+    listenToEvents(currentGeneration);
 
     if (roomState.ownerId !== auth.currentUser.uid) {
-      listenToState();
+      listenToState(currentGeneration);
     }
 
-    onDisconnect(presenceRef).remove();
+    onDisconnect(currentPresenceRef).remove();
   };
 
   const leaveRoom = async (userId: string) => {
     if (!roomState.room) return;
 
-    const presenceRef = ref(realtimeDb, `rooms/${roomState.room}/active_users/${userId}`);
-    await remove(presenceRef);
+    const currentPresenceRef = ref(realtimeDb, `rooms/${roomState.room}/active_users/${userId}`);
+    await remove(currentPresenceRef);
+
+    clearListeners();
+    cancelPresence();
+    currentGeneration += 1;
 
     roomState.room = null;
     roomState.ownerId = null;
@@ -190,16 +235,12 @@ export const useRooms = defineStore('roomMessages', () => {
     const roomRef = ref(realtimeDb, `rooms/${roomState.room}`);
     await remove(roomRef);
 
-    roomState.room = null;
-    roomState.ownerId = null;
-    roomState.isActive = false;
-    stopListening();
+    stopListening(false);
 
     showUserMessage(t('destroyedRoom', { roomId: roomState.room }));
   };
 
-  /** When creating a room, listen to joins so we can send them the current state. */
-  const listenToJoins = () => {
+  const listenToJoins = (generation: number) => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
       showUserMessage(t('userNotAuthenticated'), 'error');
@@ -209,7 +250,9 @@ export const useRooms = defineStore('roomMessages', () => {
     if (!roomState.room) return;
     const activeUsersRef = ref(realtimeDb, `rooms/${roomState.room}/active_users`);
 
-    onChildAdded(activeUsersRef, async (snapshot) => {
+    const unsubscribe = onChildAdded(activeUsersRef, async (snapshot) => {
+      if (!isCurrentListener(generation, roomState.room!)) return;
+
       const user = snapshot.val() as UserSnapshot;
       const ownerId = await getOwnerId();
 
@@ -222,6 +265,7 @@ export const useRooms = defineStore('roomMessages', () => {
         }
       }
     });
+    unsubscribeCallbacks.push(unsubscribe);
   };
   // endregion
 
@@ -280,7 +324,7 @@ export const useRooms = defineStore('roomMessages', () => {
   };
 
   /** Listen to state changes in the room. This is both "resume game" and "sync state" for new users joining the room */
-  const listenToState = () => {
+  const listenToState = (generation: number) => {
     const { applyPartialState } = useSavedData();
     if (!roomState.room) return;
 
@@ -293,7 +337,9 @@ export const useRooms = defineStore('roomMessages', () => {
     const stateRef = ref(realtimeDb, `rooms/${roomState.room}/ownerState`);
 
     // Fetch state from firebase - this is both "resume game" and "sync state" for new users joining the room
-    onValue(stateRef, async (snapshot) => {
+    const unsubscribe = onValue(stateRef, async (snapshot) => {
+      if (!isCurrentListener(generation, roomState.room!)) return;
+
       const state = snapshot.val() as OwnerState;
 
       if (state) {
@@ -302,6 +348,7 @@ export const useRooms = defineStore('roomMessages', () => {
         applyPartialState(state);
       }
     });
+    unsubscribeCallbacks.push(unsubscribe);
   };
   // endregion
 
@@ -328,11 +375,13 @@ export const useRooms = defineStore('roomMessages', () => {
   };
 
   /** Listen to messages (e.g. the pokemon found) */
-  const listenToMessages = () => {
+  const listenToMessages = (generation: number) => {
     if (!roomState.room) return;
     const messagesRef = ref(realtimeDb, `rooms/${roomState.room}/messages`);
 
-    onChildAdded(messagesRef, (snapshot) => {
+    const unsubscribe = onChildAdded(messagesRef, (snapshot) => {
+      if (!isCurrentListener(generation, roomState.room!)) return;
+
       showUserMessage(`New message in room ${roomState.room}`);
       const messages = snapshot.val();
 
@@ -340,6 +389,7 @@ export const useRooms = defineStore('roomMessages', () => {
         showUserMessage(`New message in room ${roomState.room}: ${messages.message}`);
       }
     });
+    unsubscribeCallbacks.push(unsubscribe);
   };
 
   // endregion
@@ -371,11 +421,13 @@ export const useRooms = defineStore('roomMessages', () => {
     await remove(newEventRef);
   };
 
-  const listenToEvents = () => {
+  const listenToEvents = (generation: number) => {
     if (!roomState.room) return;
     const eventsRef = ref(realtimeDb, `rooms/${roomState.room}/events`);
 
-    onChildAdded(eventsRef, (snapshot) => {
+    const unsubscribe = onChildAdded(eventsRef, (snapshot) => {
+      if (!isCurrentListener(generation, roomState.room!)) return;
+
       const event = snapshot.val();
       if (event) {
         showUserMessage(`New event in room ${roomState.room}: ${event.event}`);
@@ -383,6 +435,7 @@ export const useRooms = defineStore('roomMessages', () => {
         handleEvent(event);
       }
     });
+    unsubscribeCallbacks.push(unsubscribe);
   };
 
   const handleEvent = (event: RoomEvent) => {
@@ -406,23 +459,20 @@ export const useRooms = defineStore('roomMessages', () => {
 
   // endregion
 
-  const stopListening = () => {
+  const stopListening = (notify = true) => {
     if (!roomState.room) return;
-    const messagesRef = ref(realtimeDb, `rooms/${roomState.room}/messages`);
-    const eventsRef = ref(realtimeDb, `rooms/${roomState.room}/events`);
-    const stateRef = ref(realtimeDb, `rooms/${roomState.room}/ownerState`);
-    const activeUsersRef = ref(realtimeDb, `rooms/${roomState.room}/active_users`);
 
-    // Remove all listeners
-    onDisconnect(messagesRef).remove();
-    onDisconnect(eventsRef).remove();
-    onDisconnect(stateRef).remove();
-    onDisconnect(activeUsersRef).remove();
+    clearListeners();
+    cancelPresence();
+    currentGeneration += 1;
 
     roomState.room = null;
     roomState.ownerId = null;
     roomState.isActive = false;
-    showUserMessage(t('disconnected', { roomId: roomState.room }), 'warning');
+
+    if (notify) {
+      showUserMessage(t('disconnected'), 'warning');
+    }
   };
 
   // region Recent Rooms
