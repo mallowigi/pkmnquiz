@@ -13,6 +13,7 @@ import {
   DataSnapshot,
   limitToLast,
   type DatabaseReference,
+  runTransaction,
 } from 'firebase/database';
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive, computed, ref as vueRef } from 'vue';
@@ -102,22 +103,43 @@ export const useRooms = defineStore('roomMessages', () => {
   };
 
   /** Assigns the ownerId. Only the owner can send state. */
-  const setOwnerId = async () => {
+  const setOwnerId: () => Promise<{
+    ownerId: string | null;
+    outcome: 'created' | 'occupied' | 'failed' | 'alreadyOwner';
+  }> = async () => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
       showUserMessage(t('userNotAuthenticated'), 'error');
-      return;
+      return { outcome: 'failed', ownerId: null };
     }
 
     const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
-    const ownerId = await getOwnerId();
+    let outcome: 'created' | 'occupied' | 'failed' | 'alreadyOwner' = 'failed';
 
-    if (ownerId !== null && ownerId !== auth.currentUser.uid) {
-      showUserMessage(t('notRoomOwner'), 'warning');
-      return;
-    }
+    // Update the ownerId in a transaction
+    const newOwner = await runTransaction(ownerIdRef, (currentOwnerId) => {
+      if (currentOwnerId === null) {
+        outcome = 'created';
+        return auth.currentUser?.uid;
+      }
 
-    await set(ownerIdRef, auth.currentUser.uid);
+      // Only update if it doesnt exist, dont take ownership of other rooms!
+      if (currentOwnerId !== auth.currentUser?.uid) {
+        outcome = 'occupied';
+        return; // Abort the transaction
+      }
+
+      outcome = 'alreadyOwner';
+      return currentOwnerId;
+    });
+
+    const ownerValue = newOwner.snapshot.val();
+    const newOwnerId = typeof ownerValue === 'string' ? ownerValue : null;
+
+    return {
+      outcome,
+      ownerId: newOwnerId,
+    };
   };
 
   const listenToOwner = async (generation: number) => {
@@ -150,20 +172,32 @@ export const useRooms = defineStore('roomMessages', () => {
     roomState.room = roomId ?? 'Untitled';
   };
 
-  const createRoom = async (roomId: string, userId: string) => {
-    roomState.ownerId = userId;
-    await setOwnerId();
+  const createRoom = async (roomId: string) => {
+    // Make sure we can own the room before creating and sending state
+    const { outcome, ownerId } = await setOwnerId();
 
-    const createdAtRef = ref(realtimeDb, `rooms/${roomId}/createdAt`);
-    await set(createdAtRef, serverTimestamp());
+    if (outcome === 'created') {
+      const createdAtRef = ref(realtimeDb, `rooms/${roomId}/createdAt`);
+      await set(createdAtRef, serverTimestamp());
+      showUserMessage(t('createdRoom', { roomId }));
 
-    showUserMessage(t('createdRoom', { roomId }));
+      // The owner publishes the initial state once the room exists.
+      sendState();
 
-    // The owner publishes the initial state once the room exists.
-    sendState();
+      ownerOnline.value = true;
+    } else if (outcome === 'alreadyOwner' && ownerId) {
+      resumeRoom(roomId, ownerId);
+    } else if (outcome === 'occupied' && ownerId) {
+      joinRoom(roomId, ownerId);
+    } else {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+    }
+
+    roomState.ownerId = ownerId;
   };
 
-  const joinRoom = (roomId: string) => {
+  const joinRoom = (roomId: string, userId: string) => {
+    roomState.ownerId = userId;
     showUserMessage(t('joinedRoom', { roomId }));
   };
 
@@ -196,11 +230,11 @@ export const useRooms = defineStore('roomMessages', () => {
 
     // If the room doesn't exist, create it and set the ownerId. If it does exist, just join it.
     if (!ownerId) {
-      await createRoom(roomId, userId);
+      await createRoom(roomId);
     } else if (ownerId === userId) {
       resumeRoom(roomId, userId);
     } else {
-      joinRoom(roomId);
+      joinRoom(roomId, ownerId);
     }
 
     set(currentPresenceRef, {
