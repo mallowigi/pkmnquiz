@@ -54,6 +54,7 @@ export const useRooms = defineStore('roomMessages', () => {
   const isJoining = vueRef(false);
   // Communicate the owner online status to the UI.
   const ownerOnline = vueRef(false);
+  const roomTerminated = vueRef(false);
 
   // Listeners callbacks
   let unsubscribeCallbacks: (() => void)[] = [];
@@ -292,6 +293,7 @@ export const useRooms = defineStore('roomMessages', () => {
 
     roomState.room = roomId;
     roomState.isActive = true;
+    roomTerminated.value = false;
 
     // Keep the reference of the presence ref in the store.
     const currentPresenceRef = ref(realtimeDb, `rooms/${roomId}/active_users/${userId}`);
@@ -654,11 +656,17 @@ export const useRooms = defineStore('roomMessages', () => {
         // Handle game paused event
         break;
       case 'gameEnded':
-        // Handle game ended event
+        if (isJoiner.value) {
+          roomTerminated.value = true;
+          return;
+        }
         stopListening({});
         break;
       case 'disconnect':
-        // Handle disconnect event
+        if (isJoiner.value) {
+          roomTerminated.value = true;
+          return;
+        }
         stopListening({});
         break;
       default:
@@ -723,6 +731,7 @@ export const useRooms = defineStore('roomMessages', () => {
     roomState.ownerId = null;
     roomState.isActive = false;
     ownerOnline.value = false;
+    roomTerminated.value = false;
 
     if (notify) {
       showUserMessage(t('disconnected'), 'warning');
@@ -740,6 +749,7 @@ export const useRooms = defineStore('roomMessages', () => {
     listenToRecentRooms,
     ownerOnline,
     roomState,
+    roomTerminated,
     saveOwnerState,
     sendEvent,
     sendMessage,

@@ -9,10 +9,9 @@ import { useRooms } from '@/stores/useRooms.ts';
 import type { RoomInfo } from '@/types.ts';
 
 const { t } = useI18n();
-const { listenToRecentRooms, getRecentRooms } = useRooms();
+const { listenToRecentRooms, getRecentRooms, setRoom } = useRooms();
 const { auth } = useFirebase();
 const { startGame } = useGameFlow();
-const { setRoom } = useRooms();
 
 const rooms = ref<RoomInfo[]>([]);
 const loading = ref(true);

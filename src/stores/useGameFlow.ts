@@ -91,17 +91,17 @@ export const useGameFlow = defineStore('gameFlow', () => {
     // Watch for owner online disconnection to convert game into local game
     const roomsStore = useRooms();
     const { leaveRoom } = roomsStore;
-    const { ownerOnline, isJoiner } = storeToRefs(roomsStore);
+    const { ownerOnline, roomTerminated, isJoiner } = storeToRefs(roomsStore);
     const { autoSave } = useSavedData();
 
     // Semaphore to prevent multiple downgrades at the same time
     let isDowngrading = false;
 
     roomWatcher = watch(
-      () => ownerOnline.value,
-      async (online) => {
+      [() => ownerOnline.value, () => roomTerminated.value],
+      async ([online, terminated]) => {
         // Skip if we are the owner or if the owner is still online
-        if (online || !isJoiner.value || isDowngrading) return;
+        if ((!terminated && online) || !isJoiner.value || isDowngrading) return;
 
         isDowngrading = true;
 
