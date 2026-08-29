@@ -2,12 +2,12 @@ import { z } from 'zod';
 
 const pokemonFoundEntrySchema = z.object({
   id: z.string().min(1),
-  lastFoundAt: z.number().nullish(),
+  lastFoundAt: z.number().nullable(),
 });
 
 const pokemonShadowedEntrySchema = z.object({
   id: z.string().min(1),
-  lastShadowedAt: z.number().nullish(),
+  lastShadowedAt: z.number().nullable(),
 });
 
 const shinyPokemonEntrySchema = z.object({

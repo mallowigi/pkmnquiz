@@ -22,9 +22,17 @@ import { useI18n } from 'vue-i18n';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { realtimeDb } from '@/firebase.ts';
-import { parseRoomListing } from '@/schemas/room.schema.ts';
+import { parseRoomListing, parseOwnerState } from '@/schemas/room.schema.ts';
 import { useMessages } from '@/stores/useMessages.ts';
-import type { SaveData, OwnerState, RoomEvent, UserSnapshot, RoomInfo } from '@/types.ts';
+import type {
+  SaveData,
+  OwnerState,
+  RoomEvent,
+  UserSnapshot,
+  RoomInfo,
+  RoomConnectionOutcome,
+  RoomOwnerOutcome,
+} from '@/types.ts';
 
 interface RoomMessagesState {
   ownerId: string | null;
@@ -105,7 +113,7 @@ export const useRooms = defineStore('roomMessages', () => {
   /** Assigns the ownerId. Only the owner can send state. */
   const setOwnerId: () => Promise<{
     ownerId: string | null;
-    outcome: 'created' | 'occupied' | 'failed' | 'alreadyOwner';
+    outcome: RoomOwnerOutcome;
   }> = async () => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
@@ -114,7 +122,7 @@ export const useRooms = defineStore('roomMessages', () => {
     }
 
     const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
-    let outcome: 'created' | 'occupied' | 'failed' | 'alreadyOwner' = 'failed';
+    let outcome: RoomOwnerOutcome = 'failed';
 
     // Update the ownerId in a transaction
     const newOwner = await runTransaction(ownerIdRef, (currentOwnerId) => {
@@ -172,9 +180,10 @@ export const useRooms = defineStore('roomMessages', () => {
     roomState.room = roomId ?? 'Untitled';
   };
 
-  const createRoom = async (roomId: string) => {
+  const createRoom = async (roomId: string): Promise<RoomConnectionOutcome> => {
     // Make sure we can own the room before creating and sending state
     const { outcome, ownerId } = await setOwnerId();
+    let roomConnectionOutcome: RoomConnectionOutcome = 'failed';
 
     if (outcome === 'created') {
       const createdAtRef = ref(realtimeDb, `rooms/${roomId}/createdAt`);
@@ -182,36 +191,59 @@ export const useRooms = defineStore('roomMessages', () => {
       showUserMessage(t('createdRoom', { roomId }));
 
       // The owner publishes the initial state once the room exists.
-      sendState();
+      await sendState();
 
       ownerOnline.value = true;
+      roomConnectionOutcome = 'created';
     } else if (outcome === 'alreadyOwner' && ownerId) {
-      resumeRoom(roomId, ownerId);
+      roomConnectionOutcome = await resumeRoom(roomId, ownerId);
     } else if (outcome === 'occupied' && ownerId) {
-      joinRoom(roomId, ownerId);
+      roomConnectionOutcome = await joinRoom(roomId, ownerId);
     } else {
       showUserMessage(t('userNotAuthenticated'), 'error');
     }
 
     roomState.ownerId = ownerId;
+    return roomConnectionOutcome;
   };
 
-  const joinRoom = (roomId: string, userId: string) => {
+  const joinRoom = async (roomId: string, userId: string): Promise<RoomConnectionOutcome> => {
+    // Validate ownerState before joining
+    const ownerState = await getOwnerState();
+    if (!ownerState || !hasValidOwnerState(ownerState)) {
+      stopListening({ notify: false });
+      showUserMessage(t('disconnected', { roomId }), 'warning');
+      return 'invalid';
+    }
+
     roomState.ownerId = userId;
     showUserMessage(t('joinedRoom', { roomId }));
+    return 'joined';
   };
 
-  const resumeRoom = (roomId: string, userId: string) => {
+  const resumeRoom = async (roomId: string, userId: string): Promise<RoomConnectionOutcome> => {
+    // Validate ownerState before resuming
+    const ownerState = await getOwnerState();
+    if (!ownerState || !hasValidOwnerState(ownerState)) {
+      stopListening({ notify: false });
+      showUserMessage(t('disconnected', { roomId }), 'warning');
+      return 'invalid';
+    }
+
+    const { applyPartialState } = useSavedData();
+    applyPartialState(ownerState);
+
     roomState.ownerId = userId;
     ownerOnline.value = true;
     showUserMessage(t('joinedRoom', { roomId }));
+    return 'resumed';
   };
 
-  const connectToRoom = async (roomId: string, userId: string) => {
+  const connectToRoom = async (roomId: string, userId: string): Promise<RoomConnectionOutcome> => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
       showUserMessage(t('userNotAuthenticated'), 'error');
-      return;
+      return 'failed';
     }
 
     // Force cleanup of previous session
@@ -227,14 +259,19 @@ export const useRooms = defineStore('roomMessages', () => {
     presenceRef = currentPresenceRef;
 
     const ownerId = await getOwnerId();
+    let outcome: RoomConnectionOutcome;
 
     // If the room doesn't exist, create it and set the ownerId. If it does exist, just join it.
     if (!ownerId) {
-      await createRoom(roomId);
+      outcome = await createRoom(roomId);
     } else if (ownerId === userId) {
-      resumeRoom(roomId, userId);
+      outcome = await resumeRoom(roomId, userId);
     } else {
-      joinRoom(roomId, ownerId);
+      outcome = await joinRoom(roomId, ownerId);
+    }
+
+    if (outcome === 'failed' || outcome === 'invalid') {
+      return outcome;
     }
 
     set(currentPresenceRef, {
@@ -253,16 +290,20 @@ export const useRooms = defineStore('roomMessages', () => {
     }
 
     onDisconnect(currentPresenceRef).remove();
+    return outcome;
   };
 
-  const joinOrCreateRoom = async (roomId: string, userId: string) => {
+  const joinOrCreateRoom = async (roomId: string, userId: string): Promise<RoomConnectionOutcome> => {
     isJoining.value = true;
+    let outcome: RoomConnectionOutcome;
 
     try {
-      await connectToRoom(roomId, userId);
+      outcome = await connectToRoom(roomId, userId);
     } finally {
       isJoining.value = false;
     }
+
+    return outcome;
   };
 
   const leaveRoom = async (userId: string) => {
@@ -304,7 +345,7 @@ export const useRooms = defineStore('roomMessages', () => {
     const roomRef = ref(realtimeDb, `rooms/${roomState.room}`);
     await remove(roomRef);
 
-    stopListening(false);
+    stopListening({ notify: false });
 
     showUserMessage(t('destroyedRoom', { roomId: roomState.room }));
   };
@@ -339,6 +380,11 @@ export const useRooms = defineStore('roomMessages', () => {
   // endregion
 
   // region State Management
+  const hasValidOwnerState = (state: OwnerState): boolean => {
+    const isValid = parseOwnerState(state);
+    return isValid.success;
+  };
+
   const toOwnerState = (savedState: SaveData): OwnerState => {
     return {
       currentBox: savedState.currentBox,
@@ -362,6 +408,15 @@ export const useRooms = defineStore('roomMessages', () => {
       withShadows: savedState.withShadows,
       withTypeShuffle: savedState.withTypeShuffle,
     };
+  };
+
+  const getOwnerState = async (): Promise<OwnerState | null> => {
+    if (!roomState.room) return null;
+
+    const stateRef = ref(realtimeDb, `rooms/${roomState.room}/ownerState`);
+    const snapshot = await get(stateRef);
+
+    return snapshot.exists() ? (snapshot.val() as OwnerState) : null;
   };
 
   /** Send the current state to the room. Only the owner can send state. */
@@ -411,11 +466,21 @@ export const useRooms = defineStore('roomMessages', () => {
 
       const state = snapshot.val() as OwnerState;
 
+      if (!state || !hasValidOwnerState(state)) {
+        const roomId = roomState.room;
+        stopListening({ notify: false });
+        showUserMessage(`Room ${roomId} state is invalid or missing. You have been disconnected.`, 'warning');
+        return;
+      }
+
       if (state) {
         showUserMessage(`Room ${roomState.room} state updated`);
         // Here you can update the local state with the new ownerState
         applyPartialState(state);
       }
+
+      // Unsubscribe upon applying
+      unsubscribe();
     });
     unsubscribeCallbacks.push(unsubscribe);
   };
@@ -514,11 +579,11 @@ export const useRooms = defineStore('roomMessages', () => {
         break;
       case 'gameEnded':
         // Handle game ended event
-        stopListening();
+        stopListening({});
         break;
       case 'disconnect':
         // Handle disconnect event
-        stopListening();
+        stopListening({});
         break;
       default:
         // Handle unknown event
@@ -528,7 +593,7 @@ export const useRooms = defineStore('roomMessages', () => {
 
   // endregion
 
-  const stopListening = (notify = true) => {
+  const stopListening = ({ notify = true }: { notify?: boolean }) => {
     if (!roomState.room) return;
 
     clearListeners();

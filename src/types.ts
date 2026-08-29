@@ -1,5 +1,6 @@
 import { type User } from 'firebase/auth';
 import type { DocumentData } from 'firebase/firestore';
+import type { z } from 'zod';
 
 import type {
   challengeModeSchema,
@@ -21,7 +22,6 @@ import type {
 } from '@/schemas/room.schema.ts';
 import type { saveDataSchema, settingsSchema, stateSchema, touchesSchema } from '@/schemas/saveData.schema.ts';
 import type { timerStateSchema } from '@/schemas/timer.schema.ts';
-import type { z } from 'zod';
 
 export type AlertDialogOptions = {
   title?: string;
@@ -339,3 +339,7 @@ export interface RoomInfo {
   userCount: number;
   createdAt: number | null;
 }
+
+export type RoomOwnerOutcome = 'created' | 'occupied' | 'failed' | 'alreadyOwner';
+
+export type RoomConnectionOutcome = 'created' | 'joined' | 'resumed' | 'invalid' | 'failed';

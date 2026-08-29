@@ -60,10 +60,18 @@ export const useGameFlow = defineStore('gameFlow', () => {
     if (roomState.isActive) {
       setDialog('deleteRoom', async () => {
         await destroyRoom();
-        await joinOrCreateRoom(roomName, auth.currentUser?.uid ?? '');
+        await tryJoinRoom(auth.currentUser?.uid, roomName);
       });
     } else {
-      await joinOrCreateRoom(roomName, auth.currentUser?.uid ?? '');
+      await tryJoinRoom(auth.currentUser?.uid, roomName);
+    }
+  };
+
+  const tryJoinRoom = async (userId: string | undefined, roomName: string) => {
+    const joinOutcome = await joinOrCreateRoom(roomName, userId ?? '');
+    if (joinOutcome === 'invalid') {
+      setGameSelectionState('createRoom');
+      return;
     }
   };
 
