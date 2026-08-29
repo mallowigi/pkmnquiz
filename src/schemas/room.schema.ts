@@ -3,28 +3,34 @@ import { z } from 'zod';
 import { saveDataSchema } from '@/schemas/saveData.schema.ts';
 
 /** Resumable gameplay state shared through the room handshake. */
-export const ownerStateSchema = saveDataSchema.pick({
-  currentBox: true,
-  currentMegaBox: true,
-  currentSpecialBox: true,
-  currentType: true,
-  currentTypes: true,
-  gameMode: true,
-  gens: true,
-  mode: true,
-  pokemonProgress: true,
-  score: true,
-  sessionId: true,
-  skipScore: true,
-  skips: true,
-  timer: true,
-  types: true,
-  version: true,
-  withBoxShuffle: true,
-  withCriesShuffle: true,
-  withShadows: true,
-  withTypeShuffle: true,
-});
+export const ownerStateSchema = saveDataSchema
+  .pick({
+    currentBox: true,
+    currentMegaBox: true,
+    currentSpecialBox: true,
+    currentType: true,
+    currentTypes: true,
+    gameMode: true,
+    gens: true,
+    mode: true,
+    pokemonProgress: true,
+    score: true,
+    sessionId: true,
+    skipScore: true,
+    skips: true,
+    timer: true,
+    types: true,
+    version: true,
+    withBoxShuffle: true,
+    withCriesShuffle: true,
+    withShadows: true,
+    withTypeShuffle: true,
+  })
+  .extend({
+    revision: z.number().int().nonnegative(),
+    updatedAt: z.number().nullish(),
+    updatedBy: z.string().nullish(),
+  });
 
 export const roomMetadataSchema = z.object({
   createdAt: z.number(),

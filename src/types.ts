@@ -316,7 +316,7 @@ export type PokemonDetails = PokemonInfo & {
 
 export type OwnerState = z.infer<typeof ownerStateSchema>;
 
-export type StateSnapshot = z.infer<typeof roomEnvelopeSchema>;
+export type RoomEnvelope = z.infer<typeof roomEnvelopeSchema>;
 
 export type UserSnapshot = {
   updatedAt: object;
