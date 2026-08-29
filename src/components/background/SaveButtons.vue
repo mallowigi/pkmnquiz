@@ -10,12 +10,14 @@ import SaveIcon from '@/components/common/icons/SaveIcon.vue';
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useSavedData } from '@/composables/useSavedData.ts';
 import { useMessages } from '@/stores/useMessages.ts';
+import { useRooms } from '@/stores/useRooms.ts';
 
 const { t } = useI18n();
 
 const { saveState, loadState, loadFromFirebase, hasFirebaseData, saveToFirebase } = useSavedData();
 const { auth } = useFirebase();
 const { showUserMessage } = useMessages();
+const { roomState } = useRooms();
 
 const { state, isReady } = useAsyncState(() => {
   return hasFirebaseData();
@@ -29,7 +31,10 @@ const saveToCloud = async () => {
 </script>
 
 <template>
-  <div class="root">
+  <div
+    v-if="!roomState.isActive"
+    class="root"
+  >
     <input
       type="file"
       id="file-input"

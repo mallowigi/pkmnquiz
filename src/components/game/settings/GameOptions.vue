@@ -43,6 +43,7 @@ const { state } = useState();
 const { skipsState, useSkip } = useSkips();
 const { isSupported, isListening, toggleVoice } = useVoice();
 const { isOwner } = storeToRefs(useRooms());
+const { roomState } = useRooms();
 
 const canSkip = computed(() => {
   if (!state.withBoxShuffle && !state.withTypeShuffle && !state.withCriesShuffle) return false;
@@ -129,7 +130,7 @@ const toggleSpeak = () => {
       >
         <div
           class="selection-row"
-          v-if="!isChallengeMode && isOwner"
+          v-if="!isChallengeMode && isOwner && !roomState.isActive"
         >
           <GameModeSelection />
 
