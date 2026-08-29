@@ -355,11 +355,12 @@ export const useRooms = defineStore('roomMessages', () => {
     cancelPresence();
     currentGeneration += 1;
 
+    const roomId = roomState.room;
     roomState.room = null;
     roomState.ownerId = null;
     roomState.isActive = false;
 
-    showUserMessage(t('leftRoom', { roomId: roomState.room }));
+    showUserMessage(t('leftRoom', { roomId }));
   };
 
   const destroyRoom = async () => {

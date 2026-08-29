@@ -1,5 +1,5 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
-import { reactive, computed } from 'vue';
+import { defineStore, acceptHMRUpdate, storeToRefs } from 'pinia';
+import { reactive, computed, watch } from 'vue';
 
 import { useFirebase } from '@/composables/useFirebase.ts';
 import { useLastInput } from '@/composables/useLastInput.ts';
@@ -46,6 +46,8 @@ export const useGameFlow = defineStore('gameFlow', () => {
     sessionId: null,
   });
 
+  let roomWatcher: (() => void) | null = null;
+
   const initRoom = async () => {
     if (!roomState.room) return;
 
@@ -69,10 +71,55 @@ export const useGameFlow = defineStore('gameFlow', () => {
 
   const tryJoinRoom = async (userId: string | undefined, roomName: string) => {
     const joinOutcome = await joinOrCreateRoom(roomName, userId ?? '');
-    if (joinOutcome === 'invalid') {
+    if (joinOutcome === 'invalid' || joinOutcome === 'failed') {
       setGameSelectionState('createRoom');
       return;
     }
+
+    watchRoom();
+  };
+
+  const watchRoom = () => {
+    roomWatcher?.();
+
+    const { auth } = useFirebase();
+    if (!auth.currentUser?.uid) {
+      showUserMessage(i18n.global.t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    // Watch for owner online disconnection to convert game into local game
+    const roomsStore = useRooms();
+    const { leaveRoom } = roomsStore;
+    const { ownerOnline, isJoiner } = storeToRefs(roomsStore);
+    const { autoSave } = useSavedData();
+
+    // Semaphore to prevent multiple downgrades at the same time
+    let isDowngrading = false;
+
+    roomWatcher = watch(
+      () => ownerOnline.value,
+      async (online) => {
+        // Skip if we are the owner or if the owner is still online
+        if (online || !isJoiner.value || isDowngrading) return;
+
+        isDowngrading = true;
+
+        try {
+          // Regenerate a new sessionID
+          flowState.sessionId = crypto.randomUUID();
+
+          // Leave room and convert game into local game
+          await leaveRoom(auth.currentUser?.uid ?? '');
+
+          // Resume autosave
+          await autoSave();
+        } finally {
+          isDowngrading = false;
+        }
+      },
+      { immediate: true },
+    );
   };
 
   const startGame = async () => {
