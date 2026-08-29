@@ -16,6 +16,7 @@ const ownerState = {
     pokemonShadowed: [],
     shinyPokemon: [],
   },
+  revision: 0,
   score: 0,
   sessionId: 'session-1',
   skipScore: 0,
@@ -67,6 +68,9 @@ describe('room schemas', () => {
   it('rejects invalid room configuration and metadata', () => {
     expect(parseOwnerState({ ...ownerState, gameMode: 'unsupported' }).success).toBe(false);
     expect(parseOwnerState({ ...ownerState, sessionId: '' }).success).toBe(false);
+    expect(parseOwnerState({ ...ownerState, revision: -1 }).success).toBe(false);
+    expect(parseOwnerState({ ...ownerState, revision: 1.5 }).success).toBe(false);
+    expect(parseOwnerState(({ ...ownerState, revision: undefined }) as unknown).success).toBe(false);
     expect(parseRoomEnvelope({ ...roomEnvelope, metadata: { ...roomEnvelope.metadata, revision: -1 } }).success).toBe(
       false,
     );

@@ -54,8 +54,15 @@ export const useRooms = defineStore('roomMessages', () => {
   const isJoining = vueRef(false);
   const ownerOnline = vueRef(false);
 
+  // Listeners callbacks
   let unsubscribeCallbacks: (() => void)[] = [];
+  // Current listener generation
   let currentGeneration = 0;
+  // Current owner state revision
+  let currentRevision = 0;
+  // Owner set queue
+  let savingQueue = Promise.resolve();
+  let hasReportedSaveError = false;
 
   let presenceRef: DatabaseReference | null = null;
 
@@ -190,6 +197,7 @@ export const useRooms = defineStore('roomMessages', () => {
       await set(createdAtRef, serverTimestamp());
       showUserMessage(t('createdRoom', { roomId }));
 
+      currentRevision = 0;
       // The owner publishes the initial state once the room exists.
       await sendState();
 
@@ -230,8 +238,12 @@ export const useRooms = defineStore('roomMessages', () => {
       return 'invalid';
     }
 
+    // Apply the owner's state to the current user's state
     const { applyPartialState } = useSavedData();
     applyPartialState(ownerState);
+
+    // Update the current revision to match the owner's revision
+    currentRevision = ownerState.revision;
 
     roomState.ownerId = userId;
     ownerOnline.value = true;
@@ -407,6 +419,7 @@ export const useRooms = defineStore('roomMessages', () => {
       gens: savedState.gens,
       mode: savedState.mode,
       pokemonProgress: savedState.pokemonProgress,
+      revision: currentRevision,
       score: savedState.score,
       sessionId: savedState.sessionId,
       skipScore: savedState.skipScore,
@@ -434,7 +447,9 @@ export const useRooms = defineStore('roomMessages', () => {
   const sendState = async () => {
     const { auth } = useFirebase();
     const { getSavedState } = useSavedData();
-    if (!roomState.room) return;
+    const roomId = roomState.room;
+    const generation = currentGeneration;
+    if (!roomId) return;
 
     if (!auth.currentUser) {
       showUserMessage(t('userNotAuthenticated'), 'error');
@@ -450,12 +465,34 @@ export const useRooms = defineStore('roomMessages', () => {
 
     const ownerState = toOwnerState(getSavedState());
 
-    const stateRef = ref(realtimeDb, `rooms/${roomState.room}/ownerState`);
-    await set(stateRef, {
-      ...ownerState,
-      updatedAt: serverTimestamp(),
-      updatedBy: auth.currentUser.uid,
+    const stateRef = ref(realtimeDb, `rooms/${roomId}/ownerState`);
+
+    // Use a promise queue to ensure that concurrent calls to sendState are executed in order
+    const writePromise = savingQueue.then(async () => {
+      // Do not let a queued write from an old room affect the current room.
+      if (!isCurrentListener(generation, roomId)) return;
+
+      try {
+        await set(stateRef, {
+          ...ownerState,
+          revision: ++currentRevision,
+          updatedAt: serverTimestamp(),
+          updatedBy: auth.currentUser?.uid,
+        });
+        hasReportedSaveError = false;
+      } catch (error) {
+        if (!hasReportedSaveError) {
+          hasReportedSaveError = true;
+          const message = error instanceof Error ? error.message : String(error);
+          showUserMessage(t('firebaseError', { error: message }), 'error');
+        }
+        throw error;
+      }
     });
+
+    // Recover the queue for future writes without hiding this write's failure.
+    savingQueue = writePromise.catch(() => undefined);
+    await writePromise;
   };
 
   /** Listen to state changes in the room. This is both "resume game" and "sync state" for new users joining the room */
