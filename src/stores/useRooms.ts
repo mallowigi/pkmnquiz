@@ -110,17 +110,20 @@ export const useRooms = defineStore('roomMessages', () => {
 
   const isJoiner = computed(() => roomState.isActive && !isOwner.value);
 
-  /** Get the ownerId of the room. If the room doesn't exist, it will return null. */
-  const getOwnerId = async (): Promise<string | null> => {
-    if (!roomState.room) return null;
-
-    const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
+  /** Get the ownerId of a room. If the room doesn't exist, it will return null. */
+  const getOwnerIdForRoom = async (roomId: string): Promise<string | null> => {
+    const ownerIdRef = ref(realtimeDb, `rooms/${roomId}/ownerId`);
     const snapshot = await get(ownerIdRef);
 
     if (snapshot.exists()) {
       return snapshot.val();
     }
     return null;
+  };
+
+  const getOwnerId = async (): Promise<string | null> => {
+    if (!roomState.room) return null;
+    return getOwnerIdForRoom(roomState.room);
   };
 
   /** Assigns the ownerId. Only the owner can send state. */
@@ -351,21 +354,29 @@ export const useRooms = defineStore('roomMessages', () => {
     if (!roomState.room) return;
 
     const currentPresenceRef = ref(realtimeDb, `rooms/${roomState.room}/active_users/${userId}`);
-    await remove(currentPresenceRef);
 
-    clearListeners();
-    cancelPresence();
-    currentGeneration += 1;
+    try {
+      await remove(currentPresenceRef);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
+      showUserMessage(t('firebaseError', { error: message }), 'error');
+    } finally {
+      clearListeners();
+      cancelPresence();
+      currentGeneration += 1;
 
-    const roomId = roomState.room;
-    roomState.room = null;
-    roomState.ownerId = null;
-    roomState.isActive = false;
+      const roomId = roomState.room;
+      roomState.room = null;
+      roomState.ownerId = null;
+      roomState.isActive = false;
+      ownerOnline.value = false;
+      roomTerminated.value = true;
 
-    showUserMessage(t('leftRoom', { roomId }));
+      showUserMessage(t('leftRoom', { roomId }));
+    }
   };
 
-  const destroyRoom = async () => {
+  const destroyRoom = () => {
     if (!roomState.room) return;
 
     const { auth } = useFirebase();
@@ -374,20 +385,37 @@ export const useRooms = defineStore('roomMessages', () => {
       return;
     }
 
-    const ownerId = await getOwnerId();
-    if (ownerId !== auth.currentUser.uid) {
+    const roomId = roomState.room;
+    const userId = auth.currentUser.uid;
+    if (roomState.ownerId !== userId) {
       showUserMessage(t('notRoomOwner'), 'warning');
       return;
     }
 
-    await sendEvent('disconnect');
-
-    const roomRef = ref(realtimeDb, `rooms/${roomState.room}`);
-    await remove(roomRef);
-
+    // Detach locally before any asynchronous Firebase work. This prevents a
+    // synchronous reset/new-game flow from observing the old room as active.
+    currentRevision = 0;
     stopListening({ notify: false });
 
-    showUserMessage(t('destroyedRoom', { roomId: roomState.room }));
+    // Disconnect asynchronously
+    void (async () => await disconnectFromRoom(roomId, userId))();
+  };
+
+  const disconnectFromRoom = async (roomId: string, userId: string) => {
+    try {
+      const ownerId = await getOwnerIdForRoom(roomId);
+      if (ownerId !== userId) {
+        showUserMessage(t('notRoomOwner'), 'warning');
+        return;
+      }
+
+      await sendEventForRoom('disconnect', roomId, userId);
+      await remove(ref(realtimeDb, `rooms/${roomId}`));
+      showUserMessage(t('destroyedRoom', { roomId }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      showUserMessage(t('firebaseError', { error: message }), 'error');
+    }
   };
 
   const listenToJoins = (generation: number) => {
@@ -607,7 +635,7 @@ export const useRooms = defineStore('roomMessages', () => {
   // endregion
 
   // region Events
-  const sendEvent = async (event: RoomEvent) => {
+  const sendEventForRoom = async (event: RoomEvent, roomId: string, userId: string) => {
     const { auth } = useFirebase();
     if (!auth.currentUser) {
       showUserMessage(t('userNotAuthenticated'), 'error');
@@ -615,22 +643,32 @@ export const useRooms = defineStore('roomMessages', () => {
     }
 
     // We also need to check in the db
-    const ownerId = await getOwnerId();
-    if (ownerId !== null && ownerId !== auth.currentUser.uid) {
+    const ownerId = await getOwnerIdForRoom(roomId);
+    if (ownerId !== null && ownerId !== userId) {
       showUserMessage(t('notRoomOwner'), 'warning');
       return;
     }
 
-    const eventsRef = ref(realtimeDb, `rooms/${roomState.room}/events`);
+    const eventsRef = ref(realtimeDb, `rooms/${roomId}/events`);
     const newEventRef = push(eventsRef);
 
     await set(newEventRef, {
       event,
-      senderId: auth.currentUser.uid,
+      senderId: userId,
       timestamp: serverTimestamp(),
     });
 
     await remove(newEventRef);
+  };
+
+  const sendEvent = async (event: RoomEvent) => {
+    const userId = auth.currentUser?.uid;
+    if (!roomState.room || !userId) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    await sendEventForRoom(event, roomState.room, userId);
   };
 
   const listenToEvents = (generation: number) => {
@@ -721,8 +759,6 @@ export const useRooms = defineStore('roomMessages', () => {
   // endregion
 
   const stopListening = ({ notify = true }: { notify?: boolean }) => {
-    if (!roomState.room) return;
-
     clearListeners();
     cancelPresence();
     currentGeneration += 1;

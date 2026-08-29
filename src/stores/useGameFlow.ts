@@ -170,6 +170,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
       recordWin();
       playFanfare();
       resetInput();
+      destroyRoom();
     };
 
     if (roomState.room) {
@@ -190,6 +191,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
       removeAutoSave();
       showRemaining();
       resetInput();
+      destroyRoom();
     };
 
     if (roomState.room) {

@@ -9,6 +9,7 @@ import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useDialogs } from '@/stores/useDialogs.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
+import { useRooms } from '@/stores/useRooms.ts';
 import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.ts';
 import { useTimer } from '@/stores/useTimer.ts';
@@ -31,6 +32,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { getCurrentTypes } = useCurrentType();
   const { getBoxTranslation, getGameModeTranslation, getTypeTranslation } = useTranslations();
   const { setTitle } = usePageTitle();
+  const { destroyRoom } = useRooms();
 
   const resetQuiz = () => {
     resetPokemonState();
@@ -38,6 +40,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
     resetBonus();
     resetSkips();
     resetFlowState();
+    destroyRoom();
   };
 
   const setFullQuiz = () => {
