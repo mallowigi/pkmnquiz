@@ -199,7 +199,11 @@ export const useRooms = defineStore('roomMessages', () => {
 
       currentRevision = 0;
       // The owner publishes the initial state once the room exists.
-      await sendState();
+      try {
+        await sendState();
+      } catch {
+        return 'failed';
+      }
 
       ownerOnline.value = true;
       roomConnectionOutcome = 'created';
@@ -379,7 +383,9 @@ export const useRooms = defineStore('roomMessages', () => {
 
       if (user && user.username && snapshot.key !== auth.currentUser?.uid) {
         showUserMessage(`User ${user.username} joined room ${roomState.room}`);
-        await saveOwnerState();
+        await saveOwnerState().catch(() => {
+          // sendState reports the persistence failure to the user.
+        });
       }
     });
     unsubscribeCallbacks.push(unsubscribe);
