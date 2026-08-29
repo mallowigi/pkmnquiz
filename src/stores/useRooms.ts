@@ -364,15 +364,10 @@ export const useRooms = defineStore('roomMessages', () => {
       if (!isCurrentListener(generation, roomState.room!)) return;
 
       const user = snapshot.val() as UserSnapshot;
-      const ownerId = await getOwnerId();
 
       if (user && user.username && snapshot.key !== auth.currentUser?.uid) {
         showUserMessage(`User ${user.username} joined room ${roomState.room}`);
-
-        // Broadcast the current state to the new user if we are the owner
-        if (ownerId === auth.currentUser?.uid) {
-          sendState();
-        }
+        await saveOwnerState();
       }
     });
     unsubscribeCallbacks.push(unsubscribe);
@@ -380,6 +375,22 @@ export const useRooms = defineStore('roomMessages', () => {
   // endregion
 
   // region State Management
+  const saveOwnerState = async () => {
+    const { auth } = useFirebase();
+    if (!auth.currentUser) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
+    if (!roomState.room || !roomState.isActive) return;
+
+    const ownerId = await getOwnerId();
+    // Broadcast the current state to the new user if we are the owner
+    if (ownerId === auth.currentUser?.uid) {
+      await sendState();
+    }
+  };
+
   const hasValidOwnerState = (state: OwnerState): boolean => {
     const isValid = parseOwnerState(state);
     return isValid.success;
@@ -593,23 +604,6 @@ export const useRooms = defineStore('roomMessages', () => {
 
   // endregion
 
-  const stopListening = ({ notify = true }: { notify?: boolean }) => {
-    if (!roomState.room) return;
-
-    clearListeners();
-    cancelPresence();
-    currentGeneration += 1;
-
-    roomState.room = null;
-    roomState.ownerId = null;
-    roomState.isActive = false;
-    ownerOnline.value = false;
-
-    if (notify) {
-      showUserMessage(t('disconnected'), 'warning');
-    }
-  };
-
   // region Recent Rooms
   const fetchRecentRooms = async (snapshot: DataSnapshot) => {
     const rooms: RoomInfo[] = [];
@@ -653,6 +647,23 @@ export const useRooms = defineStore('roomMessages', () => {
   };
   // endregion
 
+  const stopListening = ({ notify = true }: { notify?: boolean }) => {
+    if (!roomState.room) return;
+
+    clearListeners();
+    cancelPresence();
+    currentGeneration += 1;
+
+    roomState.room = null;
+    roomState.ownerId = null;
+    roomState.isActive = false;
+    ownerOnline.value = false;
+
+    if (notify) {
+      showUserMessage(t('disconnected'), 'warning');
+    }
+  };
+
   return {
     destroyRoom,
     getRecentRooms,
@@ -664,6 +675,7 @@ export const useRooms = defineStore('roomMessages', () => {
     listenToRecentRooms,
     ownerOnline,
     roomState,
+    saveOwnerState,
     sendEvent,
     sendMessage,
     sendState,

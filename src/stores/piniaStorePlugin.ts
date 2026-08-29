@@ -26,8 +26,8 @@ export function piniaStorePlugin({ store }: PiniaPluginContext) {
   store.$subscribe(
     () => {
       clearTimeout(saveTimeout);
-      saveTimeout = setTimeout(() => {
-        autoSave(store.$id !== 'timer');
+      saveTimeout = setTimeout(async () => {
+        await autoSave(store.$id !== 'timer');
       }, 500);
     },
     { detached: true },

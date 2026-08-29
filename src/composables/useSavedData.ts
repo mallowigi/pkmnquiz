@@ -14,6 +14,7 @@ import { useCurrentType } from '@/stores/useCurrentType.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
+import { useRooms } from '@/stores/useRooms.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.ts';
@@ -157,9 +158,19 @@ export const useSavedData = () => {
     URL.revokeObjectURL(url);
   };
 
-  const autoSave = (saveToFirebase = false) => {
+  const autoSave = async (saveToFirebase = false) => {
     // Prevent autosaving until app is ready
     if (!ready.value) return;
+
+    const { saveOwnerState, roomState } = useRooms();
+
+    // If in multiplayer mode, prevent any local saving
+    if (roomState.isActive) {
+      if (saveToFirebase) {
+        await saveOwnerState();
+      }
+      return;
+    }
 
     const { flowState } = useGameFlow();
     if (flowState.isEnded || flowState.isGivenUp) {
@@ -505,7 +516,7 @@ export const useSavedData = () => {
     loadFromFirebase,
     loadState,
     removeAutoSave,
-    saveState,
+    saveOwnerState: saveState,
     saveToFirebase,
     setReady,
     setSavedName,
