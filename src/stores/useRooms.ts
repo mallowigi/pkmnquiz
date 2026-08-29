@@ -52,6 +52,7 @@ export const useRooms = defineStore('roomMessages', () => {
   });
 
   const isJoining = vueRef(false);
+  // Communicate the owner online status to the UI.
   const ownerOnline = vueRef(false);
 
   // Listeners callbacks
@@ -65,6 +66,7 @@ export const useRooms = defineStore('roomMessages', () => {
   let hasReportedSaveError = false;
 
   let presenceRef: DatabaseReference | null = null;
+  let presenceCallback: (() => void) | null = null;
 
   /** Clear all listeners and unsubscribe callbacks. */
   const clearListeners = () => {
@@ -73,6 +75,9 @@ export const useRooms = defineStore('roomMessages', () => {
   };
 
   const cancelPresence = () => {
+    presenceCallback?.();
+    presenceCallback = null;
+
     if (!presenceRef) return;
 
     onDisconnect(presenceRef).cancel();
@@ -160,9 +165,11 @@ export const useRooms = defineStore('roomMessages', () => {
   const listenToOwner = async (generation: number) => {
     if (!roomState.room) return;
 
+    // Listen for new owner id and for owner presence changes
     const ownerIdRef = ref(realtimeDb, `rooms/${roomState.room}/ownerId`);
 
-    const unsubscribe = onValue(ownerIdRef, (snapshot) => {
+    // Listen to ownerId changes
+    const unsubscribeOwnerCallback = onValue(ownerIdRef, (snapshot) => {
       if (!isCurrentListener(generation, roomState.room!)) return;
 
       const ownerId = snapshot.val();
@@ -170,13 +177,29 @@ export const useRooms = defineStore('roomMessages', () => {
       if (ownerId) {
         roomState.ownerId = ownerId;
         ownerOnline.value = true;
+        listenToOwnerPresence(generation, ownerId);
       } else {
         roomState.ownerId = null;
         ownerOnline.value = false;
+        // Room is gone
+        cancelPresence();
       }
     });
 
-    unsubscribeCallbacks.push(unsubscribe);
+    unsubscribeCallbacks.push(unsubscribeOwnerCallback);
+  };
+
+  const listenToOwnerPresence = async (generation: number, ownerId: string) => {
+    const ownerPresenceRef = ref(realtimeDb, `rooms/${roomState.room}/active_users/${ownerId}`);
+
+    // Listen to owner presence changes
+    void presenceCallback?.(); // Cancel previous presence listener if any
+    presenceCallback = onValue(ownerPresenceRef, (snapshot) => {
+      if (!isCurrentListener(generation, roomState.room!)) return;
+
+      const ownerPresence = snapshot.val();
+      ownerOnline.value = !!ownerPresence;
+    });
   };
 
   // endregion
@@ -335,8 +358,6 @@ export const useRooms = defineStore('roomMessages', () => {
     roomState.room = null;
     roomState.ownerId = null;
     roomState.isActive = false;
-
-    ownerOnline.value = false;
 
     showUserMessage(t('leftRoom', { roomId: roomState.room }));
   };
