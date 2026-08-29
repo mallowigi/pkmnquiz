@@ -8,11 +8,11 @@ import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useRooms } from '@/stores/useRooms.ts';
 import type { RoomInfo } from '@/types.ts';
 
-const { setGameSelectionState } = useGameFlow();
 const { t } = useI18n();
-const { listenToRecentRooms, getRecentRooms, joinOrCreateRoom } = useRooms();
+const { listenToRecentRooms, getRecentRooms } = useRooms();
 const { auth } = useFirebase();
 const { startGame } = useGameFlow();
+const { setRoom } = useRooms();
 
 const rooms = ref<RoomInfo[]>([]);
 const loading = ref(true);
@@ -38,14 +38,14 @@ onUnmounted(() => {
   }
 });
 
-const handleJoin = (roomId: string) => {
+const handleJoin = async (roomId: string) => {
   if (!auth.currentUser) {
     console.error('User is not authenticated');
     return;
   }
 
-  startGame();
-  joinOrCreateRoom(roomId, auth.currentUser.uid);
+  setRoom(roomId);
+  await startGame();
 };
 </script>
 
