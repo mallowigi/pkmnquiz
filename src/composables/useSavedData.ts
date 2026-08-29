@@ -27,6 +27,9 @@ const ready = ref(false);
 
 const debouncedSaveToFirebase = useDebounceFn(
   (savedState: SaveData) => {
+    const { roomState } = useRooms();
+    if (roomState.isActive) return;
+
     const { settingsState } = useSettings();
     const { isInGame } = storeToRefs(useGameFlow());
     if (!settingsState.autoSync || !isInGame.value) {
@@ -43,6 +46,7 @@ export const useSavedData = () => {
   const { showUserMessage } = useMessages();
   const { deleteUserState } = useFirebase();
   const { setTitle } = usePageTitle();
+  const { roomState } = useRooms();
 
   const setReady = () => {
     ready.value = true;
@@ -140,6 +144,8 @@ export const useSavedData = () => {
   };
 
   const saveState = () => {
+    if (roomState.isActive) return;
+
     const savedState = getSavedState();
     // Simulate a download by creating a blob and a temporary link
     const blob = new Blob([JSON.stringify(savedState)], { type: 'application/json' });
@@ -412,6 +418,8 @@ export const useSavedData = () => {
   };
 
   const loadState = (e: Event) => {
+    if (roomState.isActive) return;
+
     const target = e.target as HTMLInputElement;
     const files = Array.from(target.files || []);
     if (files.length === 0) {
@@ -446,12 +454,16 @@ export const useSavedData = () => {
   };
 
   const hasFirebaseData = async () => {
+    if (roomState.isActive) return false;
+
     const { loadUserState } = useFirebase();
     const userState = await loadUserState();
     return !!userState;
   };
 
   const loadFromFirebase = async () => {
+    if (roomState.isActive) return;
+
     const { loadUserState } = useFirebase();
     const userState = await loadUserState();
     if (!userState) {
@@ -476,12 +488,16 @@ export const useSavedData = () => {
   };
 
   const saveToFirebase = () => {
+    if (roomState.isActive) return;
+
     const savedState = getSavedState();
     const { saveUserState } = useFirebase();
     saveUserState(savedState);
   };
 
   const loadAutoSave = async () => {
+    if (roomState.isActive) return;
+
     const savedStateStr = sessionStorage.getItem(LOCAL_STORAGE_KEY);
     if (!savedStateStr) {
       return;
@@ -516,7 +532,7 @@ export const useSavedData = () => {
     loadFromFirebase,
     loadState,
     removeAutoSave,
-    saveOwnerState: saveState,
+    saveState,
     saveToFirebase,
     setReady,
     setSavedName,

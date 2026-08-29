@@ -32,7 +32,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   const { getCurrentTypes } = useCurrentType();
   const { getBoxTranslation, getGameModeTranslation, getTypeTranslation } = useTranslations();
   const { setTitle } = usePageTitle();
-  const { destroyRoom } = useRooms();
+  const { destroyRoom, roomState } = useRooms();
 
   const resetQuiz = () => {
     resetPokemonState();
@@ -44,6 +44,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   };
 
   const setFullQuiz = () => {
+    if (roomState.isActive) return;
     if (state.gameMode === 'full') return;
 
     const onQuizStart = () => {
@@ -69,6 +70,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   };
 
   const setGenQuiz = (gens: Gen[]) => {
+    if (roomState.isActive) return;
     const onQuizStart = () => {
       setGameMode('gen');
       clearCurrentTypes();
@@ -91,6 +93,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   };
 
   const setTypeQuiz = () => {
+    if (roomState.isActive) return;
     const onQuizStart = () => {
       clearCurrentGens();
       clearCurrentTypes();
@@ -110,6 +113,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   };
 
   const setTypesQuiz = (types: Type[]) => {
+    if (roomState.isActive) return;
     const onQuizStart = () => {
       clearCurrentGens();
       clearCurrentTypes();
@@ -133,6 +137,7 @@ export const useQuiz = ({ withDialog = false } = {}) => {
   };
 
   const setTypeOrSpecial = (type: string) => {
+    if (roomState.isActive) return;
     clearCurrentGens();
     clearCurrentTypes();
 
