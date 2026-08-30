@@ -114,7 +114,6 @@ export const useFirebase = defineStore('firebase', () => {
         numFound: numFound.value,
         numShadows: numShadows.value,
         time: timerState.elapsed,
-        types: savedState.currentTypes,
         uid: user ? user.uid : null,
       };
 

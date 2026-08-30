@@ -20,7 +20,7 @@ import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.ts';
 import { useTimer } from '@/stores/useTimer.ts';
 import { useTouches } from '@/stores/useTouches.ts';
-import type { SaveData, PokemonProgress, GameMode } from '@/types.ts';
+import type { SaveData, SaveDataBase, OwnerState, PokemonProgress, Gen, Type } from '@/types.ts';
 import { normalizeName } from '@/utils/utils.ts';
 
 const ready = ref(false);
@@ -72,11 +72,7 @@ export const useSavedData = () => {
 
     try {
       const result = parseSaveData(JSON.parse(savedStateStr));
-      if (!result.success || result.data.gameSelectionState !== null) {
-        return false;
-      }
-
-      return true;
+      return result.success;
     } catch (error) {
       console.error('Failed to parse autosave data.', error);
       return false;
@@ -112,19 +108,12 @@ export const useSavedData = () => {
       }
     });
 
-    return {
+    const baseState = {
       ...state,
       ...settingsState,
       ...touchesState,
       challengeMode: flowState.challengeMode,
-      currentBox: currentBoxState.currentBox ?? null,
-      currentMegaBox: currentBoxState.currentMegaBox ?? null,
-      currentSpecialBox: currentBoxState.currentSpecialBox ?? null,
-      currentType: currentTypeState.shuffledType,
-      currentTypes: Array.from(currentTypeState.currentTypes),
-      gameMode: state.gameMode as GameMode,
       gameSelectionState: null,
-      gens: Array.from(currentGenState.gens),
       languages: Array.from(settingsState.languages),
       pokemonProgress: {
         pokemonFound,
@@ -139,9 +128,76 @@ export const useSavedData = () => {
         ...timerState,
         savedAt: Date.now(),
       },
-      types: Array.from(currentTypeState.currentTypes),
-      version: VERSION,
+      version: VERSION as typeof VERSION,
     };
+
+    switch (state.gameMode) {
+      case 'gen':
+        return {
+          ...baseState,
+          currentBox: currentBoxState.currentBox ?? null,
+          currentMegaBox: null,
+          currentSpecialBox: null,
+          currentType: null,
+          currentTypes: [],
+          gameMode: 'gen',
+          gens: Array.from(currentGenState.gens) as [Gen, ...Gen[]],
+          types: [],
+        };
+
+      case 'types':
+        return {
+          ...baseState,
+          currentBox: null,
+          currentMegaBox: null,
+          currentSpecialBox: null,
+          currentType: currentTypeState.shuffledType,
+          currentTypes: Array.from(currentTypeState.currentTypes),
+          gameMode: 'types',
+          gens: [],
+          types: Array.from(currentTypeState.currentTypes) as [Type, ...Type[]],
+        };
+
+      case 'special':
+        return {
+          ...baseState,
+          currentBox: null,
+          currentMegaBox: null,
+          currentSpecialBox: currentBoxState.currentSpecialBox ?? null,
+          currentType: null,
+          currentTypes: [],
+          gameMode: 'special',
+          gens: [],
+          types: [],
+        };
+
+      case 'mega':
+        return {
+          ...baseState,
+          currentBox: null,
+          currentMegaBox: currentBoxState.currentMegaBox ?? null,
+          currentSpecialBox: null,
+          currentType: null,
+          currentTypes: [],
+          gameMode: 'mega',
+          gens: [],
+          types: [],
+        };
+
+      case 'full':
+      default:
+        return {
+          ...baseState,
+          currentBox: currentBoxState.currentBox ?? null,
+          currentMegaBox: null,
+          currentSpecialBox: null,
+          currentType: null,
+          currentTypes: [],
+          gameMode: 'full',
+          gens: [],
+          types: [],
+        };
+    }
   };
 
   const saveState = () => {
@@ -207,7 +263,7 @@ export const useSavedData = () => {
     sessionStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
-  const applyPartialState = (partialState: Partial<SaveData>) => {
+  const applyPartialState = (partialState: Partial<SaveData> | Partial<OwnerState> | Partial<SaveDataBase>) => {
     const parsedState = parseSaveData({ ...getSavedState(), ...partialState });
     if (!parsedState.success) {
       console.error('Failed to apply partial state: Invalid data.', parsedState.error.issues);
@@ -468,16 +524,17 @@ export const useSavedData = () => {
 
     const { loadUserState } = useFirebase();
     const userState = await loadUserState();
-    return !!userState;
+    if (!userState) return false;
+    return parseSaveData(userState).success;
   };
 
   const loadFromFirebase = async () => {
-    if (roomState.isActive) return;
+    if (roomState.isActive) return false;
 
     const { loadUserState } = useFirebase();
     const userState = await loadUserState();
     if (!userState) {
-      return;
+      return false;
     }
 
     try {
@@ -485,15 +542,18 @@ export const useSavedData = () => {
       if (!parsedState.success) {
         console.error('Failed to load cloud save: Invalid data.', parsedState.error.issues);
         showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
-        return;
+        return false;
       }
 
       if (applyState(parsedState.data)) {
         setReady();
+        return true;
       }
+      return false;
     } catch (error) {
       console.error('Failed to load cloud save: Invalid data.', error);
       showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
+      return false;
     }
   };
 
@@ -506,11 +566,11 @@ export const useSavedData = () => {
   };
 
   const loadAutoSave = async () => {
-    if (roomState.isActive) return;
+    if (roomState.isActive) return false;
 
     const savedStateStr = sessionStorage.getItem(LOCAL_STORAGE_KEY);
     if (!savedStateStr) {
-      return;
+      return false;
     }
 
     try {
@@ -518,15 +578,18 @@ export const useSavedData = () => {
       if (!parsedState.success) {
         console.error('Failed to load autosave: Invalid data.', parsedState.error.issues);
         showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
-        return;
+        return false;
       }
 
       if (applyState(parsedState.data)) {
         setReady();
+        return true;
       }
+      return false;
     } catch (error) {
       console.error('Failed to load autosave: Invalid data.', error);
       showUserMessage(i18n.global.t('failedToLoadQuizInvalid'), 'error');
+      return false;
     }
   };
 

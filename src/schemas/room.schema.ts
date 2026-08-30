@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-import { saveDataSchema } from '@/schemas/saveData.schema.ts';
+import { saveDataBaseSchema } from '@/schemas/saveData.schema.ts';
 
 /** Resumable gameplay state shared through the room handshake. */
-export const ownerStateSchema = saveDataSchema
+export const ownerStateSchema = saveDataBaseSchema
   .pick({
     currentBox: true,
     currentMegaBox: true,

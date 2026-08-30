@@ -13,14 +13,20 @@ import type {
   specialTypeSchema,
   typeSchema,
 } from '@/schemas/enums.schema.ts';
-import type { pokemonProgressSchema } from '@/schemas/pokemonProgress.schema.ts';
+import { pokemonProgressSchema } from '@/schemas/pokemonProgress.schema.ts';
 import type {
   eventSnapshotSchema,
   ownerStateSchema,
   roomEnvelopeSchema,
   roomEventSchema,
 } from '@/schemas/room.schema.ts';
-import type { saveDataSchema, settingsSchema, stateSchema, touchesSchema } from '@/schemas/saveData.schema.ts';
+import {
+  saveDataBaseSchema,
+  saveDataSchema,
+  settingsSchema,
+  stateSchema,
+  touchesSchema,
+} from '@/schemas/saveData.schema.ts';
 import type { timerStateSchema } from '@/schemas/timer.schema.ts';
 
 export type AlertDialogOptions = {
@@ -252,6 +258,8 @@ export type PokemonProgress = z.infer<typeof pokemonProgressSchema>;
 export type Touches = z.infer<typeof touchesSchema>;
 
 export type SaveData = z.infer<typeof saveDataSchema>;
+
+export type SaveDataBase = z.infer<typeof saveDataBaseSchema>;
 
 export type MessageType = 'success' | 'error' | 'info' | 'warning';
 

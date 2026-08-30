@@ -39,7 +39,7 @@ const styles = computed(() => {
 <template>
   <div
     class="avatar"
-    v-tooltip:bottom="username"
+    v-tooltip:bottom="username ?? null"
     :style="styles"
     :data-name="user?.photoURL ? '' : initials"
     @click="toggleMenu"

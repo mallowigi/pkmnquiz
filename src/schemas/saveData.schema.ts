@@ -62,7 +62,7 @@ export const touchesSchema = z.object({
 });
 
 /** Runtime schema for the flat state currently written to browser and cloud saves. */
-export const saveDataSchema = z.object({
+export const saveDataBaseSchema = z.object({
   ...stateSchema.shape,
   ...touchesSchema.shape,
   autoPause: z.boolean(),
@@ -98,5 +98,45 @@ export const saveDataSchema = z.object({
   withSound: z.boolean(),
   withSpelling: z.boolean(),
 });
+
+export const saveDataSchema = z.discriminatedUnion('gameMode', [
+  saveDataBaseSchema.extend({
+    currentMegaBox: z.null(),
+    currentSpecialBox: z.null(),
+    gameMode: z.literal('gen'),
+    gens: z.array(generationSchema).nonempty(),
+    types: z.array(typeSchema).max(0).nullish(),
+  }),
+  saveDataBaseSchema.extend({
+    currentMegaBox: z.null(),
+    currentSpecialBox: z.null(),
+    gameMode: z.literal('types'),
+    gens: z.array(generationSchema).max(0).nullish(),
+    types: z.array(typeSchema).nonempty(),
+  }),
+  saveDataBaseSchema.extend({
+    currentMegaBox: z.null(),
+    currentSpecialBox: z.null(),
+    gameMode: z.literal('full'),
+    gens: z.array(generationSchema).max(0).nullish(),
+    types: z.array(typeSchema).max(0).nullish(),
+  }),
+  saveDataBaseSchema.extend({
+    currentBox: z.null(),
+    currentMegaBox: z.null(),
+    currentSpecialBox: specialTypeSchema.nullish(),
+    gameMode: z.literal('special'),
+    gens: z.array(generationSchema).max(0).nullish(),
+    types: z.array(typeSchema).max(0).nullish(),
+  }),
+  saveDataBaseSchema.extend({
+    currentBox: z.null(),
+    currentMegaBox: regionBoxSchema.nullish(),
+    currentSpecialBox: z.null(),
+    gameMode: z.literal('mega'),
+    gens: z.array(generationSchema).max(0).nullish(),
+    types: z.array(typeSchema).max(0).nullish(),
+  }),
+]);
 
 export const parseSaveData = (input: unknown) => saveDataSchema.safeParse(input);
