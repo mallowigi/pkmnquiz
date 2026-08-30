@@ -90,6 +90,7 @@ describe('parseSaveData', () => {
 
   it('rejects invalid enum values', () => {
     expect(parseSaveData({ ...validSaveData, gameMode: 'unknown' }).success).toBe(false);
+    expect(parseSaveData({ ...validSaveData, gameMode: null }).success).toBe(false);
     expect(parseSaveData({ ...validSaveData, mode: 'unknown' }).success).toBe(false);
     expect(parseSaveData({ ...validSaveData, gens: ['generation-1'] }).success).toBe(false);
     expect(parseSaveData({ ...validSaveData, types: ['unknown'] }).success).toBe(false);

@@ -20,7 +20,7 @@ import { useSkips } from '@/stores/useSkips.ts';
 import { useState } from '@/stores/useState.ts';
 import { useTimer } from '@/stores/useTimer.ts';
 import { useTouches } from '@/stores/useTouches.ts';
-import type { SaveData, PokemonProgress } from '@/types.ts';
+import type { SaveData, PokemonProgress, GameMode } from '@/types.ts';
 import { normalizeName } from '@/utils/utils.ts';
 
 const ready = ref(false);
@@ -122,6 +122,7 @@ export const useSavedData = () => {
       currentSpecialBox: currentBoxState.currentSpecialBox ?? null,
       currentType: currentTypeState.shuffledType,
       currentTypes: Array.from(currentTypeState.currentTypes),
+      gameMode: state.gameMode as GameMode,
       gameSelectionState: null,
       gens: Array.from(currentGenState.gens),
       languages: Array.from(settingsState.languages),
@@ -147,6 +148,7 @@ export const useSavedData = () => {
     if (roomState.isActive) return;
 
     const savedState = getSavedState();
+
     // Simulate a download by creating a blob and a temporary link
     const blob = new Blob([JSON.stringify(savedState)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -187,7 +189,13 @@ export const useSavedData = () => {
       return;
     }
 
+    const { state } = useState();
+    if (!state.gameMode) {
+      return;
+    }
+
     const savedState = getSavedState();
+
     sessionStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(savedState));
 
     if (saveToFirebase) {
