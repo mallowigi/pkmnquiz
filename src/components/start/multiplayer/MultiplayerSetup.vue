@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import RoundedButton from '@/components/common/RoundedButton.vue';
 import TextBox from '@/components/common/TextBox.vue';
 import RecentRoomsTable from '@/components/start/multiplayer/RecentRoomsTable.vue';
+import { useNameGenerator } from '@/composables/useNameGenerator.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useRooms } from '@/stores/useRooms.ts';
 
 const { setGameSelectionState } = useGameFlow();
 const { t } = useI18n();
 const { setRoom } = useRooms();
+const { generateName } = useNameGenerator();
 
 const roomName = ref('');
 
@@ -27,6 +29,10 @@ const submitJoinRoom = () => {
   setRoom(roomName.value);
   setGameSelectionState('gen');
 };
+
+onMounted(() => {
+  roomName.value = generateName();
+});
 </script>
 
 <template>
@@ -72,6 +78,8 @@ const submitJoinRoom = () => {
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  max-width: 800px;
+  line-height: 1.6;
 }
 
 .room-create-content {

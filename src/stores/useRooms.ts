@@ -100,6 +100,7 @@ export const useRooms = defineStore('roomMessages', () => {
 
   // region Owner Management
   const isOwner = computed(() => {
+    const { auth } = useFirebase();
     // Don't check if we're not in multi mode or unauthenticated.
     if (!auth.currentUser) return true;
 

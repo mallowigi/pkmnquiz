@@ -168,11 +168,13 @@ export const useSavedData = () => {
     // Prevent autosaving until app is ready
     if (!ready.value) return;
 
-    const { saveOwnerState, roomState } = useRooms();
+    const roomsStore = useRooms();
+    const { isOwner } = storeToRefs(roomsStore);
+    const { saveOwnerState, roomState } = roomsStore;
 
     // If in multiplayer mode, prevent any local saving
     if (roomState.isActive) {
-      if (saveToFirebase) {
+      if (saveToFirebase && isOwner.value) {
         await saveOwnerState();
       }
       return;

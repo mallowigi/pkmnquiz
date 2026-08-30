@@ -74,6 +74,7 @@ export const saveDataSchema = z.object({
   currentSpecialBox: specialTypeSchema.nullish(),
   currentType: typeSchema.nullish(),
   currentTypes: z.array(typeSchema).nullish(),
+  gameMode: gameModeSchema,
   gameSelectionState: z.null(),
   gens: z.array(generationSchema).nullish(),
   languages: z.array(languageSchema),

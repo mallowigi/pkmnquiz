@@ -28,4 +28,9 @@ defineExpose({ inputRef });
     background: white;
   }
 }
+
+.large-text {
+  padding: 6px;
+  width: 260px;
+}
 </style>

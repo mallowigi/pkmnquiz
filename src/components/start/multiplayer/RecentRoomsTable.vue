@@ -140,6 +140,9 @@ const handleJoin = async (roomId: string) => {
   font-weight: 500;
   margin: 0;
   color: var(--text);
+  .overlay-wrapper & {
+    color: var(--text-inverted);
+  }
 }
 
 .table-container {
@@ -159,6 +162,10 @@ const handleJoin = async (roomId: string) => {
   border-collapse: collapse;
   color: var(--text);
   font-size: 14px;
+
+  .overlay-wrapper & {
+    color: var(--text-inverted);
+  }
 
   & th,
   & td {
@@ -240,9 +247,13 @@ const handleJoin = async (roomId: string) => {
   filter: brightness(0.7);
 
   p {
-    color: var(--type-fg-color, var(--text));
+    color: var(--text);
     margin: 0;
     font-size: 14px;
+
+    .overlay-wrapper & {
+      color: var(--text-inverted);
+    }
   }
 }
 
