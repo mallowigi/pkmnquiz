@@ -28,6 +28,12 @@ export const useMessages = defineStore('messages', () => {
     }, 5000);
   };
 
+  const showDebugMessage = (message: string, type?: MessageType) => {
+    if (import.meta.env.DEV) {
+      showUserMessage(message, type);
+    }
+  };
+
   const clearMessages = () => {
     state.messages = [];
   };
@@ -40,6 +46,7 @@ export const useMessages = defineStore('messages', () => {
 
   return {
     clearMessages,
+    showDebugMessage,
     showErrorMessage,
     showUserMessage,
     state,

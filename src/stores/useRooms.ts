@@ -15,6 +15,7 @@ import {
   update,
   type DatabaseReference,
   runTransaction,
+  onChildRemoved,
 } from 'firebase/database';
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { reactive, computed, ref as vueRef } from 'vue';
@@ -43,7 +44,7 @@ interface RoomMessagesState {
 }
 
 export const useRooms = defineStore('roomMessages', () => {
-  const { showUserMessage } = useMessages();
+  const { showUserMessage, showDebugMessage } = useMessages();
   const { t } = useI18n();
   const { auth } = useFirebase();
 
@@ -53,9 +54,13 @@ export const useRooms = defineStore('roomMessages', () => {
     room: null,
   });
 
+  const activeUsers = new Set<string>();
+
+  // Communicate to the UI that the user is in the process of joining a room.
   const isJoining = vueRef(false);
   // Communicate the owner online status to the UI.
   const ownerOnline = vueRef(false);
+  // Communicate to the UI that the room has been terminated (e.g. by the owner)
   const roomTerminated = vueRef(false);
 
   // Listeners callbacks
@@ -98,6 +103,20 @@ export const useRooms = defineStore('roomMessages', () => {
     if (generation !== currentGeneration) return false;
 
     return room === roomState.room;
+  };
+
+  const fetchActiveUsers = async (roomId: string) => {
+    if (!roomState.isActive) return;
+
+    activeUsers.clear();
+
+    const activeUsersRef = ref(realtimeDb, `rooms/${roomId}/active_users`);
+    const snapshot = await get(activeUsersRef);
+
+    if (snapshot.exists()) {
+      const currentUsers = snapshot.val() as Record<string, UserSnapshot>;
+      Object.keys(currentUsers).forEach((userId) => activeUsers.add(userId));
+    }
   };
 
   // region Owner Management
@@ -330,6 +349,9 @@ export const useRooms = defineStore('roomMessages', () => {
     });
     await update(ref(realtimeDb, `rooms/${roomId}`), { lastActivityAt: serverTimestamp() });
 
+    // Get the state of active users before listening
+    await fetchActiveUsers(roomId);
+
     // Start listening
     listenToOwner(currentGeneration);
     listenToMessages(currentGeneration);
@@ -379,7 +401,7 @@ export const useRooms = defineStore('roomMessages', () => {
       ownerOnline.value = false;
       roomTerminated.value = true;
 
-      showUserMessage(t('leftRoom', { roomId }));
+      showDebugMessage(t('leftRoom', { roomId }));
     }
   };
 
@@ -438,16 +460,36 @@ export const useRooms = defineStore('roomMessages', () => {
     const unsubscribe = onChildAdded(activeUsersRef, async (snapshot) => {
       if (!isCurrentListener(generation, roomState.room!)) return;
 
+      // ignore existing users
+      if (snapshot.key && activeUsers.has(snapshot.key)) {
+        return;
+      }
+
       const user = snapshot.val() as UserSnapshot;
 
       if (user && user.username && snapshot.key !== auth.currentUser?.uid) {
         showUserMessage(`User ${user.username} joined room ${roomState.room}`);
+        activeUsers.add(snapshot.key!);
+
         await saveOwnerState().catch(() => {
           // sendState reports the persistence failure to the user.
         });
       }
     });
+
+    const unsubscribeLeaves = onChildRemoved(activeUsersRef, (snapshot) => {
+      if (!isCurrentListener(generation, roomState.room!)) return;
+
+      const user = snapshot.val() as UserSnapshot;
+
+      if (user && user.username && snapshot.key !== auth.currentUser?.uid) {
+        showUserMessage(`User ${user.username} left room ${roomState.room}`);
+        activeUsers.delete(snapshot.key!);
+      }
+    });
+
     unsubscribeCallbacks.push(unsubscribe);
+    unsubscribeCallbacks.push(unsubscribeLeaves);
   };
   // endregion
 
@@ -585,12 +627,12 @@ export const useRooms = defineStore('roomMessages', () => {
       if (!state || !hasValidOwnerState(state)) {
         const roomId = roomState.room;
         stopListening({ notify: false });
-        showUserMessage(`Room ${roomId} state is invalid or missing. You have been disconnected.`, 'warning');
+        showDebugMessage(`Room ${roomId} state is invalid or missing. You have been disconnected.`, 'warning');
         return;
       }
 
       if (state) {
-        showUserMessage(`Room ${roomState.room} state updated`);
+        showDebugMessage(`Room ${roomState.room} state updated`);
         // Here you can update the local state with the new ownerState
         applyPartialState(state);
       }
@@ -643,7 +685,7 @@ export const useRooms = defineStore('roomMessages', () => {
       const messages = snapshot.val();
 
       if (messages && messages.message) {
-        // showUserMessage(`New message in room ${roomState.room}: ${messages.message}`);
+        // showDebugMessage(`New message in room ${roomState.room}: ${messages.message}`);
 
         // Add pokemon to all clients
         if (messages.senderId !== auth.currentUser?.uid) {
@@ -705,7 +747,7 @@ export const useRooms = defineStore('roomMessages', () => {
 
       const event = snapshot.val();
       if (event) {
-        showUserMessage(`New event in room ${roomState.room}: ${event.event}`);
+        showDebugMessage(`New event in room ${roomState.room}: ${event.event}`);
         // Here you can handle the event as needed
         handleEvent(event.event ?? event);
       }
