@@ -2,11 +2,14 @@ import { createPinia, setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { get, onValue } from 'firebase/database';
 
-const { mockAuth, mockShowUserMessage } = vi.hoisted(() => ({
+const { mockAuth, mockShowUserMessage, mockFindPokemon, mockAddFound, mockApplyPartialState } = vi.hoisted(() => ({
   mockAuth: {
     currentUser: { uid: 'user-123' } as { uid: string } | null,
   },
   mockShowUserMessage: vi.fn(),
+  mockFindPokemon: vi.fn(),
+  mockAddFound: vi.fn(),
+  mockApplyPartialState: vi.fn(),
 }));
 
 vi.mock('@/firebase.ts', () => ({
@@ -29,6 +32,13 @@ vi.mock('@/stores/useMessages.ts', () => ({
   }),
 }));
 
+vi.mock('@/stores/usePokemons.ts', () => ({
+  usePokemons: () => ({
+    findPokemon: mockFindPokemon,
+    addFound: mockAddFound,
+  }),
+}));
+
 vi.mock('@/main.ts', () => ({
   i18n: {
     global: {
@@ -40,6 +50,7 @@ vi.mock('@/main.ts', () => ({
 vi.mock('@/composables/useSavedData.ts', () => ({
   useSavedData: () => ({
     getSavedState: vi.fn(),
+    applyPartialState: mockApplyPartialState,
   }),
 }));
 
@@ -53,6 +64,7 @@ vi.mock('firebase/database', () => ({
   get: vi.fn(),
   limitToLast: vi.fn(),
   onChildAdded: vi.fn(() => vi.fn()),
+  onChildRemoved: vi.fn(() => vi.fn()),
   onDisconnect: vi.fn(() => ({
     cancel: vi.fn(),
     remove: vi.fn(),
@@ -304,6 +316,174 @@ describe('useRooms', () => {
       expect(store.isJoiner).toBe(true);
       expect(store.isOwner).toBe(false);
       expect(store.roomTerminated).toBe(false);
+    });
+  });
+
+  describe('multiplayer message & join listeners', () => {
+    const validOwnerState = {
+      currentBox: null,
+      currentMegaBox: null,
+      currentSpecialBox: null,
+      currentType: null,
+      currentTypes: [],
+      gameMode: 'gen' as const,
+      gens: ['gen1' as const],
+      mode: 'normal' as const,
+      revision: 0,
+      score: 0,
+      sessionId: 'session-1',
+      skipScore: 0,
+      skips: 0,
+      timer: {
+        elapsed: 0,
+        isLimited: false,
+        minutes: 35,
+        savedAt: null,
+        startTime: null,
+      },
+      types: [],
+      version: 1 as const,
+      withBoxShuffle: false,
+      withCriesShuffle: false,
+      withShadows: false,
+      withTypeShuffle: false,
+    };
+
+    it('listenToJoins ignores existing users and only notifies for new joiners', async () => {
+      let childAddedCb: any;
+      const { onChildAdded } = await import('firebase/database');
+      vi.mocked(onChildAdded).mockImplementation(((refObj: any, cb: any) => {
+        if (refObj.path === 'rooms/my-room/active_users') {
+          childAddedCb = cb;
+        }
+        return vi.fn();
+      }) as any);
+
+      vi.mocked(get).mockImplementation(async (reference: any) => {
+        if (reference.path === 'rooms/my-room/ownerId') {
+          return { exists: () => true, val: () => 'user-123' } as any;
+        }
+        if (reference.path === 'rooms/my-room/ownerState') {
+          return { exists: () => true, val: () => validOwnerState } as any;
+        }
+        if (reference.path === 'rooms/my-room/active_users') {
+          return {
+            exists: () => true,
+            val: () => ({
+              'user-123': { username: 'UserA' },
+              'user-C': { username: 'UserC' },
+            }),
+          } as any;
+        }
+        return { exists: () => false, val: () => null } as any;
+      });
+
+      mockAuth.currentUser = { uid: 'user-B' };
+      const store = useRooms();
+      await store.joinOrCreateRoom('my-room', 'user-B');
+
+      mockShowUserMessage.mockClear();
+
+      // Trigger child_added for existing user C
+      await childAddedCb?.({
+        key: 'user-C',
+        val: () => ({ username: 'UserC' }),
+      });
+      expect(mockShowUserMessage).not.toHaveBeenCalled();
+
+      // Trigger child_added for self
+      await childAddedCb?.({
+        key: 'user-B',
+        val: () => ({ username: 'UserB' }),
+      });
+      expect(mockShowUserMessage).not.toHaveBeenCalled();
+
+      // Trigger child_added for brand new user D
+      await childAddedCb?.({
+        key: 'user-D',
+        val: () => ({ username: 'UserD' }),
+      });
+      expect(mockShowUserMessage).toHaveBeenCalledWith('User UserD joined room my-room');
+    });
+
+    it('listenToMessages shows single notification and adds pokemon when received from another user', async () => {
+      let messageAddedCb: any;
+      const { onChildAdded } = await import('firebase/database');
+      vi.mocked(onChildAdded).mockImplementation(((refObj: any, cb: any) => {
+        if (refObj.path === 'rooms/my-room/messages') {
+          messageAddedCb = cb;
+        }
+        return vi.fn();
+      }) as any);
+
+      vi.mocked(get).mockImplementation(async (reference: any) => {
+        if (reference.path === 'rooms/my-room/ownerId') {
+          return { exists: () => true, val: () => 'user-123' } as any;
+        }
+        if (reference.path === 'rooms/my-room/ownerState') {
+          return { exists: () => true, val: () => validOwnerState } as any;
+        }
+        return { exists: () => false, val: () => null } as any;
+      });
+
+      mockFindPokemon.mockReturnValue([{ baseName: 'serperior' }]);
+
+      const store = useRooms();
+      await store.joinOrCreateRoom('my-room', 'user-123');
+
+      mockShowUserMessage.mockClear();
+      mockAddFound.mockClear();
+
+      // Message from another user
+      messageAddedCb?.({
+        val: () => ({
+          message: 'serperior',
+          senderId: 'user-other',
+        }),
+      });
+
+      expect(mockShowUserMessage).toHaveBeenCalledTimes(1);
+      expect(mockShowUserMessage).toHaveBeenCalledWith('New message in room my-room: serperior');
+      expect(mockFindPokemon).toHaveBeenCalledWith('serperior');
+      expect(mockAddFound).toHaveBeenCalledWith([{ baseName: 'serperior' }]);
+    });
+
+    it('listenToState continuously applies state updates without unsubscribing', async () => {
+      let stateCb: any;
+      const { onValue } = await import('firebase/database');
+      vi.mocked(onValue).mockImplementation(((refObj: any, cb: any) => {
+        if (refObj.path === 'rooms/my-room/ownerState') {
+          stateCb = cb;
+        }
+        return vi.fn();
+      }) as any);
+
+      vi.mocked(get).mockImplementation(async (reference: any) => {
+        if (reference.path === 'rooms/my-room/ownerId') {
+          return { exists: () => true, val: () => 'owner-456' } as any;
+        }
+        if (reference.path === 'rooms/my-room/ownerState') {
+          return { exists: () => true, val: () => validOwnerState } as any;
+        }
+        return { exists: () => false, val: () => null } as any;
+      });
+
+      const store = useRooms();
+      await store.joinOrCreateRoom('my-room', 'user-123');
+
+      mockApplyPartialState.mockClear();
+
+      const updatedState1 = { ...validOwnerState, score: 10 };
+      stateCb?.({
+        val: () => updatedState1,
+      });
+      expect(mockApplyPartialState).toHaveBeenCalledWith(updatedState1);
+
+      const updatedState2 = { ...validOwnerState, score: 20 };
+      stateCb?.({
+        val: () => updatedState2,
+      });
+      expect(mockApplyPartialState).toHaveBeenCalledWith(updatedState2);
     });
   });
 });

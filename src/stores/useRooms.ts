@@ -25,6 +25,7 @@ import { useSavedData } from '@/composables/useSavedData.ts';
 import { realtimeDb } from '@/firebase.ts';
 import { parseRoomListing, parseOwnerState } from '@/schemas/room.schema.ts';
 import { useMessages } from '@/stores/useMessages.ts';
+import { usePokemons } from '@/stores/usePokemons.ts';
 import type {
   SaveData,
   OwnerState,
@@ -625,17 +626,32 @@ export const useRooms = defineStore('roomMessages', () => {
 
   /** Listen to messages (e.g. the pokemon found) */
   const listenToMessages = (generation: number) => {
+    const { auth } = useFirebase();
+    if (!auth.currentUser) {
+      showUserMessage(t('userNotAuthenticated'), 'error');
+      return;
+    }
+
     if (!roomState.room) return;
+
+    const { findPokemon, addFound } = usePokemons();
     const messagesRef = ref(realtimeDb, `rooms/${roomState.room}/messages`);
 
     const unsubscribe = onChildAdded(messagesRef, (snapshot) => {
       if (!isCurrentListener(generation, roomState.room!)) return;
 
-      showUserMessage(`New message in room ${roomState.room}`);
       const messages = snapshot.val();
 
-      if (messages) {
-        showUserMessage(`New message in room ${roomState.room}: ${messages.message}`);
+      if (messages && messages.message) {
+        // showUserMessage(`New message in room ${roomState.room}: ${messages.message}`);
+
+        // Add pokemon to all clients
+        if (messages.senderId !== auth.currentUser?.uid) {
+          const foundPokemon = findPokemon(messages.message);
+          if (foundPokemon && foundPokemon.length > 0) {
+            addFound(foundPokemon);
+          }
+        }
       }
     });
     unsubscribeCallbacks.push(unsubscribe);
