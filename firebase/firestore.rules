@@ -51,6 +51,7 @@ service cloud.firestore {
       isValidInt(data.numFound, 0) &&
       isValidInt(data.numShadows, 0) &&
       data.hasGivenUp is bool &&
+      data.isMultiplayer is bool &&
       isValidGameMode(data.gameMode) &&
       isValidGens(data.gens) &&
       isValidMode(data.mode) &&
