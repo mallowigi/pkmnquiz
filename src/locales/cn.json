@@ -112,7 +112,7 @@
   "female": "雌性",
   "fighting": "格斗",
   "fire": "火",
-  "firebaseError": "Firebase 错误：{error}",
+  "firebaseError": "错误：{error}",
   "flying": "飞行",
   "footer": {
     "license": "本项目是基于宝可梦的非官方衍生作品。官方精灵属于 © Nintendo/Creatures Inc./GAME FREAK Inc.",

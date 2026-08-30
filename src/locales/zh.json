@@ -112,7 +112,7 @@
   "female": "雌性",
   "fighting": "格斗",
   "fire": "火",
-  "firebaseError": "Firebase 錯誤：{error}",
+  "firebaseError": "錯誤：{error}",
   "flying": "飞行",
   "footer": {
     "license": "本項目是基於寶可夢的非官方衍生作品。官方精靈屬於 © Nintendo/Creatures Inc./GAME FREAK Inc.",

@@ -112,7 +112,7 @@
   "female": "Hembra",
   "fighting": "Lucha",
   "fire": "Fuego",
-  "firebaseError": "Error de Firebase: {error}",
+  "firebaseError": "Error: {error}",
   "flying": "Volador",
   "footer": {
     "license": "Este proyecto es una obra derivada no oficial basada en Pokémon. Los sprites oficiales pertenecen a © Nintendo/Creatures Inc./GAME FREAK Inc.",

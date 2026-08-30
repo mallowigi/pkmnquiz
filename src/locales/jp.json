@@ -112,7 +112,7 @@
   "female": "メス",
   "fighting": "かくとう",
   "fire": "ほのお",
-  "firebaseError": "Firebase エラー：{error}",
+  "firebaseError": "エラー：{error}",
   "flying": "ひこう",
   "footer": {
     "license": "このプロジェクトはポケモンに基づいた非公式の派生作品です。公式スプライトは © Nintendo/Creatures Inc./GAME FREAK Inc. に属しています。",

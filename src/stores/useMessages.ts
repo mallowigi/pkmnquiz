@@ -8,20 +8,23 @@ interface MessagesState {
   messages: Message[];
 }
 
+let lastMessageId = 0;
+
 export const useMessages = defineStore('messages', () => {
   const state = reactive<MessagesState>({
     messages: [],
   });
 
   const showUserMessage = (message: string, type?: MessageType) => {
+    const id = ++lastMessageId;
     state.messages.push({
-      id: Date.now(),
+      id,
       text: message,
       type: type ?? 'info',
     });
 
     setTimeout(() => {
-      state.messages.shift();
+      state.messages = state.messages.filter((msg) => msg.id !== id);
     }, 5000);
   };
 
@@ -29,11 +32,6 @@ export const useMessages = defineStore('messages', () => {
     state.messages = [];
   };
 
-  /**
-   * Logs an error to the console (preserving debugging context) and surfaces it
-   * to the user as an error notification, so failures that would otherwise only
-   * appear in the console (e.g. Firebase errors) are not missed.
-   */
   const showErrorMessage = (error: unknown, context = 'Firebase error') => {
     console.error(`${context}:`, error);
     const detail = error instanceof Error ? error.message : String(error);

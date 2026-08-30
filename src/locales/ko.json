@@ -112,7 +112,7 @@
   "female": "암컷",
   "fighting": "격투",
   "fire": "불",
-  "firebaseError": "Firebase 오류: {error}",
+  "firebaseError": "오류: {error}",
   "flying": "비행",
   "footer": {
     "license": "이 프로젝트는 Pokémon을 기반으로 한 비공식 파생 작품입니다. 공식 스프라이트는 © Nintendo/Creatures Inc./GAME FREAK Inc.에 속합니다.",

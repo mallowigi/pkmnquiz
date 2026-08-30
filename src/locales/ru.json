@@ -112,7 +112,7 @@
   "female": "Самка",
   "fighting": "Бой",
   "fire": "Огонь",
-  "firebaseError": "Ошибка Firebase: {error}",
+  "firebaseError": "Ошибка: {error}",
   "flying": "Летающий",
   "footer": {
     "license": "Этот проект является неофициальным производным произведением на основе Покемона. Официальные спрайты принадлежат © Nintendo/Creatures Inc./GAME FREAK Inc.",
