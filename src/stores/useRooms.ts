@@ -104,7 +104,7 @@ export const useRooms = defineStore('roomMessages', () => {
     // Don't check if we're not in multi mode or unauthenticated.
     if (!auth.currentUser) return true;
 
-    if (!roomState.room) return true;
+    if (!roomState.room || !roomState.isActive) return true;
 
     return auth.currentUser.uid === roomState.ownerId;
   });
@@ -218,6 +218,7 @@ export const useRooms = defineStore('roomMessages', () => {
   const createRoom = async (roomId: string): Promise<RoomConnectionOutcome> => {
     // Make sure we can own the room before creating and sending state
     const { outcome, ownerId } = await setOwnerId();
+    roomState.ownerId = ownerId;
     let roomConnectionOutcome: RoomConnectionOutcome = 'failed';
 
     if (outcome === 'created') {
@@ -243,7 +244,6 @@ export const useRooms = defineStore('roomMessages', () => {
       showUserMessage(t('userNotAuthenticated'), 'error');
     }
 
-    roomState.ownerId = ownerId;
     return roomConnectionOutcome;
   };
 
@@ -378,7 +378,7 @@ export const useRooms = defineStore('roomMessages', () => {
   };
 
   const destroyRoom = () => {
-    if (!roomState.room) return;
+    if (!roomState.room || !roomState.isActive) return;
 
     const { auth } = useFirebase();
     if (!auth.currentUser) {

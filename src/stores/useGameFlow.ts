@@ -173,7 +173,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
       destroyRoom();
     };
 
-    if (roomState.room) {
+    if (roomState.isActive) {
       setDialog('deleteRoom', () => doEndGame());
     } else {
       doEndGame();
@@ -194,7 +194,7 @@ export const useGameFlow = defineStore('gameFlow', () => {
       destroyRoom();
     };
 
-    if (roomState.room) {
+    if (roomState.isActive) {
       setDialog('deleteRoom', () => doGiveUp());
     } else {
       doGiveUp();
