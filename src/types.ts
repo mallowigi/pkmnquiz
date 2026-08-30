@@ -346,6 +346,7 @@ export interface RoomInfo {
   name: string;
   userCount: number;
   createdAt: number | null;
+  isStale: boolean;
 }
 
 export type RoomOwnerOutcome = 'created' | 'occupied' | 'failed' | 'alreadyOwner';

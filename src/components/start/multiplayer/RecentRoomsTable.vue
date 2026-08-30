@@ -105,8 +105,18 @@ const handleJoin = async (roomId: string) => {
           <tr
             v-for="room in rooms"
             :key="room.id"
+            :aria-label="room.isStale ? t('roomOffline') : undefined"
+            :class="{ 'stale-room': room.isStale }"
           >
-            <td class="room-name">{{ room.name }}</td>
+            <td class="room-name">
+              {{ room.name }}
+              <span
+                v-if="room.isStale"
+                class="stale-label"
+              >
+                {{ t('roomOffline') }}
+              </span>
+            </td>
             <td class="user-count">{{ room.userCount }}</td>
             <td class="room-action">
               <RoundedButton
@@ -221,6 +231,22 @@ const handleJoin = async (roomId: string) => {
 
 .room-name {
   font-weight: 500;
+}
+
+.stale-room {
+  opacity: 0.55;
+}
+
+.stale-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .user-count {

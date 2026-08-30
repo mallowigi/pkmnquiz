@@ -66,6 +66,7 @@ vi.mock('firebase/database', () => ({
   runTransaction: vi.fn(),
   serverTimestamp: vi.fn(),
   set: vi.fn(),
+  update: vi.fn(),
 }));
 
 import { useRooms } from '@/stores/useRooms.ts';
@@ -219,6 +220,27 @@ describe('useRooms', () => {
       const recentRooms = await store.getRecentRooms();
       expect(recentRooms).toHaveLength(1);
       expect(recentRooms[0].id).toBe('room-valid');
+    });
+
+    it('marks rooms as stale when their owner is offline', async () => {
+      const store = useRooms();
+      vi.mocked(get).mockResolvedValueOnce({
+        forEach: (callback: (item: any) => void) =>
+          callback({
+            key: 'room-stale',
+            val: () => ({
+              active_users: { 'user-1': { username: 'User1' } },
+              createdAt: 1000,
+              name: 'Stale Room',
+              ownerId: 'owner-1',
+              ownerState: validOwnerState,
+            }),
+          }),
+      } as any);
+
+      const recentRooms = await store.getRecentRooms();
+
+      expect(recentRooms[0].isStale).toBe(true);
     });
   });
 

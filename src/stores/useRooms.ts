@@ -12,6 +12,7 @@ import {
   orderByChild,
   DataSnapshot,
   limitToLast,
+  update,
   type DatabaseReference,
   runTransaction,
 } from 'firebase/database';
@@ -222,8 +223,10 @@ export const useRooms = defineStore('roomMessages', () => {
     let roomConnectionOutcome: RoomConnectionOutcome = 'failed';
 
     if (outcome === 'created') {
-      const createdAtRef = ref(realtimeDb, `rooms/${roomId}/createdAt`);
-      await set(createdAtRef, serverTimestamp());
+      await update(ref(realtimeDb, `rooms/${roomId}`), {
+        createdAt: serverTimestamp(),
+        lastActivityAt: serverTimestamp(),
+      });
       showUserMessage(t('createdRoom', { roomId }));
 
       currentRevision = 0;
@@ -320,9 +323,12 @@ export const useRooms = defineStore('roomMessages', () => {
       return outcome;
     }
 
-    set(currentPresenceRef, {
-      updatedAt: serverTimestamp(),
-      username: auth.currentUser.displayName,
+    await update(ref(realtimeDb, `rooms/${roomId}`), {
+      [`active_users/${userId}`]: {
+        updatedAt: serverTimestamp(),
+        username: auth.currentUser.displayName,
+      },
+      lastActivityAt: serverTimestamp(),
     });
 
     // Start listening
@@ -525,7 +531,7 @@ export const useRooms = defineStore('roomMessages', () => {
 
     const ownerState = toOwnerState(getSavedState());
 
-    const stateRef = ref(realtimeDb, `rooms/${roomId}/ownerState`);
+    const roomRef = ref(realtimeDb, `rooms/${roomId}`);
 
     // Use a promise queue to ensure that concurrent calls to sendState are executed in order
     const writePromise = savingQueue.then(async () => {
@@ -533,11 +539,14 @@ export const useRooms = defineStore('roomMessages', () => {
       if (!isCurrentListener(generation, roomId)) return;
 
       try {
-        await set(stateRef, {
-          ...ownerState,
-          revision: ++currentRevision,
-          updatedAt: serverTimestamp(),
-          updatedBy: auth.currentUser?.uid,
+        await update(roomRef, {
+          lastActivityAt: serverTimestamp(),
+          ownerState: {
+            ...ownerState,
+            revision: ++currentRevision,
+            updatedAt: serverTimestamp(),
+            updatedBy: auth.currentUser?.uid,
+          },
         });
         hasReportedSaveError = false;
       } catch (error) {
@@ -727,11 +736,12 @@ export const useRooms = defineStore('roomMessages', () => {
       const parsedRoom = parseRoomListing(childSnapshot.val());
       if (!parsedRoom.success) return;
 
-      const { active_users: activeUsers, name, createdAt } = parsedRoom.data;
+      const { active_users: activeUsers, name, createdAt, ownerId } = parsedRoom.data;
 
       rooms.unshift({
         createdAt: createdAt ?? null,
         id: childSnapshot.key,
+        isStale: !activeUsers?.[ownerId],
         name: name || childSnapshot.key,
         userCount: activeUsers ? Object.keys(activeUsers).length : 0,
       });
