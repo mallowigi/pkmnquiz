@@ -28,6 +28,7 @@ import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useMessages } from '@/stores/useMessages.ts';
 import { usePokemons } from '@/stores/usePokemons.ts';
 import { useProfile } from '@/stores/useProfile.ts';
+import { useRooms } from '@/stores/useRooms.ts';
 import { useSettings } from '@/stores/useSettings.ts';
 import { useTimer } from '@/stores/useTimer.ts';
 import type { UserRecord, SaveData, TopTrainer, LeaderboardsProps } from '@/types.ts';
@@ -92,6 +93,12 @@ export const useFirebase = defineStore('firebase', () => {
     const { numFound, numShadows } = storeToRefs(pokemonStore);
     const { timerState } = useTimer();
     const { getSavedState } = useSavedData();
+    const { isOwner, roomState } = useRooms();
+    const isMultiplayer = roomState.isActive;
+
+    if (isMultiplayer && !isOwner) {
+      return;
+    }
 
     const user = auth.currentUser;
     if (!flowState.sessionId) {
@@ -110,6 +117,7 @@ export const useFirebase = defineStore('firebase', () => {
       const payload: UserRecord = {
         ...savedState,
         hasGivenUp: flowState.isGivenUp,
+        isMultiplayer,
         name: user?.displayName ?? savedState.name ?? 'Unknown Trainer',
         numFound: numFound.value,
         numShadows: numShadows.value,

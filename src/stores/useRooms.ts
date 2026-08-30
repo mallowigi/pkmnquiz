@@ -323,13 +323,11 @@ export const useRooms = defineStore('roomMessages', () => {
       return outcome;
     }
 
-    await update(ref(realtimeDb, `rooms/${roomId}`), {
-      [`active_users/${userId}`]: {
-        updatedAt: serverTimestamp(),
-        username: auth.currentUser.displayName,
-      },
-      lastActivityAt: serverTimestamp(),
+    await set(currentPresenceRef, {
+      updatedAt: serverTimestamp(),
+      username: auth.currentUser.displayName,
     });
+    await update(ref(realtimeDb, `rooms/${roomId}`), { lastActivityAt: serverTimestamp() });
 
     // Start listening
     listenToOwner(currentGeneration);

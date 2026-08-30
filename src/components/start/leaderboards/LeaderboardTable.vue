@@ -66,7 +66,18 @@ const subType = (user: DocumentData): string => {
           :key="user.id"
         >
           <td class="rank">{{ index + 1 }}</td>
-          <td class="run-name">{{ user.name }}</td>
+          <td class="run-name">
+            {{ user.name }}
+            <span
+              v-if="user.isMultiplayer === true"
+              class="multiplayer-badge"
+              :aria-label="t('multiplayerRecord')"
+              :title="t('multiplayerRecord')"
+              role="img"
+            >
+              👥
+            </span>
+          </td>
           <td class="run-score">{{ user.score }}</td>
           <td class="run-time">{{ formatTime(user.time) }}</td>
           <td>{{ user.gameMode === 'full' ? t('fullQuiz') : t(user.gameMode ?? 'full') }}</td>
@@ -95,6 +106,11 @@ const subType = (user: DocumentData): string => {
 .run-score {
   font-weight: 700;
   animation: pulse 2s infinite;
+}
+
+.multiplayer-badge {
+  margin-left: 0.35rem;
+  font-size: 0.9em;
 }
 
 .no-records {

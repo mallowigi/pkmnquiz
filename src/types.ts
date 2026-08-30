@@ -273,6 +273,7 @@ export type UserRecord = DocumentData &
   SaveData & {
     id?: string;
     hasGivenUp: boolean;
+    isMultiplayer: boolean;
     numShadows: number;
   };
 
