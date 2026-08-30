@@ -7,78 +7,30 @@
         ".read": "auth != null",
         ".write": "auth != null && !newData.exists() && data.child('ownerId').val() === auth.uid",
         "ownerId": {
-          ".write": "auth != null && ((!data.exists() && newData.val() === auth.uid) || (data.val() === auth.uid && newData.val() === auth.uid))",
-          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 128"
+          ".write": "auth != null && (!data.exists() || data.val() === auth.uid)"
         },
         "createdAt": {
-          ".write": "auth != null && root.child('rooms/' + $roomId + '/ownerId').val() === auth.uid",
-          ".validate": "newData.isNumber() && !data.exists()"
+          ".write": "auth != null"
         },
         "lastActivityAt": {
-          ".write": "auth != null && (root.child('rooms/' + $roomId + '/ownerId').val() === auth.uid || root.child('rooms/' + $roomId + '/active_users/' + auth.uid).exists())",
-          ".validate": "newData.isNumber() && (!data.exists() || newData.val() >= data.val())"
+          ".write": "auth != null"
         },
         "ownerState": {
-          ".write": "auth != null && root.child('rooms/' + $roomId + '/ownerId').val() === auth.uid",
-          ".validate": "newData.hasChildren(['gameMode', 'mode', 'revision', 'score', 'sessionId', 'skipScore', 'skips', 'timer', 'version', 'withBoxShuffle', 'withCriesShuffle', 'withShadows', 'withTypeShuffle', 'updatedAt', 'updatedBy']) && (newData.child('gameMode').val() === 'full' || newData.child('gameMode').val() === 'gen' || newData.child('gameMode').val() === 'types' || newData.child('gameMode').val() === 'special' || newData.child('gameMode').val() === 'mega') && (newData.child('mode').val() === 'chaos' || newData.child('mode').val() === 'normal' || newData.child('mode').val() === 'order') && newData.child('revision').isNumber() && newData.child('revision').val() >= 0 && newData.child('revision').val() % 1 === 0 && (!data.exists() || newData.child('revision').val() === data.child('revision').val() + 1) && newData.child('score').isNumber() && newData.child('score').val() >= 0 && newData.child('skipScore').isNumber() && newData.child('skipScore').val() >= 0 && newData.child('skips').isNumber() && newData.child('skips').val() >= 0 && newData.child('sessionId').isString() && newData.child('sessionId').val().length > 0 && newData.child('sessionId').val().length <= 128 && newData.child('version').val() === 1 && newData.child('withBoxShuffle').isBoolean() && newData.child('withCriesShuffle').isBoolean() && newData.child('withShadows').isBoolean() && newData.child('withTypeShuffle').isBoolean() && newData.child('updatedAt').isNumber() && newData.child('updatedBy').val() === auth.uid && newData.child('timer/elapsed').isNumber() && newData.child('timer/elapsed').val() >= 0 && newData.child('timer/isLimited').isBoolean() && newData.child('timer/minutes').isNumber() && newData.child('timer/minutes').val() >= 0",
-          "gens": {
-            "$index": {
-              ".validate": "newData.val() === 'gen1' || newData.val() === 'gen2' || newData.val() === 'gen3' || newData.val() === 'gen4' || newData.val() === 'gen5' || newData.val() === 'gen6' || newData.val() === 'gen7' || newData.val() === 'gen8' || newData.val() === 'gen9'"
-            }
-          },
-          "currentTypes": {
-            "$index": {
-              ".validate": "newData.val() === 'bug' || newData.val() === 'dark' || newData.val() === 'dragon' || newData.val() === 'electric' || newData.val() === 'fairy' || newData.val() === 'fighting' || newData.val() === 'fire' || newData.val() === 'flying' || newData.val() === 'ghost' || newData.val() === 'grass' || newData.val() === 'ground' || newData.val() === 'ice' || newData.val() === 'normal' || newData.val() === 'poison' || newData.val() === 'psychic' || newData.val() === 'rock' || newData.val() === 'steel' || newData.val() === 'water'"
-            }
-          },
-          "types": {
-            "$index": {
-              ".validate": "newData.val() === 'bug' || newData.val() === 'dark' || newData.val() === 'dragon' || newData.val() === 'electric' || newData.val() === 'fairy' || newData.val() === 'fighting' || newData.val() === 'fire' || newData.val() === 'flying' || newData.val() === 'ghost' || newData.val() === 'grass' || newData.val() === 'ground' || newData.val() === 'ice' || newData.val() === 'normal' || newData.val() === 'poison' || newData.val() === 'psychic' || newData.val() === 'rock' || newData.val() === 'steel' || newData.val() === 'water'"
-            }
-          },
-          "currentBox": {},
-          "currentMegaBox": {},
-          "currentSpecialBox": {},
-          "currentType": {},
-          "gameMode": {},
-          "mode": {},
-          "pokemonProgress": {},
-          "revision": {},
-          "score": {},
-          "sessionId": {},
-          "skipScore": {},
-          "skips": {},
-          "timer": {},
-          "version": {},
-          "withBoxShuffle": {},
-          "withCriesShuffle": {},
-          "withShadows": {},
-          "withTypeShuffle": {},
-          "updatedAt": {},
-          "updatedBy": {},
-          "$other": {
-            ".validate": false
-          }
+          ".write": "auth != null && root.child('rooms/' + $roomId + '/ownerId').val() === auth.uid"
         },
         "active_users": {
           "$userId": {
-            ".write": "auth != null && auth.uid === $userId && root.child('rooms/' + $roomId + '/ownerId').exists()",
-            ".validate": "newData.child('updatedAt').isNumber() && (!newData.child('username').exists() || (newData.child('username').isString() && newData.child('username').val().length <= 100))",
-            "$other": {
-              ".validate": false
-            }
+            ".write": "auth != null && auth.uid === $userId"
           }
         },
         "messages": {
           "$messageId": {
-            ".write": "auth != null && root.child('rooms/' + $roomId + '/active_users/' + auth.uid).exists()",
-            ".validate": "newData.hasChildren(['message', 'senderId', 'timestamp']) && newData.child('message').isString() && newData.child('message').val().length <= 500 && newData.child('senderId').val() === auth.uid && newData.child('timestamp').isNumber()"
+            ".write": "auth != null"
           }
         },
         "events": {
           "$eventId": {
-            ".write": "auth != null && root.child('rooms/' + $roomId + '/ownerId').val() === auth.uid",
-            ".validate": "newData.hasChildren(['event', 'senderId', 'timestamp']) && (newData.child('event').val() === 'gamePaused' || newData.child('event').val() === 'gameEnded' || newData.child('event').val() === 'disconnect') && newData.child('senderId').val() === auth.uid && newData.child('timestamp').isNumber()"
+            ".write": "auth != null && root.child('rooms/' + $roomId + '/ownerId').val() === auth.uid"
           }
         }
       }
