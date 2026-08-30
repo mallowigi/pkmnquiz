@@ -118,7 +118,6 @@ export const useGameFlow = defineStore('gameFlow', () => {
           isDowngrading = false;
         }
       },
-      { immediate: true },
     );
   };
 

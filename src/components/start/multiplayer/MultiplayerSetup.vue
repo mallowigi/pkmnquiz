@@ -9,9 +9,9 @@ import { useNameGenerator } from '@/composables/useNameGenerator.ts';
 import { useGameFlow } from '@/stores/useGameFlow.ts';
 import { useRooms } from '@/stores/useRooms.ts';
 
-const { setGameSelectionState } = useGameFlow();
+const { setGameSelectionState, startGame } = useGameFlow();
 const { t } = useI18n();
-const { setRoom } = useRooms();
+const { setRoom, getOwnerIdForRoom } = useRooms();
 const { generateName } = useNameGenerator();
 
 const roomName = ref('');
@@ -25,9 +25,18 @@ const editName = (event: Event) => {
   roomName.value = target.value;
 };
 
-const submitJoinRoom = () => {
-  setRoom(roomName.value);
-  setGameSelectionState('gen');
+const submitJoinRoom = async () => {
+  const trimmed = roomName.value.trim();
+  if (!trimmed) return;
+
+  const ownerId = await getOwnerIdForRoom(trimmed);
+  setRoom(trimmed);
+
+  if (ownerId) {
+    await startGame();
+  } else {
+    setGameSelectionState('gen');
+  }
 };
 
 onMounted(() => {

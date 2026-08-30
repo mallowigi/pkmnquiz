@@ -257,6 +257,7 @@ export const useRooms = defineStore('roomMessages', () => {
     }
 
     roomState.ownerId = userId;
+    ownerOnline.value = true;
     showUserMessage(t('joinedRoom', { roomId }));
     return 'joined';
   };
@@ -683,13 +684,13 @@ export const useRooms = defineStore('roomMessages', () => {
       if (event) {
         showUserMessage(`New event in room ${roomState.room}: ${event.event}`);
         // Here you can handle the event as needed
-        handleEvent(event);
+        handleEvent(event.event ?? event);
       }
     });
     unsubscribeCallbacks.push(unsubscribe);
   };
 
-  const handleEvent = (event: RoomEvent) => {
+  const handleEvent = (event: RoomEvent | string) => {
     switch (event) {
       case 'gamePaused':
         // Handle game paused event
@@ -726,17 +727,17 @@ export const useRooms = defineStore('roomMessages', () => {
       const parsedRoom = parseRoomListing(childSnapshot.val());
       if (!parsedRoom.success) return;
 
-      const { active_users: activeUsers, name } = parsedRoom.data;
+      const { active_users: activeUsers, name, createdAt } = parsedRoom.data;
 
       rooms.unshift({
-        createdAt: parsedRoom.data.createdAt,
+        createdAt: createdAt ?? null,
         id: childSnapshot.key,
         name: name || childSnapshot.key,
         userCount: activeUsers ? Object.keys(activeUsers).length : 0,
       });
     });
 
-    return rooms.slice(-5);
+    return rooms.slice(0, 5);
   };
 
   /** Fetch the 5 most recently created rooms. */
@@ -749,7 +750,7 @@ export const useRooms = defineStore('roomMessages', () => {
 
   /** Listen to the 5 most recently created rooms in real time. Returns an unsubscribe function. */
   const listenToRecentRooms = (callback: (rooms: RoomInfo[]) => void): (() => void) => {
-    const roomsQuery = query(ref(realtimeDb, 'rooms'), orderByChild('createdAt'), limitToLast(5));
+    const roomsQuery = query(ref(realtimeDb, 'rooms'), orderByChild('createdAt'), limitToLast(30));
 
     return onValue(roomsQuery, async (snapshot) => {
       const rooms = await fetchRecentRooms(snapshot);
@@ -777,6 +778,7 @@ export const useRooms = defineStore('roomMessages', () => {
 
   return {
     destroyRoom,
+    getOwnerIdForRoom,
     getRecentRooms,
     isJoiner,
     isJoining,

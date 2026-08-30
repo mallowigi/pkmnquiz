@@ -65,6 +65,23 @@ describe('room schemas', () => {
     expect(parseRoomListing(roomListing).success).toBe(true);
   });
 
+  it('accepts owner state and room listing when pokemonProgress is omitted by Firebase RTDB', () => {
+    const { pokemonProgress: _, ...stateWithoutPokemonProgress } = ownerState;
+    expect(parseOwnerState(stateWithoutPokemonProgress).success).toBe(true);
+
+    const listingWithoutPokemonProgress = {
+      ...roomListing,
+      ownerState: stateWithoutPokemonProgress,
+    };
+    expect(parseRoomListing(listingWithoutPokemonProgress).success).toBe(true);
+
+    const listingWithNullCreatedAt = {
+      ...roomListing,
+      createdAt: null,
+    };
+    expect(parseRoomListing(listingWithNullCreatedAt).success).toBe(true);
+  });
+
   it('rejects invalid room configuration and metadata', () => {
     expect(parseOwnerState({ ...ownerState, gameMode: 'unsupported' }).success).toBe(false);
     expect(parseOwnerState({ ...ownerState, sessionId: '' }).success).toBe(false);

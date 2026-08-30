@@ -50,7 +50,7 @@ export const roomEnvelopeSchema = z.object({
 /** Current flat room shape used by the recent-room directory. */
 export const roomListingSchema = z.object({
   active_users: z.record(z.string(), z.unknown()).optional(),
-  createdAt: z.number(),
+  createdAt: z.number().nullish(),
   name: z.string().optional(),
   ownerId: z.string().min(1),
   ownerState: ownerStateSchema,

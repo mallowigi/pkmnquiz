@@ -1,5 +1,6 @@
 import { createPinia, setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { get, onValue } from 'firebase/database';
 
 const { mockAuth, mockShowUserMessage } = vi.hoisted(() => ({
   mockAuth: {
@@ -51,6 +52,7 @@ vi.mock('vue-i18n', () => ({
 vi.mock('firebase/database', () => ({
   get: vi.fn(),
   limitToLast: vi.fn(),
+  onChildAdded: vi.fn(() => vi.fn()),
   onDisconnect: vi.fn(() => ({
     cancel: vi.fn(),
     remove: vi.fn(),
@@ -108,41 +110,178 @@ describe('useRooms', () => {
     });
   });
 
-  describe('destroyRoom', () => {
-    it('does nothing and shows no warning when room is not active', () => {
+  describe('getOwnerIdForRoom', () => {
+    it('returns ownerId when room exists in database', async () => {
       const store = useRooms();
-      store.setRoom('my-room');
-      expect(store.roomState.room).toBe('my-room');
-      expect(store.roomState.isActive).toBe(false);
-      expect(store.roomState.ownerId).toBeNull();
+      vi.mocked(get).mockResolvedValueOnce({
+        exists: () => true,
+        val: () => 'owner-456',
+      } as any);
 
-      store.destroyRoom();
-
-      expect(mockShowUserMessage).not.toHaveBeenCalled();
+      const ownerId = await store.getOwnerIdForRoom('my-room');
+      expect(ownerId).toBe('owner-456');
     });
 
-    it('shows warning when room is active but caller is not the owner', () => {
+    it('returns null when room does not exist in database', async () => {
       const store = useRooms();
-      store.setRoom('my-room');
-      store.roomState.isActive = true;
-      store.roomState.ownerId = 'other-user';
+      vi.mocked(get).mockResolvedValueOnce({
+        exists: () => false,
+        val: () => null,
+      } as any);
 
-      store.destroyRoom();
+      const ownerId = await store.getOwnerIdForRoom('non-existent');
+      expect(ownerId).toBeNull();
+    });
+  });
 
-      expect(mockShowUserMessage).toHaveBeenCalledWith('notRoomOwner', 'warning');
+  describe('recent rooms', () => {
+    const validOwnerState = {
+      currentBox: null,
+      currentMegaBox: null,
+      currentSpecialBox: null,
+      currentType: null,
+      currentTypes: [],
+      gameMode: 'gen' as const,
+      gens: ['gen1' as const],
+      mode: 'normal' as const,
+      revision: 0,
+      score: 0,
+      sessionId: 'session-1',
+      skipScore: 0,
+      skips: 0,
+      timer: {
+        elapsed: 0,
+        isLimited: false,
+        minutes: 35,
+        savedAt: null,
+        startTime: null,
+      },
+      types: [],
+      version: 1 as const,
+      withBoxShuffle: false,
+      withCriesShuffle: false,
+      withShadows: false,
+      withTypeShuffle: false,
+    };
+
+    it('orders rooms newest-first and limits to 5', async () => {
+      const store = useRooms();
+      const mockRooms = [1, 2, 3, 4, 5, 6].map((i) => ({
+        key: `room-${i}`,
+        val: () => ({
+          active_users: { [`user-${i}`]: { username: `User${i}` } },
+          createdAt: 1000 + i * 10,
+          name: `Room ${i}`,
+          ownerId: `owner-${i}`,
+          ownerState: validOwnerState,
+        }),
+      }));
+
+      vi.mocked(get).mockResolvedValueOnce({
+        forEach: (cb: (item: any) => void) => mockRooms.forEach(cb),
+      } as any);
+
+      const recentRooms = await store.getRecentRooms();
+      expect(recentRooms).toHaveLength(5);
+      expect(recentRooms[0].id).toBe('room-6');
+      expect(recentRooms[0].name).toBe('Room 6');
+      expect(recentRooms[4].id).toBe('room-2');
     });
 
-    it('resets state and detaches when room is active and caller is the owner', () => {
+    it('filters out invalid rooms silently', async () => {
       const store = useRooms();
-      store.setRoom('my-room');
-      store.roomState.isActive = true;
-      store.roomState.ownerId = 'user-123';
+      const mockRooms = [
+        {
+          key: 'room-valid',
+          val: () => ({
+            active_users: { 'user-1': { username: 'User1' } },
+            createdAt: 1000,
+            name: 'Valid Room',
+            ownerId: 'owner-1',
+            ownerState: validOwnerState,
+          }),
+        },
+        {
+          key: 'room-invalid',
+          val: () => ({
+            createdAt: 2000,
+            name: 'Invalid Room',
+            ownerId: 'owner-2',
+            ownerState: { ...validOwnerState, gameMode: 'invalid' },
+          }),
+        },
+      ];
 
-      store.destroyRoom();
+      vi.mocked(get).mockResolvedValueOnce({
+        forEach: (cb: (item: any) => void) => mockRooms.forEach(cb),
+      } as any);
 
-      expect(store.roomState.room).toBeNull();
-      expect(store.roomState.isActive).toBe(false);
-      expect(store.roomState.ownerId).toBeNull();
+      const recentRooms = await store.getRecentRooms();
+      expect(recentRooms).toHaveLength(1);
+      expect(recentRooms[0].id).toBe('room-valid');
+    });
+  });
+
+  describe('joining room', () => {
+    const validOwnerState = {
+      currentBox: null,
+      currentMegaBox: null,
+      currentSpecialBox: null,
+      currentType: null,
+      currentTypes: [],
+      gameMode: 'gen' as const,
+      gens: ['gen1' as const],
+      mode: 'normal' as const,
+      revision: 0,
+      score: 0,
+      sessionId: 'session-1',
+      skipScore: 0,
+      skips: 0,
+      timer: {
+        elapsed: 0,
+        isLimited: false,
+        minutes: 35,
+        savedAt: null,
+        startTime: null,
+      },
+      types: [],
+      version: 1 as const,
+      withBoxShuffle: false,
+      withCriesShuffle: false,
+      withShadows: false,
+      withTypeShuffle: false,
+    };
+
+    it('sets ownerId and ownerOnline to true when joining an existing room', async () => {
+      const store = useRooms();
+      vi.mocked(get).mockImplementation(async (reference: any) => {
+        if (reference.path === 'rooms/my-room/ownerId') {
+          return {
+            exists: () => true,
+            val: () => 'owner-456',
+          } as any;
+        }
+        if (reference.path === 'rooms/my-room/ownerState') {
+          return {
+            exists: () => true,
+            val: () => validOwnerState,
+          } as any;
+        }
+        return {
+          exists: () => false,
+          val: () => null,
+        } as any;
+      });
+
+      const outcome = await store.joinOrCreateRoom('my-room', 'user-123');
+
+      expect(outcome).toBe('joined');
+      expect(store.roomState.isActive).toBe(true);
+      expect(store.roomState.ownerId).toBe('owner-456');
+      expect(store.ownerOnline).toBe(true);
+      expect(store.isJoiner).toBe(true);
+      expect(store.isOwner).toBe(false);
+      expect(store.roomTerminated).toBe(false);
     });
   });
 });

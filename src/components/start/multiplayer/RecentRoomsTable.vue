@@ -177,7 +177,11 @@ const handleJoin = async (roomId: string) => {
 
   & thead {
     background-color: var(--type-btn-color, var(--primary));
-    color: white;
+    color: var(--type-fg-color, var(--text-inverted));
+  }
+
+  & tbody {
+    color: var(--type-fg-color, var(--text-inverted));
   }
 
   & th {

@@ -79,7 +79,11 @@ export const saveDataBaseSchema = z.object({
   gens: z.array(generationSchema).nullish(),
   languages: z.array(languageSchema),
   name: z.string().nullish(),
-  pokemonProgress: pokemonProgressSchema,
+  pokemonProgress: pokemonProgressSchema.default({
+    pokemonFound: [],
+    pokemonShadowed: [],
+    shinyPokemon: [],
+  }),
   score: z.number().int().nonnegative(),
   sessionId: z.string().min(1).nullable(),
   skipScore: z.number().int().nonnegative(),

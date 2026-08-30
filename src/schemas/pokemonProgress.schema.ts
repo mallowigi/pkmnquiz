@@ -15,7 +15,7 @@ const shinyPokemonEntrySchema = z.object({
 });
 
 export const pokemonProgressSchema = z.object({
-  pokemonFound: z.array(pokemonFoundEntrySchema),
-  pokemonShadowed: z.array(pokemonShadowedEntrySchema),
-  shinyPokemon: z.array(shinyPokemonEntrySchema),
+  pokemonFound: z.array(pokemonFoundEntrySchema).default([]),
+  pokemonShadowed: z.array(pokemonShadowedEntrySchema).default([]),
+  shinyPokemon: z.array(shinyPokemonEntrySchema).default([]),
 });
