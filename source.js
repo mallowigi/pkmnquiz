@@ -978,201 +978,181 @@ class Quiz {
     );
   }
 
-  ['parseInput'](_0x3102a5, _0x205c99, _0x5b7f33 = null) {
-    const _0x196a36 = {
-      FeNxo: function (_0xf58920, _0x568b0) {
-        return _0xf58920(_0x568b0);
-      },
-      IQLCK: function (_0x2a40bb, _0x481aab) {
-        return _0x2a40bb + _0x481aab;
-      },
-      KislN: function (_0x20dec9, _0x338a41) {
-        return _0x20dec9 !== _0x338a41;
-      },
-      PZCTn: function (_0x58f0c6, _0x391932) {
-        return _0x58f0c6 + _0x391932;
-      },
-      TwEqg: 'nidoranf',
-      ULqCV: 'missingno',
-      VrlQv: function (_0x18d756, _0x1f7832) {
-        return _0x18d756 == _0x1f7832;
-      },
-      WnPCV: function (_0x11f9a5, _0x3d31e6) {
-        return _0x11f9a5 !== _0x3d31e6;
-      },
-      XFEAS: function (_0x45b410, _0x45ce05) {
-        return _0x45b410 !== _0x45ce05;
-      },
-      XntIL: 'nidoran',
-      dXzoE: function (_0x2f0cf8, _0x16f509) {
-        return _0x2f0cf8 == _0x16f509;
-      },
-      gSNIn: function (_0x21ac21, _0x3cc54c) {
-        return _0x21ac21 < _0x3cc54c;
-      },
-      iXsac: function (_0x3da9f4, _0x3aafdc) {
-        return _0x3da9f4 < _0x3aafdc;
-      },
-      jTfYW: function (_0xae4c5a, _0x472568) {
-        return _0xae4c5a + _0x472568;
-      },
-      kCsUJ: function (_0x465e73, _0x3a6a31) {
-        return _0x465e73(_0x3a6a31);
-      },
-      kfvif: 'ニドランm',
-      lClBG: 'nidoranm',
-      ljimI: function (_0x3b9d6d, _0x3b24a6) {
-        return _0x3b9d6d(_0x3b24a6);
-      },
-      phnBY: '\x20is\x20not\x20',
-    };
+  parseInput(input, user, onFinish = null) {
     if (paused) {
       return [false, null];
     }
-    let _0x29065c = [];
-    if (
-      ((_0x196a36['KislN'](_0x196a36['XntIL'], (_0x3102a5 = _0x3102a5.toLowerCase())) &&
-        _0x196a36['KislN'](_0x3102a5, 'ニドラン'.toLowerCase()) &&
-        _0x196a36['KislN'](_0x3102a5, '니드런'.toLowerCase())) ||
-        (this.orderMode
-          ? this.named.has('nidoranf')
-            ? (_0x29065c.push(_0x196a36['lClBG']), _0x29065c.push('ニドランm'), _0x29065c.push('니드런m'))
-            : (_0x29065c.push('nidoranf'), _0x29065c.push('ニドランf'), _0x29065c.push('니드런f'))
-          : (_0x29065c.push(_0x196a36['TwEqg']),
-            _0x29065c.push('ニドランf'),
-            _0x29065c.push('니드런f'),
-            _0x29065c.push('nidoranm'),
-            _0x29065c.push(_0x196a36['kfvif']),
-            _0x29065c.push('니드런m'))),
-      (_0x196a36['dXzoE'](_0x196a36['ULqCV'], _0x3102a5) || _0x196a36['VrlQv']('けつばん', _0x3102a5)) &&
-        !this.missingnoEnabled)
-    ) {
-      return (
-        (this.missingnoEnabled = true),
-        soundEnabled && soundEffectMissingno.play(),
-        this.startMissingno(),
-        [true, _0x196a36['ULqCV']]
-      );
+
+    let guesses = [];
+    input = input.toLowerCase();
+
+    if (input === 'nidoran' || input === 'ニドラン'.toLowerCase() || input === '니드런'.toLowerCase()) {
+      if (this.orderMode) {
+        if (this.named.has('nidoranf')) {
+          guesses.push('nidoranm');
+          guesses.push('ニドランm');
+          guesses.push('니드런m');
+        } else {
+          guesses.push('nidoranf');
+          guesses.push('ニドランf');
+          guesses.push('니드런f');
+        }
+      } else {
+        guesses.push('nidoranf');
+        guesses.push('ニドランf');
+        guesses.push('니드런f');
+        guesses.push('nidoranm');
+        guesses.push('ニドランm');
+        guesses.push('니드런m');
+      }
     }
-    let _0x405d65 = (_0x3102a5 = _0x196a36['kCsUJ'](standardizeName, _0x3102a5)),
-      _0x3c122f = _0x405d65;
-    ((_0x3c122f = _0x3c122f.replace('ae', 'ä')),
-      (_0x3c122f = _0x3c122f.replace('oe', 'ö')),
-      (_0x3c122f = _0x3c122f.replace('ue', 'ü')),
-      (_0x3c122f = _0x3c122f.replace('ss', 'ß')),
-      (_0x3c122f = _0x196a36['FeNxo'](standardizeName, _0x3c122f)),
-      _0x196a36['KislN'](_0x405d65, _0x3c122f) && _0x29065c.push(_0x3c122f),
-      _0x29065c.push(_0x3102a5));
-    let _0x107706 = false,
-      _0x1c9adb = null;
-    for (let _0x532c4d = 0; _0x196a36['gSNIn'](_0x532c4d, _0x29065c.length); _0x532c4d++) {
-      _0x29065c[_0x532c4d] = standardizeName(_0x29065c[_0x532c4d]);
-      let _0xf2c4ee = _0x29065c[_0x532c4d];
-      if (_0xf2c4ee in this['nameDict']) {
-        let _0x22dd81 = this['nameDict'][_0xf2c4ee],
-          _0x54c9f8 = this.pokemonIdDict[_0x22dd81].baseName;
-        if (this.named.has(_0x54c9f8)) {
-          let _0x3b5fc9 = false;
-          for (let _0x6d102b in this['nameDict'])
-            if (_0x6d102b['startsWith'](_0xf2c4ee) && _0x6d102b !== _0xf2c4ee) {
-              _0x3b5fc9 = true;
+
+    if (input === 'missingno' || input === 'けつばん' || input === 'missingno'.toLowerCase()) {
+      this.missingnoEnabled = true;
+      if (soundEnabled) soundEffectMissingno.play();
+      this.startMissingno();
+      return [true, 'missingno'];
+    }
+
+    input = standardizeName(input);
+    let normalizedName = input.replace('ae', 'ä').replace('oe', 'ö').replace('ue', 'ü').replace('ss', 'ß');
+    normalizedName = standardizeName(normalizedName);
+
+    if (normalizedName !== input) {
+      guesses.push(normalizedName);
+    } else {
+      guesses.push(input);
+    }
+
+    let found = false,
+      errorMessage = null;
+
+    for (let i = 0; i < guesses.length; i++) {
+      guesses[i] = standardizeName(guesses[i]);
+      let guess = guesses[i];
+
+      if (guess in this.nameDict) {
+        let guessedName = this.nameDict[guess],
+          pokemonName = this.pokemonIdDict[guessedName].baseName;
+
+        // already found
+        if (this.named.has(pokemonName)) {
+          let valid = false;
+
+          for (let name in this.nameDict)
+            if (name.startsWith(guess) && name !== guess) {
+              valid = true;
               break;
             }
-          _0x3b5fc9 ||
-            (_0x1c9adb = _0x196a36['IQLCK'](
-              this.pokemonIdDict[this.baseNameIdDict[_0x54c9f8]]['getFormattedName'](this.currentLang),
-              '\x20already\x20named',
-            ));
+
+          if (!valid) {
+            errorMessage = `${this.pokemonIdDict[this.baseNameIdDict[pokemonName]].getFormattedName(this.currentLang)}\x20already\x20named`;
+          }
           continue;
         }
-        if (!this.currentBaseNames.has(_0x54c9f8)) {
-          let _0x360eb9 = false;
-          for (const _0x40295d of this.currentLangsNames)
-            if (_0x40295d['startsWith'](_0xf2c4ee)) {
-              _0x360eb9 = true;
+
+        // not part of this quiz
+        if (!this.currentBaseNames.has(pokemonName)) {
+          let valid = false;
+          for (const currentLangsName of this.currentLangsNames)
+            if (currentLangsName.startsWith(guess)) {
+              valid = true;
               break;
             }
-          _0x360eb9 ||
-            (_0x1c9adb = _0x196a36['PZCTn'](
-              this.pokemonIdDict[this.baseNameIdDict[_0x54c9f8]]['getFormattedName'](this.currentLang),
-              '\x20is\x20not\x20part\x20of\x20this\x20quiz',
-            ));
+
+          if (!valid) {
+            errorMessage = `${this.pokemonIdDict[this.baseNameIdDict[pokemonName]].getFormattedName(this.currentLang)}\x20is\x20not\x20part\x20of\x20this\x20quiz`;
+          }
           continue;
         }
-        if (!this.currentLangsNames.has(_0xf2c4ee)) {
+
+        // Not found
+        if (!this.currentLangsNames.has(guess)) {
           continue;
         }
+
+        // Order mode checking
         if (this.orderMode) {
-          let _0x7abf30 = -1;
-          for (let _0x9f281d = 0; _0x196a36['gSNIn'](_0x9f281d, this.currentPokemonList.length); _0x9f281d++)
-            this.named.has(this.currentPokemonList[_0x9f281d].baseName) &&
-              _0x9f281d > _0x7abf30 &&
-              (_0x7abf30 = _0x9f281d);
-          if (_0x54c9f8 !== this.currentPokemonList[_0x7abf30 + 1].baseName) {
-            let _0x1dcc0f = false;
-            for (let _0x559fc1 in this['nameDict'])
-              if (_0x559fc1['startsWith'](_0xf2c4ee) && _0x559fc1 !== _0xf2c4ee) {
-                _0x1dcc0f = true;
+          let lastNamedIndex = -1;
+          for (let i = 0; i < this.currentPokemonList.length; i++) {
+            if (this.named.has(this.currentPokemonList[i].baseName) && i > lastNamedIndex) {
+              lastNamedIndex = i;
+            }
+          }
+
+          if (pokemonName !== this.currentPokemonList[lastNamedIndex + 1].baseName) {
+            let valid = false;
+
+            for (let name in this.nameDict)
+              if (name.startsWith(guess) && name !== guess) {
+                valid = true;
                 break;
               }
-            _0x1dcc0f ||
-              (_0x1c9adb = _0x196a36['IQLCK'](
-                this.pokemonIdDict[this.baseNameIdDict[_0x54c9f8]]['getFormattedName'](this.currentLang),
-                '\x20is\x20not\x20the\x20next\x20Pokémon',
-              ));
+
+            if (!valid) {
+              errorMessage = `${this.pokemonIdDict[this.baseNameIdDict[pokemonName]].getFormattedName(this.currentLang)}\x20is\x20not\x20the\x20next\x20Pokémon`;
+            }
+
             continue;
           }
         } else {
-          if (this.typeDisorder && _0x196a36['XFEAS'](null, this.currentType)) {
-            let _0x544000 = false;
-            for (
-              let _0x5bc066 = 0;
-              _0x196a36['iXsac'](_0x5bc066, this.pokemonBaseNameDict[_0x54c9f8].length);
-              _0x5bc066++
-            )
+          // Type Shuffle
+          if (this.typeDisorder && this.currentType !== null) {
+            let valid = false;
+            for (let i = 0; i < this.pokemonBaseNameDict[pokemonName].length; i++) {
+              let pokemonBaseName = this.pokemonBaseNameDict[pokemonName][i];
               if (
-                (this.pokemonBaseNameDict[_0x54c9f8][_0x5bc066].primaryType === this.currentType ||
-                  this.pokemonBaseNameDict[_0x54c9f8][_0x5bc066].secondaryType === this.currentType) &&
-                this['typeChaosIds'].has(this.pokemonBaseNameDict[_0x54c9f8][_0x5bc066].id)
+                (pokemonBaseName.primaryType === this.currentType ||
+                  pokemonBaseName.secondaryType === this.currentType) &&
+                this.typeChaosIds.has(pokemonBaseName.id)
               ) {
-                _0x544000 = true;
+                valid = true;
                 break;
               }
-            if (!_0x544000) {
-              let _0xca9a47 = false;
-              for (let _0x120b83 in this['nameDict'])
-                if (_0x120b83['startsWith'](_0xf2c4ee) && _0x120b83 !== _0xf2c4ee) {
-                  _0xca9a47 = true;
+            }
+
+            // before we return we need to check if there is another pokemon not yet found starting with the guess
+            if (!valid) {
+              let foundElsewhere = false;
+              for (let name in this.nameDict)
+                if (name.startsWith(guess) && name !== guess) {
+                  foundElsewhere = true;
                   break;
                 }
-              if (!_0xca9a47) {
-                let _0x11267b = this.currentType.toLowerCase();
-                ((_0x11267b = _0x11267b['charAt'](0).toUpperCase() + _0x11267b['slice'](1)),
-                  (_0x1c9adb = _0x196a36['jTfYW'](
-                    this.pokemonIdDict[this.baseNameIdDict[_0x54c9f8]]['getFormattedName'](this.currentLang) +
-                      _0x196a36['phnBY'],
-                    _0x11267b,
-                  )));
+
+              if (!foundElsewhere) {
+                let currentType = this.currentType.toLowerCase();
+                currentType = currentType.charAt(0).toUpperCase() + currentType.slice(1);
+
+                errorMessage = `${this.pokemonIdDict[this.baseNameIdDict[pokemonName]].getFormattedName(this.currentLang)}\x20is\x20not\x20${currentType}`;
               }
               continue;
             }
           }
         }
-        let _0x5e476d = this['addNamed'](_0x54c9f8);
-        (this['addUserPoint'](_0x205c99),
-          this.langDict[_0xf2c4ee] in this.langCounts || (this.langCounts[this.langDict[_0xf2c4ee]] = 0),
-          (this.langCounts[this.langDict[_0xf2c4ee]] += 1),
-          this['checkHighestLang'](),
-          (recentSprite.src = this.spriteDictionary[_0x5e476d.id].src),
-          (_0x107706 = true),
-          _0x196a36['WnPCV'](null, _0x5b7f33) && _0x196a36['ljimI'](_0x5b7f33, _0x54c9f8));
+
+        let result = this.addNamed(pokemonName);
+        this.addUserPoint(user);
+
+        if (!(this.langDict[guess] in this.langCounts)) {
+          this.langCounts[this.langDict[guess]] = 0;
+        }
+        this.langCounts[this.langDict[guess]] += 1;
+
+        this.checkHighestLang();
+
+        recentSprite.src = this.spriteDictionary[result.id].src;
+        found = true;
+
+        if (onFinish !== null) {
+          onFinish(pokemonName);
+        }
       }
     }
-    return [_0x107706, _0x1c9adb];
+    return [found, errorMessage];
   }
 
   getCurrentRandomType() {
-    const ops = {};
     const remaining = this.currentPokemonList.filter((pok) => !this.named.has(pok.baseName));
 
     if (remaining.length === 0) {
@@ -1206,226 +1186,178 @@ class Quiz {
   }
 
   addNamed(value) {
-    const _0x350b17 = {
-      ditto: 'ditto',
-      eqeqeq: function (_0x4282ea, _0xbb2cf1) {
-        return _0x4282ea === _0xbb2cf1;
-      },
-      lt: function (_0x1d9df1, _0x49c753) {
-        return _0x1d9df1 < _0x49c753;
-      },
-      neq: function (_0x222990, _0xddc3d4) {
-        return _0x222990 !== _0xddc3d4;
-      },
-      sub: function (_0x4197b7, _0x2af43b) {
-        return _0x4197b7 - _0x2af43b;
-      },
-    };
-    let _0x2369b3 = this.pokemonBaseNameDict[value],
-      _0x417328 = [];
+    let baseNames = this.pokemonBaseNameDict[value],
+      pokemons = [];
 
-    for (let _0x474ca8 = 0; _0x350b17['lt'](_0x474ca8, _0x2369b3.length); _0x474ca8++)
-      this.currentIds.has(_0x2369b3[_0x474ca8].id) && _0x417328.push(_0x2369b3[_0x474ca8]);
-
-    this.cyclingEnabled
-      ? this.named.has(_0x350b17['ditto']) &&
-        ((this.spriteDictionary.ditto.src = this.spriteDictionary[_0x417328[0].id].src),
-        (this.unguessedDict.ditto.getElementsByTagName('img')[0].src = this.spriteDictionary[_0x417328[0].id].src))
-      : this['resetDitto']();
-
-    for (let _0x52ea0f = 0; _0x350b17['lt'](_0x52ea0f, _0x417328.length); _0x52ea0f++)
-      this['showSprite'](_0x417328[_0x52ea0f].id);
-
-    if ((this.named.add(value), this.typeDisorder)) {
-      let _0x22b7b2 = this['getCurrentRandomType']();
-      _0x350b17['neq'](_0x22b7b2, this.currentType) && this['changeTypeStyle'](_0x22b7b2);
-      let _0x2257f4 = this.currentType;
-      (null !== _0x2257f4 && _0x350b17['eqeqeq']('evil', _0x2257f4.toLowerCase()) && (_0x2257f4 = 'DARK'),
-        null !== _0x2257f4 && showImage(_0x2257f4.toUpperCase()));
+    for (let i = 0; i < baseNames.length; i++) {
+      if (this.currentIds.has(baseNames[i].id)) {
+        pokemons.push(baseNames[i]);
+      }
     }
 
-    return _0x417328[_0x350b17['sub'](_0x417328.length, 1)];
+    if (this.cyclingEnabled) {
+      if (this.named.has('ditto')) {
+        this.spriteDictionary.ditto.src = this.spriteDictionary[pokemons[0].id].src;
+        this.unguessedDict.ditto.getElementsByTagName('img')[0].src = this.spriteDictionary[pokemons[0].id].src;
+      } else {
+        this.resetDitto();
+      }
+    }
+
+    for (let i = 0; i < pokemons.length; i++) {
+      this.showSprite(pokemons[i].id);
+    }
+    this.named.add(value);
+
+    // new random type
+    if (this.typeDisorder) {
+      let currentRandomType = this.getCurrentRandomType();
+      if (currentRandomType !== this.currentType) {
+        this.changeTypeStyle(currentRandomType);
+      }
+
+      let curType = this.currentType;
+      if (curType !== null && curType.toLowerCase() === 'dark') {
+        curType = 'DARK';
+      } else if (curType !== null && curType.toLowerCase() === 'evil') {
+        curType = 'DARK';
+      }
+
+      if (curType !== null) {
+        showImage(curType.toUpperCase());
+      }
+    }
+
+    return pokemons[pokemons.length - 1];
   }
 
-  ['getEndText']() {
-    const _0x38a780 = {
-      VSKIF: 'Full',
-      WZYmz: function (_0x3cd998, _0x58da44) {
-        return _0x3cd998 + _0x58da44;
-      },
-      bRgLt: function (_0x16b81b, _0x22c44a) {
-        return _0x16b81b !== _0x22c44a;
-      },
-    };
-    let _0x4f3121 = '\x20';
-    return (
-      _0x38a780['bRgLt'](_0x38a780['VSKIF'], this.name) &&
-        (_0x4f3121 = _0x38a780['WZYmz'](
-          _0x38a780['WZYmz'](_0x38a780['WZYmz']('\x20', this.name['charAt'](0).toUpperCase()), this.name['slice'](1)),
-          '\x20',
-        )),
-      _0x4f3121
-    );
+  getEndText() {
+    let result = '\x20';
+    if (this.name !== 'Full') {
+      result = `\x20${this.name.charAt(0).toUpperCase()}${this.name.slice(1)}\x20`;
+    }
+    return result;
   }
 
-  ['isSilhouettesEnabled']() {
+  isSilhouettesEnabled() {
     return this.useSilhouettes;
   }
 
-  ['animateCongrats']() {
-    for (let _0x707d07 of this.currentIds)
-      this.named.has(this.pokemonIdDict[_0x707d07].baseName) && animateInput(_0x707d07);
+  animateCongrats() {
+    for (let id of this.currentIds) {
+      if (this.named.has(this.pokemonIdDict[id].baseName)) {
+        animateInput(id);
+      }
+    }
   }
 
-  ['isAllShadowsRevealed']() {
-    const _0x3e972b = {
-      lrRjp: function (_0x1f1f6f, _0x4e510b) {
-        return _0x1f1f6f < _0x4e510b;
-      },
-    };
-    let _0x2e06bc = true;
-    for (let _0x26ff90 = 0; _0x3e972b['lrRjp'](_0x26ff90, this.currentPokemonList.length); _0x26ff90++) {
-      let _0x387969 = this.currentPokemonList[_0x26ff90];
-      if (!this['revealedShadows'].has(_0x387969.id) && !this.named.has(_0x387969.baseName)) {
-        _0x2e06bc = false;
+  isAllShadowsRevealed() {
+    let allRevealed = true;
+
+    for (let i = 0; i < this.currentPokemonList.length; i++) {
+      let currentPokemon = this.currentPokemonList[i];
+      if (!this.revealedShadows.has(currentPokemon.id) && !this.named.has(currentPokemon.baseName)) {
+        allRevealed = false;
         break;
       }
     }
-    return _0x2e06bc;
+
+    return allRevealed;
   }
 
-  ['revealNextShadow']() {
-    const _0x4700f7 = {
-      IRWBV: 'inline',
-    };
-    for (let _0x167ced = 0; _0x167ced < this.currentPokemonList.length; _0x167ced++)
-      if (!this.named.has(this.currentPokemonList[_0x167ced].baseName)) {
-        return (
-          (this.silhouetteDictionary[this.currentPokemonList[_0x167ced].id].style.display = _0x4700f7['IRWBV']),
-          (this['pokeballDictionary'][this.currentPokemonList[_0x167ced].id].style.display = 'none'),
-          this['revealedShadows'].add(this.currentPokemonList[_0x167ced].id),
-          this.currentPokemonList[_0x167ced].id
-        );
+  revealNextShadow() {
+    for (let i = 0; i < this.currentPokemonList.length; i++) {
+      let currentPokemon = this.currentPokemonList[i];
+
+      if (!this.named.has(currentPokemon.baseName)) {
+        this.silhouetteDictionary[currentPokemon.id].style.display = 'inline';
+        this.pokeballDictionary[currentPokemon.id].style.display = 'none';
+        this.revealedShadows.add(currentPokemon.id);
+
+        return currentPokemon.id;
       }
+    }
     return null;
   }
 
-  ['revealRandomShadow']() {
-    const _0x410ee3 = {
-      KFSiY: function (_0x3a69e1, _0x3b57bc) {
-        return _0x3a69e1 < _0x3b57bc;
-      },
-      XNqkw: function (_0x4a2c50, _0x1f6852) {
-        return _0x4a2c50 > _0x1f6852;
-      },
-      lIBbw: 'inline',
-    };
+  revealRandomShadow() {
     if (!this.orderMode) {
-      let _0x505cbb = [];
-      for (let _0xc8e3fc = 0; _0x410ee3['KFSiY'](_0xc8e3fc, this.currentPokemonList.length); _0xc8e3fc++) {
-        let _0x3b3edc = this.currentPokemonList[_0xc8e3fc];
-        this.named.has(_0x3b3edc.baseName) ||
-          this['revealedShadows'].has(_0x3b3edc.id) ||
-          _0x505cbb.push(this.currentPokemonList[_0xc8e3fc].id);
+      let remaining = [];
+      for (let i = 0; i < this.currentPokemonList.length; i++) {
+        let currentPokemon = this.currentPokemonList[i];
+
+        if (!this.named.has(currentPokemon.baseName) && !this.revealedShadows.has(currentPokemon.id)) {
+          remaining.push(currentPokemon.id);
+        }
       }
-      if (_0x410ee3['XNqkw'](_0x505cbb.length, 0)) {
-        let _0x23483c = _0x505cbb[Math.floor(Math.random() * _0x505cbb.length)];
-        return (
-          (this.silhouetteDictionary[_0x23483c].style.display = _0x410ee3['lIBbw']),
-          (this['pokeballDictionary'][_0x23483c].style.display = 'none'),
-          this['revealedShadows'].add(_0x23483c),
-          _0x23483c
-        );
+
+      if (remaining.length > 0) {
+        let randomPokemon = remaining[Math.floor(Math.random() * remaining.length)];
+
+        this.silhouetteDictionary[randomPokemon].style.display = 'inline';
+        this.pokeballDictionary[randomPokemon].style.display = 'none';
+        this.revealedShadows.add(randomPokemon);
+
+        return randomPokemon;
       }
     }
     return null;
   }
 
-  ['revealRandomTypeShadow']() {
-    const _0x4ad45e = {
-      ORSDC: 'inline',
-      mpnIW: 'none',
-      mtaeK: function (_0x2ab946, _0x4e9515) {
-        return _0x2ab946 < _0x4e9515;
-      },
-      xXnSy: function (_0x5463a5, _0x12f753) {
-        return _0x5463a5 !== _0x12f753;
-      },
-    };
+  revealRandomTypeShadow() {
     if (this.typeDisorder) {
-      let _0x94c794 = [];
-      for (let _0x19884a = 0; _0x4ad45e['mtaeK'](_0x19884a, this.currentPokemonList.length); _0x19884a++) {
-        let _0x10923c = this.currentPokemonList[_0x19884a];
-        this.named.has(_0x10923c.baseName) ||
-          this['revealedShadows'].has(_0x10923c.id) ||
-          (_0x4ad45e['xXnSy'](_0x10923c.primaryType, this.currentType) &&
-            _0x10923c.secondaryType !== this.currentType) ||
-          _0x94c794.push(this.currentPokemonList[_0x19884a].id);
+      let candidates = [];
+      for (let i = 0; i < this.currentPokemonList.length; i++) {
+        let currentPokemon = this.currentPokemonList[i];
+
+        if (!this.named.has(currentPokemon.baseName) && !this.revealedShadows.has(currentPokemon.id)) {
+          if (currentPokemon.primaryType === this.currentType || currentPokemon.secondaryType === this.currentType) {
+            candidates.push(currentPokemon.id);
+          }
+        }
       }
-      if (_0x94c794.length > 0) {
-        let _0x4a6662 = _0x94c794[Math.floor(Math.random() * _0x94c794.length)];
-        return (
-          (this.silhouetteDictionary[_0x4a6662].style.display = _0x4ad45e['ORSDC']),
-          (this['pokeballDictionary'][_0x4a6662].style.display = _0x4ad45e['mpnIW']),
-          this['revealedShadows'].add(_0x4a6662),
-          _0x4a6662
-        );
+
+      if (candidates.length > 0) {
+        let randomCandidate = candidates[Math.floor(Math.random() * candidates.length)];
+        this.silhouetteDictionary[randomCandidate].style.display = 'inline';
+        this.pokeballDictionary[randomCandidate].style.display = 'none';
+        this.revealedShadows.add(randomCandidate);
+        return randomCandidate;
       }
     }
     return null;
   }
 
-  ['revealSingleShadow'](_0x2e1f00) {
-    const _0x412322 = {
-      NovJA: 'none',
-      hZprA: 'inline',
-    };
-    this['revealedShadows'].has(_0x2e1f00) ||
-      (this['revealedShadows'].add(_0x2e1f00),
-      (this.silhouetteDictionary[_0x2e1f00].style.display = _0x412322['hZprA']),
-      (this['pokeballDictionary'][_0x2e1f00].style.display = _0x412322['NovJA']));
+  revealSingleShadow(name) {
+    if (!this.revealedShadows.has(name)) {
+      this.revealedShadows.add(name);
+      this.silhouetteDictionary[name].style.display = 'inline';
+      this.pokeballDictionary[name].style.display = 'none';
+    }
   }
 
-  ['setSilhouettes']() {
-    const _0x2135e4 = {
-      ERUrU: function (_0x51204a, _0x24be84) {
-        return _0x51204a !== _0x24be84;
-      },
-    };
-    for (let _0x5d2205 of this.currentIds)
-      _0x2135e4['ERUrU']('inline', this.spriteDictionary[_0x5d2205].style.display) &&
-        this['revealSingleShadow'](_0x5d2205);
+  setSilhouettes() {
+    for (let id of this.currentIds) {
+      if (this.spriteDictionary[id].style.display !== 'inline') {
+        this.revealSingleShadow(id);
+      }
+    }
     this.useSilhouettes = true;
   }
 
-  ['usePokeball']() {
-    const _0x50bf2e = {
-      IyydS: 'inline',
-      NpFhF: function (_0x1c916e, _0xc751e9) {
-        return _0x1c916e < _0xc751e9;
-      },
-    };
-    for (let _0x101368 = 0; _0x50bf2e['NpFhF'](_0x101368, this.silhouetteArray.length); _0x101368++)
-      ((this.silhouetteArray[_0x101368].style.display = 'none'),
-        (this['pokeballArray'][_0x101368].style.display = _0x50bf2e['IyydS']));
+  usePokeball() {
+    for (let i = 0; i < this.silhouetteArray.length; i++) {
+      this.silhouetteArray[i].style.display = 'none';
+      this.pokeballArray[i].style.display = 'inline';
+    }
   }
 
-  ['hideSprite'](_0x363a8b) {
-    const _0x2829e3 = {
-      OIGUI: 'inline',
-    };
-    ((this.spriteDictionary[_0x363a8b].style.display = 'none'),
-      (this.unguessedDictionary[_0x363a8b].style.display = _0x2829e3['OIGUI']));
+  hideSprite(name) {
+    this.spriteDictionary[name].style.display = 'none';
+    this.unguessedDictionary[name].style.display = 'inline';
   }
 
   setupSprites() {
-    const consts = {
-      div: 'div',
-      img: 'img',
-      sprite: 'sprite',
-      unknwonPath: '/sprites/unknown.png',
-    };
-
     for (let i = 0; i < this.pokemon.length; i++) {
       let pokemon = this.pokemon[i],
         img = document.createElement('img');
@@ -1466,198 +1398,175 @@ class Quiz {
     }
   }
 
-  ['setupMissedContent']() {
+  setupMissedContent() {
     const _0x12481a = {
-      ArvKJ: 'box',
-      MHSMP: 'div',
-      ZbXzW: 'topedge',
       fcoTc: 'inline',
-      qyweX: 'roundedf',
       yMdWu: 'none',
     };
-    let _0x21794c = {};
+    let allBoxes = {};
     document.getElementById('panel').innerHTML = '';
-    for (let _0x43dba0 in this.boxDict) {
-      let _0x4ab1de = document.createElement(_0x12481a['MHSMP']),
-        _0x59e065 = document.createElement('div');
-      (_0x59e065.classList.add(_0x12481a['ArvKJ']),
-        _0x59e065.classList.add(_0x12481a['qyweX']),
-        _0x59e065.classList.add(_0x12481a['ZbXzW']),
-        (_0x59e065.style.display = 'block'),
-        _0x4ab1de.appendChild(_0x59e065),
-        document.getElementById('panel').appendChild(_0x4ab1de),
-        (_0x21794c[_0x43dba0] = _0x59e065));
+
+    for (let box in this.boxDict) {
+      let boxWrapper = document.createElement('div'),
+        boxPane = document.createElement('div');
+
+      boxPane.classList.add('box');
+      boxPane.classList.add('roundedf');
+      boxPane.classList.add('topedge');
+      boxPane.style.display = 'block';
+      boxWrapper.appendChild(boxPane);
+      document.getElementById('panel').appendChild(boxWrapper);
+
+      allBoxes[box] = boxPane;
     }
-    for (let _0x3f4c33 = 0; _0x3f4c33 < this.pokemon.length; _0x3f4c33++) {
-      let _0x166453 = this.pokemon[_0x3f4c33],
-        _0x1f1d47 = document.createElement('div'),
-        _0x39aaa8 = document.createElement('img'),
-        _0x333c0a = document['createTextNode']('');
-      ((_0x39aaa8.style.display = _0x12481a['fcoTc']),
-        (_0x39aaa8.src = this.spriteDictionary[_0x166453.id].src),
-        _0x39aaa8.classList.add('spritel'),
-        (_0x1f1d47.style.display = _0x12481a['yMdWu']),
-        _0x1f1d47.appendChild(_0x39aaa8),
-        _0x1f1d47.appendChild(_0x333c0a),
-        (this.unguessedDict[_0x166453.id] = _0x1f1d47),
-        (this.unguessedDictTexts[_0x166453.id] = _0x333c0a),
-        _0x21794c[_0x166453.currentBox].appendChild(_0x1f1d47));
+
+    for (let i = 0; i < this.pokemon.length; i++) {
+      let poke = this.pokemon[i],
+        imgWrapper = document.createElement('div'),
+        image = document.createElement('img'),
+        text = document.createTextNode('');
+
+      image.style.display = 'inline';
+      image.src = this.spriteDictionary[poke.id].src;
+      image.classList.add('spritel');
+
+      imgWrapper.style.display = 'none';
+      imgWrapper.appendChild(image);
+      imgWrapper.appendChild(text);
+
+      this.unguessedDict[poke.id] = imgWrapper;
+      this.unguessedDictTexts[poke.id] = text;
+      allBoxes[poke.currentBox].appendChild(imgWrapper);
     }
   }
 
-  ['getLeaderboardData']() {}
+  getLeaderboardData() {}
 
-  ['showSprite'](_0x57a4e2) {
-    const _0x4f8dc1 = {
-      KIORE: function (_0x1400f2, _0x48f167) {
-        return _0x1400f2 === _0x48f167;
-      },
-      KzHVw: function (_0x43542c, _0x1f1fc2) {
-        return _0x43542c + _0x1f1fc2;
-      },
-      NwxyK: function (_0x225e56, _0x2425c3) {
-        return _0x225e56 !== _0x2425c3;
-      },
-      RNAtg: 'pokemon-box-big',
-      SYUSF: function (_0x1305b7, _0x3298ee) {
-        return _0x1305b7 === _0x3298ee;
-      },
-      ZYtjm: 'inline',
-      mscvx: function (_0x4fa7b9, _0x39e72d) {
-        return _0x4fa7b9 === _0x39e72d;
-      },
-      pmeLc: function (_0x22d05e, _0x5bee9a, _0x53c845, _0xc35616) {
-        return _0x22d05e(_0x5bee9a, _0x53c845, _0xc35616);
-      },
-    };
-    ((this.spriteDictionary[_0x57a4e2].style.display = 'inline'),
-      (this.unguessedDictionary[_0x57a4e2].style.display = 'none'));
-    let _0x3224bc = this.pokemonIdDict[_0x57a4e2].currentBox,
-      _0x17f82a = this.pokemonIdDict[_0x57a4e2];
+  showSprite(name) {
+    this.spriteDictionary[name].style.display = 'inline';
+    this.unguessedDictionary[name].style.display = 'none';
+
+    let currentBox = this.pokemonIdDict[name].currentBox,
+      pokemon = this.pokemonIdDict[name];
+
     if (this.chaosMode) {
-      let _0x425ede = document.getElementById(_0x4f8dc1['RNAtg'])['children'],
-        _0x2258cf = -1,
-        _0x47c85e = -1;
-      for (let _0x3f95d2 = 1; _0x3f95d2 < _0x425ede.length; _0x3f95d2++)
-        if (
-          _0x4f8dc1['KIORE'](-1, _0x2258cf) &&
-          _0x4f8dc1['mscvx']('DIV', _0x425ede[_0x3f95d2]['tagName'].toUpperCase())
-        ) {
+      let pokemons = document.getElementById('pokemon-box-big').children,
+        nextIndex = -1,
+        foundIndex = -1;
+
+      // switch the next pokemon in the list with the pokemon found
+      for (let i = 1; i < pokemons.length; i++) {
+        if (nextIndex === -1 && pokemons[i].tagName.toUpperCase() === 'DIV') {
           if (
-            (_0x4f8dc1['mscvx'](_0x4f8dc1['ZYtjm'], _0x425ede[_0x3f95d2]['children'][1].style.display) ||
-              _0x4f8dc1['mscvx'](_0x4f8dc1['ZYtjm'], _0x425ede[_0x3f95d2]['children'][0].style.display)) &&
-            ((_0x2258cf = _0x3f95d2), _0x4f8dc1['NwxyK'](-1, _0x47c85e))
+            pokemons[i].children[1].style.display === 'inline' ||
+            pokemons[i].children[0].style.display === 'inline'
           ) {
+            nextIndex = i;
+          }
+
+          if (foundIndex !== -1) {
             break;
           }
         } else {
-          if (
-            _0x4f8dc1['mscvx'](-1, _0x47c85e) &&
-            _0x4f8dc1['SYUSF'](_0x425ede[_0x3f95d2], this.spriteDictionary[_0x57a4e2]) &&
-            ((_0x47c85e = _0x3f95d2), _0x4f8dc1['NwxyK'](-1, _0x2258cf))
-          ) {
+          if (foundIndex === -1 && pokemons[i] === this.spriteDictionary[name]) {
+            foundIndex = i;
+          }
+
+          if (nextIndex !== -1) {
             break;
           }
         }
-      (_0x4f8dc1['pmeLc'](swapChildren, document.getElementById('pokemon-box-big'), _0x2258cf, _0x47c85e),
-        _0x2258cf > _0x47c85e &&
-          document
-            .getElementById(_0x4f8dc1['RNAtg'])
-            ['insertBefore'](_0x425ede[_0x4f8dc1['KzHVw'](_0x47c85e, 1)], _0x425ede[_0x2258cf + 1]));
+      }
+
+      swapChildren(document.getElementById('pokemon-box-big'), nextIndex, foundIndex);
+      if (nextIndex > foundIndex) {
+        document.getElementById('pokemon-box-big').insertBefore(pokemons[foundIndex + 1], pokemons[nextIndex + 1]);
+      }
     }
+
     if (
-      !this['boxCounters'][_0x3224bc].includes(_0x17f82a) &&
-      (this['boxCounters'][_0x3224bc].push(_0x17f82a),
-      this['boxCounters'][_0x3224bc].length === this.currentBoxes[_0x3224bc].length)
+      !this.boxCounters[currentBox].includes(pokemon) &&
+      (this.boxCounters[currentBox].push(pokemon),
+      this.boxCounters[currentBox].length === this.currentBoxes[currentBox].length)
     ) {
-      let _0x448584 = this.spriteDictionary[_0x57a4e2].parentElement;
-      (_0x448584.classList.add('outline'), _0x448584.classList.add(_0x4f8dc1['KzHVw']('outline', this.getStyleName())));
+      let parent = this.spriteDictionary[name].parentElement;
+      parent.classList.add('outline');
+      parent.classList.add(`outline${this.getStyleName()}`);
     }
   }
 
-  ['stopReveal']() {
-    const _0x40111c = {
-      nPOcM: function (_0x461e8b, _0x4253b8) {
-        return _0x461e8b(_0x4253b8);
-      },
-    };
-    for (let _0x510b36 = 0; _0x510b36 < this['revealTimeouts'].length; _0x510b36++)
-      _0x40111c['nPOcM'](clearInterval, this['revealTimeouts'][_0x510b36]);
-    this['revealTimeouts'] = [];
+  stopReveal() {
+    for (let i = 0; i < this.revealTimeouts.length; i++) {
+      clearInterval(this.revealTimeouts[i]);
+    }
+    this.revealTimeouts = [];
   }
 
-  ['reset']() {
-    const _0x5944ef = {
-      MsddB: function (_0x4abc84, _0x4a4f57, _0x4df3a5) {
-        return _0x4abc84(_0x4a4f57, _0x4df3a5);
-      },
-      pAZDD: 'inline-block',
-      qeItO: 'revealed',
-    };
-    this['giveUpState'] = true;
-    let _0x2d00dd = 0,
-      _0x10fb71 = [];
-    for (const _0x3d5600 of this.currentIds)
-      this.named.has(this.pokemonIdDict[_0x3d5600].baseName) || _0x10fb71.push(_0x3d5600);
-    for (let _0x561a22 = 0; _0x561a22 < _0x10fb71.length; _0x561a22++) {
-      let _0x54fa21 = _0x10fb71[_0x561a22];
-      _0x2d00dd += 0x23;
-      let _0x373eb6 = this,
-        _0x26245d = _0x5944ef['MsddB'](
-          setTimeout,
-          function () {
-            (_0x373eb6.spriteDictionary[_0x54fa21].classList.add(_0x5944ef['qeItO']),
-              _0x373eb6.spriteDictionary[_0x54fa21].classList.remove('zoom'),
-              _0x373eb6['showSprite'](_0x54fa21),
-              changeFooterPosition());
-          },
-          _0x2d00dd,
-        );
-      this['revealTimeouts'].push(_0x26245d);
+  gameOver() {
+    this.giveUpState = true;
+    let delay = 0,
+      notFound = [];
+
+    for (const id of this.currentIds) {
+      if (!this.named.has(this.pokemonIdDict[id].baseName)) {
+        notFound.push(id);
+      }
     }
-    for (let _0x4d9f04 = 0; _0x4d9f04 < _0x10fb71.length; _0x4d9f04++) {
-      let _0x1bb9f2 = _0x10fb71[_0x4d9f04];
-      ((this.unguessedDict[_0x1bb9f2].style.display = _0x5944ef['pAZDD']),
-        this.unguessedDict[_0x1bb9f2].classList.add('fixed-width'));
+
+    for (let i = 0; i < notFound.length; i++) {
+      let pokemon = notFound[i];
+      delay += 35;
+
+      let timeout = setTimeout(() => {
+        this.spriteDictionary[pokemon].classList.add('revealed');
+        this.spriteDictionary[pokemon].classList.remove('zoom');
+        this.showSprite(pokemon);
+        changeFooterPosition();
+      }, delay);
+
+      this.revealTimeouts.push(timeout);
     }
-    this['resetDitto']();
+
+    for (let i = 0; i < notFound.length; i++) {
+      let pokemon = notFound[i];
+      this.unguessedDict[pokemon].style.display = 'inline-block';
+      this.unguessedDict[pokemon].classList.add('fixed-width');
+    }
+    this.resetDitto();
   }
 
-  ['resetCurrentSprites']() {
+  resetCurrentSprites() {
     if (this.shinyEnabled) {
-      for (let _0x2311e1 of this.currentIds)
-        ((this.spriteDictionary[_0x2311e1].src = this.encodedImages.shiny[_0x2311e1]),
-          (this.unguessedDict[_0x2311e1].getElementsByTagName('img')[0].src = this.encodedImages.shiny[_0x2311e1]));
+      for (let id of this.currentIds) {
+        this.spriteDictionary[id].src = this.encodedImages.shiny[id];
+        this.unguessedDict[id].getElementsByTagName('img')[0].src = this.encodedImages.shiny[id];
+      }
     } else {
-      for (let _0x2643b3 of this.currentIds)
-        ((this.spriteDictionary[_0x2643b3].src = this.encodedImages.sprite[_0x2643b3]),
-          (this.unguessedDict[_0x2643b3].getElementsByTagName('img')[0].src = this.encodedImages.sprite[_0x2643b3]));
+      for (let id of this.currentIds) {
+        this.spriteDictionary[id].src = this.encodedImages.sprite[id];
+        this.unguessedDict[id].getElementsByTagName('img')[0].src = this.encodedImages.sprite[id];
+      }
     }
   }
 
-  ['shinyOn']() {
-    ((this.shinyEnabled = true), this['resetCurrentSprites']());
+  shinyOn() {
+    this.shinyEnabled = true;
+    this.resetCurrentSprites();
   }
 
-  ['shinyOff']() {
-    ((this.shinyEnabled = false), this['resetCurrentSprites']());
+  shinyOff() {
+    this.shinyEnabled = false;
+    this.resetCurrentSprites();
   }
 }
 
-function swapChildren(_0x21b2ff, _0x2436da, _0x4a4e76) {
-  const _0x3a675b = {
-      BwcmS: function (_0x354f8e, _0x5da654) {
-        return _0x354f8e + _0x5da654;
-      },
-      igGRZ: function (_0x1c201b, _0x171d48) {
-        return _0x1c201b < _0x171d48;
-      },
-    },
-    _0x35bd5d = _0x21b2ff['children'][_0x2436da],
-    _0xb2741 = _0x21b2ff['children'][_0x4a4e76];
-  _0x21b2ff['insertBefore'](_0xb2741, _0x35bd5d);
-  const _0x44b06b = _0x3a675b['igGRZ'](_0x2436da, _0x4a4e76) ? _0x4a4e76 : _0x3a675b['BwcmS'](_0x4a4e76, 1);
-  _0x21b2ff['insertBefore'](_0x35bd5d, _0x21b2ff['children'][_0x44b06b]);
+function swapChildren(container, a, b) {
+  const childA = container.children[a],
+    childB = container.children[b];
+
+  container.insertBefore(childB, childA);
+  const pos = a < b ? b : b + 1;
+  container.insertBefore(childA, container.children[pos]);
 }
 
 let allLanguages = ['ENG', 'FRE', 'GER', 'ESP', 'ITA', 'KOR', 'JPN', 'CHT', 'CHS'],
@@ -1761,8 +1670,8 @@ let socket = null,
 var client;
 let rankVals = ['rankone', 'ranktwo', 'rankthree'],
   myUsername = 'Quizmaster',
-  lastDarkSwap = 0,
-  lastShinySwap = 0,
+  _lastDarkSwap = 0,
+  _lastShinySwap = 0,
   swapLimit = 10000,
   missingOptionsDiv = document.getElementById('missednames-options'),
   language_box = document.getElementById('lang_box'),
@@ -3669,7 +3578,7 @@ async function loadData() {
   document.getElementById('hintplace')['onclick'] = spellCheck;
   let _0x43ad00 = function () {
     let _0x2833ef = document.getElementById(constants['leaderboard2']);
-    for (; _0x2833ef['firstChild']; ) _0x2833ef['firstChild']['remove']();
+    for (; _0x2833ef['firstChild'];) _0x2833ef['firstChild']['remove']();
     if (constants['gt35'](Object['keys'](quiz.users).length, 1)) {
       let _0x4a90c3 = constants['callg4'](sortDictionaryByValue, quiz.users),
         _0x3a3d36 = quiz['getStyleName']();
@@ -3963,17 +3872,17 @@ async function loadData() {
                       constants['scrollup'].toLowerCase(),
                     ) && window['scrollBy'](0, -0x3c),
                 constants['GBQPa'](standardizeName, _0x426cd4) === constants['darkoff'].toLowerCase()
-                  ? constants['minus'](Date['now'](), swapLimit) > lastDarkSwap &&
-                    (document.getElementById(constants['darkoff']).click(), (lastDarkSwap = Date['now']()))
+                  ? constants['minus'](Date['now'](), swapLimit) > _lastDarkSwap &&
+                    (document.getElementById(constants['darkoff']).click(), (_lastDarkSwap = Date['now']()))
                   : constants['eqeqeq5'](constants['fff'](standardizeName, _0x426cd4), 'darkon'.toLowerCase())
-                    ? constants['HJLRw'](constants['sub23'](Date['now'](), swapLimit), lastDarkSwap) &&
-                      (document.getElementById(constants['darkon']).click(), (lastDarkSwap = Date['now']()))
+                    ? constants['HJLRw'](constants['sub23'](Date['now'](), swapLimit), _lastDarkSwap) &&
+                      (document.getElementById(constants['darkon']).click(), (_lastDarkSwap = Date['now']()))
                     : constants['EjTKk'](standardizeName, _0x426cd4) === constants['shinyon'].toLowerCase()
-                      ? constants['gt3'](constants['sub3'](Date['now'](), swapLimit), lastShinySwap) &&
-                        (shinyOn(), (lastShinySwap = Date['now']()))
+                      ? constants['gt3'](constants['sub3'](Date['now'](), swapLimit), _lastShinySwap) &&
+                        (shinyOn(), (_lastShinySwap = Date['now']()))
                       : constants['ffg'](standardizeName, _0x426cd4) === 'shinyoff'.toLowerCase() &&
-                        constants['gt4'](constants.sub(Date['now'](), swapLimit), lastShinySwap) &&
-                        (constants['callf3'](shinyOff), (lastShinySwap = Date['now']()))),
+                        constants['gt4'](constants.sub(Date['now'](), swapLimit), _lastShinySwap) &&
+                        (constants['callf3'](shinyOff), (_lastShinySwap = Date['now']()))),
               constants['similar'](constants['Qqmuu'], _0x2fdaa7.toLowerCase()))
             ) {
               if ('ethan_from_chicago' == _0x52294e && constants['RwcIQ'] == _0x426cd4) {
@@ -4645,9 +4554,9 @@ function showUserMessage(_0xc4211d) {
     }, 3000)));
 }
 
-let currentImageFadeIn = null,
-  currentImageFadeOut = null,
-  currentImageEnd = null;
+let _currentImageFadeIn = null,
+  _currentImageFadeOut = null,
+  _currentImageEnd = null;
 
 function showImage(_0x3b8072) {
   const _0x5ce1bc = {
@@ -4674,10 +4583,10 @@ function showImage(_0x3b8072) {
     (_0x50a393.style.opacity = 0),
     (_0x50a393.style.display = _0x5ce1bc['pWeeJ']),
     (_0x218e04.src = _0x5ce1bc['nKuga'] + _0x3b8072 + _0x5ce1bc['Udier']),
-    null !== currentImageFadeIn && _0x5ce1bc['WRiep'](clearTimeout, currentImageFadeIn),
-    null !== currentImageFadeOut && _0x5ce1bc['WRiep'](clearTimeout, currentImageFadeOut),
-    null !== currentImageEnd && clearTimeout(currentImageEnd),
-    (currentImageFadeIn = setTimeout(function () {
+    null !== _currentImageFadeIn && _0x5ce1bc['WRiep'](clearTimeout, _currentImageFadeIn),
+    null !== _currentImageFadeOut && _0x5ce1bc['WRiep'](clearTimeout, _currentImageFadeOut),
+    null !== _currentImageEnd && clearTimeout(_currentImageEnd),
+    (_currentImageFadeIn = setTimeout(function () {
       const _0x47614b = {
         MyCqZ: function (_0x3e1849, _0x2fecb7, _0x2fbfe3) {
           return _0x3e1849(_0x2fecb7, _0x2fbfe3);
@@ -4686,13 +4595,13 @@ function showImage(_0x3b8072) {
       (_0x50a393.classList.remove(_0x5ce1bc['Gmhmi']),
         _0x50a393.classList.add(_0x5ce1bc['zjmWe']),
         (_0x50a393.style.opacity = 0.8),
-        (currentImageFadeOut = _0x5ce1bc['dUGWT'](
+        (_currentImageFadeOut = _0x5ce1bc['dUGWT'](
           setTimeout,
           function () {
             (_0x50a393.classList.add('slow-transition-element'),
               _0x50a393.classList.remove('transition-element'),
               (_0x50a393.style.opacity = 0),
-              (currentImageEnd = _0x47614b['MyCqZ'](
+              (_currentImageEnd = _0x47614b['MyCqZ'](
                 setTimeout,
                 function () {
                   _0x50a393.style.display = 'none';
@@ -4834,7 +4743,7 @@ function resetQuiz() {
 resetBtn['onclick'] = resetQuiz;
 let emptyLeaderboard = function () {
   let _0x24bf2a = document.getElementById('leaderboard');
-  for (; _0x24bf2a['firstChild']; ) _0x24bf2a.removeChild(_0x24bf2a['firstChild']);
+  for (; _0x24bf2a['firstChild'];) _0x24bf2a.removeChild(_0x24bf2a['firstChild']);
 };
 
 function changeFooterPosition() {
@@ -5127,7 +5036,7 @@ let animationCanvasWidth,
     );
   },
   animationCanvas = null,
-  animationCanvasTimeout = null,
+  _animationCanvasTimeout = null,
   animationCanvasInterval = null,
   animationCanvasDuration = 0x1676,
   animationWidth = 0xcc,
@@ -5153,7 +5062,7 @@ let animationCanvasWidth,
         return _0x10db63 / _0x49af6a;
       },
     };
-    (null !== animationCanvasTimeout && clearInterval(animationCanvasTimeout),
+    (null !== _animationCanvasTimeout && clearInterval(_animationCanvasTimeout),
       null === animationCanvas &&
         ((animationCanvas = document.createElement(_0x386188['gOEzz'])),
         (animationCanvas['style']['position'] = 'absolute'),
@@ -5188,10 +5097,10 @@ let animationCanvasWidth,
           },
           _0x386188['NknEO'](1000, 0x3c),
         ))),
-      (animationCanvasTimeout = setTimeout(() => {
+      (_animationCanvasTimeout = setTimeout(() => {
         (animationCanvas['remove'](),
           (animationCanvas = null),
-          (animationCanvasTimeout = null),
+          (_animationCanvasTimeout = null),
           (ongoingAnimations = []),
           null !== animationCanvasInterval && clearInterval(animationCanvasInterval));
       }, animationCanvasDuration)));
@@ -5438,12 +5347,12 @@ let enabledLanguages = [],
         ('ENG' === _0xf2cd71.id && (langButtonsDict['ESP'].click(), langButtonsDict['ITA'].click()),
           _0x2ad28a['CJKnP'](disableLanguage, _0xf2cd71));
       }),
-      false !== updateTimeout && _0x2ad28a['ieEcO'](clearTimeout, updateTimeout),
-      (updateTimeout = setTimeout(() => {
-        (quiz['updateLanguages'](enabledLanguages), (updateTimeout = false));
+      false !== _updateTimeout && _0x2ad28a['ieEcO'](clearTimeout, _updateTimeout),
+      (_updateTimeout = setTimeout(() => {
+        (quiz['updateLanguages'](enabledLanguages), (_updateTimeout = false));
       }, 0x1f4)));
   },
-  updateTimeout = false;
+  _updateTimeout = false;
 disableLanguage = function (_0x44f467) {
   const _0x3c38e5 = {
     CsoZJ: function (_0x202271, _0x2c1bed) {
@@ -5472,11 +5381,11 @@ disableLanguage = function (_0x44f467) {
           (langButtonsDict['ESP'].click(), langButtonsDict['ITA'].click()),
           enableLanguage(_0x44f467));
       }),
-      _0x3c38e5['mPNpE'](false, updateTimeout) && _0x3c38e5['CsoZJ'](clearTimeout, updateTimeout),
-      (updateTimeout = _0x3c38e5['XEqCl'](
+      _0x3c38e5['mPNpE'](false, _updateTimeout) && _0x3c38e5['CsoZJ'](clearTimeout, _updateTimeout),
+      (_updateTimeout = _0x3c38e5['XEqCl'](
         setTimeout,
         () => {
-          (quiz['updateLanguages'](enabledLanguages), (updateTimeout = false));
+          (quiz['updateLanguages'](enabledLanguages), (_updateTimeout = false));
         },
         0x1f4,
       )));
